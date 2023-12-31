@@ -88,7 +88,7 @@
     <body>
       <section class="form d-flex">
         {{-- Left --}}
-        <div class="login-left w-50 h-100">
+        <div class="login-left w-50 h-100" style="position: fixed">
           <div class="row justify-content-center align-items-center h-100">
             <div class="col-lg-8">
   
@@ -156,24 +156,20 @@
   
         {{-- Right --}}
         <div class="login-right w-50 h-100" style="position:fixed; margin-left:50%">
-            <img src="assets/magang_1.png" class="img-fluid" alt="">
-        </div> 
-
-        {{-- <div class="login-right w-50 h-100">
-            <div class="row justify-content-center align-items-center h-100">
+            {{-- <div class="row justify-content-center align-items-center h-100"> --}}
               <div id="carouselExampleFade" class="carousel slide carousel-fade" data-bs-ride="carousel">
-                <div class="carousel-inner"> --}}
+                <div class="carousel-inner">
                   {{-- Gambar 1 --}}
-                  {{-- <div class="carousel-item active">
-                    <img src="assets/login_1.png" class="d-block w-100" alt="">
-                  </div> --}}
+                  <div class="carousel-item active">
+                    <img src="assets/magang_1.png" class="img-fluid" alt="">
+                  </div>
                   {{-- Gambar 2 --}}
-                  {{-- <div class="carousel-item">
-                    <img src="assets/login_2.png" class="d-block w-100" alt="">
-                  </div> --}}
+                  <div class="carousel-item">
+                    <img src="assets/magang_3.png" class="img-fluid" alt="">
+                  </div>
                   {{-- Gambar 3 --}}
-                  {{-- <div class="carousel-item">
-                    <img src="assets/login_3.png" class="d-block w-100" alt="">
+                  <div class="carousel-item">
+                    <img src="assets/magang_2.png" class="d-block w-100" alt="">
                   </div>
                 </div>
                 <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleFade" data-bs-slide="prev">
@@ -185,8 +181,8 @@
                   <span class="visually-hidden">Next</span>
                 </button>
               </div>
-            </div>
-          </div> --}}
+            {{-- </div> --}}
+          </div>
       </section>
   
       <!-- Option 1: Bootstrap Bundle with Popper -->
