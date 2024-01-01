@@ -12,13 +12,14 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('nilai', function (Blueprint $table) {
-            $table->increments('id_nilai');
+            $table->id();
             $table->integer('nilai');
             $table->string('nim', 14);
-            $table->string('nip_mentor', 20);
+            $table->string('nip_mentor', 20);   
+            $table->timestamps();
 
-            $table->foreign('nim')->references('nim')->on('mahasiswa')->onDelete('cascade');
-            $table->foreign('nip_mentor')->references('nip')->on('mentor')->onDelete('cascade');
+            $table->foreign('nim')->references('nim')->on('mahasiswa');
+            $table->foreign('nip_mentor')->references('nip')->on('mentor');
         });
     }
 
@@ -27,11 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('nilai', function (Blueprint $table) {
-            $table->dropForeign(['nim']);
-            $table->dropForeign(['nip_mentor']);
-        });
-
         Schema::dropIfExists('nilai');
     }
 };

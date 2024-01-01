@@ -12,19 +12,18 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('progress', function (Blueprint $table) {
-            $table->increments('id_progress');
+            $table->id();
             $table->string('nim', 14);
+            $table->foreign('nim')->references('nim')->on('mahasiswa');
             $table->string('nip_mentor', 20);
             $table->string('nip_admin', 20);
-            $table->string('nama_mhs', 255);
-            $table->string('file', 100);
+            $table->string('scan_file', 255);
             $table->string('deskripsi');
             $table->date('tanggal');
-            
+            $table->timestamps();
 
-            $table->foreign('nim')->references('nim')->on('mahasiswa')->onDelete('cascade');
-            $table->foreign('nip_mentor')->references('nip')->on('mentor')->onDelete('cascade');
-            $table->foreign('nip_admin')->references('nip')->on('admin')->onDelete('cascade');
+            $table->foreign('nip_mentor')->references('nip')->on('mentor');
+            $table->foreign('nip_admin')->references('nip')->on('admin');
         });
     }
 
@@ -33,12 +32,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('progress', function (Blueprint $table) {
-            $table->dropForeign(['nim']);
-            $table->dropForeign(['nip_mentor']);
-            $table->dropForeign(['nip_admin']);
-        });
-
         Schema::dropIfExists('progress');
     }
 };

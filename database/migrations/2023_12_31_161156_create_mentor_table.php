@@ -12,17 +12,15 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('mentor', function (Blueprint $table) {
-            $table->string('nip', 20);
+            $table->string('nip', 20)->primary();
             $table->string('nama');
+            $table->string('username');
             $table->string('no_telepon');
             $table->string('alamat');
-            $table->string('foto')->nullable();
-            $table->unsignedBigInteger('iduser');
-            $table->foreign('iduser')->references('id')->on('users');
-            $table->string('username');
-            $table->string('password');
-            $table->string('nim', 14);
-            $table->foreign('nim')->references('nim')->on('mahasiswa')->onDelete('cascade');
+            $table->unsignedBigInteger('id_user');
+            $table->timestamps();
+
+            $table->foreign('id_user')->references('id')->on('users');
         });
     }
 
@@ -31,10 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('mentor', function (Blueprint $table) {
-            $table->dropForeign(['nim']);
-        });
-
         Schema::dropIfExists('mentor');
     }
 };

@@ -12,13 +12,14 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('skl', function (Blueprint $table) {
-            $table->increments('id_skl');
-            $table->string('file_skl', 100);
+            $table->id();
+            $table->string('file_skl', 255);
             $table->string('nim', 14);
             $table->string('nip_admin', 20);
-
-            $table->foreign('nim')->references('nim')->on('mahasiswa')->onDelete('cascade');
-            $table->foreign('nip_admin')->references('nip_admin')->on('admin')->onDelete('cascade');
+            $table->timestamps();
+            
+            $table->foreign('nim')->references('nim')->on('mahasiswa');
+            $table->foreign('nip_admin')->references('nip')->on('admin');
         });
     }
 
@@ -27,11 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('skl', function (Blueprint $table) {
-            $table->dropForeign(['nim']);
-            $table->dropForeign(['nip_admin']);
-        });
-
         Schema::dropIfExists('skl');
     }
 };

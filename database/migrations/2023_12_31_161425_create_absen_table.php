@@ -12,13 +12,13 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('absen', function (Blueprint $table) {
-            $table->increments('id_absen');
+            $table->id();
             $table->string('nim', 14);
-            $table->string('nama_mhs', 255);
-            $table->string('foto', 100);
+            $table->string('foto', 255);
             $table->string('status', 10)->default("Unverified");
+            $table->timestamps();
 
-            $table->foreign('nim')->references('nim')->on('mahasiswa')->onDelete('cascade');
+            $table->foreign('nim')->references('nim')->on('mahasiswa');
         });
     }
 
@@ -27,10 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('absen', function (Blueprint $table) {
-            $table->dropForeign(['nim']);
-        });
-
         Schema::dropIfExists('absen');
     }
 };

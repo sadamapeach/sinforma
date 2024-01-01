@@ -49,7 +49,7 @@
         height: 42px;
         background: #363674;
         border-radius: 8px;
-        color: white;
+        color: #FFFFFF;
         border: none;
         margin-top: 30px;
         margin-bottom: 50px;
@@ -72,7 +72,6 @@
       <!-- Required meta tags -->
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width, initial-scale=1">
-      <link rel="icon" type="image/x-icon" href="assets/logo.png">
   
       <!-- Bootstrap CSS -->
       <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
@@ -82,72 +81,98 @@
       <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
       <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
       
-      <title>SIPRESMA Diskominfo | Login</title>
+      <title>SIPRESMA Diskominfo | Form</title>
     </head>
   
     <body>
       <section class="form d-flex">
         {{-- Left --}}
-        <div class="login-left w-50 h-100" style="position: fixed">
+        <div class="login-left w-50 h-100">
           <div class="row justify-content-center align-items-center h-100">
             <div class="col-lg-8">
   
-              {{-- Alert Success--}}
-              @if(session()->has('success'))
-                <div class="alert alert-success alert-dismissible fade show" role="alert">
-                    {{ session('success') }}
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                </div>
-              @endif
-  
-              {{-- Alert Logout --}}
-              @if(session()->has('logoutSuccess'))
-              <div class="alert alert-success alert-dismissible fade show" role="alert">
-                  {{ session('logoutSuccess') }}
-                  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-              </div>
-            @endif
-  
-              {{-- Alert Error --}}
-              @if(session()->has('loginError'))
-                <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                    {{ session('loginError') }}
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                </div>
-              @endif
-  
               <div class="header">
                 <h1>SIPRESMA Diskominfo</h1>
-                <p>Welcome! Please enter your details.</p>
+                <p>Complete the following form to proceed to the next step.</p>
               </div>
               
-              <form action="/login" method="post">
+              <form action="#" method="post" enctype="multipart/form-data">
                 @csrf
-                {{-- Username --}}
+                {{-- Nama --}}
                 <div class="form-form">
-                    <label for="username" class="form-label">Username</label>
-                    <input type="text" name="username" class="form-control @error('username') is-invalid @enderror" id="username" placeholder="Enter your username" autofocus required value="{{ old('username') }}">
-                    @error('username')
-                        <div class="invalid-feedback">
-                            {{ $message }}
-                        </div>
-                    @enderror
+                  <fieldset disabled>
+                    <label for="disabledTextInput" class="form-label">Nama</label>
+                    <input type="text" name="nama" class="form-control" id="disabledTextInput"
+                    value="">
+                  </fieldset>
+                </div>
+
+                {{-- Jurusan --}}
+                <div class="form-form">
+                  <fieldset disabled>
+                    <label for="disabledTextInput" class="form-label">Jurusan</label>
+                    <input type="text" name="jurusan" class="form-control" id="disabledTextInput"
+                    value="">
+                  </fieldset>
                 </div>
   
-                {{-- Password --}}
+                {{-- Instansi --}}
                 <div class="form-form">
-                    <label for="password" class="form-label">Password</label>
-                    <input type="password" name="password" class="form-control @error('password') is-invalid @enderror" id="password" placeholder="Enter your password" required>
-                    @error('password')
-                        <div class="invalid-feedback">
-                            {{ $message }}
-                        </div>
+                  <fieldset disabled>
+                    <label for="disabledTextInput" class="form-label">Instansi</label>
+                    <input type="text" name="instansi" class="form-control" id="disabledTextInput"
+                    value="">
+                  </fieldset>
+                </div>
+
+                {{-- Alamat --}}
+                <div class="form-form">
+                  <label for="alamat" class="form-label">Address</label>
+                  <input type="text" name="alamat" class="form-control @error('alamat') is-invalid @enderror" id="alamat" placeholder="Enter your city" autofocus value="{{ old('alamat') }}">
+                  {{-- <input type="text-area" class="form-control" id="alamat" rows="3" placeholder="Enter your address" autofocus required> --}}
+                  @error('alamat')
+                    <div class="invalid-feedback">
+                        {{ $message }}
+                    </div>
+                  @enderror
+                </div>
+
+                {{-- No.HP --}}
+                <div class="form-form">
+                  <label for="noHP" class="form-label">Phone Number</label>
+                  <input type="tel" name="noHP" class="form-control @error('noHP') is-invalid @enderror" id="noHP" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" placeholder="Enter your phone number" autofocus value="{{ old('noHP') }}">
+                  @error('noHP')
+                    <div class="invalid-feedback">
+                        {{ $message }}
+                    </div>
+                  @enderror
+                </div>
+
+                {{-- Email --}}
+                <div class="form-form">
+                    <label for="email" class="form-label">Email</label>
+                    <input type="email" name="email" class="form-control @error('email') is-invalid @enderror" id="email" placeholder="Enter your email address" autofocus value="{{ old('email') }}">
+                    @error('noHP')
+                    <div class="invalid-feedback">
+                        {{ $message }}
+                    </div>
                     @enderror
                 </div>
-  
+
+                {{-- Upload Image --}}
+                <div class="form-form">
+                  <label for="image" class="form-label">Upload Profile Image</label>
+                  <input class="form-control" type="file" id="image" name="image" required value="{{ old('image') }}">
+                  @error('image')
+                    <div class="invalid-feedback">
+                        {{ $message }}
+                    </div>
+                  @enderror
+                </div>
+                
                 {{-- Button --}}
                 <div class="form-form">
-                    <button id="loginButton" class="signin" type="submit"><b>Sign In</b></button>           
+                  <button id="formButton" class="signin" type="submit">Submit</button>
                 </div>
               </form>
             </div>
