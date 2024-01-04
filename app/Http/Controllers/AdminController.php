@@ -35,7 +35,7 @@ class AdminController extends Controller
             })->get();
         } 
 
-        return view('daftar_mhs', ['mhsData' => $mhsData]);
+         return view('daftar_mhs', ['mhsData' => $mhsData]);
     }
 
     public function viewProgress(string $nim)
