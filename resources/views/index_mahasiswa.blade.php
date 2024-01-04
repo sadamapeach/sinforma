@@ -30,6 +30,7 @@
     <body>
         <div class="body" style="background-color: #fff">
             @include('sidebar.mahasiswa')
+            @include('content')
         </div>
     </body>
 </html>
