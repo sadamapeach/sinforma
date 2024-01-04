@@ -10,12 +10,12 @@ class Skl extends Model
     use HasFactory;
 
     protected $table = 'skl';
-    protected $primaryKey = 'id_skl';
+    protected $primaryKey = 'id';
     public $incrementing = false;
     public $timestamps = false;
 
     protected $fillable = [
-        'id_skl',
+        'id',
         'file_skl',
         'nim',
         'nip_admin'

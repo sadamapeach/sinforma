@@ -31,11 +31,6 @@ class Mahasiswa extends Model
 
     public function users()
     {
-        return $this->belongsTo(User::class, 'iduser');
-    }
-
-    public function admin()
-    {
-        return $this->belongsTo(Admin::class, 'nip');
+        return $this->belongsTo(User::class, 'id');
     }
 }

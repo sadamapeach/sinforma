@@ -17,16 +17,19 @@ class Admin extends Model
     protected $fillable = [
         'nama',
         'nip',
+        'nim',
         'alamat',
         'no_telepon',
-        'iduser',
-        'foto',
+        'id_user',
         'username',
-        'password',
     ];
 
     public function users()
     {
-        return $this->belongsTo(User::class, 'iduser');
+        return $this->belongsTo(User::class, 'id');
+    }
+    public function mahasiswa()
+    {
+        return $this->belongsTo(Mahasiswa::class, 'nim');
     }
 }

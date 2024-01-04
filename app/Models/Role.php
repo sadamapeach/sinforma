@@ -9,11 +9,11 @@ class Role extends Model
 {
     use HasFactory;
 
-    protected $table = 'roles'; // Nama tabel dalam database
+    protected $table = 'roles';
 
-    protected $primaryKey = 'idrole'; // Nama primary key dalam tabel
+    protected $primaryKey = 'id'; 
 
-    protected $fillable = ['nama']; // Kolom yang bisa diisi secara massal
+    protected $fillable = ['nama']; 
 
     public $timestamps = false;
 }

@@ -19,16 +19,14 @@ class Mentor extends Model
         'nim',
         'alamat',
         'no_telepon',
-        'iduser',
-        'foto',
+        'id_user',
         'username',
-        'password',
         'nip'
     ];
 
     public function users()
     {
-        return $this->belongsTo(User::class, 'iduser');
+        return $this->belongsTo(User::class, 'id');
     }
 
     public function mahasiswa()
