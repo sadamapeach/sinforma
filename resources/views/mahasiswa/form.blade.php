@@ -64,6 +64,21 @@
   
         color: #737373;
     }
+
+    #formButton {
+      /* Gaya normal tombol */
+      background: #363674;
+      color: #ffffff;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    #formButton:active {
+      /* Gaya saat tombol ditekan */
+      background-color: #738CF2;
+    }
   </style>
   
   <!doctype html>
@@ -81,7 +96,7 @@
       <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
       <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
       
-      <title>SIPRESMA Diskominfo | Form</title>
+      <title>SIPRESMA | Form</title>
     </head>
   
     <body>

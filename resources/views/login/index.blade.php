@@ -12,7 +12,7 @@
         font-weight: 600;
         font-size: 32px;
         line-height: 48px;
-        margin-top: 50px;
+        margin-top: 50%;
   
         color: black;
     }
@@ -47,7 +47,6 @@
     .form-form .signin {
         width: 100%;
         height: 42px;
-        background: #363674;
         border-radius: 8px;
         color: white;
         border: none;
@@ -63,6 +62,21 @@
         line-height: 21px;
   
         color: #737373;
+    }
+
+    #loginButton {
+      /* Gaya normal tombol */
+      background: #363674;
+      color: #ffffff;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    #loginButton:active {
+      /* Gaya saat tombol ditekan */
+      background-color: #738CF2;
     }
   </style>
   
@@ -82,7 +96,7 @@
       <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
       <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
       
-      <title>SIPRESMA Diskominfo | Login</title>
+      <title>SIPRESMA | Login</title>
     </head>
   
     <body>
@@ -116,8 +130,11 @@
                 </div>
               @endif
   
-              <div class="header">
-                <h1>SIPRESMA Diskominfo</h1>
+              <div class="header mt-5">
+                <img src="assets/logo.png" style="width: 8%; margin-bottom: 2.5%" alt="">
+                <span class="h2">
+                  <strong>SIPRESMA Diskominfo</strong>
+                </span>
                 <p>Welcome! Please enter your details.</p>
               </div>
               
