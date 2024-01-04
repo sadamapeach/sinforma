@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\LoginController;
+use App\Http\Controllers\MahasiswaController;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,10 +15,17 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('login.index');
+// Route::get('/', function () {
+//     return view('login.index');
+// });
+
+Route::controller(LoginController::class)->group(function () {
+    Route::get('/login', 'index')->middleware('guest')->name('login');
+    Route::post('/login', 'authenticate')->name('authenticate');
+    Route::post('/logout', 'logout')->middleware('auth');
 });
 
 /* Mahasiswa */
 Route::get('/dashboard_mahasiswa', 'App\Http\Controllers\MahasiswaController@index')->name('dashboard_mahasiswa');
 Route::get('/form_mahasiswa', 'App\Http\Controllers\MahasiswaController@form')->name('form_mahasiswa');
+
