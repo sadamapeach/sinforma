@@ -15,9 +15,9 @@ use App\Http\Controllers\MahasiswaController;
 |
 */
 
-// Route::get('/', function () {
-//     return view('login.index');
-// });
+Route::get('/', function () {
+    return view('login.index');
+});
 
 Route::controller(LoginController::class)->group(function () {
     Route::get('/login', 'index')->middleware('guest')->name('login');
