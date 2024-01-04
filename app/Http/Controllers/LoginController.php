@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Models\Mahasiswa;
 use Illuminate\Http\Request;
 use App\Http\Requests\LoginRequest;
 use Illuminate\Support\Facades\Auth;
@@ -23,6 +24,7 @@ class LoginController extends Controller
         ]);
 
         $user = User::where('username', $credentials['username'])->first();
+        $mhs = Mahasiswa::where('nim', $credentials['nim'])->first();
 
         if (!$user) {
             return back()->with('loginError', 'Username tidak ditemukan');
@@ -36,14 +38,15 @@ class LoginController extends Controller
             $request->session()->regenerate();
 
             $user = $request->user();
+            $mhs = $request->mahasiswa();
 
-            if ($user->idrole === 1) {
+            if ($user->id === 1) {
                 return redirect()->intended('/dashboard_admin');
-            } else if ($user->idrole === 2) {
+            } else if ($user->id === 2) {
                 return redirect()->intended('/dashboard_mentor');
-            } else if ($user->idrole === 3) {
-                if ($user->profile_completed === 0) {
-                    return redirect()->route('mahasiswa.dashboard')->with('error', 'Harap lengkapi data diri terlebih dahulu.');
+            } else if ($user->id === 3) {
+                if ($mhs->check_profil === 0) {
+                    return redirect()->route('mahasiswa.form')->with('error', 'Harap lengkapi data diri terlebih dahulu.');
                 }
                 return redirect()->intended('/dashboard_mahasiswa');
             }

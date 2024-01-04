@@ -19,15 +19,14 @@ class Mahasiswa extends Model
         'nama',
         'nim',
         'jurusan',
-        'univ',
+        'instansi',
         'alamat',
         'no_telepon',
-        'iduser',
+        'email',
+        'id_user',
         'foto',
         'status',
-        'username',
-        'password',
-        'nip'
+        'check_profil'
     ];
 
     public function users()
