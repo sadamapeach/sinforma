@@ -38,7 +38,7 @@
                             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
                         </svg>
                         </div>
-                        <input type="text" name="search" id="simple-search" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Cari NIM/nama" required>
+                        <input type="text" name="search" id="simple-search" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Cari Nama/Instansi" required>
                     </div>
                     <button type="submit" class="p-2.5 ml-2 text-sm font-medium text-white bg-blue-700 rounded-lg border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
                         <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
@@ -77,9 +77,6 @@
                                     <a href="{{ route('progess_mhs', $mhs['nim']) }}" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">{{ $mhs['nama'] }}</a>
                                 </td>
                                     <td class="px-6 py-4">
-                                        {{ $mhs['nama'] }}
-                                    </td>
-                                    <td class="px-6 py-4">
                                         {{ $mhs['instansi'] }}
                                     </td>
                                     <td class="px-6 py-4">
@@ -98,7 +95,7 @@
                                             </div>
                                         </div>
                                         <a data-popover-target="popover-delete-{{ $mhs->nim }}" href="#" data-modal-target="delete-modal-{{ $mhs->nim }}" data-modal-toggle="delete-modal-{{ $mhs->nim }}" class="text-red-400 hover:text-red-100 ml-2">
-                                            <i class="material-icons-round text-base">delete_outline</i>
+                                            <i class="material-icons-round text-base">delete</i>
                                         </a>
                                         <div data-popover id="popover-delete-{{ $mhs->nim }}" role="tooltip" class="absolute z-10 invisible inline-block text-sm text-gray-500 duration-300 bg-white border border-gray-200 rounded-lg shadow-sm opacity-0 dark:text-gray-400 dark:border-gray-600 dark:bg-gray-800">
                                             <div class="px-3 py-2">
@@ -119,7 +116,7 @@
                                                             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 11V6m0 8h.01M19 10a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
                                                         </svg>
                                                         <h3 class="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">Apakah Anda yakin ingin menghapus mahasiswa ini?</h3>
-                                                        <form action="{{ route('admin.delete2', [$mhs->nim]) }}" method="post">
+                                                        <form action="{{ route('delete_mhs', [$mhs->nim]) }}" method="post">
                                                             @csrf
                                                             <button data-modal-hide="delete-modal-{{ $mhs->nim }}" type="submit" class="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center me-2">
                                                                 Ya

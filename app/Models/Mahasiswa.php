@@ -29,8 +29,8 @@ class Mahasiswa extends Model
         'check_profil'
     ];
 
-    public function users()
+    public function user()
     {
-        return $this->belongsTo(User::class, 'id');
+        return $this->belongsTo(User::class, 'id_user');
     }
 }

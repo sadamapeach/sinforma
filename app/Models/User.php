@@ -17,12 +17,26 @@ class User extends Authenticatable
      *
      * @var array<int, string>
      */
+    protected $table = 'users';
+    protected $primaryKey = 'id';
+    public $incrementing = false;
+    public $timestamps = false;
+
     protected $fillable = [
-        'name',
-        'email',
+        'id',
+        'username',
         'password',
     ];
 
+
+    public function getImageURL(){
+        if($this->foto){
+            return url("storage/" . $this->foto);
+        }
+        return "https://freesvg.org/img/abstract-user-flat-4.png";
+    }
+
+    
     /**
      * The attributes that should be hidden for serialization.
      *

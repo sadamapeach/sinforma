@@ -1,5 +1,5 @@
 @extends('index_admin')
-@section('title', 'Progress Mahasiswa')
+@section('title', 'Edit Mahasiswa')
 
 @section('isihalaman')
 <head>
@@ -26,8 +26,8 @@
             <h1 class="text-l mb-5 font-semibold leading-tight tracking-tight text-gray-900 md:text-xl dark:text-white">
                 Edit Data Mahasiswa
             </h1>
-
-            <form action="{{ route('update2', ['nim' => $mhs->nim]) }}" method="post" enctype="multipart/form-data">
+  
+            <form action="{{ route('edit_mhs', ['nim' => $mahasiswa->nim]) }}" method="post" enctype="multipart/form-data">
                 @csrf
                 <div class="flex flex-col items-center mb-6">
                     <div class="relative w-20 h-20 overflow-hidden bg-gray-100 rounded-full dark:bg-gray-600">
@@ -35,37 +35,42 @@
                     </div>
                 </div>
 
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6">
                     <div class="form-group">
                         <label for="nama" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Nama</label>
-                        <input type="text" id="nama" name="nama" value="{{ $mhs->nama }}" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                        <input type="text" id="nama" name="nama" value="{{ $mahasiswa->nama }}" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                    </div>
+                    <div class="form-group">
+                        <label for="username" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Username</label>
+                        <input type="text" id="username" name="username" value="{{ $mahasiswa->user->username }}" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                     </div>
                     <div class="form-group">
                         <label for="instansi" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Instansi</label>
-                        <input type="text" id="instansi" name="instansi" value="{{ $mhs->instansi }}" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                        <input type="text" id="instansi" name="instansi" value="{{ $mahasiswa->instansi }}" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                     </div>
                     <div class="form-group">
                         <label for="jurusan" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Jurusan</label>
-                        <input type="text" id="jurusan" name="jurusan" value="{{ $mhs->jurusan }}" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                        <input type="text" id="jurusan" name="jurusan" value="{{ $mahasiswa->jurusan }}" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                     </div>
                     <div class="form-group">
                         <label for="alamat" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Alamat</label>
-                        <input type="text" id="alamat" name="alamat" value="{{ $mhs->alamat }}" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                        <input type="text" id="alamat" name="alamat" value="{{ $mahasiswa->alamat }}" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                     </div>
                     <div class="form-group">
-                        <label for="nomor_telepon" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Nomor Telepon</label>
-                        <input type="text" id="nomor_telepon" name="nomor_telepon" value="{{ $mhs->nomor_telepon }}" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                        <label for="no_telepon" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Nomor Telepon</label>
+                        <input type="text" id="no_telepon" name="no_telepon" value="{{ $mahasiswa->no_telepon }}" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                     </div>
                     <div class="form-group">
                         <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Email</label>
-                        <input type="email" id="email" name="email" value="{{ $mhs->email }}" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                        <input type="email" id="email" name="email" value="{{ $mahasiswa->email }}" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                     </div>
                     <div class="form-group">
                         <label for="status" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Status</label>
                         <select id="status" name="status" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white">
-                            <option value="Aktif" {{ $mhs->status === 'Aktif' ? 'selected' : '' }}>Aktif</option>
-                            <option value="Tidak Aktif" {{ $mhs->status === 'Tidak Aktif' ? 'selected' : '' }}>Tidak Aktif</option>
-                            <option value="Lulus" {{ $mhs->status === 'Lulus' ? 'selected' : '' }}>Lulus</option>
+                            <option value="Aktif" {{ $mahasiswa->status === 'Aktif' ? 'selected' : '' }}>Aktif</option>
+                            <option value="Tidak Aktif" {{ $mahasiswa->status === 'Tidak Aktif' ? 'selected' : '' }}>Tidak Aktif</option>
+                            <option value="Lulus" {{ $mahasiswa->status === 'Lulus' ? 'selected' : '' }}>Lulus</option>
                         </select>
                     </div>
                 </div>
@@ -78,7 +83,7 @@
                         Reset
                     </a>
                 </div>
-            </form>
+            </form>   
         </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ" crossorigin="anonymous"></script>

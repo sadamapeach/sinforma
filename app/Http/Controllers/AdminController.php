@@ -35,7 +35,7 @@ class AdminController extends Controller
             })->get();
         } 
 
-         return view('daftar_mhs', ['mhsData' => $mhsData]);
+         return view('admin.daftar_mhs', ['mhsData' => $mhsData]);
     }
 
     public function viewProgress(string $nim)
@@ -53,13 +53,89 @@ class AdminController extends Controller
 
     public function viewEditStatus(string $nim)
     {
-    $mhs = Mahasiswa::where('nim', $nim)->first();
-    $foto = User::where('id', $mhs->id_user)->first()->getImageURL();
+        $mhs = Mahasiswa::where('nim', $nim)->first();
 
-    return view('admin.edit_status', [
-        "mahasiswa" => $mhs,
-        'foto' => $foto
-    ]);
+        if (!$mhs) {
+            return redirect()->route('daftar_mhs')->with('error', 'Mahasiswa tidak ditemukan');
+        }
+
+        $user = User::find($mhs->id_user);
+
+        if (!$user) {
+            return redirect()->route('daftar_mhs')->with('error', 'User tidak ditemukan');
+        }
+
+        $foto = $user->getImageURL();
+
+        return view('admin.edit_status', [
+            'mahasiswa' => $mhs,
+            'foto' => $foto
+        ]);
     }
+
+
+    public function delete2($nim)
+    {
+        try {
+            $mhs = Mahasiswa::where('nim', $nim)->first();
+            
+            $mhs->delete();
+
+            return redirect()->back()->with('success', 'Berhasil menghapus data mahasiswa.');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Gagal menghapus data mahasiswa.');
+        }
+    }
+
+    public function update2(Request $request, string $nim)
+    {
+        try {
+            $mhs = Mahasiswa::where('nim', $nim)->first();
+
+            if (!$mhs) {
+                return redirect()->route('daftar_mhs')->with('error', 'Mahasiswa tidak ditemukan');
+            }
+
+            $user = User::find($mhs->id_user);
+
+            $validated = $request->validate([
+                'nama' => 'required',
+                'instansi' => 'nullable',
+                'jurusan' => 'nullable',
+                'alamat' => 'nullable',
+                'no_telepon' => 'nullable|numeric',
+                'email' => 'nullable|email',
+                'status' => 'required|in:Aktif,Tidak Aktif,Lulus',
+                'username' => 'required|unique:users,username,' . $mhs->id_user,
+                'foto' => 'nullable|image|max:10240',
+            ]);
+
+            // Update User
+            if ($request->has('foto')) {
+                $fotoPath = $request->file('foto')->store('profile', 'public');
+                $user->foto = $fotoPath;
+            }
+
+            $user->username = $request->username;
+            $user->save();
+
+            // Update Mahasiswa
+            $mhs->nama = $request->nama;
+            $mhs->instansi = $request->instansi;
+            $mhs->jurusan = $request->jurusan;
+            $mhs->alamat = $request->alamat;
+            $mhs->no_telepon = $request->no_telepon;
+            $mhs->email = $request->email;
+            $mhs->status = $request->status;
+            $mhs->save();
+
+            return redirect()->route('daftar_mhs')->with('success', 'Data mahasiswa berhasil diperbarui.');
+        } catch (\Exception $e) {
+            dd($e);
+            return redirect()->route('daftar_mhs')->with('error', 'Terjadi kesalahan saat memperbarui profil mahasiswa.');
+        }
+    }
+
+
 
 }
