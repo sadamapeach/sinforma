@@ -19,8 +19,8 @@
             <h1 class="text-l mb-5 font-semibold leading-tight tracking-tight text-gray-900 md:text-xl dark:text-white">
                 Progress Magang 
             </h1>
-            <p class="text-sm font-medium text-gray-900 dark:text-white">{{ $mhs->nama }}</p>
-            <p class="text-sm text-gray-500 dark:text-gray-400">{{ $mhs->instansi }} | {{ $mhs->jurusan }} | {{ $mhs->status }}</p>
+            <p class="text-sm font-medium text-gray-900 dark:text-white">{{ $mahasiswa->nama }}</p>
+            <p class="text-sm text-gray-500 dark:text-gray-400">{{ $mahasiswa->instansi }} | {{ $mahasiswa->jurusan }} | {{ $mahasiswa->status }}</p>
         </div>
 
         <!-- Tabel Progress Magang -->
@@ -36,8 +36,8 @@
                 @foreach ($progressMagang as $progress)
                     <tr>
                         <td class="py-2 px-4 border-b">{{ $progress->deskripsi }}</td>
-                        <td class="py-2 px-4 border-b">{{ $progress->tanggal }}</td>
-                        <td class="py-2 px-4 border-b">
+                        <td class="py-2 px-4 border-b text-center">{{ $progress->tanggal }}</td>
+                        <td class="py-2 px-4 border-b text-center">
                             <a href="{{ asset('storage/' . $progress->scan_file) }}" class="bg-blue-100 hover:bg-blue-200 text-blue-800 text-sm font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-gray-700 dark:text-blue-400 border border-blue-400 inline-flex items-center justify-center">Lihat file</a>
                         </td>
                     </tr>

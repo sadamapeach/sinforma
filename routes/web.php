@@ -35,7 +35,7 @@ Route::get('/dashboard_admin', 'App\Http\Controllers\AdminController@index')->na
 Route::get('/daftar_mhs', 'App\Http\Controllers\AdminController@viewDaftarMhs')->name('daftar_mhs');
 Route::get('/search_mhs', 'App\Http\Controllers\AdminController@searchMahasiswa')->name('search_mhs');
 Route::get('/filter_mhs', 'App\Http\Controllers\AdminController@filterByStatus')->name('filter_mhs');
-Route::get('/progress_mhs', 'App\Http\Controllers\AdminController@viewProgress')->name('progess_mhs');
+Route::get('/progress_mhs/{nim}', 'App\Http\Controllers\AdminController@viewProgress')->name('progess_mhs');
 Route::get('/view_edit_status/{nim}', 'App\Http\Controllers\AdminController@viewEditStatus')->name('view_edit_status');
 Route::post('/delete_mhs/{nim}', 'App\Http\Controllers\AdminController@delete2')->name('delete_mhs');
 Route::post('/edit_mhs/{nim}', 'App\Http\Controllers\AdminController@update2')->name('edit_mhs');
