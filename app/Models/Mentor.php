@@ -16,7 +16,6 @@ class Mentor extends Model
 
     protected $fillable = [
         'nama',
-        'nim',
         'alamat',
         'no_telepon',
         'id_user',
@@ -29,8 +28,4 @@ class Mentor extends Model
         return $this->belongsTo(User::class, 'id_user');
     }
 
-    public function mahasiswa()
-    {
-        return $this->belongsTo(Mahasiswa::class, 'nim');
-    }
 }

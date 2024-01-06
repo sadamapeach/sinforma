@@ -31,12 +31,27 @@ class AdminController extends Controller
         if (!empty($search)) {
             $mhsData = Mahasiswa::where(function($query) use ($search) {
                 $query->where('nama', 'like', '%' . $search . '%')
-                    ->orWhere('instansi', 'like', '%' . $search . '%');
+                    ->orWhere('instansi', 'like', '%' . $search . '%')
+                    ->orWhere('jurusan', 'like', '%' . $search . '%');
             })->get();
         } 
 
          return view('admin.daftar_mhs', ['mhsData' => $mhsData]);
     }
+
+    public function filterByStatus(Request $request)
+    {
+        $status = $request->input('status');
+
+        if (!empty($status)) {
+            $mhsData = Mahasiswa::where('status', $status)->get();
+        } else {
+            $mhsData = Mahasiswa::all();
+        }
+
+        return view('admin.daftar_mhs', ['mhsData' => $mhsData]);
+    }
+
 
     public function viewProgress(string $nim)
     {

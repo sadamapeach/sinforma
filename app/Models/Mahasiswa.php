@@ -24,6 +24,8 @@ class Mahasiswa extends Model
         'no_telepon',
         'email',
         'id_user',
+        'nip_admin',
+        'nip_mentor',
         'foto',
         'status',
         'check_profil'
@@ -32,5 +34,15 @@ class Mahasiswa extends Model
     public function user()
     {
         return $this->belongsTo(User::class, 'id_user');
+    }
+
+    public function admin()
+    {
+        return $this->belongsTo(Admin::class, 'nip_admin');
+    }
+
+    public function mentor()
+    {
+        return $this->belongsTo(Mentor::class, 'nip_mentor');
     }
 }

@@ -17,7 +17,6 @@ class Admin extends Model
     protected $fillable = [
         'nama',
         'nip',
-        'nim',
         'alamat',
         'no_telepon',
         'id_user',
@@ -27,9 +26,5 @@ class Admin extends Model
     public function user()
     {
         return $this->belongsTo(User::class, 'id_user');
-    }
-    public function mahasiswa()
-    {
-        return $this->belongsTo(Mahasiswa::class, 'nim');
     }
 }
