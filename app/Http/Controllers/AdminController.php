@@ -40,7 +40,6 @@ class AdminController extends Controller
 
             $validated = $request->validate([
                 'nama' => 'required',
-                'nip' => 'required',
                 'alamat' => 'required',
                 'no_telepon' => 'required',
                 'username' => 'required',
@@ -57,7 +56,6 @@ class AdminController extends Controller
             }
             
             $admin->nama = $request->nama;
-            $admin->nip = $request->nip;
             $admin->alamat = $request->alamat;
             $admin->no_telepon = $request->no_telepon;
             $user->username = $request->username;
