@@ -23,7 +23,6 @@ class RedirectIfAuthenticated
             if (Auth::guard($guard)->check()) {
                 $user = Auth::user();
                 
-                // Adjust the logic based on your roles
                 switch ($user->id_role) {
                     case 1:
                         return redirect('/dashboard_admin');
