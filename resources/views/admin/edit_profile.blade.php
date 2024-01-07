@@ -30,7 +30,7 @@
                 Profil Admin
             </h1>
 
-            <form enctype="multipart/form-data" class="space-y-4 md:space-y-6" method="POST" autocomplete="on" action="{{ route('update') }}" >
+            <form enctype="multipart/form-data" class="space-y-4 md:space-y-6" method="POST" autocomplete="on" action="{{ route('edit_profil') }}" >
             @csrf
             <div class="flex flex-col items-center mb-6">
                 <div class="relative w-20 h-20 overflow-hidden bg-gray-100 rounded-full dark:bg-gray-600">

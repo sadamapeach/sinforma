@@ -68,9 +68,10 @@ class AdminController extends Controller
                 'username' => $request->username
             ]);
             
-            return redirect()->route('view_profil')->with('success', 'Data operator berhasil diperbarui.');
+            return redirect()->route('view_profil')->with('success', 'Data admin berhasil diperbarui.');
         } catch (\Exception $e) {
-            return redirect()->route('view_profil')->with('error', 'Terjadi kesalahan saat memperbarui data operator.');
+            dd($e);
+            return redirect()->route('view_profil')->with('error', 'Terjadi kesalahan saat memperbarui data admin.');
         }
     }
 
@@ -205,7 +206,7 @@ class AdminController extends Controller
             return redirect()->route('daftar_mhs')->with('success', 'Data mahasiswa berhasil diperbarui.');
         } catch (\Exception $e) {
             dd($e);
-            return redirect()->route('daftar_mhs')->with('error', 'Terjadi kesalahan saat memperbarui profil mahasiswa.');
+            return redirect()->route('daftar_mhs')->with('error', 'Terjadi kesalahan saat memperbarui data mahasiswa.');
         }
     }
 

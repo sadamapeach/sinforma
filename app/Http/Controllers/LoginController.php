@@ -26,6 +26,7 @@ class LoginController extends Controller
         $user = User::where('username', $credentials['username'])->first();
         $mhs = Mahasiswa::where('nim', $request->nim)->first();
 
+
         if (!$user) {
             return back()->with('loginError', 'Username tidak ditemukan');
         }

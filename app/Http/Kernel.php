@@ -68,6 +68,6 @@ class Kernel extends HttpKernel
         'only_admin' => \App\Http\Middleware\OnlyAdmin::class,
         'only_mentor' => \App\Http\Middleware\OnlyMentor::class,
         'only_mahasiswa' => \App\Http\Middleware\OnlyMahasiswa::class,
-        'profile_completed' => \App\Http\Middleware\CheckProfileCompleted::class,
+        'check_profil' => \App\Http\Middleware\CheckProfileCompleted::class,
     ];
 }

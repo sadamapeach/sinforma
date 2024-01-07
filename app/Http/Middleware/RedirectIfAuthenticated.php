@@ -30,6 +30,7 @@ class RedirectIfAuthenticated
 
     protected function redirectTo($request): Response
     {
+        
         if ($request->expectsJson()) {
             return response()->json(['message' => 'Unauthorized'], 401);
         }

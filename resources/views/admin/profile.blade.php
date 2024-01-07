@@ -29,7 +29,7 @@
                 class="text-l mb-5 font-semibold leading-tight tracking-tight text-gray-900 md:text-xl dark:text-white">
                 Profil Admin
             </h1>
-            <form class="space-y-4 md:space-y-6" method="GET" autocomplete="on" action="{{ route('view_profil') }}" >
+            <form class="space-y-4 md:space-y-6" method="GET" autocomplete="on" action="{{ route('edit_profil') }}" >
             <div class="relative w-20 h-20 overflow-hidden bg-gray-100 rounded-full dark:bg-gray-600">
                 @if(Auth::user() && method_exists(Auth::user(), 'getImageURL'))
                     <img src="{{ Auth::user()->getImageURL() }}" alt="user photo" class="w-20 h-20 object-cover" />
