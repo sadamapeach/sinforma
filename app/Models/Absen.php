@@ -10,14 +10,13 @@ class Absen extends Model
     use HasFactory;
 
     protected $table = 'absen';
-    protected $primaryKey = 'id_absen';
+    protected $primaryKey = 'id';
     public $incrementing = false;
     public $timestamps = false;
 
     protected $fillable = [
-        'id_absen',
+        'id',
         'nim',
-        'nama_mhs',
         'foto',
         'status'
     ];

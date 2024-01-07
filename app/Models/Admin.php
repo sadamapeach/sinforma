@@ -19,14 +19,12 @@ class Admin extends Model
         'nip',
         'alamat',
         'no_telepon',
-        'iduser',
-        'foto',
+        'id_user',
         'username',
-        'password',
     ];
 
-    public function users()
+    public function user()
     {
-        return $this->belongsTo(User::class, 'iduser');
+        return $this->belongsTo(User::class, 'id_user');
     }
 }

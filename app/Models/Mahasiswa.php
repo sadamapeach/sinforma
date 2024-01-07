@@ -19,24 +19,30 @@ class Mahasiswa extends Model
         'nama',
         'nim',
         'jurusan',
-        'univ',
+        'instansi',
         'alamat',
         'no_telepon',
-        'iduser',
+        'email',
+        'id_user',
+        'nip_admin',
+        'nip_mentor',
         'foto',
         'status',
-        'username',
-        'password',
-        'nip'
+        'check_profil'
     ];
 
-    public function users()
+    public function user()
     {
-        return $this->belongsTo(User::class, 'iduser');
+        return $this->belongsTo(User::class, 'id_user');
     }
 
     public function admin()
     {
-        return $this->belongsTo(Admin::class, 'nip');
+        return $this->belongsTo(Admin::class, 'nip_admin');
+    }
+
+    public function mentor()
+    {
+        return $this->belongsTo(Mentor::class, 'nip_mentor');
     }
 }

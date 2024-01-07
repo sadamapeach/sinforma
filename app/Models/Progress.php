@@ -10,17 +10,16 @@ class Progress extends Model
     use HasFactory;
 
     protected $table = 'progress';
-    protected $primaryKey = 'id_progress';
+    protected $primaryKey = 'id';
     public $incrementing = false;
     public $timestamps = false;
 
     protected $fillable = [
-        'id_progress',
+        'id',
         'nim',
         'nip_mentor',
         'nip_admin',
-        'nama_mhs',
-        'file',
+        'scan_file',
         'deskripsi',
         'tanggal'
     ];

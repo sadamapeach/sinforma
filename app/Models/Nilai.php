@@ -10,12 +10,12 @@ class Nilai extends Model
     use HasFactory;
 
     protected $table = 'nilai';
-    protected $primaryKey = 'id_nilai';
+    protected $primaryKey = 'id';
     public $incrementing = false;
     public $timestamps = false;
 
     protected $fillable = [
-        'id_nilai',
+        'id',
         'nilai',
         'nim',
         'nip_mentor'
