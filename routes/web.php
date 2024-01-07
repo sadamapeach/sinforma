@@ -32,6 +32,9 @@ Route::get('/form_mahasiswa', 'App\Http\Controllers\MahasiswaController@form')->
 
 /* Admin */
 Route::get('/dashboard_admin', 'App\Http\Controllers\AdminController@index')->name('dashboard_admin');
+Route::get('/view_profil', 'App\Http\Controllers\AdminController@viewProfile')->name('view_profil');
+Route::get('/edit_profil', 'App\Http\Controllers\AdminController@viewEditProfile')->name('edit_profil');
+Route::get('/edit_profil', 'App\Http\Controllers\AdminController@update')->name('edit_profil');
 Route::get('/daftar_mhs', 'App\Http\Controllers\AdminController@viewDaftarMhs')->name('daftar_mhs');
 Route::get('/search_mhs', 'App\Http\Controllers\AdminController@searchMahasiswa')->name('search_mhs');
 Route::get('/filter_mhs', 'App\Http\Controllers\AdminController@filterByStatus')->name('filter_mhs');

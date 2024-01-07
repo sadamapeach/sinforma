@@ -15,10 +15,68 @@ class AdminController extends Controller
         return view('admin.dashboard');
     }
 
+    public function viewProfile()
+    {
+        $user = Auth::user();
+        $admin = Admin::where('id_user', $user->id)->first();
+
+        return view('admin.profile', ['admin' => $admin]);
+    }
+
+
+    public function viewEditProfile()
+    {
+        $user = Auth::user();
+        $admin = Admin::where('id_user', $user->id)->first();
+
+        return view('admin.edit_profile', ["admin" =>  $admin]);
+    }
+
+    public function update(Request $request)
+    {
+        try {
+            $user = Auth::user();
+            $admin = Admin::where('id_user', $user->id)->first();
+
+            $validated = $request->validate([
+                'nama' => 'required',
+                'nip' => 'required',
+                'alamat' => 'required',
+                'no_telepon' => 'required',
+                'username' => 'required',
+                'foto' => 'nullable|image|max:10240',
+            ]);
+        
+            if ($request->has('foto')) {
+                $fotoPath = $request->file('foto')->store('profile', 'public');
+                $validated['foto'] = $fotoPath;
+
+                $user->update([
+                    'foto' => $validated['foto'],
+                ]);
+            }
+            
+            $admin->nama = $request->nama;
+            $admin->nip = $request->nip;
+            $admin->alamat = $request->alamat;
+            $admin->no_telepon = $request->no_telepon;
+            $user->username = $request->username;
+            
+            $admin->save();
+
+            $user->update([
+                'username' => $request->username
+            ]);
+            
+            return redirect()->route('view_profil')->with('success', 'Data operator berhasil diperbarui.');
+        } catch (\Exception $e) {
+            return redirect()->route('view_profil')->with('error', 'Terjadi kesalahan saat memperbarui data operator.');
+        }
+    }
+
     public function viewDaftarMhs()
     {
         $user = Auth::user();
-        // $admin = Admin::where('iduser', $user->id)->first();
         $mhsData = Mahasiswa::all();
 
         return view('admin.daftar_mhs', ['mhsData' => $mhsData]);
