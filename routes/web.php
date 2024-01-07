@@ -22,7 +22,8 @@ Route::get('/', function () {
 Route::controller(LoginController::class)->group(function () {
     Route::get('/login', 'index')->middleware('guest')->name('login');
     Route::post('/login', 'authenticate')->name('authenticate');
-    Route::post('/logout', 'logout')->middleware('auth');
+    // Route::post('/logout', 'logout')->middleware('auth')->name('logout');
+    Route::post('/logout', 'logout')->name('logout');
 });
 
 /* Mahasiswa */

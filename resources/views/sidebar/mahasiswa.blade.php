@@ -6,7 +6,7 @@
       <a href="https://diskominfo.semarangkota.go.id/">
           <img src="assets/logo.png" class="h-6 me-3 sm:h-12" alt="Diskominfo Logo"/>
       </a>
-      <p class="self-center text-xl font-bold whitespace-nowrap">SIPRESMA <br> Diskominfo </p>
+      <p class="self-center text-xl font-bold whitespace-nowrap text-black dark:text-white">SIPRESMA <br> Diskominfo </p>
     </div>
 
      <ul class="space-y-2 font-medium ml-4">
