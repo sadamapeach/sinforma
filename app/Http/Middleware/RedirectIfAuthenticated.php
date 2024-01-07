@@ -21,7 +21,22 @@ class RedirectIfAuthenticated
 
         foreach ($guards as $guard) {
             if (Auth::guard($guard)->check()) {
-                return redirect(RouteServiceProvider::HOME);
+                $user = Auth::user();
+                
+                // Adjust the logic based on your roles
+                switch ($user->id_role) {
+                    case 1:
+                        return redirect('/dashboard_admin');
+                    case 2:
+                        return redirect('/dashboard_mentor');
+                    case 3:
+                        if ($user->mahasiswa->check_profil === 0) {
+                            return redirect()->route('mahasiswa.form')->with('error', 'Harap lengkapi data diri terlebih dahulu.');
+                        }
+                        return redirect('/dashboard_mahasiswa');
+                    default:
+                        return back()->with('loginError', 'Role tidak valid');
+                }
             }
         }
 

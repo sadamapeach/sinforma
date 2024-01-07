@@ -36,6 +36,11 @@ class User extends Authenticatable
         return "https://freesvg.org/img/abstract-user-flat-4.png";
     }
 
+    public function mahasiswa()
+    {
+        return $this->hasOne(Mahasiswa::class, 'id_user');
+    }
+
     
     /**
      * The attributes that should be hidden for serialization.

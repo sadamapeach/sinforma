@@ -5,40 +5,32 @@ use App\Http\Controllers\LoginController;
 use App\Http\Controllers\MahasiswaController;
 use App\Http\Controllers\AdminController;
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "web" middleware group. Make something great!
-|
-*/
-
 Route::get('/', function () {
     return view('login.index');
 });
 
-Route::controller(LoginController::class)->group(function () {
-    Route::get('/login', 'index')->middleware('guest')->name('login');
-    Route::post('/login', 'authenticate')->name('authenticate');
-    Route::post('/logout', 'logout')->middleware('auth');
+Route::middleware(['guest'])->group(function () {
+    Route::get('/login', [LoginController::class, 'index'])->name('login');
+    Route::post('/login', [LoginController::class, 'authenticate']);
 });
 
-/* Mahasiswa */
-Route::get('/dashboard_mahasiswa', 'App\Http\Controllers\MahasiswaController@index')->name('dashboard_mahasiswa');
-Route::get('/form_mahasiswa', 'App\Http\Controllers\MahasiswaController@form')->name('form_mahasiswa');
+Route::middleware(['auth'])->group(function () {
+    Route::post('/logout', [LoginController::class, 'logout']);
 
-/* Admin */
-Route::get('/dashboard_admin', 'App\Http\Controllers\AdminController@index')->name('dashboard_admin');
-Route::get('/view_profil', 'App\Http\Controllers\AdminController@viewProfile')->name('view_profil');
-Route::get('/edit_profil', 'App\Http\Controllers\AdminController@viewEditProfile')->name('edit_profil');
-Route::get('/edit_profil', 'App\Http\Controllers\AdminController@update')->name('edit_profil');
-Route::get('/daftar_mhs', 'App\Http\Controllers\AdminController@viewDaftarMhs')->name('daftar_mhs');
-Route::get('/search_mhs', 'App\Http\Controllers\AdminController@searchMahasiswa')->name('search_mhs');
-Route::get('/filter_mhs', 'App\Http\Controllers\AdminController@filterByStatus')->name('filter_mhs');
-Route::get('/progress_mhs/{nim}', 'App\Http\Controllers\AdminController@viewProgress')->name('progess_mhs');
-Route::get('/view_edit_status/{nim}', 'App\Http\Controllers\AdminController@viewEditStatus')->name('view_edit_status');
-Route::post('/delete_mhs/{nim}', 'App\Http\Controllers\AdminController@delete2')->name('delete_mhs');
-Route::post('/edit_mhs/{nim}', 'App\Http\Controllers\AdminController@update2')->name('edit_mhs');
+    /* Mahasiswa */
+    Route::get('/dashboard_mahasiswa', [MahasiswaController::class, 'index'])->name('dashboard_mahasiswa');
+    Route::get('/form_mahasiswa', [MahasiswaController::class, 'form'])->name('form_mahasiswa');
+
+    /* Admin */
+    Route::get('/dashboard_admin', [AdminController::class, 'index'])->name('dashboard_admin');
+    Route::get('/view_profil', [AdminController::class, 'viewProfile'])->name('view_profil');
+    Route::get('/edit_profil', [AdminController::class, 'viewEditProfile'])->name('edit_profil');
+    Route::post('/edit_profil', [AdminController::class, 'update'])->name('edit_profil');
+    Route::get('/daftar_mhs', [AdminController::class, 'viewDaftarMhs'])->name('daftar_mhs');
+    Route::get('/search_mhs', [AdminController::class, 'searchMahasiswa'])->name('search_mhs');
+    Route::get('/filter_mhs', [AdminController::class, 'filterByStatus'])->name('filter_mhs');
+    Route::get('/progress_mhs/{nim}', [AdminController::class, 'viewProgress'])->name('progress_mhs');
+    Route::get('/view_edit_status/{nim}', [AdminController::class, 'viewEditStatus'])->name('view_edit_status');
+    Route::post('/delete_mhs/{nim}', [AdminController::class, 'delete2'])->name('delete_mhs');
+    Route::post('/edit_mhs/{nim}', [AdminController::class, 'update2'])->name('edit_mhs');
+});

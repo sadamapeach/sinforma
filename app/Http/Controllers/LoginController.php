@@ -24,7 +24,7 @@ class LoginController extends Controller
         ]);
 
         $user = User::where('username', $credentials['username'])->first();
-        $mhs = Mahasiswa::where('nim', $credentials['nim'])->first();
+        $mhs = Mahasiswa::where('nim', $request->nim)->first();
 
         if (!$user) {
             return back()->with('loginError', 'Username tidak ditemukan');
@@ -37,18 +37,22 @@ class LoginController extends Controller
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
 
+            
             $user = $request->user();
-            $mhs = $request->mahasiswa();
-
-            if ($user->id === 1) {
-                return redirect()->intended('/dashboard_admin');
-            } else if ($user->id === 2) {
-                return redirect()->intended('/dashboard_mentor');
-            } else if ($user->id === 3) {
-                if ($mhs->check_profil === 0) {
-                    return redirect()->route('mahasiswa.form')->with('error', 'Harap lengkapi data diri terlebih dahulu.');
-                }
-                return redirect()->intended('/dashboard_mahasiswa');
+            $mhs = $user->mahasiswa;
+        
+            switch ($user->id_role) {
+                case 1:
+                    return redirect()->intended('/dashboard_admin');
+                case 2:
+                    return redirect()->intended('/dashboard_mentor');
+                case 3:
+                    if ($mhs->check_profil === 0) {
+                        return redirect()->route('mahasiswa.form')->with('error', 'Harap lengkapi data diri terlebih dahulu.');
+                    }
+                    return redirect()->intended('/dashboard_mahasiswa');
+                default:
+                    return back()->with('loginError', 'Role tidak valid');
             }
         }
 
