@@ -21,24 +21,27 @@ class RedirectIfAuthenticated
 
         foreach ($guards as $guard) {
             if (Auth::guard($guard)->check()) {
-                $user = Auth::user();
-                
-                switch ($user->id_role) {
-                    case 1:
-                        return redirect('/dashboard_admin');
-                    case 2:
-                        return redirect('/dashboard_mentor');
-                    case 3:
-                        if ($user->mahasiswa->check_profil === 0) {
-                            return redirect()->route('mahasiswa.form')->with('error', 'Harap lengkapi data diri terlebih dahulu.');
-                        }
-                        return redirect('/dashboard_mahasiswa');
-                    default:
-                        return back()->with('loginError', 'Role tidak valid');
-                }
+                return $this->redirectTo($request);
             }
         }
 
         return $next($request);
+    }
+
+    protected function redirectTo($request): Response
+    {
+        if ($request->expectsJson()) {
+            return response()->json(['message' => 'Unauthorized'], 401);
+        }
+
+        if (Auth::user()->id_role == 1) {
+            return redirect()->route('dashboard_admin');
+        } elseif (Auth::user()->id_role == 2) {
+            return redirect()->route('dashboard_mentor');
+        } elseif (Auth::user()->id_role == 3) {
+            return redirect()->route('dashboard_mahasiswa');
+        }
+
+        return redirect()->route('welcome');
     }
 }
