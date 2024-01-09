@@ -16,13 +16,13 @@ class Absen extends Model
 
     protected $fillable = [
         'id',
-        'nim',
+        'id_mhs',
         'foto',
         'status'
     ];
 
     public function mahasiswa()
     {
-        return $this->belongsTo(Mahasiswa::class, 'nim');
+        return $this->belongsTo(Mahasiswa::class, 'id_mhs');
     }
 }

@@ -24,7 +24,7 @@ class LoginController extends Controller
         ]);
 
         $user = User::where('username', $credentials['username'])->first();
-        $mhs = Mahasiswa::where('nim', $request->nim)->first();
+        $mhs = Mahasiswa::where('id_mhs', $request->id_mhs)->first();
 
 
         if (!$user) {

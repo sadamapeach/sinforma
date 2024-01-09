@@ -91,7 +91,7 @@
                             @foreach ($mhsData as $mhs)
                                 <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover-bg-gray-600">
                                 <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                    <a href="{{ route('progress_mhs', $mhs['nim']) }}" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">{{ $mhs['nama'] }}</a>
+                                    <a href="{{ route('progress_mhs', $mhs['id_mhs']) }}" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">{{ $mhs['nama'] }}</a>
                                 </td>
                                     <td class="px-6 py-4">
                                         {{ $mhs['instansi'] }}
@@ -103,26 +103,26 @@
                                         {{ $mhs['status'] }}
                                     </td>
                                     <td> 
-                                        <a data-popover-target="popover-edit-{{ $mhs->nim }}" href="{{ route('view_edit_status', [$mhs->nim]) }}" class="text-blue-400 hover:text-blue-100 mx-2">
+                                        <a data-popover-target="popover-edit-{{ $mhs->id_mhs }}" href="{{ route('view_edit_status', [$mhs->id_mhs]) }}" class="text-blue-400 hover:text-blue-100 mx-2">
                                             <i class="material-icons-outlined text-base">edit</i>
                                         </a>
-                                        <div data-popover id="popover-edit-{{ $mhs->nim }}" role="tooltip" class="absolute z-10 invisible inline-block text-sm text-gray-500 duration-300 bg-white border border-gray-200 rounded-lg shadow-sm opacity-0 dark:text-gray-400 dark:border-gray-600 dark:bg-gray-800">
+                                        <div data-popover id="popover-edit-{{ $mhs->id_mhs }}" role="tooltip" class="absolute z-10 invisible inline-block text-sm text-gray-500 duration-300 bg-white border border-gray-200 rounded-lg shadow-sm opacity-0 dark:text-gray-400 dark:border-gray-600 dark:bg-gray-800">
                                             <div class="px-3 py-2">
                                                 <p>Edit</p>
                                             </div>
                                         </div>
-                                        <a data-popover-target="popover-delete-{{ $mhs->nim }}" href="#" data-modal-target="delete-modal-{{ $mhs->nim }}" data-modal-toggle="delete-modal-{{ $mhs->nim }}" class="text-red-400 hover:text-red-100 ml-2">
+                                        <a data-popover-target="popover-delete-{{ $mhs->id_mhs }}" href="#" data-modal-target="delete-modal-{{ $mhs->id_mhs }}" data-modal-toggle="delete-modal-{{ $mhs->id_mhs }}" class="text-red-400 hover:text-red-100 ml-2">
                                             <i class="material-icons-round text-base">delete</i>
                                         </a>
-                                        <div data-popover id="popover-delete-{{ $mhs->nim }}" role="tooltip" class="absolute z-10 invisible inline-block text-sm text-gray-500 duration-300 bg-white border border-gray-200 rounded-lg shadow-sm opacity-0 dark:text-gray-400 dark:border-gray-600 dark:bg-gray-800">
+                                        <div data-popover id="popover-delete-{{ $mhs->id_mhs }}" role="tooltip" class="absolute z-10 invisible inline-block text-sm text-gray-500 duration-300 bg-white border border-gray-200 rounded-lg shadow-sm opacity-0 dark:text-gray-400 dark:border-gray-600 dark:bg-gray-800">
                                             <div class="px-3 py-2">
                                                 <p>Delete</p>
                                             </div>
                                         </div>
-                                        <div id="delete-modal-{{ $mhs->nim }}" tabindex="-1" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
+                                        <div id="delete-modal-{{ $mhs->id_mhs }}" tabindex="-1" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
                                             <div class="relative p-4 w-full max-w-md max-h-full">
                                                 <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
-                                                    <button type="button" class="absolute top-3 end-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-hide="delete-modal-{{ $mhs->nim }}">
+                                                    <button type="button" class="absolute top-3 end-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-hide="delete-modal-{{ $mhs->id_mhs }}">
                                                         <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
                                                             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
                                                         </svg>
@@ -133,12 +133,12 @@
                                                             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 11V6m0 8h.01M19 10a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
                                                         </svg>
                                                         <h3 class="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">Apakah Anda yakin ingin menghapus mahasiswa ini?</h3>
-                                                        <form action="{{ route('delete_mhs', [$mhs->nim]) }}" method="post">
+                                                        <form action="{{ route('delete_mhs', [$mhs->id_mhs]) }}" method="post">
                                                             @csrf
-                                                            <button data-modal-hide="delete-modal-{{ $mhs->nim }}" type="submit" class="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center me-2">
+                                                            <button data-modal-hide="delete-modal-{{ $mhs->id_mhs }}" type="submit" class="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center me-2">
                                                                 Ya
                                                             </button>
-                                                            <button data-modal-hide="delete-modal-{{ $mhs->nim }}" type="button" class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600">Tidak</button>
+                                                            <button data-modal-hide="delete-modal-{{ $mhs->id_mhs }}" type="button" class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600">Tidak</button>
                                                         </form>
                                                     </div>
                                                 </div>

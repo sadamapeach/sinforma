@@ -17,7 +17,7 @@ class Nilai extends Model
     protected $fillable = [
         'id',
         'nilai',
-        'nim',
+        'id_mhs',
         'nip_mentor'
     ];
 
@@ -28,6 +28,6 @@ class Nilai extends Model
 
     public function mahasiswa()
     {
-        return $this->belongsTo(Mahasiswa::class, 'nim');
+        return $this->belongsTo(Mahasiswa::class, 'id_mhs');
     }
 }

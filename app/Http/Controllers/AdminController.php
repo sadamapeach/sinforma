@@ -110,11 +110,11 @@ class AdminController extends Controller
     }
 
 
-    public function viewProgress(string $nim)
+    public function viewProgress(string $id_mhs)
     {
-        $mhs = Mahasiswa::where('nim', $nim)->first();
+        $mhs = Mahasiswa::where('id_mhs', $id_mhs)->first();
         $foto = User::where('id', $mhs->id_user)->first()->getImageURL();
-        $progressMagang = Progress::where('nim', $mhs->nim)->get();
+        $progressMagang = Progress::where('id_mhs', $mhs->id_mhs)->get();
 
         return view('admin.progress', [
             'mahasiswa' => $mhs,
@@ -123,9 +123,9 @@ class AdminController extends Controller
         ]);
     }
 
-    public function viewEditStatus(string $nim)
+    public function viewEditStatus(string $id_mhs)
     {
-        $mhs = Mahasiswa::where('nim', $nim)->first();
+        $mhs = Mahasiswa::where('id_mhs', $id_mhs)->first();
 
         if (!$mhs) {
             return redirect()->route('daftar_mhs')->with('error', 'Mahasiswa tidak ditemukan');
@@ -146,10 +146,10 @@ class AdminController extends Controller
     }
 
 
-    public function delete2($nim)
+    public function delete2($id_mhs)
     {
         try {
-            $mhs = Mahasiswa::where('nim', $nim)->first();
+            $mhs = Mahasiswa::where('id_mhs', $id_mhs)->first();
             
             $mhs->delete();
 
@@ -159,10 +159,10 @@ class AdminController extends Controller
         }
     }
 
-    public function update2(Request $request, string $nim)
+    public function update2(Request $request, string $id_mhs)
     {
         try {
-            $mhs = Mahasiswa::where('nim', $nim)->first();
+            $mhs = Mahasiswa::where('id_mhs', $id_mhs)->first();
 
             if (!$mhs) {
                 return redirect()->route('daftar_mhs')->with('error', 'Mahasiswa tidak ditemukan');
