@@ -8,6 +8,10 @@ use App\Models\Admin;
 use App\Models\User;
 use App\Models\Mahasiswa;
 use App\Models\Progress;
+use App\Models\GeneratedAccount;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Hash;
 
 class AdminController extends Controller
 {
@@ -22,7 +26,6 @@ class AdminController extends Controller
 
         return view('admin.profile', ['admin' => $admin]);
     }
-
 
     public function viewEditProfile()
     {
@@ -208,6 +211,131 @@ class AdminController extends Controller
         }
     }
 
+    public function showEntryMhs()
+    {
+        $admin = Admin::all();
 
+        return view('admin.entry_mhs', ['admin' => $admin]);
+    }
+
+    public function store(Request $request)
+    {
+        $request->validate([
+            'id_mhs' => 'required|unique:mahasiswa,id_mhs|max:14',
+            'nama' => 'required|max:255',
+            'instansi' => 'required|max:255',
+            'jurusan' => 'required|max:255',
+            'mentor' => 'required',
+        ]);
+
+        if ($request->submit === 'generate') {
+            DB::beginTransaction(); 
+        
+            try {
+                $username = Str::slug($request->nama, ''); 
+                $username .= Str::random(4);
+                $password = Str::random(10);
+
+                $user = User::create([
+                    'name' => $request->nama,
+                    'username' => $username,
+                    'password' => Hash::make($password),
+                    'id_role' => 3,
+                ]);
+            
+                $mahasiswa = new Mahasiswa();
+                $mahasiswa->id_mhs = $request->id_mhs;
+                $mahasiswa->nama = $request->nama;
+                $mahasiswa->instansi = $request->instansi;
+                $mahasiswa->jurusan = $request->jurusan;
+                $mahasiswa->mulai_magang = $request->mulai_magang;
+                $mahasiswa->selesai_magang = $request->selesai_magang;
+                $mahasiswa->nip_mentor = $request->mentor;
+                $mahasiswa->id_user = $user->id;
+                
+                $mahasiswa->save();
+
+                GeneratedAccount::create([
+                    'nama' => $mahasiswa->nama,
+                    'id_mhs' => $mahasiswa->id_mhs,
+                    'username' => $username,
+                    'password' => $password,
+                ]);
+        
+                DB::commit(); 
+        
+                return redirect()->route('showEntry')
+                    ->with('success', 'Data dan akun berhasil ditambahkan. Username: ' . $username . ' dan password: ' . $password)->withInput();
+            } catch (\Exception $e) {
+                DB::rollback(); 
+                return redirect()->route('showEntry')
+                    ->with('error', 'Gagal menambahkan data dan akun.');
+            }
+        }
+    }
+
+    public function generateAccounts()
+    {
+        try {
+            $allMahasiswa = Mahasiswa::whereNull('id_user')->get();
+
+            foreach ($allMahasiswa as $mahasiswa) {
+                $username = Str::slug($mahasiswa->nama, '') . Str::random(4);
+                $password = Str::random(10);
+
+                $user = User::create([
+                    'name' => $mahasiswa->nama,
+                    'username' => $username,
+                    'password' => Hash::make($password),
+                    'id_role' => 3,
+                ]);
+
+                $mahasiswa->id_user = $user->id;
+                $mahasiswa->save();
+
+                GeneratedAccount::create([
+                    'nama' => $mahasiswa->nama,
+                    'id_mhs' => $mahasiswa->id_mhs,
+                    'username' => $username,
+                    'password' => $password,
+                ]);
+            }
+            return redirect()->route('viewAccount')->with('success', 'Akun berhasil dibuat untuk semua mahasiswa.');
+        } catch (\Exception $e) {
+            return redirect()->route('viewGenerateAkun')->with('error', 'Terjadi kesalahan saat membuat akun untuk mahasiswa.');
+        }
+    }
+
+    public function viewImport()
+    {
+        return view('admin.import_mhs');
+    }
+
+    public function viewAccount()
+    {
+        $accounts = DB::table('generate_account')
+        ->join('mahasiswa', 'mahasiswa.id_mhs', '=', 'generate_account.id_mhs')
+        ->where('mahasiswa.check_profil', '=', 0)
+        ->select('generate_account.*')
+        ->get();
+  
+        return view('admin.daftar_akun', ["accounts" => $accounts]);
+    }
+
+    public function viewGenerateAkun()
+    {
+        $mhsData = Mahasiswa::whereNull('id_user')->get();
+  
+        return view('admin.generate_akun', ["mhsData" => $mhsData]);
+    }
+
+    public function cetakDaftarAkun()
+    {
+        $accounts = GeneratedAccount::all();
+
+        $pdf = app('dompdf.wrapper');
+        $pdf->loadView('admin.daftar_akun_pdf', ['accounts' => $accounts]);
+        return $pdf->stream('daftar_akun.pdf');
+    }
 
 }
