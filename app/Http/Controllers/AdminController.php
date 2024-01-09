@@ -48,6 +48,7 @@ class AdminController extends Controller
         
             if ($request->has('foto')) {
                 $fotoPath = $request->file('foto')->store('profile', 'public');
+                
                 $validated['foto'] = $fotoPath;
 
                 $user->update([
@@ -68,7 +69,6 @@ class AdminController extends Controller
             
             return redirect()->route('view_profil')->with('success', 'Data admin berhasil diperbarui.');
         } catch (\Exception $e) {
-            dd($e);
             return redirect()->route('view_profil')->with('error', 'Terjadi kesalahan saat memperbarui data admin.');
         }
     }
