@@ -108,21 +108,21 @@
         </div>
 
         {{-- Carosel --}}
-        <div class="flex items-center justify-center rounded-lg bg-blue-500 w-2/3 h-56 dark:bg-gray-800">
+        <div class="flex items-center justify-center rounded-lg bg-white w-2/3 h-56 dark:bg-gray-800">
             <div id="default-carousel" class="relative w-full h-56" data-carousel="slide">
             <!-- Carousel wrapper -->
             <div class="relative h-56 overflow-hidden rounded-lg md:h-96">
                 <!-- Item 1 -->
                 <div class="hidden duration-700 ease-in-out" data-carousel-item>
-                    <img src="assets/totoro_2.jpg" class="absolute w-full h-56 -translate-x-1/2 -translate-y-1/2 top-28 left-1/2 object-cover rounded-lg" alt="...">
+                    <img src="assets/gojo_1.jpg" class="absolute w-full h-56 -translate-x-1/2 -translate-y-1/2 top-28 left-1/2 object-cover rounded-lg" alt="...">
                 </div>
                 <!-- Item 2 -->
                 <div class="hidden duration-700 ease-in-out" data-carousel-item>
-                    <img src="assets/ponyo.jpg" class="absolute w-full h-56 -translate-x-1/2 -translate-y-1/2 top-28 left-1/2 object-cover rounded-lg" alt="...">
+                    <img src="assets/gojo_3.jpg" class="absolute w-full h-56 -translate-x-1/2 -translate-y-1/2 top-28 left-1/2 object-cover rounded-lg" alt="...">
                 </div>
                 <!-- Item 3 -->
                 <div class="hidden duration-700 ease-in-out" data-carousel-item>
-                    <img src="assets/spirit.png" class="absolute w-full h-56 -translate-x-1/2 -translate-y-1/2 top-28 left-1/2 object-cover rounded-lg" alt="...">
+                    <img src="assets/gojo_2.jpg" class="absolute w-full h-56 -translate-x-1/2 -translate-y-1/2 top-28 left-1/2 object-cover rounded-lg" alt="...">
                 </div>
             </div>
 
@@ -204,27 +204,42 @@
             </div>
         
             <!-- Donut Chart -->
-            <div class="" id="donut-chart"></div>
+            <div class="text-black dark:text-white" id="donut-chart"></div>
         </div>
 
-        <div class="grid grid-rows-2 gap-3 w-80">
-            {{-- Informasi Project --}}
-            <div class="w-full bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
-                <ul class="flex flex-wrap text-sm font-medium text-center text-gray-500 border-b border-gray-200 rounded-t-lg bg-zinc-100 dark:border-gray-700 dark:text-gray-400 dark:bg-gray-800" id="defaultTab" data-tabs-toggle="#defaultTabContent" role="tablist">
-                    <li class="me-2">
-                        <p class="font-bold text-black dark:text-white py-1.5 px-6 text-sm">Informasi Project</p>
-                    </li>
-                </ul>
-
-                {{-- Content --}}
+        <div class="flex flex-col">
+            {{-- Progress --}}
+            <div class="flex w-80 h-1/2 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 mb-4">
+                <img class="h-full w-1/3 rounded-l-lg" src="assets/card_1.png" alt="image description">
+                <div class="text-left rtl:text-right mx-4">
+                    <div class="text-black dark:text-white text-sm font-bold mt-4">Progress Project</div>
+                    <div class=" text-gray-400 dark:text-gray-500 mt-0.5 mb-2" style="font-size: 10px">Wah sampai mana progress kamu?</div>
+                    <div class="mb-1 text-xs font-medium text-purple-700 dark:text-purple-500">Total Pengumpulan: 100%</div>
+                    <div class="w-full bg-gray-200 rounded-full h-1.5 mb-4 dark:bg-gray-700">
+                        <div class="bg-purple-600 h-1.5 rounded-full dark:bg-purple-500" style="width: 45%"></div>
+                    </div>
+                </div>
             </div>
-            
         
-            {{-- Pengumuman --}}
-            <div class="grid bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 h-28 content-center">
-                {{-- Konten Pengumuman --}}
+            {{-- SKL --}}
+            <div class="flex w-80 h-1/2 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+                <img class="h-full w-1/3 rounded-l-lg" src="assets/card_2.png" alt="image description">
+                <div class="text-left rtl:text-right mx-4">
+                    <div class="text-black dark:text-white text-sm font-bold mt-4">Surat Keterangan Lulus</div>
+                    <div class=" text-gray-400 dark:text-gray-500 mt-0.5 mb-2" style="font-size: 10px">Unduh surat keterangan lulus magang kamu disini ya!</div>
+
+                    {{-- Downloads --}}
+                    <div class="flex items-center">
+                        <span><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="w-4 h-4 fill-gray-700 dark:fill-gray-400">
+                            <path d="M8.75 2.75a.75.75 0 0 0-1.5 0v5.69L5.03 6.22a.75.75 0 0 0-1.06 1.06l3.5 3.5a.75.75 0 0 0 1.06 0l3.5-3.5a.75.75 0 0 0-1.06-1.06L8.75 8.44V2.75Z" />
+                            <path d="M3.5 9.75a.75.75 0 0 0-1.5 0v1.5A2.75 2.75 0 0 0 4.75 14h6.5A2.75 2.75 0 0 0 14 11.25v-1.5a.75.75 0 0 0-1.5 0v1.5c0 .69-.56 1.25-1.25 1.25h-6.5c-.69 0-1.25-.56-1.25-1.25v-1.5Z" />
+                          </svg>
+                        </span>
+                        <span class="bg-pink-100 text-pink-800 font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-pink-900 dark:text-pink-300 text-xs ml-1.5">Belum tersedia</span>
+                    </div>                     
+                </div>
             </div>
-        </div>    
+        </div> 
     </div>
     </section>
   
@@ -232,6 +247,10 @@
         // ApexCharts options and config
         window.addEventListener("load", function() {
             const getChartOptions = () => {
+                const isDarkMode = document.querySelector('html').classList.contains('dark');
+    
+                const labelFontColor = isDarkMode ? "#ffffff" : "ffffff"; // Ganti dengan warna yang diinginkan
+    
                 return {
                     series: [80, 10, 5, 5],
                     colors: ["#1C64F2", "#16BDCA", "#E74694", "#FDBA8C"],
@@ -253,6 +272,9 @@
                                         show: true,
                                         fontFamily: "poppins",
                                         offsetY: 17,
+                                        style: {
+                                            colors: [labelFontColor], // Warna font untuk nama
+                                        },
                                     },
                                     total: {
                                         showAlways: true,
@@ -267,6 +289,9 @@
                                             }, 0)
                                             return `${sum}%`
                                         },
+                                        style: {
+                                            colors: [labelFontColor], // Warna font untuk total label
+                                        },
                                     },
                                     value: {
                                         show: true,
@@ -274,6 +299,9 @@
                                         offsetY: -15,
                                         formatter: function (value) {
                                             return value + "%"
+                                        },
+                                        style: {
+                                            colors: [labelFontColor], // Warna font untuk nilai
                                         },
                                     },
                                 },
@@ -298,42 +326,62 @@
                     yaxis: {
                         labels: {
                             formatter: function (value) {
-                                return value + "%"
+                                return value + "%";
+                            },
+                            style: {
+                                colors: [labelFontColor], // Warna font untuk label sumbu y
+                            },
                         },
                     },
-                },
-                xaxis: {
-                    labels: {
-                        formatter: function (value) {
-                        return value  + "%"
+                    xaxis: {
+                        labels: {
+                            formatter: function (value) {
+                                return value + "%";
+                            },
+                            style: {
+                                colors: [labelFontColor], // Warna font untuk label sumbu x
+                            },
+                        },
+                        axisTicks: {
+                            show: false,
+                        },
+                        axisBorder: {
+                            show: false,
                         },
                     },
-                    axisTicks: {
-                        show: false,
-                    },
-                    axisBorder: {
-                        show: false,
-                    },
-                },
-            }
-        }
+                };
+            };
     
-        if (document.getElementById("donut-chart") && typeof ApexCharts !== 'undefined') {
-            const chart = new ApexCharts(document.getElementById("donut-chart"), getChartOptions());
-            chart.render();
+            if (document.getElementById("donut-chart") && typeof ApexCharts !== 'undefined') {
+                const chart = new ApexCharts(document.getElementById("donut-chart"), getChartOptions());
+                chart.render();
             }
         });
-    </script>  
+    </script>    
 
     <script>
-        const checkbox = document.querySelector('#toggle');
-        const html = document.querySelector('html');
+        document.addEventListener('DOMContentLoaded', function() {
+            const checkbox = document.querySelector('#toggle');
+            const html = document.querySelector('html');
+            const storedTheme = localStorage.getItem('theme');
 
-        checkbox.addEventListener('click', function() 
-        {
-            checkbox.checked ? html.classList.add('dark') : html.classList.remove('dark');
-        })
+            if (storedTheme) {
+                html.classList.add(storedTheme);
+                checkbox.checked = storedTheme === 'dark';
+            }
+
+            checkbox.addEventListener('click', function() {
+                if (checkbox.checked) {
+                    html.classList.add('dark');
+                    localStorage.setItem('theme', 'dark');
+                } else {
+                    html.classList.remove('dark');
+                    localStorage.setItem('theme', 'light');
+                }
+            });
+        });
     </script>
+
 </body>
 </html>
 @endsection

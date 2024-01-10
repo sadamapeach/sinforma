@@ -31,4 +31,3 @@ Route::controller(LoginController::class)->group(function () {
     Route::get('/view_edit_status/{nim}', [AdminController::class, 'viewEditStatus'])->middleware('only_admin')->name('view_edit_status');
     Route::post('/delete_mhs/{nim}', [AdminController::class, 'delete2'])->name('delete_mhs');
     Route::post('/edit_mhs/{nim}', [AdminController::class, 'update2'])->name('edit_mhs');
-});
