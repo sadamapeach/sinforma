@@ -18,6 +18,7 @@ class Absen extends Model
         'id',
         'id_mhs',
         'foto',
+        'tanggal',
         'status'
     ];
 

@@ -9,6 +9,7 @@ use App\Models\Mentor;
 use App\Models\User;
 use App\Models\Mahasiswa;
 use App\Models\Progress;
+use App\Models\Absen;
 use App\Models\GeneratedAccount;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
@@ -303,5 +304,66 @@ class AdminController extends Controller
         $pdf->loadView('admin.daftar_akun_pdf', ['accounts' => $accounts]);
         return $pdf->stream('daftar_akun.pdf');
     }
+
+    public function viewPresensi()
+    {
+        $verifikasiPresensiData = Absen::with('mahasiswa')->get();
+        return view('admin.verifikasi_presensi', compact('verifikasiPresensiData'));
+    }
+
+    public function filterPresensi(Request $request)
+    {
+        $filter = $request->input('filter');
+
+        $query = Absen::query();
+
+        if ($filter && $filter !== 'all') {
+            $query->where('status', $filter);
+        }
+
+        $verifikasiPresensiData = $query->get();
+
+        return view('admin.verifikasi_presensi', compact('verifikasiPresensiData'));
+    }
+
+    public function searchPresensi(Request $request)
+    {
+        $search = $request->input('search');
+
+        $query = Absen::query();
+
+        if ($search) {
+            $query->where(function ($q) use ($search) {
+                $q->where('id_mhs', 'like', "%$search%")
+                    ->orWhere('nama', 'like', "%$search%")
+                    ->orWhere('instansi', 'like', "%$search%")
+                    ->orWhere('jurusan', 'like', "%$search%");
+            });
+        }
+
+        $verifikasiPresensiData = $query->get();
+
+        return view('admin.verifikasi_presensi', compact('verifikasiPresensiData'));
+    }
+
+
+    public function verifyPresensi($id_mhs)
+    {
+        $presensi = Absen::where('id_mhs', $id_mhs)->first();
+
+        if ($presensi) {
+            if ($presensi->status === 'Unverified') {
+                $presensi->status = 'Verified';
+                $presensi->save();
+
+                return redirect()->route('view_presensi')->with('success', 'Presensi berhasil diverifikasi.');
+            } else {
+                return redirect()->route('view_presensi')->with('error', 'Presensi sudah diverifikasi sebelumnya.');
+            }
+        } else {
+            return redirect()->route('view_presensi')->with('error', 'Presensi tidak ditemukan.');
+        }
+    }
+    
 
 }
