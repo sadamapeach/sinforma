@@ -16,7 +16,7 @@ class CheckProfileCompleted
     public function handle($request, Closure $next)
     {
         // Periksa apakah mahasiswa telah memperbarui data diri
-        if (auth()->check() && auth()->user()->profile_completed == 0) {
+        if (auth()->check() && auth()->user()->check_profil == 0) {
             return redirect()->route('mahasiswa.form')->with('error', 'Harap lengkapi data diri terlebih dahulu.');
         }
 

@@ -5,26 +5,21 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Nilai extends Model
+class GeneratedAccount extends Model
 {
     use HasFactory;
 
-    protected $table = 'nilai';
+    protected $table = 'generate_account';
     protected $primaryKey = 'id';
-    public $incrementing = false;
+    public $incrementing = true;
     public $timestamps = false;
 
     protected $fillable = [
-        'id',
-        'nilai',
+        'nama',
         'id_mhs',
-        'nip_mentor'
+        'username',
+        'password',
     ];
-
-    public function mentor()
-    {
-        return $this->belongsTo(Mentor::class, 'nip');
-    }
 
     public function mahasiswa()
     {

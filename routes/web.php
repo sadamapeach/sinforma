@@ -1,5 +1,4 @@
 <?php
-
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\MahasiswaController;
@@ -9,15 +8,14 @@ Route::get('/', function () {
     return view('login.index');
 });
 
-Route::controller(LoginController::class)->group(function () {
-    Route::get('/login', 'index')->middleware('guest')->name('login');
-    Route::post('/login', 'authenticate')->name('authenticate');
-    Route::post('/logout', 'logout')->middleware('auth');
-});
+/* Login Routes */
+Route::get('/login', [LoginController::class, 'index'])->middleware('guest')->name('login');
+Route::post('/login', [LoginController::class, 'authenticate'])->name('authenticate');
+Route::post('/logout', [LoginController::class, 'logout'])->middleware('auth');
 
-    /* Mahasiswa */
-    Route::get('/dashboard_mahasiswa', [MahasiswaController::class, 'index'])->name('dashboard_mahasiswa');
-    Route::get('/form_mahasiswa', [MahasiswaController::class, 'form'])->name('form_mahasiswa');
+/* Mahasiswa Routes */
+Route::get('/dashboard_mahasiswa', [MahasiswaController::class, 'index'])->name('dashboard_mahasiswa');
+Route::get('/form_mahasiswa', [MahasiswaController::class, 'form'])->name('form_mahasiswa');
 
     /* Admin */
     Route::get('/dashboard_admin', [AdminController::class, 'index'])->middleware('only_admin')->name('dashboard_admin');
@@ -31,3 +29,4 @@ Route::controller(LoginController::class)->group(function () {
     Route::get('/view_edit_status/{nim}', [AdminController::class, 'viewEditStatus'])->middleware('only_admin')->name('view_edit_status');
     Route::post('/delete_mhs/{nim}', [AdminController::class, 'delete2'])->name('delete_mhs');
     Route::post('/edit_mhs/{nim}', [AdminController::class, 'update2'])->name('edit_mhs');
+});
