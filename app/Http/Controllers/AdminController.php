@@ -282,37 +282,6 @@ class AdminController extends Controller
     }
 
 
-    public function generateAccounts()
-    {
-        try {
-            $allMahasiswa = Mahasiswa::whereNull('id_user')->get();
-
-            foreach ($allMahasiswa as $mahasiswa) {
-                $username = Str::slug($mahasiswa->nama, '') . Str::random(4);
-                $password = Str::random(10);
-
-                $user = User::create([
-                    'name' => $mahasiswa->nama,
-                    'username' => $username,
-                    'password' => Hash::make($password),
-                    'id_role' => 3,
-                ]);
-
-                $mahasiswa->id_user = $user->id;
-                $mahasiswa->save();
-
-                GeneratedAccount::create([
-                    'nama' => $mahasiswa->nama,
-                    'id_mhs' => $mahasiswa->id_mhs,
-                    'username' => $username,
-                    'password' => $password,
-                ]);
-            }
-            return redirect()->route('daftar_akun')->with('success', 'Akun berhasil dibuat untuk semua mahasiswa.');
-        } catch (\Exception $e) {
-            return redirect()->route('generate_akun')->with('error', 'Terjadi kesalahan saat membuat akun untuk mahasiswa.');
-        }
-    }
 
     public function viewAccount()
     {
@@ -325,12 +294,6 @@ class AdminController extends Controller
         return view('admin.daftar_akun', ["accounts" => $accounts]);
     }
 
-    public function viewGenerateAkun()
-    {
-        $mhsData = Mahasiswa::whereNull('id_user')->get();
-  
-        return view('admin.generate_akun', ["mhsData" => $mhsData]);
-    }
 
     public function cetakDaftarAkun()
     {
