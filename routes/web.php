@@ -33,5 +33,5 @@ Route::get('/generate_akun', [AdminController::class, 'viewGenerateAkun'])->name
 Route::post('/generate_akun', [AdminController::class, 'generateAccounts'])->name('generate_akun');
 Route::get('/daftar_akun', [AdminController::class, 'viewAccount'])->name('daftar_akun');
 Route::get('/entry_mhs', [AdminController::class, 'showEntryMhs'])->name('entry_mhs');
-Route::get('/store_mhs', [AdminController::class, 'store'])->name('store_mhs');
+Route::post('/store_mhs', [AdminController::class, 'store'])->name('store_mhs');
 Route::get('/cetak_akun_mhs', [AdminController::class, 'cetakDaftarAkun'])->name('cetak_akun_mhs');

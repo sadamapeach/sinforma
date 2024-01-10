@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Admin;
+use App\Models\Mentor;
 use App\Models\User;
 use App\Models\Mahasiswa;
 use App\Models\Progress;
@@ -214,8 +215,9 @@ class AdminController extends Controller
     public function showEntryMhs()
     {
         $admin = Admin::all();
+        $mentor = Mentor::all();
 
-        return view('admin.entry_mhs', ['admin' => $admin]);
+        return view('admin.entry_mhs', ['admin' => $admin, 'mentor' => $mentor]);
     }
 
     public function store(Request $request)
@@ -229,11 +231,10 @@ class AdminController extends Controller
         ]);
 
         if ($request->submit === 'generate') {
-            DB::beginTransaction(); 
-        
+            DB::beginTransaction();
+
             try {
-                $username = Str::slug($request->nama, ''); 
-                $username .= Str::random(4);
+                $username = Str::slug($request->nama, '') . Str::random(4);
                 $password = Str::random(10);
 
                 $user = User::create([
@@ -242,7 +243,12 @@ class AdminController extends Controller
                     'password' => Hash::make($password),
                     'id_role' => 3,
                 ]);
-            
+
+                if (!$user) {
+                    DB::rollback();
+                    return redirect()->route('entry_mhs')->with('error', 'Gagal membuat pengguna.');
+                }
+
                 $mahasiswa = new Mahasiswa();
                 $mahasiswa->id_mhs = $request->id_mhs;
                 $mahasiswa->nama = $request->nama;
@@ -252,7 +258,7 @@ class AdminController extends Controller
                 $mahasiswa->selesai_magang = $request->selesai_magang;
                 $mahasiswa->nip_mentor = $request->mentor;
                 $mahasiswa->id_user = $user->id;
-                
+
                 $mahasiswa->save();
 
                 GeneratedAccount::create([
@@ -261,18 +267,20 @@ class AdminController extends Controller
                     'username' => $username,
                     'password' => $password,
                 ]);
-        
-                DB::commit(); 
-        
-                return redirect()->route('showEntry')
+
+                DB::commit();
+
+                return redirect()->route('entry_mhs')
                     ->with('success', 'Data dan akun berhasil ditambahkan. Username: ' . $username . ' dan password: ' . $password)->withInput();
             } catch (\Exception $e) {
-                DB::rollback(); 
-                return redirect()->route('showEntry')
+
+                DB::rollback();
+                return redirect()->route('entry_mhs')
                     ->with('error', 'Gagal menambahkan data dan akun.');
             }
         }
     }
+
 
     public function generateAccounts()
     {
