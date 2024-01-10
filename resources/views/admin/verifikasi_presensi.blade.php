@@ -70,8 +70,10 @@
             <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                 <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                     <tr>
-                        <th scope="col" class="px-6 py-3">ID Mahasiswa</th>
+                        <th scope="col" class="px-6 py-3">ID</th>
                         <th scope="col" class="px-6 py-3">Nama</th>
+                        <th scope="col" class="px-6 py-3">Instansi</th>
+                        <th scope="col" class="px-6 py-3">Jurusan</th>
                         <th scope="col" class="px-6 py-3">Foto</th>
                         <th scope="col" class="px-6 py-3">Waktu</th>
                         <th scope="col" class="px-6 py-3">Status</th>
@@ -83,6 +85,8 @@
                     <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover-bg-gray-600">
                         <td class="px-6 py-4">{{ $verifikasiPresensi->mahasiswa->id_mhs }}</td>
                         <td class="px-6 py-4">{{ $verifikasiPresensi->mahasiswa->nama }}</td>
+                        <td class="px-6 py-4">{{ $verifikasiPresensi->mahasiswa->instansi }}</td>
+                        <td class="px-6 py-4">{{ $verifikasiPresensi->mahasiswa->jurusan }}</td>
                         <td class="px-6 py-4">
                             <a href="{{ asset('storage/' . $verifikasiPresensi->foto) }}" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Lihat Gambar</a>
                         </td>
