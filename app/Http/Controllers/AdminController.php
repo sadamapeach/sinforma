@@ -300,15 +300,10 @@ class AdminController extends Controller
                     'password' => $password,
                 ]);
             }
-            return redirect()->route('viewAccount')->with('success', 'Akun berhasil dibuat untuk semua mahasiswa.');
+            return redirect()->route('daftar_akun')->with('success', 'Akun berhasil dibuat untuk semua mahasiswa.');
         } catch (\Exception $e) {
-            return redirect()->route('viewGenerateAkun')->with('error', 'Terjadi kesalahan saat membuat akun untuk mahasiswa.');
+            return redirect()->route('generate_akun')->with('error', 'Terjadi kesalahan saat membuat akun untuk mahasiswa.');
         }
-    }
-
-    public function viewImport()
-    {
-        return view('admin.import_mhs');
     }
 
     public function viewAccount()

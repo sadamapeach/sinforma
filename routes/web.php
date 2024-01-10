@@ -29,3 +29,9 @@ Route::get('/progress_mhs/{id_mhs}', [AdminController::class, 'viewProgress'])->
 Route::get('/view_edit_status/{id_mhs}', [AdminController::class, 'viewEditStatus'])->name('view_edit_status');
 Route::post('/delete_mhs/{id_mhs}', [AdminController::class, 'delete2'])->name('delete_mhs');
 Route::post('/edit_mhs/{id_mhs}', [AdminController::class, 'update2'])->name('edit_mhs');
+Route::get('/generate_akun', [AdminController::class, 'viewGenerateAkun'])->name('generate_akun');
+Route::post('/generate_akun', [AdminController::class, 'generateAccounts'])->name('generate_akun');
+Route::get('/daftar_akun', [AdminController::class, 'viewAccount'])->name('daftar_akun');
+Route::get('/entry_mhs', [AdminController::class, 'showEntryMhs'])->name('entry_mhs');
+Route::get('/store_mhs', [AdminController::class, 'store'])->name('store_mhs');
+Route::get('/cetak_akun_mhs', [AdminController::class, 'cetakDaftarAkun'])->name('cetak_akun_mhs');
