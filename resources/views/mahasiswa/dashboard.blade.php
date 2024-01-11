@@ -11,7 +11,7 @@
     <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
 </head>
 
-<body class="font-poppins">  
+<body class="font-poppins"> 
     <div class="p-4 sm:ml-64">
         <nav class="bg-zinc-100 border-gray-200 dark:bg-gray-800 dark:border-gray-700 rounded-xl">
             {{-- Welcome User --}}
@@ -91,21 +91,21 @@
             <figcaption class="flex items-center p-6">
                 <img class="rounded-full w-32 h-32" src="assets/totoro.png" alt="profile picture">
                 <div class="space-y-2.5 text-left rtl:text-right mx-4">
-                    <div class="text-black dark:text-white text-sm font-bold">Aiden Ryder</div>
-                    <div class="text-xs text-gray-700 dark:text-gray-400">Informatika</div>
+                    <div class="text-black dark:text-white text-sm font-bold">{{ $mahasiswa->nama }}</div>
+                    <div class="text-xs text-gray-700 dark:text-gray-400">{{ $mahasiswa->jurusan }}</div>
                     {{-- University --}}
                     <div class="flex items-center">
                         <span><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="w-3.5 h-3.5 fill-gray-700 dark:fill-gray-400">
                             <path fill-rule="evenodd" d="M7.605 2.112a.75.75 0 0 1 .79 0l5.25 3.25A.75.75 0 0 1 13 6.707V12.5h.25a.75.75 0 0 1 0 1.5H2.75a.75.75 0 0 1 0-1.5H3V6.707a.75.75 0 0 1-.645-1.345l5.25-3.25ZM4.5 8.75a.75.75 0 0 1 1.5 0v3a.75.75 0 0 1-1.5 0v-3ZM8 8a.75.75 0 0 0-.75.75v3a.75.75 0 0 0 1.5 0v-3A.75.75 0 0 0 8 8Zm2 .75a.75.75 0 0 1 1.5 0v3a.75.75 0 0 1-1.5 0v-3ZM8 6a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z" clip-rule="evenodd" />
                         </svg></span>
-                        <span class="text-xs text-gray-700 dark:text-gray-400 ml-2">Diponegoro University</span>
+                        <span class="text-xs text-gray-700 dark:text-gray-400 ml-2">{{ $mahasiswa->instansi }}</span>
                     </div>
                     {{-- No.HP --}}
                     <div class="flex">
                         <span><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="w-3.5 h-3.5 fill-gray-700 dark:fill-gray-400">
                             <path fill-rule="evenodd" d="m3.855 7.286 1.067-.534a1 1 0 0 0 .542-1.046l-.44-2.858A1 1 0 0 0 4.036 2H3a1 1 0 0 0-1 1v2c0 .709.082 1.4.238 2.062a9.012 9.012 0 0 0 6.7 6.7A9.024 9.024 0 0 0 11 14h2a1 1 0 0 0 1-1v-1.036a1 1 0 0 0-.848-.988l-2.858-.44a1 1 0 0 0-1.046.542l-.534 1.067a7.52 7.52 0 0 1-4.86-4.859Z" clip-rule="evenodd" />
                         </svg></span>
-                        <span class="text-xs text-gray-700 dark:text-gray-400 ml-2">0878-3476-6951</span>
+                        <span class="text-xs text-gray-700 dark:text-gray-400 ml-2">{{ $mahasiswa->no_telepon }}</span>
                     </div>
                     {{-- Email --}}
                     <div class="flex">
@@ -113,7 +113,7 @@
                             <path d="M2.5 3A1.5 1.5 0 0 0 1 4.5v.793c.026.009.051.02.076.032L7.674 8.51c.206.1.446.1.652 0l6.598-3.185A.755.755 0 0 1 15 5.293V4.5A1.5 1.5 0 0 0 13.5 3h-11Z" />
                             <path d="M15 6.954 8.978 9.86a2.25 2.25 0 0 1-1.956 0L1 6.954V11.5A1.5 1.5 0 0 0 2.5 13h11a1.5 1.5 0 0 0 1.5-1.5V6.954Z" />
                         </svg></span>
-                        <span class="text-xs text-gray-700 dark:text-gray-400 ml-2">oviana523@gmail.com</span>
+                        <span class="text-xs text-gray-700 dark:text-gray-400 ml-2">{{ $mahasiswa->email }}</span>
                     </div>
                 </div>
             </figcaption>  
@@ -175,7 +175,7 @@
                         </svg>
                     </span>
                     <h3 class="mb-1 text-xs font-semibold text-gray-900 dark:text-white">Mulai Magang</h3>
-                    <time class="block text-xs font-normal leading-normal text-gray-400 dark:text-gray-500">Dikeluarkan pada 01 Januari 2024</time>
+                    <time class="block text-xs font-normal leading-normal text-gray-400 dark:text-gray-500">Dikeluarkan pada {{ $mahasiswa->mulai_magang }}</time>
                 </li>
                 <li class="ms-7">
                     <span class="absolute flex items-center justify-center w-6 h-6 bg-purple-100 rounded-full -start-3 ring-8 ring-white dark:ring-gray-900 dark:bg-purple-900">
@@ -184,7 +184,7 @@
                         </svg>
                     </span>
                     <h3 class="mb-1 text-xs font-semibold text-gray-900 dark:text-white">Selesai Magang</h3>
-                    <time class="block mb-2 text-xs font-normal leading-normal text-gray-400 dark:text-gray-500">Dikeluarkan pada 28 Februari 2024</time>
+                    <time class="block mb-2 text-xs font-normal leading-normal text-gray-400 dark:text-gray-500">Dikeluarkan pada {{ $mahasiswa->selesai_magang }}</time>
                 </li>
             </ol>
             </div>
@@ -193,7 +193,9 @@
             <div class="mt-3 grid grid-flow-col auto-cols-min gap-2">
                 <div class="ml-8 text-xs text-black dark:text-white">Status</div>
                 <div class="text-xs text-black dark:text-white">:</div>
-                <div class="bg-green-100 text-green-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300">Active</div>
+                <div class="bg-green-100 text-green-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300">
+                    {{ $mahasiswa->status }}
+                </div>
             </div>
 
             {{-- Mentor --}}
@@ -202,7 +204,7 @@
                     <div class="ml-8 text-xs text-black dark:text-white">Mentor</div>
                     <div class="text-xs text-black dark:text-white">:</div>
                 </div>
-                <div class="text-xs ml-2 text-black dark:text-white">Asdani Kindarto, S.Sos, M.Eng.Ph.D</div>
+                <div class="text-xs ml-2 text-black dark:text-white">{{ $mahasiswa->mentor_nama }}</div>
             </div>
         </div>
 
@@ -247,7 +249,7 @@
                             <path d="M3.5 9.75a.75.75 0 0 0-1.5 0v1.5A2.75 2.75 0 0 0 4.75 14h6.5A2.75 2.75 0 0 0 14 11.25v-1.5a.75.75 0 0 0-1.5 0v1.5c0 .69-.56 1.25-1.25 1.25h-6.5c-.69 0-1.25-.56-1.25-1.25v-1.5Z" />
                           </svg>
                         </span>
-                        <span class="bg-pink-100 text-pink-800 font-medium me-2 px-2.5 content-center py-0.5 rounded-full dark:bg-pink-900 dark:text-pink-300 ml-1.5" style="font-size: 11px">Belum tersedia</span>
+                        <span class="bg-pink-100 text-pink-800 font-medium me-2 px-2.5 content-center py-0.5 rounded-full dark:bg-pink-900 dark:text-pink-300 ml-1.5" style="font-size: 11px">{{ $skl->file_skl }}</span>
                     </div>                     
                 </div>
             </div>

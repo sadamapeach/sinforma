@@ -6,12 +6,41 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\Mahasiswa;
+use App\Models\SKL;
 use App\Models\User;
 
 class MahasiswaController extends Controller
 {
-    public function index() {
-        return view('mahasiswa.dashboard');
+    public function index(Request $request) {
+        $user = Auth::user();
+
+        if($user->mahasiswa) {
+            $id_mhs = $request->user()->mahasiswa->id_mhs;
+            $mahasiswa = Mahasiswa::join('users', 'mahasiswa.id_user', '=', 'users.id')
+                ->leftJoin('mentor', 'mahasiswa.nip_mentor', '=', 'mentor.nip')
+                ->where('mahasiswa.id_mhs', $id_mhs)
+                ->select(
+                    'mahasiswa.nama',
+                    'mahasiswa.jurusan',
+                    'mahasiswa.instansi',
+                    'mahasiswa.no_telepon',
+                    'mahasiswa.email',
+                    'mahasiswa.mulai_magang',
+                    'mahasiswa.selesai_magang',
+                    'mahasiswa.status',
+                    'mentor.nama as mentor_nama',
+                )
+                ->first();
+
+            $skl = SKL::join('mahasiswa', 'skl.id_mhs', '=', 'mahasiswa.id_mhs')
+                ->where('skl.id_mhs', $id_mhs)
+                ->select(
+                    'skl.file_skl'
+                )
+                ->first();
+
+            return view('mahasiswa.dashboard', compact('mahasiswa', 'skl'));
+        }
     }
 
     public function form(Request $request) {
@@ -47,19 +76,18 @@ class MahasiswaController extends Controller
             }
 
             // Update data mahasiswa
+            // Kiri database | Kanan id/name di form
             Mahasiswa::where('id_user', $user->id)->update([
                 'alamat' => $validated['alamat'],
-                'noHP' => $validated['noHP'],
+                'no_telepon' => $validated['noHP'],
                 'email' => $validated['email'],
             ]);
 
             Mahasiswa::where('id_user', $user->id)->update([
-                'check_profil'=>1,
+                'check_profil' => 1,
             ]);
 
             DB::commit();
-
-            dd('aaa');
 
             return redirect()->route('dashboard_mahasiswa')->with('success', 'Data berhasil diinputkan!');
         } catch (\Exception $e) {
