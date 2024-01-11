@@ -41,4 +41,22 @@ class RedirectIfAuthenticated
 
         return $next($request);
     }
+
+    protected function redirectTo($request): Response
+    {
+        
+        if ($request->expectsJson()) {
+            return response()->json(['message' => 'Unauthorized'], 401);
+        }
+
+        if (Auth::user()->id_role == 1) {
+            return redirect()->route('dashboard_admin');
+        } elseif (Auth::user()->id_role == 2) {
+            return redirect()->route('dashboard_mentor');
+        } elseif (Auth::user()->id_role == 3) {
+            return redirect()->route('dashboard_mahasiswa');
+        }
+
+        return redirect()->route('welcome');
+    }
 }

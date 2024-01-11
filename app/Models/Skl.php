@@ -17,13 +17,13 @@ class Skl extends Model
     protected $fillable = [
         'id',
         'file_skl',
-        'nim',
+        'id_mhs',
         'nip_admin'
     ];
 
     public function mahasiswa()
     {
-        return $this->belongsTo(Mahasiswa::class, 'nim');
+        return $this->belongsTo(Mahasiswa::class, 'id_mhs');
     }
     public function admin()
     {

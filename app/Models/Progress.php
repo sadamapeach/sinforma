@@ -16,7 +16,7 @@ class Progress extends Model
 
     protected $fillable = [
         'id',
-        'nim',
+        'id_mhs',
         'nip_mentor',
         'nip_admin',
         'scan_file',
@@ -26,7 +26,7 @@ class Progress extends Model
 
     public function mahasiswa()
     {
-        return $this->belongsTo(Mahasiswa::class, 'nim');
+        return $this->belongsTo(Mahasiswa::class, 'id_mhs');
     }
 
     public function mentor()

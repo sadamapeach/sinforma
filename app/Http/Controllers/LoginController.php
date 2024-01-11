@@ -26,6 +26,7 @@ class LoginController extends Controller
         $user = User::where('username', $credentials['username'])->first();
         $mhs = Mahasiswa::where('id_mhs', $request->id_mhs)->first();
 
+
         if (!$user) {
             return back()->with('loginError', 'Username tidak ditemukan');
         }
@@ -48,7 +49,7 @@ class LoginController extends Controller
                     return redirect()->intended('/dashboard_mentor');
                 case 3:
                     if ($mhs->check_profil === 0) {
-                        return redirect()->route('form_mahasiswa')->with('error', 'Harap lengkapi data diri terlebih dahulu.');
+                        return redirect()->route('mahasiswa.form')->with('error', 'Harap lengkapi data diri terlebih dahulu.');
                     }
                     return redirect()->intended('/dashboard_mahasiswa');
                 default:
