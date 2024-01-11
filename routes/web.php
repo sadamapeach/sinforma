@@ -15,9 +15,18 @@ Route::controller(LoginController::class)->group(function () {
     Route::post('/logout', 'logout')->middleware('auth');
 });
 
-    /* Mahasiswa */
+/* Mahasiswa */
+Route::controller(MahasiswaController::class)->group(function() { 
     Route::get('/dashboard_mahasiswa', [MahasiswaController::class, 'index'])->name('dashboard_mahasiswa');
+
     Route::get('/form_mahasiswa', [MahasiswaController::class, 'form'])->name('form_mahasiswa');
+    Route::post('/store_form', [MahasiswaController::class, 'store'])->name('save');
+    Route::post('/update', [MahasiswaController::class, 'update_profile'])->name('update');
+
+    Route::get('/profile_mahasiswa', [MahasiswaController::class, 'profile'])->name('profile_mahasiswa');
+    Route::get('/presensi_mahasiswa', [MahasiswaController::class, 'presensi'])->name('presensi_mahasiswa');
+    Route::get('/progress_mahasiswa', [MahasiswaController::class, 'progress'])->name('progress_mahasiswa');
+});
 
     /* Admin */
     Route::get('/dashboard_admin', [AdminController::class, 'index'])->middleware('only_admin')->name('dashboard_admin');

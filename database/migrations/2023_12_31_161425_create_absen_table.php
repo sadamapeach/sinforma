@@ -13,12 +13,12 @@ return new class extends Migration
     {
         Schema::create('absen', function (Blueprint $table) {
             $table->id();
-            $table->string('nim', 14);
+            $table->string('id_mhs', 5);
             $table->string('foto', 255);
             $table->string('status', 10)->default("Unverified");
             $table->timestamps();
 
-            $table->foreign('nim')->references('nim')->on('mahasiswa');
+            $table->foreign('id_mhs')->references('id_mhs')->on('mahasiswa');
         });
     }
 

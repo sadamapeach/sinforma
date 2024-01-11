@@ -12,22 +12,26 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('mahasiswa', function (Blueprint $table) {
-            $table->string('nim', 14)->primary();
+            $table->string('id_mhs', 5)->primary();
             $table->string('nama');
             $table->string('jurusan');
             $table->string('instansi');
-            $table->string('alamat');
-            $table->string('no_telepon');
-            $table->string('email');
+            $table->string('alamat')->nullable();
+            $table->string('no_telepon')->nullable();
+            $table->string('email')->nullable();
             $table->string('foto')->nullable();
             $table->string('status')->default("Aktif");
             $table->unsignedBigInteger('id_user');
-            $table->string('nip', 20)->nullable();
+            $table->string('nip_admin', 20)->nullable();
+            $table->string('nip_mentor', 20)->nullable();
             $table->integer('check_profil')->default(0);
+            $table->date('mulai_magang')->nullable();
+            $table->date('selesai_magang')->nullable();
             $table->timestamps();
 
             $table->foreign('id_user')->references('id')->on('users');
-            $table->foreign('nip')->references('nip')->on('mentor');
+            $table->foreign('nip_admin')->references('nip')->on('admin');
+            $table->foreign('nip_mentor')->references('nip')->on('mentor');
         });
     }
 

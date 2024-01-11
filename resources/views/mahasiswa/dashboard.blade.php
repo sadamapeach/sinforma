@@ -12,12 +12,11 @@
 </head>
 
 <body class="font-poppins">  
-    <section class="bg-center bg-no-repeat bg-white dark:bg-gray-700">
     <div class="p-4 sm:ml-64">
         <nav class="bg-zinc-100 border-gray-200 dark:bg-gray-800 dark:border-gray-700 rounded-xl">
             {{-- Welcome User --}}
             <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-2">
-                <p class="self-center text-base font-semibold whitespace-nowrap text-black dark:text-white ml-2">Hello, Aiden 👋</p>
+                <p class="self-center text-base font-semibold whitespace-nowrap text-black dark:text-white ml-2">Hello, {{ $mahasiswa->nama }} 👋</p>
                 {{-- Icon --}}
                 <div class="flex items-center md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
                     <!-- Dropdown menu -->
@@ -62,6 +61,19 @@
                 </div>
             </div>
         </nav>
+
+        {{-- Alert --}}
+        {{-- @if(session()->has('success'))
+            <div class="flex items-center p-4 mb-4 text-sm text-green-800 rounded-lg bg-green-50 dark:bg-gray-800 dark:text-green-400" role="alert">
+                <svg class="flex-shrink-0 inline w-4 h-4 me-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z"/>
+                </svg>
+                <span class="sr-only">Info</span>
+                <div>
+                <span class="font-medium">Success alert!</span>{{ session('success') }}
+                </div>
+            </div>
+        @endif --}}
     </div>
 
     {{-- Profile --}}
@@ -209,7 +221,7 @@
 
         <div class="flex flex-col">
             {{-- Progress --}}
-            <div class="flex w-80 h-1/2 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 mb-4">
+            <div class="flex w-80 h-1/2 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 mb-3">
                 <img class="h-full w-1/3 rounded-l-lg" src="assets/card_1.png" alt="image description">
                 <div class="text-left rtl:text-right mx-4">
                     <div class="text-black dark:text-white text-sm font-bold mt-4">Progress Project</div>
@@ -226,7 +238,7 @@
                 <img class="h-full w-1/3 rounded-l-lg" src="assets/card_2.png" alt="image description">
                 <div class="text-left rtl:text-right mx-4">
                     <div class="text-black dark:text-white text-sm font-bold mt-4">Surat Keterangan Lulus</div>
-                    <div class=" text-gray-400 dark:text-gray-500 mt-0.5 mb-2" style="font-size: 10px">Unduh surat keterangan lulus magang kamu disini ya!</div>
+                    <div class=" text-gray-400 dark:text-gray-500 mt-0.5 mb-2" style="font-size: 10px">SKL dapat diunduh setelah mahasiswa dinyatakan LULUS.</div>
 
                     {{-- Downloads --}}
                     <div class="flex items-center">
@@ -235,13 +247,12 @@
                             <path d="M3.5 9.75a.75.75 0 0 0-1.5 0v1.5A2.75 2.75 0 0 0 4.75 14h6.5A2.75 2.75 0 0 0 14 11.25v-1.5a.75.75 0 0 0-1.5 0v1.5c0 .69-.56 1.25-1.25 1.25h-6.5c-.69 0-1.25-.56-1.25-1.25v-1.5Z" />
                           </svg>
                         </span>
-                        <span class="bg-pink-100 text-pink-800 font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-pink-900 dark:text-pink-300 text-xs ml-1.5">Belum tersedia</span>
+                        <span class="bg-pink-100 text-pink-800 font-medium me-2 px-2.5 content-center py-0.5 rounded-full dark:bg-pink-900 dark:text-pink-300 ml-1.5" style="font-size: 11px">Belum tersedia</span>
                     </div>                     
                 </div>
             </div>
         </div> 
     </div>
-    </section>
   
     <script>
         // ApexCharts options and config
@@ -358,30 +369,6 @@
             }
         });
     </script>    
-
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const checkbox = document.querySelector('#toggle');
-            const html = document.querySelector('html');
-            const storedTheme = localStorage.getItem('theme');
-
-            if (storedTheme) {
-                html.classList.add(storedTheme);
-                checkbox.checked = storedTheme === 'dark';
-            }
-
-            checkbox.addEventListener('click', function() {
-                if (checkbox.checked) {
-                    html.classList.add('dark');
-                    localStorage.setItem('theme', 'dark');
-                } else {
-                    html.classList.remove('dark');
-                    localStorage.setItem('theme', 'light');
-                }
-            });
-        });
-    </script>
-
 </body>
 </html>
 @endsection

@@ -11,13 +11,13 @@ class Mahasiswa extends Model
 
     
     protected $table = 'mahasiswa';
-    protected $primaryKey = 'nim';
+    protected $primaryKey = 'id_mhs';
     public $incrementing = false;
     public $timestamps = false;
 
     protected $fillable = [
         'nama',
-        'nim',
+        'id_mhs',
         'jurusan',
         'instansi',
         'alamat',
@@ -28,7 +28,9 @@ class Mahasiswa extends Model
         'nip_mentor',
         'foto',
         'status',
-        'check_profil'
+        'check_profil',
+        'mulai_magang',
+        'selesai_magang',
     ];
 
     public function user()

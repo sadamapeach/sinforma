@@ -30,7 +30,7 @@ class RedirectIfAuthenticated
                         return redirect('/dashboard_mentor');
                     case 3:
                         if ($user->mahasiswa->check_profil === 0) {
-                            return redirect()->route('mahasiswa.form')->with('error', 'Harap lengkapi data diri terlebih dahulu.');
+                            return redirect()->route('form_mahasiswa')->with('error', 'Harap lengkapi data diri terlebih dahulu.');
                         }
                         return redirect('/dashboard_mahasiswa');
                     default:

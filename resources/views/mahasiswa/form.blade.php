@@ -87,6 +87,7 @@
       <!-- Required meta tags -->
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width, initial-scale=1">
+      <link rel="icon" type="image/x-icon" href="assets/logo.png">
   
       <!-- Bootstrap CSS -->
       <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
@@ -106,19 +107,32 @@
           <div class="row justify-content-center align-items-center h-100">
             <div class="col-lg-8">
   
-              <div class="header">
-                <h1>SIPRESMA Diskominfo</h1>
+              {{-- Header --}}
+              <div class="header" style="margin-top: 12%">
+                <div  style="display: flex; align-items: center">
+                  <div><img src="assets/logo.png" alt="logo_diskominfo" class="mb-2" style="width: 25%"></div>
+                  <h2 style="margin-left: -20%;"><b>SIPRESMA Diskominfo</b></h2>
+                </div>
                 <p>Complete the following form to proceed to the next step.</p>
               </div>
               
-              <form action="#" method="post" enctype="multipart/form-data">
+              <form action="{{route('save')}}" method="post" enctype="multipart/form-data">
                 @csrf
                 {{-- Nama --}}
                 <div class="form-form">
                   <fieldset disabled>
                     <label for="disabledTextInput" class="form-label">Nama</label>
                     <input type="text" name="nama" class="form-control" id="disabledTextInput"
-                    value="">
+                    value="{{ $mahasiswa->nama }}">
+                  </fieldset>
+                </div>
+
+                {{-- Id Mahasiswa --}}
+                <div class="form-form">
+                  <fieldset disabled>
+                    <label for="disabledTextInput" class="form-label">Id Magang</label>
+                    <input type="text" name="id_mhs" class="form-control" id="disabledTextInput"
+                    value="{{ $mahasiswa->id_mhs }}">
                   </fieldset>
                 </div>
 
@@ -127,7 +141,7 @@
                   <fieldset disabled>
                     <label for="disabledTextInput" class="form-label">Jurusan</label>
                     <input type="text" name="jurusan" class="form-control" id="disabledTextInput"
-                    value="">
+                    value="{{ $mahasiswa->jurusan }}">
                   </fieldset>
                 </div>
   
@@ -136,14 +150,14 @@
                   <fieldset disabled>
                     <label for="disabledTextInput" class="form-label">Instansi</label>
                     <input type="text" name="instansi" class="form-control" id="disabledTextInput"
-                    value="">
+                    value="{{ $mahasiswa->instansi }}">
                   </fieldset>
                 </div>
 
                 {{-- Alamat --}}
                 <div class="form-form">
-                  <label for="alamat" class="form-label">Address</label>
-                  <input type="text" name="alamat" class="form-control @error('alamat') is-invalid @enderror" id="alamat" placeholder="Enter your city" autofocus value="{{ old('alamat') }}">
+                  <label for="alamat" class="form-label">Alamat</label>
+                  <input type="text" name="alamat" class="form-control @error('alamat') is-invalid @enderror" id="alamat" placeholder="Masukkan alamat anda" autofocus value="{{ old('alamat') }}">
                   {{-- <input type="text-area" class="form-control" id="alamat" rows="3" placeholder="Enter your address" autofocus required> --}}
                   @error('alamat')
                     <div class="invalid-feedback">
@@ -154,8 +168,8 @@
 
                 {{-- No.HP --}}
                 <div class="form-form">
-                  <label for="noHP" class="form-label">Phone Number</label>
-                  <input type="tel" name="noHP" class="form-control @error('noHP') is-invalid @enderror" id="noHP" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" placeholder="Enter your phone number" autofocus value="{{ old('noHP') }}">
+                  <label for="noHP" class="form-label">Nomor HP</label>
+                  <input type="tel" name="noHP" class="form-control @error('noHP') is-invalid @enderror" id="noHP" placeholder="Masukkan nomor HP anda" autofocus value="{{ old('noHP') }}">
                   @error('noHP')
                     <div class="invalid-feedback">
                         {{ $message }}
@@ -166,7 +180,7 @@
                 {{-- Email --}}
                 <div class="form-form">
                     <label for="email" class="form-label">Email</label>
-                    <input type="email" name="email" class="form-control @error('email') is-invalid @enderror" id="email" placeholder="Enter your email address" autofocus value="{{ old('email') }}">
+                    <input type="email" name="email" class="form-control @error('email') is-invalid @enderror" id="email" placeholder="Masukkan alamat email anda" autofocus value="{{ old('email') }}">
                     @error('noHP')
                     <div class="invalid-feedback">
                         {{ $message }}
@@ -176,7 +190,7 @@
 
                 {{-- Upload Image --}}
                 <div class="form-form">
-                  <label for="image" class="form-label">Upload Profile Image</label>
+                  <label for="image" class="form-label">Upload Foto Profil</label>
                   <input class="form-control" type="file" id="image" name="image" required value="{{ old('image') }}">
                   @error('image')
                     <div class="invalid-feedback">
@@ -187,7 +201,7 @@
                 
                 {{-- Button --}}
                 <div class="form-form">
-                  <button id="formButton" class="signin" type="submit">Submit</button>
+                  <button id="formButton" class="signin" type="submit"><b>Submit</b></button>
                 </div>
               </form>
             </div>

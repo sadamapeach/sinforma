@@ -19,16 +19,14 @@
         {{-- font --}}
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap">
 
-        {{-- <style>
-            body {
-                background-color: #3498db; /* Ganti dengan kode warna yang diinginkan */
-                color: #fff; /* Ganti dengan warna teks yang kontras */
-            }
-        </style> --}}
+        {{-- Reference Tailwind Flowbite --}}
+        @vite(['resources/css/app.css','resources/js/app.js'])  
+        <script src="https://cdn.tailwindcss.com"></script>
+        <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
     </head>
 
-    <body>
-        <div class="body" style="background-color: #fff">
+    <body>   
+        <div class="body">
             @include('sidebar.mahasiswa')
             @include('content')
         </div>

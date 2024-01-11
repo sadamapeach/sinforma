@@ -13,12 +13,13 @@ return new class extends Migration
     {
         Schema::create('generate_account', function (Blueprint $table) {
             $table->id();
-            $table->string('nim');
+            $table->string('id_mhs', 5);
+            $table->string('nama', 255);
             $table->string('username');
             $table->text('password');
             $table->timestamps();
             
-            $table->foreign('nim')->references('nim')->on('mahasiswa');
+            $table->foreign('id_mhs')->references('id_mhs')->on('mahasiswa');
         });
     }
 

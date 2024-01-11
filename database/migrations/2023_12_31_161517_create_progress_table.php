@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('progress', function (Blueprint $table) {
             $table->id();
-            $table->string('nim', 14);
-            $table->foreign('nim')->references('nim')->on('mahasiswa');
+            $table->string('id_mhs', 5);
+            $table->foreign('id_mhs')->references('id_mhs')->on('mahasiswa');
             $table->string('nip_mentor', 20);
             $table->string('nip_admin', 20);
             $table->string('scan_file', 255);
