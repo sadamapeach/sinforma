@@ -27,6 +27,6 @@ class Skl extends Model
     }
     public function admin()
     {
-        return $this->belongsTo(Admin::class, 'nip');
+        return $this->belongsTo(Admin::class, 'nip_admin');
     }
 }

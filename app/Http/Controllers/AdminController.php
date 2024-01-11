@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Middleware\OnlyAdmin;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Admin;
@@ -10,6 +11,7 @@ use App\Models\User;
 use App\Models\Mahasiswa;
 use App\Models\Progress;
 use App\Models\Absen;
+use App\Models\Skl;
 use App\Models\GeneratedAccount;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
@@ -282,8 +284,6 @@ class AdminController extends Controller
         }
     }
 
-
-
     public function viewAccount()
     {
         $accounts = DB::table('generate_account')
@@ -365,5 +365,34 @@ class AdminController extends Controller
         }
     }
     
+    public function viewSKL()
+    {
+        $mahasiswas = Mahasiswa::all();
+
+        return view('admin.tambah_skl', ['mahasiswas' => $mahasiswas]);
+    }
+
+    public function tambahSKL(Request $request)
+    {
+        $request->validate([
+            'id_mhs' => 'required|exists:mahasiswas,id',
+            'file_skl' => 'required|mimes:pdf|max:2048', 
+        ]);
+
+        $existingSKL = Skl::where('id_mhs', $request->id_mhs)->first();
+        if ($existingSKL) {
+            return redirect()->route('tambah_skl')->with('error', 'Mahasiswa sudah memiliki SKL.');
+        }
+
+        $fileSklPath = $request->file_skl->store('skl', 'public');
+
+        $skl = new Skl();
+        $skl->id_mhs = $request->id_mhs;
+        $skl->nip_admin = Auth::user()->nip; 
+        $skl->file_skl = $fileSklPath;
+        $skl->save();
+
+        return redirect()->route('tambah_skl')->with('success', 'SKL berhasil ditambahkan.');
+    }
 
 }

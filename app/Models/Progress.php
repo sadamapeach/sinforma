@@ -31,11 +31,11 @@ class Progress extends Model
 
     public function mentor()
     {
-        return $this->belongsTo(Mentor::class, 'nip');
+        return $this->belongsTo(Mentor::class, 'nip_mentor');
     }
 
     public function admin()
     {
-        return $this->belongsTo(Admin::class, 'nip');
+        return $this->belongsTo(Admin::class, 'nip_admin');
     }
 }

@@ -47,3 +47,5 @@ Route::get('/cetak_akun_mhs', [AdminController::class, 'cetakDaftarAkun'])->name
 Route::get('/daftar_akun', [AdminController::class, 'viewAccount'])->name('daftar_akun');
 Route::get('/view_presensi', [AdminController::class, 'viewPresensi'])->name('view_presensi');
 Route::get('/verif_presensi/{id_mhs}', [AdminController::class, 'verifyPresensi'])->name('verif_presensi');
+Route::post('/skl_mhs', [AdminController::class, 'viewSKL'])->name('skl_mhs');
+Route::post('/tambah_skl', [AdminController::class, 'tambahSKL'])->name('tambah_skl');

@@ -23,7 +23,7 @@ class Nilai extends Model
 
     public function mentor()
     {
-        return $this->belongsTo(Mentor::class, 'nip');
+        return $this->belongsTo(Mentor::class, 'nip_mentor');
     }
 
     public function mahasiswa()
