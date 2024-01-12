@@ -367,7 +367,7 @@ class AdminController extends Controller
     
     public function viewSKL()
     {
-        $mahasiswas = Mahasiswa::whereDoesntHave('skl')->get();
+        $mahasiswas = Mahasiswa::whereHas('nilai')->whereDoesntHave('skl')->get();
 
         return view('admin.tambah_skl', ['mahasiswas' => $mahasiswas]);
     }

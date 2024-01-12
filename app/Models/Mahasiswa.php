@@ -51,4 +51,9 @@ class Mahasiswa extends Model
     {
         return $this->hasOne(Skl::class, 'id_mhs');
     }
+
+    public function nilai()
+    {
+        return $this->hasOne(Nilai::class, 'id_mhs');
+    }
 }
