@@ -375,24 +375,27 @@ class AdminController extends Controller
     public function tambahSKL(Request $request)
     {
         $request->validate([
-            'id_mhs' => 'required|exists:mahasiswas,id',
+            'id_mhs' => 'required|exists:mahasiswa,id_mhs',
             'file_skl' => 'required|mimes:pdf|max:2048', 
         ]);
 
         $existingSKL = Skl::where('id_mhs', $request->id_mhs)->first();
         if ($existingSKL) {
-            return redirect()->route('tambah_skl')->with('error', 'Mahasiswa sudah memiliki SKL.');
+            return redirect()->route('skl_mhs')->with('error', 'Mahasiswa sudah memiliki SKL.');
         }
 
         $fileSklPath = $request->file_skl->store('skl', 'public');
 
+        $user = Auth::user();
+        $admin = Admin::where('id_user', $user->id)->first();
+
         $skl = new Skl();
         $skl->id_mhs = $request->id_mhs;
-        $skl->nip_admin = Auth::user()->nip; 
+        $skl->nip_admin = $admin->nip; 
         $skl->file_skl = $fileSklPath;
         $skl->save();
 
-        return redirect()->route('tambah_skl')->with('success', 'SKL berhasil ditambahkan.');
+        return redirect()->route('skl_mhs')->with('success', 'SKL berhasil ditambahkan.');
     }
 
 }

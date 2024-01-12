@@ -26,7 +26,7 @@
             <h1 class="text-l mb-5 font-semibold leading-tight tracking-tight text-gray-900 md:text-xl dark:text-white">
                 Penerbitan Surat Keterangan Lulus (SKL)
             </h1>
-            <form action="{{ route('skl_mhs') }}" method="post" enctype="multipart/form-data">
+            <form action="{{ route('tambah_skl') }}" method="post" enctype="multipart/form-data">
             @csrf
 
             <div class="mb-4">
@@ -44,8 +44,8 @@
                 <input type="file" name="file_skl" id="file_skl" class="mt-1 block w-full">
             </div>
 
-            <div class="mt-4">
-                <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Terbitkan SKL</button>
+            <div class="mt-4 text-center">
+                <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 mx-auto">Terbitkan SKL</button>
             </div>
         </form>
         </div>
