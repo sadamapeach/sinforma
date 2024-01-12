@@ -367,7 +367,7 @@ class AdminController extends Controller
     
     public function viewSKL()
     {
-        $mahasiswas = Mahasiswa::all();
+        $mahasiswas = Mahasiswa::whereDoesntHave('skl')->get();
 
         return view('admin.tambah_skl', ['mahasiswas' => $mahasiswas]);
     }
@@ -378,11 +378,6 @@ class AdminController extends Controller
             'id_mhs' => 'required|exists:mahasiswa,id_mhs',
             'file_skl' => 'required|mimes:pdf|max:2048', 
         ]);
-
-        $existingSKL = Skl::where('id_mhs', $request->id_mhs)->first();
-        if ($existingSKL) {
-            return redirect()->route('skl_mhs')->with('error', 'Mahasiswa sudah memiliki SKL.');
-        }
 
         $fileSklPath = $request->file_skl->store('skl', 'public');
 

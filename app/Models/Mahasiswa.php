@@ -46,4 +46,9 @@ class Mahasiswa extends Model
     {
         return $this->belongsTo(Mentor::class, 'nip_mentor');
     }
+
+    public function skl()
+    {
+        return $this->hasOne(Skl::class, 'id_mhs');
+    }
 }
