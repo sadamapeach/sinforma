@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Middleware\OnlyAdmin;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Admin;
@@ -10,6 +11,7 @@ use App\Models\User;
 use App\Models\Mahasiswa;
 use App\Models\Progress;
 use App\Models\Absen;
+use App\Models\Skl;
 use App\Models\GeneratedAccount;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
@@ -17,8 +19,16 @@ use Illuminate\Support\Facades\Hash;
 
 class AdminController extends Controller
 {
-    public function index() {
-        return view('admin.dashboard');
+    public function index() 
+    {
+        if(auth()->check()) {
+            $user = Auth::user();
+            $admin = Admin::where('id_user', $user->id)->first();
+
+            return view('admin.dashboard', ['admin' => $admin]);
+        }
+
+        return redirect()->route('login');
     }
 
     public function viewProfile()
@@ -282,8 +292,6 @@ class AdminController extends Controller
         }
     }
 
-
-
     public function viewAccount()
     {
         $accounts = DB::table('generate_account')
@@ -365,5 +373,32 @@ class AdminController extends Controller
         }
     }
     
+    public function viewSKL()
+    {
+        $mahasiswas = Mahasiswa::whereHas('nilai')->whereDoesntHave('skl')->get();
+
+        return view('admin.tambah_skl', ['mahasiswas' => $mahasiswas]);
+    }
+
+    public function tambahSKL(Request $request)
+    {
+        $request->validate([
+            'id_mhs' => 'required|exists:mahasiswa,id_mhs',
+            'file_skl' => 'required|mimes:pdf|max:2048', 
+        ]);
+
+        $fileSklPath = $request->file_skl->store('skl', 'public');
+
+        $user = Auth::user();
+        $admin = Admin::where('id_user', $user->id)->first();
+
+        $skl = new Skl();
+        $skl->id_mhs = $request->id_mhs;
+        $skl->nip_admin = $admin->nip; 
+        $skl->file_skl = $fileSklPath;
+        $skl->save();
+
+        return redirect()->route('skl_mhs')->with('success', 'SKL berhasil ditambahkan.');
+    }
 
 }

@@ -53,4 +53,14 @@ class Mahasiswa extends Model
         }
         return "https://freesvg.org/img/abstract-user-flat-4.png";
     }
+
+    public function skl()
+    {
+        return $this->hasOne(Skl::class, 'id_mhs');
+    }
+
+    public function nilai()
+    {
+        return $this->hasOne(Nilai::class, 'id_mhs');
+    }
 }
