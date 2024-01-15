@@ -3,6 +3,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\MahasiswaController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\MentorController;
 use App\Http\Controllers\AccountController;
 
 
@@ -31,6 +32,12 @@ Route::controller(MahasiswaController::class)->group(function() {
     Route::get('/progress_mahasiswa', [MahasiswaController::class, 'progress'])->name('progress_mahasiswa');
 });
 
+/* Akun */
+Route::controller(AccountController::class)->middleware('auth')->group(function () {
+    Route::get('/change-password', 'viewChangePassword')->name('account.viewChangePassword');
+    Route::post('/change-password', 'update')->name('account.update');
+});
+
 /* Admin */
 Route::get('/dashboard_admin', [AdminController::class, 'index'])->middleware('only_admin')->name('dashboard_admin');
 Route::get('/view_profil', [AdminController::class, 'viewProfile'])->middleware('only_admin')->name('view_profil');
@@ -54,8 +61,8 @@ Route::get('/verif_presensi/{id_mhs}', [AdminController::class, 'verifyPresensi'
 Route::get('/skl_mhs', [AdminController::class, 'viewSKL'])->middleware('only_admin')->name('skl_mhs');
 Route::post('/tambah_skl', [AdminController::class, 'tambahSKL'])->name('tambah_skl');
 
-/* Akun */
-Route::controller(AccountController::class)->middleware('auth')->group(function () {
-    Route::get('/change-password', 'viewChangePassword')->name('account.viewChangePassword');
-    Route::post('/change-password', 'update')->name('account.update');
-});
+/* Mentor */
+Route::get('/dashboard_mentor', [MentorController::class, 'index'])->middleware('only_mentor')->name('dashboard_mentor');
+Route::get('/daftar_mhs_mentor', [MentorController::class, 'viewDaftarMhs'])->middleware('only_mentor')->name('daftar_mhs_mentor');
+Route::get('/search_mhs', [MentorController::class, 'searchMahasiswa'])->name('search_mhs');
+Route::get('/filter_mhs', [MentorController::class, 'filterByStatus'])->name('filter_mhs');

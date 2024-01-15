@@ -20,7 +20,6 @@ class OnlyAdmin
             return redirect('/');
         }
 
-        // If the user is authenticated and has the correct role, proceed.
         return $next($request);
     }
 }
