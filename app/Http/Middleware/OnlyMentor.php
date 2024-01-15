@@ -16,11 +16,10 @@ class OnlyMentor
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if(Auth::user()->id_role != 2){
+        if(auth()->check() && Auth::user()->id_role != 2){
             return redirect('/');
         }
 
-        //kalau yang login mentor
         return $next($request);
     }
 }

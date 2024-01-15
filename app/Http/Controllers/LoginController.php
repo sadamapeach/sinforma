@@ -57,7 +57,7 @@ class LoginController extends Controller
             }
         }
 
-        return back()->with('loginError', 'Login Gagal');
+        return back()->with('loginError', 'Sign in Gagal');
     }
 
     public function logout(Request $request)
@@ -68,7 +68,7 @@ class LoginController extends Controller
 
         $request->session()->regenerateToken();
 
-        return redirect('/login')->with('logoutSuccess', 'Logout successfully!');
+        return redirect('/login')->with('logoutSuccess', 'Sign out successfully!');
     }
 }
 

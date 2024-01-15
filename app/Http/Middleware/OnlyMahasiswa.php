@@ -16,11 +16,10 @@ class OnlyMahasiswa
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if(Auth::user()->id_role != 3){
+        if(auth()->check() && Auth::user()->id_role != 3){
             return redirect('/');
         }
 
-        //kalau yang login mhs
         return $next($request);
     }
 }
