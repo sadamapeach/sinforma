@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\Mahasiswa;
@@ -178,7 +179,26 @@ class MahasiswaController extends Controller
         } else {
             return redirect()->back()->with('info', 'Failed to update personal information.');
         }
-    }        
+    }     
+    
+    public function change_password(Request $request)
+    {
+        // Check old password
+        if (!Hash::check($request->old_password, auth()->user()->password)) {
+            return back()->with('error1', 'Password lama salah!');
+        }
+
+        // Check new password and configuration
+        if ($request->new_password != $request->config_password) {
+            return back()->with('error2', 'Konfigurasi password salah!');
+        }
+
+        User::where('id', auth()->user()->id)->update([
+            'password' => Hash::make($request->new_password)
+        ]);
+
+        return back()->with('status', 'Password berhasil diperbarui!');
+    }
 
     public function presensi() 
     {

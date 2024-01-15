@@ -27,6 +27,8 @@ Route::controller(MahasiswaController::class)->group(function() {
     Route::get('/edit_profile', [MahasiswaController::class, 'edit_profile'])->name('edit_profile');
     Route::post('/update_profile', [MahasiswaController::class, 'update_profile'])->name('update_profile');
 
+    Route::post('/change_password', [MahasiswaController::class, 'change_password'])->name('password_mahasiswa');
+
     Route::get('/presensi_mahasiswa', [MahasiswaController::class, 'presensi'])->name('presensi_mahasiswa');
     Route::get('/progress_mahasiswa', [MahasiswaController::class, 'progress'])->name('progress_mahasiswa');
 });
