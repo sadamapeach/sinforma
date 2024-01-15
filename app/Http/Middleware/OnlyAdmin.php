@@ -16,11 +16,11 @@ class OnlyAdmin
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if(Auth::user()->idrole != 1){
+        if(auth()->check() && Auth::user()->id_role != 1){
             return redirect('/');
         }
 
-        //kalau yang login admin
+        // If the user is authenticated and has the correct role, proceed.
         return $next($request);
     }
 }

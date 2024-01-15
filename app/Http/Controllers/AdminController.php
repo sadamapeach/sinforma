@@ -19,8 +19,16 @@ use Illuminate\Support\Facades\Hash;
 
 class AdminController extends Controller
 {
-    public function index() {
-        return view('admin.dashboard');
+    public function index() 
+    {
+        if(auth()->check()) {
+            $user = Auth::user();
+            $admin = Admin::where('id_user', $user->id)->first();
+
+            return view('admin.dashboard', ['admin' => $admin]);
+        }
+
+        return redirect()->route('login');
     }
 
     public function viewProfile()
