@@ -190,9 +190,9 @@
 
                 {{-- Upload Image --}}
                 <div class="form-form">
-                  <label for="image" class="form-label">Upload Foto Profil</label>
-                  <input class="form-control" type="file" id="image" name="image" required value="{{ old('image') }}">
-                  @error('image')
+                  <label for="foto" class="form-label">Upload Foto Profil</label>
+                  <input class="form-control" type="file" id="foto" name="foto" required value="{{ old('image') }}">
+                  @error('foto')
                     <div class="invalid-feedback">
                         {{ $message }}
                     </div>

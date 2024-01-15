@@ -46,4 +46,11 @@ class Mahasiswa extends Model
     {
         return $this->belongsTo(Mentor::class, 'nip_mentor');
     }
+
+    public function getImageURL(){
+        if($this->foto){
+            return url("storage/" . $this->foto);
+        }
+        return "https://freesvg.org/img/abstract-user-flat-4.png";
+    }
 }

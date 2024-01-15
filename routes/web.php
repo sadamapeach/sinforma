@@ -11,7 +11,7 @@ Route::get('/', function () {
 Route::controller(LoginController::class)->group(function () {
     Route::get('/login', 'index')->middleware('guest')->name('login');
     Route::post('/login', 'authenticate')->name('authenticate');
-    Route::post('/logout', 'logout')->middleware('auth');
+    Route::post('/logout', 'logout')->middleware('auth')->name('logout');
 });
 
 /* Mahasiswa */
@@ -20,9 +20,11 @@ Route::controller(MahasiswaController::class)->group(function() {
 
     Route::get('/form_mahasiswa', [MahasiswaController::class, 'form'])->name('form_mahasiswa');
     Route::post('/store_form', [MahasiswaController::class, 'store'])->name('save');
-    Route::post('/update', [MahasiswaController::class, 'update_profile'])->name('update');
 
     Route::get('/profile_mahasiswa', [MahasiswaController::class, 'profile'])->name('profile_mahasiswa');
+    Route::get('/edit_profile', [MahasiswaController::class, 'edit_profile'])->name('edit_profile');
+    Route::post('/update_profile', [MahasiswaController::class, 'update_profile'])->name('update_profile');
+
     Route::get('/presensi_mahasiswa', [MahasiswaController::class, 'presensi'])->name('presensi_mahasiswa');
     Route::get('/progress_mahasiswa', [MahasiswaController::class, 'progress'])->name('progress_mahasiswa');
 });

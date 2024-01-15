@@ -11,7 +11,8 @@ use App\Models\User;
 
 class MahasiswaController extends Controller
 {
-    public function index(Request $request) {
+    public function index(Request $request) 
+    {
         $user = Auth::user();
 
         if($user->mahasiswa) {
@@ -43,7 +44,8 @@ class MahasiswaController extends Controller
         }
     }
 
-    public function form(Request $request) {
+    public function form(Request $request) 
+    {
         $user = Auth::user();
         $id_mhs = $request->user()->mahasiswa->id_mhs;
         $mahasiswa = Mahasiswa::join('users', 'mahasiswa.id_user', '=', 'users.id')
@@ -53,25 +55,26 @@ class MahasiswaController extends Controller
         return view('mahasiswa.form', compact('mahasiswa', 'user'));
     }
 
-    public function store(Request $request) {
+    public function store(Request $request) 
+    {
         $user = $request->user();
 
         $validated = $request->validate([
             'alamat' => 'required',
-            'noHP' => 'required|numeric',
+            'no_telepon' => 'required|numeric',
             'email' => 'required',
-            'image' => 'image|mimes:jpeg,png,jpg|max:2048',
+            'foto' => 'image|mimes:jpeg,png,jpg|max:2048',
         ]);
 
         DB::beginTransaction();
 
         try {
-            if($request->has('image')) {
-                $imageName = $request->file('image')->store('images', 'public');
-                $validated['image'] = $imageName;
+            if($request->has('foto')) {
+                $imageName = $request->file('foto')->store('images', 'public');
+                $validated['foto'] = $imageName;
 
                 $user->update([
-                    'image' => $validated['image']
+                    'foto' => $validated['foto']
                 ]);
             }
 
@@ -79,7 +82,7 @@ class MahasiswaController extends Controller
             // Kiri database | Kanan id/name di form
             Mahasiswa::where('id_user', $user->id)->update([
                 'alamat' => $validated['alamat'],
-                'no_telepon' => $validated['noHP'],
+                'no_telepon' => $validated['no_telepon'],
                 'email' => $validated['email'],
             ]);
 
@@ -96,15 +99,94 @@ class MahasiswaController extends Controller
         }
     }
 
-    public function profile() {
-        return view('mahasiswa.profile');
+    public function profile(Request $request) 
+    {
+        $user = Auth::user();
+
+        $id_mhs = $request->user()->mahasiswa->id_mhs;
+        $mahasiswa = Mahasiswa::join('users', 'mahasiswa.id_user', '=', 'users.id')
+            ->where('mahasiswa.id_mhs', $id_mhs)
+            ->select(
+                'mahasiswa.nama',
+                'mahasiswa.jurusan',
+                'mahasiswa.instansi',
+                'mahasiswa.id_mhs',
+                'mahasiswa.no_telepon',
+                'mahasiswa.email',
+                'mahasiswa.alamat',
+                'users.username as username',
+            )
+            ->first();
+
+        return view('mahasiswa.profile', compact('mahasiswa'));
     }
 
-    public function presensi() {
+    public function edit_profile(Request $request) 
+    {
+        $user = $request->user();
+        $id_mhs = $request->user()->mahasiswa->id_mhs;
+        $mahasiswa = Mahasiswa::join('users', 'mahasiswa.id_user', '=', 'users.id')
+            ->where('mahasiswa.id_mhs', $id_mhs)
+            ->select(
+                'mahasiswa.nama',
+                'mahasiswa.jurusan',
+                'mahasiswa.instansi',
+                'mahasiswa.id_mhs',
+                'mahasiswa.no_telepon',
+                'mahasiswa.email',
+                'mahasiswa.alamat',
+                'users.username as username',
+            )
+            ->first();
+
+        return view('mahasiswa.edit_profile', compact('mahasiswa', 'user'));
+    }
+
+    public function update_profile(Request $request)
+    {
+        $user = Auth::user();
+        $mahasiswa = Mahasiswa::where('id_user', $user->id)->first();
+    
+        $validated = $request->validate([
+            'username' => 'required',
+            'no_telepon' => 'required|numeric',
+            'email' => 'required',
+            'alamat' => 'required',
+            'foto' => 'nullable|image|mimes:jpg,png,jpeg|max:2048'
+        ]);
+    
+        if ($request->has('foto')) {
+            $fotoPath = $request->file('foto')->store('images', 'public');
+            $validated['foto'] = $fotoPath;
+            $user->foto = $validated['foto'];
+        }
+    
+        $user->username = $request->username;
+        $mahasiswa->no_telepon = $request->no_telepon;
+        $mahasiswa->email = $request->email;
+        $mahasiswa->alamat = $request->alamat;
+    
+        $userChanged = $user->isDirty();
+        $mahasiswaChanged = $mahasiswa->isDirty();
+    
+        if ($mahasiswa->save() && $user->save()) {
+            if ($userChanged || $mahasiswaChanged) {
+                return redirect()->back()->with('success', 'Personal information updated successfully!');
+            } else {
+                return redirect()->back()->with('info', 'No changes made.');
+            }
+        } else {
+            return redirect()->back()->with('info', 'Failed to update personal information.');
+        }
+    }        
+
+    public function presensi() 
+    {
         return view('mahasiswa.presensi');
     }
 
-    public function progress() {
+    public function progress() 
+    {
         return view('mahasiswa.progress');
     }
 }

@@ -50,11 +50,11 @@
                             </span>
                         </div>
                         <ul class="py-2" aria-labelledby="user-menu-button">
-                        <li>
-                            <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-black dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Change Password</a>
-                        </li>
-                        <li>
-                            <a href="/login" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-black dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Sign out</a>
+                        <li class="w-full hover:bg-gray-100 dark:hover:bg-gray-600 transition">
+                            <form action="{{ route('logout') }}" method="POST">
+                                @csrf
+                                <button type="submit" class="block px-4 py-2 text-sm text-gray-700  hover:text-black dark:text-gray-200 dark:hover:text-white">Sign out</button>
+                            </form>
                         </li>
                         </ul>
                     </div>
@@ -89,7 +89,7 @@
 
             {{-- Foto --}}
             <figcaption class="flex items-center p-6">
-                <img class="rounded-full w-32 h-32" src="assets/totoro.png" alt="profile picture">
+                <img class="rounded-full w-32 h-32" src="{{ Auth::user()->getImageURL() }}" alt="profile picture">
                 <div class="space-y-2.5 text-left rtl:text-right mx-4">
                     <div class="text-black dark:text-white text-sm font-bold">{{ $mahasiswa->nama }}</div>
                     <div class="text-xs text-gray-700 dark:text-gray-400">{{ $mahasiswa->jurusan }}</div>
@@ -193,7 +193,7 @@
             <div class="mt-3 grid grid-flow-col auto-cols-min gap-2">
                 <div class="ml-8 text-xs text-black dark:text-white">Status</div>
                 <div class="text-xs text-black dark:text-white">:</div>
-                <div class="bg-green-100 text-green-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300">
+                <div class="w-max text-center bg-green-100 text-green-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300">
                     {{ $mahasiswa->status }}
                 </div>
             </div>
