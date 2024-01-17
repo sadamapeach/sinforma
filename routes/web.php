@@ -68,3 +68,4 @@ Route::get('/dashboard_mentor', [MentorController::class, 'index'])->middleware(
 Route::get('/daftar_mhs_mentor', [MentorController::class, 'viewDaftarMhs'])->middleware('only_mentor')->name('daftar_mhs_mentor');
 Route::get('/search_mhs', [MentorController::class, 'searchMahasiswa'])->name('search_mhs');
 Route::get('/filter_mhs', [MentorController::class, 'filterByStatus'])->name('filter_mhs');
+Route::get('/view_presensi_mentor/{id_mhs}', [MentorController::class, 'viewPresensi'])->name('view_presensi_mentor');

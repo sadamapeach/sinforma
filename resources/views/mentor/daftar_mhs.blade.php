@@ -100,7 +100,7 @@
                                         {{ $mhs['status'] }}
                                     </td>
                                     <td> 
-                                        <a href="#" class="text-green-400 hover:text-green-100 mx-2">
+                                        <a href="{{ route('view_presensi_mentor', ['id_mhs' => $mhs['id_mhs'] ?? null])  }}" class="text-green-400 hover:text-green-100 mx-2">
                                             <i class="material-icons-outlined text-base"></i> Lihat Presensi
                                         </a>
                                         

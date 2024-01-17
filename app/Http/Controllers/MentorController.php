@@ -68,4 +68,15 @@ class MentorController extends Controller
 
         return view('mentor.daftar_mhs', ['mhsData' => $mhsData]);
     }
+
+    public function viewPresensi($id_mhs)
+    {
+        // $user = Auth::user();
+        // $mentor = Mentor::where('id_user', $user->id)->first();
+        // $id_mhs = Mahasiswa::where('nip_mentor', $mentor->nip)->first();
+        $PresensiData = Absen::where('id_mhs', $id_mhs)
+                                  ->where('status', 'Verified')
+                                  ->first();
+        return view('mentor.view_presensi', compact('PresensiData'));
+    }
 }
