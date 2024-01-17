@@ -23,12 +23,22 @@
             <br>
         @endif
 
-        <h1 class="text-2xl mb-5 font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
-            Presensi Mahasiswa
-        </h1>
         <a href="{{ route('daftar_mhs_mentor') }}" class="text-blue-600 dark:text-blue-500 hover:underline mb-4 inline-block">
             <i class="fas fa-arrow-left mr-2"></i> Kembali
         </a>
+
+        <!-- Informasi Mahasiswa -->
+        <h1 class="text-l mb-5 font-semibold leading-tight tracking-tight text-center text-gray-900 md:text-xl dark:text-white">
+                Presensi Mahasiswa
+        </h1>
+        <div class="flex flex-col items-center mb-6">
+            <div class="relative w-20 h-20 overflow-hidden bg-gray-100 rounded-full dark:bg-gray-600">
+                <img src="{{ $foto }}" alt="user photo" class="w-20 h-20 object-cover" />
+            </div>
+            <br>
+            <p class="text-sm font-medium text-gray-900 dark:text-white">{{ $mahasiswa->nama }}</p>
+            <p class="text-sm text-gray-500 dark:text-gray-400">{{ $mahasiswa->instansi }} | {{ $mahasiswa->jurusan }} | {{ $mahasiswa->status }}</p>
+        </div>
         
         <br>
         <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
@@ -37,30 +47,22 @@
                     <p class="mt-2 ml-2 text-base text-gray-500 dark:text-gray-400">Belum pernah mengisikan presensi</p>
                 </div>
             @else
-                <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-                    <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+            <table class="min-w-full border border-gray-300 dark:border-gray-600 rounded-lg">
+                    <thead class="bg-gray-100 dark:bg-gray-800">
                         <tr>
-                            <th scope="col" class="px-6 py-3">ID</th>
-                            <th scope="col" class="px-6 py-3">Nama</th>
-                            <th scope="col" class="px-6 py-3">Instansi</th>
-                            <th scope="col" class="px-6 py-3">Jurusan</th>
-                            <th scope="col" class="px-6 py-3">Foto</th>
-                            <th scope="col" class="px-6 py-3">Waktu</th>
-                            <th scope="col" class="px-6 py-3">Status</th>
+                            <th class="py-2 px-4 border-b">Tanggal</th>
+                            <th class="py-2 px-4 border-b">Foto</th>
+                            <th class="py-2 px-4 border-b">Status</th>
                         </tr>
                     </thead>
                     <tbody>
                         @if(is_object($PresensiData))
-                            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover-bg-gray-600">
-                                <td class="px-6 py-4">{{ $PresensiData->mahasiswa->id_mhs }}</td>
-                                <td class="px-6 py-4">{{ $PresensiData->mahasiswa->nama }}</td>
-                                <td class="px-6 py-4">{{ $PresensiData->mahasiswa->instansi }}</td>
-                                <td class="px-6 py-4">{{ $PresensiData->mahasiswa->jurusan }}</td>
-                                <td class="px-6 py-4">
+                            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover-bg-gray-600 ">
+                            <td class="px-6 py-4 text-center">{{ $PresensiData->tanggal }}</td>
+                                <td class="px-6 py-4 text-center">
                                     <a href="{{ asset('storage/' . $PresensiData->foto) }}" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Lihat Gambar</a>
                                 </td>
-                                <td class="px-6 py-4">{{ $PresensiData->tanggal }}</td>
-                                <td class="px-6 py-4">{{ $PresensiData->status }}</td>
+                                <td class="px-6 py-4 text-center">{{ $PresensiData->status }}</td>
                             </tr>
                         @else
                             <tr>

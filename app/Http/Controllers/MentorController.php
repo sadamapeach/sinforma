@@ -69,14 +69,28 @@ class MentorController extends Controller
         return view('mentor.daftar_mhs', ['mhsData' => $mhsData]);
     }
 
-    public function viewPresensi($id_mhs)
+    public function viewPresensi(string $id_mhs)
     {
-        // $user = Auth::user();
-        // $mentor = Mentor::where('id_user', $user->id)->first();
-        // $id_mhs = Mahasiswa::where('nip_mentor', $mentor->nip)->first();
+        $mahasiswa = Mahasiswa::where('id_mhs', $id_mhs)->first();
+        $foto = User::where('id', $mahasiswa->id_user)->first()->getImageURL();
         $PresensiData = Absen::where('id_mhs', $id_mhs)
-                                  ->where('status', 'Verified')
-                                  ->first();
-        return view('mentor.view_presensi', compact('PresensiData'));
+                            ->where('status', 'Verified')
+                            ->first();
+
+        return view('mentor.view_presensi', compact('PresensiData', 'foto', 'mahasiswa'));
     }
+
+    public function viewProgress(string $id_mhs)
+    {
+        $mhs = Mahasiswa::where('id_mhs', $id_mhs)->first();
+        $foto = User::where('id', $mhs->id_user)->first()->getImageURL();
+        $progressMagang = Progress::where('id_mhs', $mhs->id_mhs)->get();
+
+        return view('mentor.view_progress', [
+            'mahasiswa' => $mhs,
+            'foto' => $foto,
+            'progressMagang' => $progressMagang,
+        ]);
+    }
+
 }

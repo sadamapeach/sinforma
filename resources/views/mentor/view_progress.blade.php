@@ -1,4 +1,4 @@
-@extends('index_admin')
+@extends('index_mentor')
 @section('title', 'Progress Mahasiswa')
 
 @section('isihalaman')
@@ -11,22 +11,23 @@
 <div class="p-4 sm:ml-64">
     <div class="p-4 border-2 border-gray-200 border-dashed rounded-lg dark:border-gray-700 mt-14">
 
-    <a href="{{ route('daftar_mhs') }}" class="text-blue-600 dark:text-blue-500 hover:underline mb-4 inline-block">
+    <a href="{{ route('daftar_mhs_mentor') }}" class="text-blue-600 dark:text-blue-500 hover:underline mb-4 inline-block">
             <i class="fas fa-arrow-left mr-2"></i> Kembali
     </a>
         <!-- Informasi Mahasiswa -->
         <div class="flex flex-col items-center mb-6">
+            <h1 class="text-l mb-5 font-semibold leading-tight tracking-tight text-gray-900 md:text-xl dark:text-white">
+                    Progress Magang 
+            </h1>
             <div class="relative w-20 h-20 overflow-hidden bg-gray-100 rounded-full dark:bg-gray-600">
                 <img src="{{ $foto }}" alt="user photo" class="w-20 h-20 object-cover" />
             </div>
-            <h1 class="text-l mb-5 font-semibold leading-tight tracking-tight text-gray-900 md:text-xl dark:text-white">
-                Progress Magang 
-            </h1>
+            <br>
             <p class="text-sm font-medium text-gray-900 dark:text-white">{{ $mahasiswa->nama }}</p>
             <p class="text-sm text-gray-500 dark:text-gray-400">{{ $mahasiswa->instansi }} | {{ $mahasiswa->jurusan }} | {{ $mahasiswa->status }}</p>
         </div>
 
-        <!-- Tabel Progress Magang -->
+       <!-- Tabel Progress Magang -->
         @if($progressMagang->isEmpty())
             <div class="pb-4 bg-white dark:bg-gray-900">
                 <p class="mt-2 ml-2 text-base text-gray-500 dark:text-gray-400">Belum ada progress magang yang diisikan</p>

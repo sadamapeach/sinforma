@@ -104,7 +104,7 @@
                                             <i class="material-icons-outlined text-base"></i> Lihat Presensi
                                         </a>
                                         
-                                        <a href="#" class="text-blue-400 hover:text-blue-100 mx-2">
+                                        <a href="{{ route('view_progress_mentor', ['id_mhs' => $mhs['id_mhs'] ?? null])  }}" class="text-blue-400 hover:text-blue-100 mx-2">
                                             <i class="material-icons-outlined text-base"></i> Lihat Progress
                                         </a>
                                     </td>
