@@ -162,6 +162,32 @@ class MentorController extends Controller
             'foto' => $foto,
             'tambahNilai' => $tambahNilai,
         ]);
-    }    
+    } 
+    
+    public function storeNilai(Request $request, string $id_mhs)
+    {
+        $user = Auth::user();
+        $mentor = Mentor::where('id_user', $user->id)->first();
+        $mhs = Mahasiswa::where('id_mhs', $id_mhs)->first();
+        $validatedData = $request->validate([
+            'nilai' => 'required|array|min:4',
+        
+        ]);
+
+    
+        $nilai_avg = array_sum($validatedData['nilai']) / count($validatedData['nilai']);
+
+        Nilai::create([
+            'id_mhs' => $mhs->id_mhs,
+            'nip_mentor'=> $mentor->nip,
+            'nilai1' => $validatedData['nilai'][0],
+            'nilai2' => $validatedData['nilai'][1],
+            'nilai3' => $validatedData['nilai'][2],
+            'nilai4' => $validatedData['nilai'][3],
+            'nilai_avg' => $nilai_avg,
+        ]);
+
+        return redirect()->route('daftar_mhs_mentor')->with('success', 'Penilaian berhasil ditambahkan.');
+    }
 
 }

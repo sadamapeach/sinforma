@@ -28,7 +28,7 @@
         </div>
 
         <!-- Tabel Penilaian Magang -->
-        <form action="#" method="post">
+        <form action="{{ route('store_nilai', ['id_mhs' => $mahasiswa->id_mhs]) }}" method="post">
             @csrf
             <table class="min-w-full border border-gray-300 dark:border-gray-600 rounded-lg">
                 <thead class="bg-gray-100 dark:bg-gray-800">

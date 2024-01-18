@@ -74,3 +74,4 @@ Route::get('/view_nilai_mentor/{id_mhs}', [MentorController::class, 'viewNilai']
 Route::get('/view_profil_mentor', [MentorController::class, 'viewProfile'])->middleware('only_mentor')->name('view_profil_mentor');
 Route::get('/edit_profil_mentor', [MentorController::class, 'viewEditProfile'])->middleware('only_mentor')->name('edit_profil_mentor');
 Route::post('/edit_profil_mentor', [MentorController::class, 'update'])->name('edit_profil_mentor');
+Route::post('/store_nilai/{id_mhs}', [MentorController::class, 'storeNilai'])->name('store_nilai');
