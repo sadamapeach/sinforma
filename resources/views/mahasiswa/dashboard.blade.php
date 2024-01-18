@@ -175,7 +175,7 @@
                         </svg>
                     </span>
                     <h3 class="mb-1 text-xs font-semibold text-gray-900 dark:text-white">Mulai Magang</h3>
-                    <time class="block text-xs font-normal leading-normal text-gray-400 dark:text-gray-500">Dikeluarkan pada {{ $mahasiswa->mulai_magang }}</time>
+                    <time class="block text-xs font-normal leading-normal text-gray-400 dark:text-gray-500">Dimulai per tanggal {{ $mahasiswa->mulai_magang }}</time>
                 </li>
                 <li class="ms-7">
                     <span class="absolute flex items-center justify-center w-6 h-6 bg-purple-100 rounded-full -start-3 ring-8 ring-white dark:ring-gray-900 dark:bg-purple-900">
@@ -184,7 +184,7 @@
                         </svg>
                     </span>
                     <h3 class="mb-1 text-xs font-semibold text-gray-900 dark:text-white">Selesai Magang</h3>
-                    <time class="block mb-2 text-xs font-normal leading-normal text-gray-400 dark:text-gray-500">Dikeluarkan pada {{ $mahasiswa->selesai_magang }}</time>
+                    <time class="block mb-2 text-xs font-normal leading-normal text-gray-400 dark:text-gray-500">Berakhir per tanggal {{ $mahasiswa->selesai_magang }}</time>
                 </li>
             </ol>
             </div>

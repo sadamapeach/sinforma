@@ -354,7 +354,6 @@ class AdminController extends Controller
         return view('admin.verifikasi_presensi', compact('verifikasiPresensiData'));
     }
 
-
     public function verifyPresensi($id_mhs)
     {
         $presensi = Absen::where('id_mhs', $id_mhs)->first();

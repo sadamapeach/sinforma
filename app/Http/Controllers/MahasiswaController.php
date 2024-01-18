@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\Mahasiswa;
 use App\Models\SKL;
+use App\Models\Absen;
 use App\Models\User;
 
 class MahasiswaController extends Controller
@@ -200,11 +201,42 @@ class MahasiswaController extends Controller
         return back()->with('status', 'Password berhasil diperbarui!');
     }
 
-    public function presensi() 
-    {
-        return view('mahasiswa.presensi');
+    public function presensi(Request $request) {
+        $user = Auth::user();
+    
+        // Mendapatkan ID absen terkait dengan pengguna yang login
+        $id_mhs = $request->user()->mahasiswa->id_mhs;
+        $absen = Absen::where('id_mhs', $id_mhs)->first();
+    
+        return view('mahasiswa.presensi', compact('absen'));
     }
 
+    public function store_presensi(Request $request)
+    {
+        try {
+            $user = Auth::user();
+            $mahasiswa = Mahasiswa::where('id_user', $user->id)->first();
+
+            $validated = $request->validate([
+                'keterangan' => 'required',
+                'foto' => 'required|image|mimes:jpg,jpeg,png|max:10240',
+            ]);
+    
+            if ($request->has('foto')) {
+                $fotoPath = $request->file('foto')->store('images', 'public');
+                $validated['foto'] = $fotoPath;
+            }
+
+            $validated['id_mhs'] = $mahasiswa->id_mhs;
+    
+            Absen::create($validated);
+    
+            return redirect()->route('presensi_mahasiswa')->with('success', 'Presensi berhasil!');
+        } catch (\Exception $e) {
+            return redirect()->route('presensi_mahasiswa')->with('error', 'Gagal melakukan presensi: ' . $e->getMessage());
+        }
+    }
+   
     public function progress() 
     {
         return view('mahasiswa.progress');

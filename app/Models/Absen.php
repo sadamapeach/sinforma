@@ -17,6 +17,7 @@ class Absen extends Model
     protected $fillable = [
         'id',
         'id_mhs',
+        'keterangan',
         'foto',
         'tanggal',
         'status'
@@ -25,5 +26,12 @@ class Absen extends Model
     public function mahasiswa()
     {
         return $this->belongsTo(Mahasiswa::class, 'id_mhs');
+    }
+
+    public function getImageURL(){
+        if($this->foto){
+            return url("storage/" . $this->foto);
+        }
+        return "https://freesvg.org/img/abstract-user-flat-4.png";
     }
 }

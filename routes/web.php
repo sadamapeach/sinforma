@@ -31,6 +31,8 @@ Route::controller(MahasiswaController::class)->group(function() {
     Route::post('/change_password', [MahasiswaController::class, 'change_password'])->name('password_mahasiswa');
 
     Route::get('/presensi_mahasiswa', [MahasiswaController::class, 'presensi'])->name('presensi_mahasiswa');
+    Route::post('/store_presensi', [MahasiswaController::class, 'store_presensi'])->name('store_presensi');
+
     Route::get('/progress_mahasiswa', [MahasiswaController::class, 'progress'])->name('progress_mahasiswa');
 });
 
