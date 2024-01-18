@@ -70,6 +70,7 @@ Route::get('/search_mhs', [MentorController::class, 'searchMahasiswa'])->name('s
 Route::get('/filter_mhs', [MentorController::class, 'filterByStatus'])->name('filter_mhs');
 Route::get('/view_presensi_mentor/{id_mhs}', [MentorController::class, 'viewPresensi'])->name('view_presensi_mentor');
 Route::get('/view_progress_mentor/{id_mhs}', [MentorController::class, 'viewProgress'])->name('view_progress_mentor');
+Route::get('/view_nilai_mentor/{id_mhs}', [MentorController::class, 'viewNilai'])->name('view_nilai_mentor');
 Route::get('/view_profil_mentor', [MentorController::class, 'viewProfile'])->middleware('only_mentor')->name('view_profil_mentor');
 Route::get('/edit_profil_mentor', [MentorController::class, 'viewEditProfile'])->middleware('only_mentor')->name('edit_profil_mentor');
 Route::post('/edit_profil_mentor', [MentorController::class, 'update'])->name('edit_profil_mentor');

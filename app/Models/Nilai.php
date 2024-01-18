@@ -16,7 +16,11 @@ class Nilai extends Model
 
     protected $fillable = [
         'id',
-        'nilai',
+        'nilai1',
+        'nilai2',
+        'nilai3',
+        'nilai4',
+        'nilai_avg',
         'id_mhs',
         'nip_mentor'
     ];

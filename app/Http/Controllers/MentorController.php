@@ -12,6 +12,7 @@ use App\Models\User;
 use App\Models\Mahasiswa;
 use App\Models\Progress;
 use App\Models\Absen;
+use App\Models\Nilai;
 use App\Models\Skl;
 use App\Models\GeneratedAccount;
 use Illuminate\Support\Facades\DB;
@@ -36,7 +37,7 @@ class MentorController extends Controller
     {
         $user = Auth::user();
         $mentor = Mentor::where('id_user', $user->id)->first();
-        $mhsData = Mahasiswa::where('nip_mentor', $mentor->nip)->get();
+        $mhsData = Mahasiswa::with('nilai')->where('nip_mentor', $mentor->nip)->get();
 
         return view('mentor.daftar_mhs', ['mhsData' => $mhsData]);
     }
@@ -149,5 +150,18 @@ class MentorController extends Controller
             return redirect()->route('view_profil_mentor')->with('error', 'Terjadi kesalahan saat memperbarui data mentor.');
         }
     }
+
+    public function viewNilai(string $id_mhs)
+    {
+        $mhs = Mahasiswa::where('id_mhs', $id_mhs)->first();
+        $foto = User::where('id', $mhs->id_user)->first()->getImageURL();
+        $tambahNilai = Nilai::where('id_mhs', $mhs->id_mhs)->get();
+        
+        return view('mentor.nilai', [
+            'mahasiswa' => $mhs,
+            'foto' => $foto,
+            'tambahNilai' => $tambahNilai,
+        ]);
+    }    
 
 }
