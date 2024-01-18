@@ -93,4 +93,61 @@ class MentorController extends Controller
         ]);
     }
 
+    public function viewProfile()
+    {
+        $user = Auth::user();
+        $mentor = Mentor::where('id_user', $user->id)->first();
+
+        return view('mentor.profile', ['mentor' => $mentor]);
+    }
+
+    public function viewEditProfile()
+    {
+        $user = Auth::user();
+        $mentor = Mentor::where('id_user', $user->id)->first();
+
+        return view('mentor.edit_profile', ["mentor" =>  $mentor]);
+    }
+
+    public function update(Request $request)
+    {
+        try {
+            $user = Auth::user();
+            $mentor = Mentor::where('id_user', $user->id)->first();
+
+            $validated = $request->validate([
+                'nama' => 'required',
+                'alamat' => 'required',
+                'no_telepon' => 'required',
+                'username' => 'required',
+                'foto' => 'nullable|image|max:10240',
+            ]);
+        
+            if ($request->has('foto')) {
+                $fotoPath = $request->file('foto')->store('profile', 'public');
+                
+                $validated['foto'] = $fotoPath;
+
+                $user->update([
+                    'foto' => $validated['foto'],
+                ]);
+            }
+            
+            $mentor->nama = $request->nama;
+            $mentor->alamat = $request->alamat;
+            $mentor->no_telepon = $request->no_telepon;
+            $user->username = $request->username;
+            
+            $mentor->save();
+
+            $user->update([
+                'username' => $request->username
+            ]);
+            
+            return redirect()->route('view_profil_mentor')->with('success', 'Data mentor berhasil diperbarui.');
+        } catch (\Exception $e) {
+            return redirect()->route('view_profil_mentor')->with('error', 'Terjadi kesalahan saat memperbarui data mentor.');
+        }
+    }
+
 }
