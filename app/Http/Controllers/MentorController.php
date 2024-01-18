@@ -12,6 +12,7 @@ use App\Models\User;
 use App\Models\Mahasiswa;
 use App\Models\Progress;
 use App\Models\Absen;
+use App\Models\Nilai;
 use App\Models\Skl;
 use App\Models\GeneratedAccount;
 use Illuminate\Support\Facades\DB;
@@ -36,7 +37,7 @@ class MentorController extends Controller
     {
         $user = Auth::user();
         $mentor = Mentor::where('id_user', $user->id)->first();
-        $mhsData = Mahasiswa::where('nip_mentor', $mentor->nip)->get();
+        $mhsData = Mahasiswa::with('nilai')->where('nip_mentor', $mentor->nip)->get();
 
         return view('mentor.daftar_mhs', ['mhsData' => $mhsData]);
     }
@@ -68,4 +69,125 @@ class MentorController extends Controller
 
         return view('mentor.daftar_mhs', ['mhsData' => $mhsData]);
     }
+
+    public function viewPresensi(string $id_mhs)
+    {
+        $mahasiswa = Mahasiswa::where('id_mhs', $id_mhs)->first();
+        $foto = User::where('id', $mahasiswa->id_user)->first()->getImageURL();
+        $PresensiData = Absen::where('id_mhs', $id_mhs)
+                            ->where('status', 'Verified')
+                            ->first();
+
+        return view('mentor.view_presensi', compact('PresensiData', 'foto', 'mahasiswa'));
+    }
+
+    public function viewProgress(string $id_mhs)
+    {
+        $mhs = Mahasiswa::where('id_mhs', $id_mhs)->first();
+        $foto = User::where('id', $mhs->id_user)->first()->getImageURL();
+        $progressMagang = Progress::where('id_mhs', $mhs->id_mhs)->get();
+
+        return view('mentor.view_progress', [
+            'mahasiswa' => $mhs,
+            'foto' => $foto,
+            'progressMagang' => $progressMagang,
+        ]);
+    }
+
+    public function viewProfile()
+    {
+        $user = Auth::user();
+        $mentor = Mentor::where('id_user', $user->id)->first();
+
+        return view('mentor.profile', ['mentor' => $mentor]);
+    }
+
+    public function viewEditProfile()
+    {
+        $user = Auth::user();
+        $mentor = Mentor::where('id_user', $user->id)->first();
+
+        return view('mentor.edit_profile', ["mentor" =>  $mentor]);
+    }
+
+    public function update(Request $request)
+    {
+        try {
+            $user = Auth::user();
+            $mentor = Mentor::where('id_user', $user->id)->first();
+
+            $validated = $request->validate([
+                'nama' => 'required',
+                'alamat' => 'required',
+                'no_telepon' => 'required',
+                'username' => 'required',
+                'foto' => 'nullable|image|max:10240',
+            ]);
+        
+            if ($request->has('foto')) {
+                $fotoPath = $request->file('foto')->store('profile', 'public');
+                
+                $validated['foto'] = $fotoPath;
+
+                $user->update([
+                    'foto' => $validated['foto'],
+                ]);
+            }
+            
+            $mentor->nama = $request->nama;
+            $mentor->alamat = $request->alamat;
+            $mentor->no_telepon = $request->no_telepon;
+            $user->username = $request->username;
+            
+            $mentor->save();
+
+            $user->update([
+                'username' => $request->username
+            ]);
+            
+            return redirect()->route('view_profil_mentor')->with('success', 'Data mentor berhasil diperbarui.');
+        } catch (\Exception $e) {
+            return redirect()->route('view_profil_mentor')->with('error', 'Terjadi kesalahan saat memperbarui data mentor.');
+        }
+    }
+
+    public function viewNilai(string $id_mhs)
+    {
+        $mhs = Mahasiswa::where('id_mhs', $id_mhs)->first();
+        $foto = User::where('id', $mhs->id_user)->first()->getImageURL();
+        $tambahNilai = Nilai::where('id_mhs', $mhs->id_mhs)->get();
+        
+        return view('mentor.nilai', [
+            'mahasiswa' => $mhs,
+            'foto' => $foto,
+            'tambahNilai' => $tambahNilai,
+        ]);
+    } 
+    
+    public function storeNilai(Request $request, string $id_mhs)
+    {
+        $user = Auth::user();
+        $mentor = Mentor::where('id_user', $user->id)->first();
+        $mhs = Mahasiswa::where('id_mhs', $id_mhs)->first();
+        $validatedData = $request->validate([
+            'nilai' => 'required|array|min:4',
+        
+        ]);
+
+    
+        $nilai_avg = array_sum($validatedData['nilai']) / count($validatedData['nilai']);
+
+        Nilai::create([
+            'id_mhs' => $mhs->id_mhs,
+            'nip_mentor'=> $mentor->nip,
+            'nilai1' => $validatedData['nilai'][0],
+            'nilai2' => $validatedData['nilai'][1],
+            'nilai3' => $validatedData['nilai'][2],
+            'nilai4' => $validatedData['nilai'][3],
+            'nilai_avg' => $nilai_avg,
+        ]);
+
+        return redirect()->route('daftar_mhs_mentor')->with('success', 'Penilaian berhasil ditambahkan.');
+    }
+
 }

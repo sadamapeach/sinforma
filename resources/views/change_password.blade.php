@@ -26,6 +26,7 @@
                 </div>
                 <br>
             @endif
+            
             <h1
                 class="text-l mb-5 font-semibold leading-tight tracking-tight text-gray-900 md:text-xl dark:text-white">
                 Ubah Password

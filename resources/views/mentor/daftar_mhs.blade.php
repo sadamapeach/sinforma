@@ -66,19 +66,19 @@
                 <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                     <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                         <tr>
-                            <th scope="col" class="px-6 py-3">
+                            <th scope="col" class="px-6 py-3 text-center">
                                 Nama
                             </th>
-                            <th scope="col" class="px-6 py-3">
+                            <th scope="col" class="px-6 py-3 text-center">
                                 Instansi
                             </th>
-                            <th scope="col" class="px-6 py-3">
+                            <th scope="col" class="px-6 py-3 text-center">
                                 Jurusan
                             </th>
-                            <th scope="col" class="px-6 py-3">
+                            <th scope="col" class="px-6 py-3 text-center">
                                 Status
                             </th>
-                            <th scope="col" class="px-6 py-3">
+                            <th scope="col" class="px-6 py-3 text-center">
                                 Aksi
                             </th>
                         </tr>
@@ -96,17 +96,31 @@
                                     <td class="px-6 py-4">
                                         {{ $mhs['jurusan'] }}
                                     </td>
-                                    <td class="px-6 py-4">
+                                    <td class="px-6 py-4 text-center">
                                         {{ $mhs['status'] }}
                                     </td>
                                     <td> 
-                                        <a href="#" class="text-green-400 hover:text-green-100 mx-2">
+                                        <a href="{{ route('view_presensi_mentor', ['id_mhs' => $mhs['id_mhs'] ?? null])  }}" class="text-green-400 hover:text-green-100 mx-2">
                                             <i class="material-icons-outlined text-base"></i> Lihat Presensi
                                         </a>
-                                        
-                                        <a href="#" class="text-blue-400 hover:text-blue-100 mx-2">
+                                        <br>
+                                        <a href="{{ route('view_progress_mentor', ['id_mhs' => $mhs['id_mhs'] ?? null])  }}" class="text-blue-400 hover:text-blue-100 mx-2">
                                             <i class="material-icons-outlined text-base"></i> Lihat Progress
                                         </a>
+                                    </td>
+                                    <td>
+                                        @if ($mhs->nilai)
+                                            <button class="text-sm font-medium text-gray-500 bg-gray-300 rounded-lg px-2 py-1 cursor-not-allowed" disabled>
+                                                Sudah Dinilai
+                                            </button>
+                                        @else
+                                        <form action="{{ route('view_nilai_mentor', ['id_mhs' => $mhs->id_mhs]) }}" method="GET">
+                                            @csrf
+                                            <button type="submit" class="text-sm font-medium text-white bg-green-400 rounded-lg border border-green-400 px-2 py-1 focus:outline-none focus:ring-2 focus:ring-green-300 hover:bg-green-500">
+                                                Tambah Nilai
+                                            </button>
+                                        </form>
+                                        @endif
                                     </td>
                                 </tr>
                             @endforeach
