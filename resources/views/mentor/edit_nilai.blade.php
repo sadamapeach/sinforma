@@ -11,7 +11,7 @@
 <div class="p-4 sm:ml-64">
     <div class="p-4 border-2 border-gray-200 border-dashed rounded-lg dark:border-gray-700 mt-14">
 
-    <a href="{{ route('daftar_mhs_mentor') }}" class="text-blue-600 dark:text-blue-500 hover:underline mb-4 inline-block">
+    <a href="{{ route('edit_nilai_mentor', ['id_mhs' => $mahasiswa->id_mhs]) }}" class="text-blue-600 dark:text-blue-500 hover:underline mb-4 inline-block">
             <i class="fas fa-arrow-left mr-2"></i> Kembali
     </a>
         <!-- Informasi Mahasiswa -->

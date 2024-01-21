@@ -221,7 +221,7 @@ class MentorController extends Controller
             $nilai = Nilai::where('id_mhs', $id_mhs)->first();
 
             if (!$mahasiswa || !$nilai) {
-                return redirect()->route('daftar_mhs_mentor')->with('error', 'Mahasiswa atau Nilai tidak ditemukan');
+                return redirect()->route('daftar_mhs_mentor')->with('error', 'Mahasiswa atau penilaian tidak ditemukan');
             }
 
             $validated = $request->validate([
@@ -238,10 +238,28 @@ class MentorController extends Controller
             $nilai->nilai_avg = ($request->nilai1 + $request->nilai2 + $request->nilai3 + $request->nilai4) / 4;
             $nilai->save();
 
-            return redirect()->route('daftar_mhs_mentor')->with('success', 'Nilai mahasiswa berhasil diperbarui.');
+            return redirect()->route('daftar_mhs_mentor')->with('success', 'Penilaian mahasiswa berhasil diperbarui.');
         } catch (\Exception $e) {
-            return redirect()->route('daftar_mhs_mentor')->with('error', 'Terjadi kesalahan saat memperbarui nilai mahasiswa.');
+            return redirect()->route('daftar_mhs_mentor')->with('error', 'Terjadi kesalahan saat memperbarui penilaian mahasiswa.');
         }
     }
+
+    public function deleteNilai(string $id_mhs)
+    {
+        try {
+            $nilai = Nilai::where('id_mhs', $id_mhs)->first();
+
+            if (!$nilai) {
+                return redirect()->route('daftar_mhs_mentor')->with('error', 'Penilaian mahasiswa tidak ditemukan.');
+            }
+
+            $nilai->delete();
+
+            return redirect()->route('daftar_mhs_mentor')->with('success', 'Penilaian mahasiswa berhasil dihapus.');
+        } catch (\Exception $e) {
+            return redirect()->route('daftar_mhs_mentor')->with('error', 'Terjadi kesalahan saat menghapus penilaian mahasiswa.');
+        }
+    }
+
 
 }

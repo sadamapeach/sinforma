@@ -28,65 +28,72 @@
         </div>
 
         <!-- Tabel Penilaian Magang -->
-        <form action="{{ route('edit_nilai_mentor', ['id_mhs' => $mahasiswa->id_mhs]) }}" method="post">
-            @csrf
-            <table class="min-w-full border border-gray-300 dark:border-gray-600 rounded-lg">
-                <thead class="bg-gray-100 dark:bg-gray-800">
-                    <tr>
-                        <th class="py-2 px-2 border-b">Nomor</th>
-                        <th class="py-2 px-2 border-b">Kriteria Penilaian</th>
-                        <th class="py-2 px-2 border-b">Nilai</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td class="py-2 px-2 border-b text-center">1</td>
-                        <td class="py-2 px-2 border-b">Kedisiplinan dan Etika</td>
-                        <td class="py-2 px-2 border-b ">
-                            <input type="number" id="nilai1" name="nilai1" value="{{ $nilai->nilai1 }}" aria-label="disabled input" class=" text-center bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full cursor-not-allowed dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500" disabled>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="py-2 px-2 border-b text-center">2</td>
-                        <td class="py-2 px-2 border-b">Kemampuan Berkomunikasi dan Bekerja Sama</td>
-                        <td class="py-2 px-2 border-b ">
-                            <input type="number" id="nilai2" name="nilai2" value="{{ $nilai->nilai2 }}" aria-label="disabled input" class=" text-center bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full cursor-not-allowed dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500" disabled>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="py-2 px-2 border-b text-center">3</td>
-                        <td class="py-2 px-2 border-b">Pemahaman terhadap Permasalahan</td>
-                        <td class="py-2 px-2 border-b ">
-                            <input type="number" id="nilai3" name="nilai3" value="{{ $nilai->nilai3 }}" aria-label="disabled input" class=" text-center bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full cursor-not-allowed dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500" disabled>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="py-2 px-2 border-b text-center">4</td>
-                        <td class="py-2 px-2 border-b">Pengetahuan Teoritis dan Praktik</td>
-                        <td class="py-2 px-2 border-b ">
-                            <input type="number" id="nilai4" name="nilai4" value="{{ $nilai->nilai4 }}" aria-label="disabled input" class=" text-center bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full cursor-not-allowed dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500" disabled>
-                        </td>
-                    </tr>
-                </tbody>
-                <tbody> 
-                    <tr>
-                        <td class="py-2 px-4 border-b text-center"></td>
-                        <td class="py-2 px-4 border-b font-bold">Rata-rata</td>
-                        <td class="py-2 px-4 border-b ">
-                            <input type="number" id="nilai_avg" name="nilai_avg" value="{{ $nilai->nilai_avg }}" aria-label="disabled input" class="text-center bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full cursor-not-allowed dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500" disabled>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+            <form action="{{ route('edit_nilai_mentor_access', ['id_mhs' => $mahasiswa->id_mhs]) }}" method="post">
+                @csrf
+                <table class="min-w-full border border-gray-300 dark:border-gray-600 rounded-lg">
+                    <thead class="bg-gray-100 dark:bg-gray-800">
+                        <tr>
+                            <th class="py-2 px-2 border-b">Nomor</th>
+                            <th class="py-2 px-2 border-b">Kriteria Penilaian</th>
+                            <th class="py-2 px-2 border-b">Nilai</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="py-2 px-2 border-b text-center">1</td>
+                            <td class="py-2 px-2 border-b">Kedisiplinan dan Etika</td>
+                            <td class="py-2 px-2 border-b ">
+                                <input type="number" id="nilai1" name="nilai1" value="{{ $nilai->nilai1 }}" aria-label="disabled input" class=" text-center bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full cursor-not-allowed dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500" disabled>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="py-2 px-2 border-b text-center">2</td>
+                            <td class="py-2 px-2 border-b">Kemampuan Berkomunikasi dan Bekerja Sama</td>
+                            <td class="py-2 px-2 border-b ">
+                                <input type="number" id="nilai2" name="nilai2" value="{{ $nilai->nilai2 }}" aria-label="disabled input" class=" text-center bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full cursor-not-allowed dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500" disabled>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="py-2 px-2 border-b text-center">3</td>
+                            <td class="py-2 px-2 border-b">Pemahaman terhadap Permasalahan</td>
+                            <td class="py-2 px-2 border-b ">
+                                <input type="number" id="nilai3" name="nilai3" value="{{ $nilai->nilai3 }}" aria-label="disabled input" class=" text-center bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full cursor-not-allowed dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500" disabled>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="py-2 px-2 border-b text-center">4</td>
+                            <td class="py-2 px-2 border-b">Pengetahuan Teoritis dan Praktik</td>
+                            <td class="py-2 px-2 border-b ">
+                                <input type="number" id="nilai4" name="nilai4" value="{{ $nilai->nilai4 }}" aria-label="disabled input" class=" text-center bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full cursor-not-allowed dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500" disabled>
+                            </td>
+                        </tr>
+                    </tbody>
+                    <tbody> 
+                        <tr>
+                            <td class="py-2 px-4 border-b text-center"></td>
+                            <td class="py-2 px-4 border-b font-bold">Rata-rata</td>
+                            <td class="py-2 px-4 border-b ">
+                                <input type="number" id="nilai_avg" name="nilai_avg" value="{{ $nilai->nilai_avg }}" aria-label="disabled input" class="text-center bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full cursor-not-allowed dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500" disabled>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
 
-            <button type="submit" class="mt-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                Simpan Penilaian
-            </button>
-            <a href="{{ route('edit_nilai_mentor_access', ['id_mhs' => $mahasiswa->id_mhs]) }}" class="mt-4 inline-block bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded">
-                Edit
-            </a>
-        </form>
-        
+            <div class="flex items-baseline">
+                <button type="submit" class="mt-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                    Edit
+                </button>
+            </form>
+
+            <form action="{{ route('delete_nilai', ['id_mhs' => $mahasiswa->id_mhs]) }}" method="post" onsubmit="return confirm('Apakah anda yakin ingin menghapus penilaian ini?')">
+                @csrf
+                @method('POST')
+                <button type="submit" class="inline-block bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded ml-2">
+                    Delete
+                </button>
+            </form>
+        </div>
+
         @if (session('success'))
             <div class="p-4 mr-2 text-sm text-green-800 rounded-lg bg-green-100 dark:bg-gray-800 dark:text-green-400" role="alert">
                 <span class="font-medium">{{ session('success') }}</span>
