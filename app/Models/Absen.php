@@ -20,7 +20,9 @@ class Absen extends Model
         'keterangan',
         'foto',
         'tanggal',
-        'status'
+        'status',
+        'status_isi',
+        'sesi_absen',
     ];
 
     public function mahasiswa()
