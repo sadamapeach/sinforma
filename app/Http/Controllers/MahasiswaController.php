@@ -7,9 +7,13 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\Mahasiswa;
+use App\Models\Mentor;
+use App\Models\Admin;
 use App\Models\SKL;
 use App\Models\Absen;
+use App\Models\Progress;
 use App\Models\User;
+use Carbon\Carbon;
 
 class MahasiswaController extends Controller
 {
@@ -202,43 +206,197 @@ class MahasiswaController extends Controller
     }
 
     public function presensi(Request $request) {
-        $user = Auth::user();
+        $user = auth()->user();
     
-        // Mendapatkan ID absen terkait dengan pengguna yang login
-        $id_mhs = $request->user()->mahasiswa->id_mhs;
-        $absen = Absen::where('id_mhs', $id_mhs)->first();
+        // Pastikan bahwa relasi mahasiswa dimuat
+        $user->load('mahasiswa');
     
-        return view('mahasiswa.presensi', compact('absen'));
+        $mahasiswa = $user->mahasiswa;
+        $absen = Absen::where('id_mhs', $mahasiswa->id_mhs)->first();
+        
+        return view('mahasiswa.presensi', compact('absen', 'mahasiswa'));
+    }
+    
+
+    public function add_presensi_pagi(Request $request) {
+        $user = auth()->user();
+    
+        // Pastikan bahwa relasi mahasiswa dimuat
+        $user->load('mahasiswa');
+    
+        $mahasiswa = $user->mahasiswa;
+        $absen = Absen::where('id_mhs', $mahasiswa->id_mhs)->first();
+        
+        return view('mahasiswa.add_presensi_pagi', compact('absen', 'mahasiswa'));
     }
 
-    public function store_presensi(Request $request)
+    public function add_presensi_sore(Request $request) {
+        $user = auth()->user();
+    
+        // Pastikan bahwa relasi mahasiswa dimuat
+        $user->load('mahasiswa');
+    
+        $mahasiswa = $user->mahasiswa;
+        $absen = Absen::where('id_mhs', $mahasiswa->id_mhs)->first();
+        
+        return view('mahasiswa.add_presensi_sore', compact('absen', 'mahasiswa'));
+    }
+
+    public function store_presensi_pagi(Request $request)
     {
         try {
+            $tanggal = $request->input('tanggal');
             $user = Auth::user();
-            $mahasiswa = Mahasiswa::where('id_user', $user->id)->first();
+            $user->load('mahasiswa');
+            $mahasiswa = $user->mahasiswa;
+    
+            // Check if there is an existing record for today
+            $existingAbsen = Absen::where('id_mhs', $mahasiswa->id_mhs)
+                ->whereDate('tanggal', $tanggal)
+                ->first();
+    
+            // If there is an existing record, update it
+            if ($existingAbsen) {
+                $existingAbsen->update([
+                    'keterangan' => $request->input('keterangan'),
+                    'status_isi' => 1,
+                    'sesi_absen' => 'Pagi',
+                ]);
+            } else {
+                // Otherwise, create a new record
+                $validated = $request->validate([
+                    'keterangan' => 'required',
+                    'foto' => 'required|image|mimes:jpg,jpeg,png|max:10240',
+                ]);
+    
+                if ($request->has('foto')) {
+                    $fotoPath = $request->file('foto')->store('absen', 'public');
+                    $validated['foto'] = $fotoPath;
+                }
+    
+                $validated['id_mhs'] = $mahasiswa->id_mhs;
+                $validated['status_isi'] = 1;
+                $validated['sesi_absen'] = 'Pagi';
+                $validated['tanggal'] = $tanggal;
+    
+                Absen::create($validated);
+            }
+    
+            return redirect()->route('presensi_mahasiswa')->with('success', 'Presensi berhasil!');
+        } catch (\Exception $e) {
+            return redirect()->route('presensi_mahasiswa')->with('error', 'Gagal melakukan presensi: ' . $e->getMessage());
+        }
+    }       
 
+    public function store_presensi_sore(Request $request)
+    {
+        try {
+            $tanggal = $request->input('tanggal');
+            $user = Auth::user();
+            $user->load('mahasiswa');
+            $mahasiswa = $user->mahasiswa;
+    
             $validated = $request->validate([
                 'keterangan' => 'required',
                 'foto' => 'required|image|mimes:jpg,jpeg,png|max:10240',
             ]);
     
             if ($request->has('foto')) {
-                $fotoPath = $request->file('foto')->store('images', 'public');
+                $fotoPath = $request->file('foto')->store('absen', 'public');
                 $validated['foto'] = $fotoPath;
             }
-
-            $validated['id_mhs'] = $mahasiswa->id_mhs;
     
-            Absen::create($validated);
+            Absen::where('id_mhs', $mahasiswa->id_mhs)
+                ->whereDate('tanggal', $tanggal)
+                ->update([
+                    'keterangan' => $validated['keterangan'],
+                    'status_isi' => 1,
+                    'sesi_absen' => 'Sore',
+                ]);  
     
             return redirect()->route('presensi_mahasiswa')->with('success', 'Presensi berhasil!');
         } catch (\Exception $e) {
             return redirect()->route('presensi_mahasiswa')->with('error', 'Gagal melakukan presensi: ' . $e->getMessage());
         }
     }
+    
+
+    // public function store_presensi(Request $request)
+    // {
+    //     $user = Auth::user();
+    //     $mahasiswa = $user->mahasiswa;
+
+    //     $validated = $request->validate([
+    //         'keterangan' => 'required',
+    //         'foto' => 'image|mimes:jpeg,png,jpg|max:2048',
+    //     ]);
+
+    //     DB::beginTransaction();
+
+    //     try {
+    //         if($request->has('foto')) {
+    //             $imageName = $request->file('foto')->store('absen', 'public');
+    //             $validated['foto'] = $imageName;
+
+    //             $user->update([
+    //                 'foto' => $validated['foto']
+    //             ]);
+    //         }
+
+    //         Absen::where('id_mhs', $mahasiswa->id_mhs)->update([
+    //             'keterangan' => $validated['keterangan'],
+    //             'status_isi' => 1,
+    //         ]);
+
+    //         DB::commit();
+
+    //         return redirect()->route('presensi_mahasiswa')->with('success', 'Presensi berhasil!');
+    //     } catch (\Exception $e) {
+    //         return redirect()->route('presensi_mahasiswa')->with('error', 'Gagal melakukan presensi: ' . $e->getMessage());
+    //     }
+    // }
    
-    public function progress() 
+    public function progress(Request $request) 
     {
-        return view('mahasiswa.progress');
+        $user = Auth::user();
+
+        $id_mhs = $request->user()->mahasiswa->id_mhs;
+        $progress = Progress::where('id_mhs', $id_mhs)->first();
+    
+        return view('mahasiswa.progress', compact('progress'));
+    }
+
+    public function store_progress(Request $request)
+    {
+        try {
+            $request->validate([
+                'deskripsi' => 'required',
+                'scan_file' => 'required|mimes:pdf|max:10240',
+            ]);
+        
+            $fileProgressPath = $request->scan_file->store('progress', 'public');
+        
+            $user = $request->user();
+        
+            // Mendapatkan data mahasiswa berdasarkan id_user
+            $mahasiswa = Mahasiswa::where('id_user', $user->id)->first();
+        
+            if ($mahasiswa === null) {
+                return redirect()->route('progress_mahasiswa')->with('error', 'Pengguna tidak terkait dengan seorang mahasiswa.');
+            }
+        
+            // Simpan progress dengan mengisi kolom nip_admin dan nip_mentor langsung
+            $progress = new Progress();
+            $progress->id_mhs = $mahasiswa->id_mhs;
+            $progress->nip_mentor = $mahasiswa->nip_mentor;
+            $progress->nip_admin = $mahasiswa->nip_admin; 
+            $progress->deskripsi = $request->deskripsi;
+            $progress->scan_file = $fileProgressPath;
+            $progress->save();
+        
+            return redirect()->route('progress_mahasiswa')->with('success', 'Progress berhasil dikirim!');
+        } catch (\Exception $e) {
+            dd($e->getMessage());
+        }
     }
 }
