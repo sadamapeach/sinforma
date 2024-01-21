@@ -5,6 +5,33 @@
 <head>
     {{-- Reference Tailwind Flowbite --}}
     @vite(['resources/css/app.css','resources/js/app.js'])
+    <style>
+        .button-container {
+            display: flex;
+            justify-content: center;
+        }
+
+        .button-link {
+            display: inline-block;
+            padding: 6px 10px;
+            margin: 4px 0;
+            font-size: 12px;
+            font-weight: bold;
+            text-align: center;
+            text-decoration: none;
+            border: 1px solid #ccc; 
+            border-radius: 4px;
+            color: #666; 
+            background-color: #f0f0f0;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .button-link:hover {
+            background-color: #ccc; 
+            color: #fff;
+        }
+    </style>
+
 </head>
 
 <body>
@@ -99,27 +126,31 @@
                                     <td class="px-6 py-4 text-center">
                                         {{ $mhs['status'] }}
                                     </td>
-                                    <td> 
-                                        <a href="{{ route('view_presensi_mentor', ['id_mhs' => $mhs['id_mhs'] ?? null])  }}" class="text-green-400 hover:text-green-100 mx-2">
-                                            <i class="material-icons-outlined text-base"></i> Lihat Presensi
-                                        </a>
-                                        <br>
-                                        <a href="{{ route('view_progress_mentor', ['id_mhs' => $mhs['id_mhs'] ?? null])  }}" class="text-blue-400 hover:text-blue-100 mx-2">
-                                            <i class="material-icons-outlined text-base"></i> Lihat Progress
-                                        </a>
+                                   <td>
+                                        <div class="button-container">
+                                            <a href="{{ route('view_presensi_mentor', ['id_mhs' => $mhs['id_mhs'] ?? null]) }}" class="text-grey-400 hover:text-blue-100 button-link">
+                                                <i class="material-icons-outlined text-base"></i> Lihat Presensi
+                                            </a>
+                                            <a href="{{ route('view_progress_mentor', ['id_mhs' => $mhs['id_mhs'] ?? null]) }}" class="text-grey-400 hover:text-blue-100 button-link">
+                                                <i class="material-icons-outlined text-base"></i> Lihat Progress
+                                            </a>
+                                        </div>
                                     </td>
                                     <td>
                                         @if ($mhs->nilai)
-                                            <button class="text-sm font-medium text-gray-500 bg-gray-300 rounded-lg px-2 py-1 cursor-not-allowed" disabled>
-                                                Sudah Dinilai
-                                            </button>
+                                            <form action="{{ route('edit_nilai_mentor', ['id_mhs' => $mhs->id_mhs]) }}" method="GET">
+                                                @csrf
+                                                <button type="submit" class="text-sm font-medium text-white bg-green-400 rounded-lg border border-green-400 px-2 py-1 focus:outline-none focus:ring-2 focus:ring-green-300 hover:bg-green-500">
+                                                    Sudah Dinilai
+                                                </button>
+                                            </form>
                                         @else
-                                        <form action="{{ route('view_nilai_mentor', ['id_mhs' => $mhs->id_mhs]) }}" method="GET">
-                                            @csrf
-                                            <button type="submit" class="text-sm font-medium text-white bg-green-400 rounded-lg border border-green-400 px-2 py-1 focus:outline-none focus:ring-2 focus:ring-green-300 hover:bg-green-500">
-                                                Tambah Nilai
-                                            </button>
-                                        </form>
+                                            <form action="{{ route('view_nilai_mentor', ['id_mhs' => $mhs->id_mhs]) }}" method="GET">
+                                                @csrf
+                                                <button type="submit" class="text-sm font-medium text-white bg-blue-400 rounded-lg border border-blue-400 px-2 py-1 focus:outline-none focus:ring-2 focus:ring-blue-300 hover:bg-blue-500">
+                                                    Tambah Nilai
+                                                </button>
+                                            </form>
                                         @endif
                                     </td>
                                 </tr>
