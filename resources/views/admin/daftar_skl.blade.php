@@ -1,15 +1,12 @@
-@extends('index_mentor')
+@extends('index_admin')
 @section('title', 'Daftar Mahasiswa')
 
 @section('isihalaman')
 <head>
     {{-- Reference Tailwind Flowbite --}}
     @vite(['resources/css/app.css','resources/js/app.js'])
+
     <style>
-        .button-container {
-            display: flex;
-            justify-content: center;
-        }
 
         .button-link {
             display: inline-block;
@@ -52,7 +49,7 @@
         @endif
         <h1
             class="text-2xl mb-5 font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
-            Daftar Mahasiswa
+            Daftar Mahasiswa Penerbitan SKL
         </h1>
         <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
             <div class="pb-4 bg-white dark:bg-gray-900">
@@ -73,38 +70,24 @@
                         <span class="sr-only">Search</span>
                     </button>
                 </form>
-                <form class="flex items-center mt-4" action="{{ route('filter_mhs') }}" method="GET">
-                    <div class="relative mt-1 ml-2">
-                        <label for="status" class="sr-only">Status</label>
-                        <select name="status" id="status" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-3 pr-10 py-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                            <option value="" selected>Semua Status</option>
-                            <option value="Aktif">Aktif</option>
-                            <option value="Tidak Aktif">Tidak Aktif</option>
-                            <option value="Lulus">Lulus</option>
-                        </select>
-                    </div>
-                    <button type="submit" class="p-2.5 ml-2 text-sm font-medium text-white bg-blue-700 rounded-lg border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-                        Filter
-                    </button>
-                </form>
             </div>
             <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
                 <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                     <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                         <tr>
-                            <th scope="col" class="px-6 py-3 text-center">
+                            <th scope="col" class="px-6 py-3">
                                 Nama
                             </th>
-                            <th scope="col" class="px-6 py-3 text-center">
+                            <th scope="col" class="px-6 py-3">
                                 Instansi
                             </th>
-                            <th scope="col" class="px-6 py-3 text-center">
+                            <th scope="col" class="px-6 py-3">
                                 Jurusan
                             </th>
-                            <th scope="col" class="px-6 py-3 text-center">
-                                Status
+                            <th scope="col" class="px-6 py-3">
+                                Nilai
                             </th>
-                            <th scope="col" class="px-6 py-3 text-center">
+                            <th scope="col" class="px-6 py-3">
                                 Aksi
                             </th>
                         </tr>
@@ -115,39 +98,33 @@
                                 <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover-bg-gray-600">
                                     <td class="px-6 py-4">
                                         {{ $mhs['nama'] }}
-                                    </td>
+                                    </td>    
                                     <td class="px-6 py-4">
                                         {{ $mhs['instansi'] }}
                                     </td>
                                     <td class="px-6 py-4">
                                         {{ $mhs['jurusan'] }}
                                     </td>
-                                    <td class="px-6 py-4 text-center">
-                                        {{ $mhs['status'] }}
-                                    </td>
-                                   <td>
+                                    <td>
                                         <div class="button-container">
-                                            <a href="{{ route('view_presensi_mentor', ['id_mhs' => $mhs['id_mhs'] ?? null]) }}" class="text-grey-400 hover:text-blue-100 button-link">
-                                                <i class="material-icons-outlined text-base"></i> Lihat Presensi
-                                            </a>
-                                            <a href="{{ route('view_progress_mentor', ['id_mhs' => $mhs['id_mhs'] ?? null]) }}" class="text-grey-400 hover:text-blue-100 button-link">
-                                                <i class="material-icons-outlined text-base"></i> Lihat Progress
+                                            <a href="{{ route('lihat_nilai', ['id_mhs' => $mhs['id_mhs'] ?? null]) }}" class="text-grey-400 hover:text-blue-100 button-link">
+                                                <i class="material-icons-outlined text-base"></i> Lihat Nilai
                                             </a>
                                         </div>
                                     </td>
                                     <td>
-                                        @if ($mhs->nilai)
-                                            <form action="{{ route('edit_nilai_mentor', ['id_mhs' => $mhs->id_mhs]) }}" method="GET">
+                                        @if ($mhs['skl'])
+                                            <form action="#" method="GET">
                                                 @csrf
                                                 <button type="submit" class="text-sm font-medium text-white bg-green-400 rounded-lg border border-green-400 px-2 py-1 focus:outline-none focus:ring-2 focus:ring-green-300 hover:bg-green-500">
-                                                    Sudah Dinilai
+                                                    Lihat SKL
                                                 </button>
                                             </form>
                                         @else
-                                            <form action="{{ route('view_nilai_mentor', ['id_mhs' => $mhs->id_mhs]) }}" method="GET">
+                                            <form action="{{ route('view_tambah_skl', ['id_mhs' => $mhs['id_mhs'] ?? null]) }}" method="GET" enctype="multipart/form-data">
                                                 @csrf
-                                                <button type="submit" class="text-sm font-medium text-white bg-blue-400 rounded-lg border border-blue-400 px-2 py-1 focus:outline-none focus:ring-2 focus:ring-blue-300 hover:bg-blue-500">
-                                                    Tambah Nilai
+                                                <button type="submit" class="text-sm font-medium text-white rounded-lg border px-2 py-1 focus:outline-none bg-blue-500 hover:bg-blue-200">
+                                                    Tambah SKL
                                                 </button>
                                             </form>
                                         @endif

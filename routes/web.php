@@ -68,7 +68,9 @@ Route::get('/daftar_akun', [AdminController::class, 'viewAccount'])->middleware(
 Route::get('/view_presensi', [AdminController::class, 'viewPresensi'])->middleware('only_admin')->name('view_presensi');
 Route::get('/verif_presensi/{id_mhs}', [AdminController::class, 'verifyPresensi'])->name('verif_presensi');
 Route::get('/skl_mhs', [AdminController::class, 'viewSKL'])->middleware('only_admin')->name('skl_mhs');
-Route::post('/tambah_skl', [AdminController::class, 'tambahSKL'])->name('tambah_skl');
+Route::get('/lihat_nilai/{id_mhs}', [AdminController::class, 'viewNilai'])->name('lihat_nilai');
+Route::get('/view_tambah_skl/{id_mhs}', [AdminController::class, 'viewTambahSKL'])->name('view_tambah_skl');
+Route::post('/tambah_skl/{id_mhs}', [AdminController::class, 'tambahSKL'])->name('tambah_skl');
 
 /* Mentor */
 Route::get('/dashboard_mentor', [MentorController::class, 'index'])->middleware('only_mentor')->name('dashboard_mentor');
