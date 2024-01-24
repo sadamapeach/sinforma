@@ -184,43 +184,50 @@
         @php
         use Jenssegers\Date\Date;
         Date::setLocale('id');
-    
+        
         $mulaiMagang = \Carbon\Carbon::parse($mahasiswa->mulai_magang);
         $selesaiMagang = \Carbon\Carbon::parse($mahasiswa->selesai_magang);
         $today = \Carbon\Carbon::now('Asia/Jakarta');
         $cards = [];
-    
+        
         // Tambahkan kartu presensi untuk setiap hari antara $mulaiMagang dan $selesaiMagang yang belum terjadi
         $currentDate = $mulaiMagang->copy();
         while ($currentDate->lte($today) && $currentDate->lte($selesaiMagang)) {
             if ($currentDate->isWeekday()) {
-                $isBeforeToday = $currentDate->isBefore($today);
+                $isCurrentDay = $currentDate->isSameDay($today);
+        
+                // Check if attendance has been submitted for the morning session
+                $presensiPagiDisabled = !$isCurrentDay || ($absen && $absen->sesi_absen == 'Pagi' && $absen->tanggal == $currentDate->format('Y-m-d'));
+        
+                // Check if attendance has been submitted for the afternoon session
+                $presensiSoreDisabled = !$isCurrentDay || ($absen && $absen->sesi_absen == 'Sore' && $absen->tanggal == $currentDate->format('Y-m-d'));
+        
                 $cards[] = [
                     'date' => $currentDate->copy(),
-                    'isBeforeToday' => $isBeforeToday,
-                    'disabled' => $isBeforeToday,
+                    'isCurrentDay' => $isCurrentDay,
+                    'presensiPagiDisabled' => $presensiPagiDisabled,
+                    'presensiSoreDisabled' => $presensiSoreDisabled,
                 ];
             }
             $currentDate->addDay();
         }
-    
+        
         // Urutkan cards berdasarkan tanggal secara descending
         usort($cards, function ($a, $b) {
             return $b['date'] <=> $a['date'];
         });
-    @endphp
+        @endphp
 
         @foreach ($cards as $card)
             <div class="p-5 mb-4 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
                 <time class="text-lg font-semibold text-gray-900 dark:text-white">{{ $card['date']->isoFormat('dddd, D MMMM YYYY') }}</time>
                 <ol class="mt-3 divide-y divider-gray-200">
                     <li>
-                        <a href="{{ route('add_presensi_pagi', ['tanggal' => $card['date']->format('Y-m-d')]) }}" class="items-center block p-3 sm:flex hover:bg-gray-100 dark:hover:bg-gray-700 hover:rounded-lg">
+                        <a href="{{ route('add_presensi_pagi', ['tanggal' => $card['date']->format('Y-m-d')]) }}" class="items-center block p-3 sm:flex {{ $card['presensiPagiDisabled'] ? 'opacity-50 pointer-events-none' : 'hover:bg-gray-100 dark:hover:bg-gray-700 hover:rounded-lg' }}">
                             <img class="w-12 h-12 mb-3 me-3 rounded-full sm:mb-0" src="{{ Auth::user()->getImageURL() }}" alt="Jese Leos image"/>
                             <span>
-                                {{-- Tambahkan informasi debugging --}}
                                 Card Date: {{ $card['date']->format('Y-m-d') }}<br>
-                                {{-- Absen Date: {{ $absen->tanggal }}<br> --}}
+                                Absen Date: {{ $absen->tanggal }}<br>
                             </span>
                             <div class="text-gray-600 dark:text-gray-400">
                                 <div class="text-sm font-bold text-black dark:text-white">Presensi Pagi</div>
@@ -243,12 +250,11 @@
                         </a>
                     </li>
                     <li>
-                        <a href="{{ route('add_presensi_sore', ['tanggal' => $card['date']->format('Y-m-d')]) }}" class="items-center block p-3 sm:flex hover:bg-gray-100 dark:hover:bg-gray-700 hover:rounded-lg">
+                        <a href="{{ route('add_presensi_sore', ['tanggal' => $card['date']->format('Y-m-d')]) }}" class="items-center block p-3 sm:flex {{ $card['presensiSoreDisabled'] ? 'opacity-50 pointer-events-none' : 'hover:bg-gray-100 dark:hover:bg-gray-700 hover:rounded-lg' }}">
                             <img class="w-12 h-12 mb-3 me-3 rounded-full sm:mb-0" src="{{ Auth::user()->getImageURL() }}" alt="Jese Leos image"/>
                             <span>
-                                {{-- Tambahkan informasi debugging --}}
                                 Card Date: {{ $card['date']->format('Y-m-d') }}<br>
-                                {{-- Absen Date: {{ $absen->tanggal }}<br> --}}
+                                Absen Date: {{ $absen->tanggal }}<br>
                             </span>
                             <div class="text-gray-600 dark:text-gray-400">
                                 <div class="text-sm font-bold text-black dark:text-white">Presensi Sore</div>

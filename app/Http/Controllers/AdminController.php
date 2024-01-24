@@ -14,6 +14,7 @@ use App\Models\Absen;
 use App\Models\Skl;
 use App\Models\Nilai;
 use App\Models\GeneratedAccount;
+use App\Models\GeneratedAbsen;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Hash;
@@ -425,5 +426,68 @@ class AdminController extends Controller
             return redirect()->route('skl_mhs')->with('error', 'Terjadi kesalahan saat menambah SKL.');
         }
     }
+
+    public function viewTambahAbsen() 
+    {
+        $tambahAbsen = DB::table('generate_absen')
+            ->join('absen', 'absen.id_absen', '=', 'generate_absen.id_absen')
+            ->select('generate_absen.*')
+            ->get();
+        
+        return view('admin.tambah_absen', ["tambahAbsen" => $tambahAbsen]);
+    }
+
+    public function storeAbsen(Request $request)
+    {
+        $request->validate([
+            'judul' => 'required|max:255',
+            'deskripsi' => 'required|max:255',
+            'mulai_absen' => 'required|date',
+            'selesai_absen' => 'required|date',
+            'sesi' => 'required',
+        ]);
+
+        if ($request->submit === 'generate') {
+            DB::beginTransaction();
+
+            try {
+                $generateAbsen = GeneratedAbsen::create([
+                    'judul' => $request->judul,
+                    'deskripsi' => $request->deskripsi,
+                    'mulai_absen' => $request->mulai_absen,
+                    'selesai_absen' => $request->selesai_absen,
+                    'sesi' => $request->sesi,
+                ]);
+
+                if (!$generateAbsen) {
+                    DB::rollback();
+                    return redirect()->route('tambah_absen')->with('error', 'Gagal men-generate presensi!');
+                }
+
+                // $absen = new Absen();
+                // $absen->id_absen = $generateAbsen->id_absen;
+
+                DB::commit();
+
+                return redirect()->route('tambah_absen')->with('success', 'Berhasil menambahkan presensi!');
+            } catch (\Exception $e) {
+                // dd($e->getMessage());
+                DB::rollback();
+                return redirect()->route('tambah_absen')->with('error', 'Gagal menambahkan presensi!');
+            }
+        } 
+    }
+
+
+    // public function viewAccount()
+    // {
+    //     $accounts = DB::table('generate_account')
+    //     ->join('mahasiswa', 'mahasiswa.id_mhs', '=', 'generate_account.id_mhs')
+    //     ->where('mahasiswa.check_profil', '=', 0)
+    //     ->select('generate_account.*')
+    //     ->get();
+  
+    //     return view('admin.daftar_akun', ["accounts" => $accounts]);
+    // }
 
 }

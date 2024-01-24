@@ -127,7 +127,7 @@
                         <div>
                             <label for="keterangan" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Status</label>
                             <select id="keterangan" name="keterangan"
-                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white">
+                                class="bg-gray-50 border font-poppins border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white">
                                 <option value="" disabled selected>--- Pilih Status ---</option>
                                 <option value="Hadir" {{ old('keterangan') === 'Hadir' ? 'selected' : '' }}>Hadir</option>
                                 <option value="Izin" {{ old('keterangan') === 'Izin' ? 'selected' : '' }}>Izin</option>
