@@ -97,31 +97,37 @@
             </div>  
         </div>
 
-        {{-- Form Submission --}}    
+        {{-- Form Submission --}}
         @php
             use Jenssegers\Date\Date;
             Date::setLocale('id');
 
             $mulaiMagang = \Carbon\Carbon::parse($mahasiswa->mulai_magang);
+            $selesaiMagang = \Carbon\Carbon::parse($mahasiswa->selesai_magang);
+            $today = \Carbon\Carbon::now();
             $cards = [];
         @endphp
 
         <div>
-            @php
-                $cards[] = [
-                    'date' => $mulaiMagang->copy(),
-                ];
-            @endphp
+            @if ($mulaiMagang->isWeekday())
+                @php
+                    $isBeforeToday = $mulaiMagang->isBefore($today);
+                    $cards[] = [
+                        'date' => $mulaiMagang->copy(),
+                        'isBeforeToday' => $isBeforeToday,
+                    ];
+                @endphp
+            @endif
 
             @foreach ($cards as $card)
                 <form method="post" action="{{ route('store_presensi_pagi', ['tanggal' => $card['date']->format('Y-m-d')]) }}" enctype="multipart/form-data">
                     @csrf
+                    <input type="datetime-local" name="tanggal" value="{{ \Carbon\Carbon::now('Asia/Jakarta')->format('Y-m-d\TH:i') }}">
                     <div class="grid gap-6 mb-6 md:grid-cols-1 mt-24">
-                        {{-- Keterangan --}}
                         <div>
                             <label for="keterangan" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Status</label>
                             <select id="keterangan" name="keterangan"
-                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white">
+                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white">
                                 <option value="" disabled selected>--- Pilih Status ---</option>
                                 <option value="Hadir" {{ old('keterangan') === 'Hadir' ? 'selected' : '' }}>Hadir</option>
                                 <option value="Izin" {{ old('keterangan') === 'Izin' ? 'selected' : '' }}>Izin</option>
@@ -147,7 +153,7 @@
                     </div>
                 </form>
             @endforeach
-        </div>  
+        </div>
     </div>
 </body>
 </html>

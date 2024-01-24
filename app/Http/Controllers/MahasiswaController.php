@@ -72,6 +72,8 @@ class MahasiswaController extends Controller
             'foto' => 'image|mimes:jpeg,png,jpg|max:2048',
         ]);
 
+        // dd('sss');
+
         DB::beginTransaction();
 
         try {
@@ -218,55 +220,57 @@ class MahasiswaController extends Controller
     }
     
 
-    public function add_presensi_pagi(Request $request) {
+    public function add_presensi_pagi(Request $request, $tanggal) {
         $user = auth()->user();
-    
-        // Pastikan bahwa relasi mahasiswa dimuat
         $user->load('mahasiswa');
-    
         $mahasiswa = $user->mahasiswa;
-        $absen = Absen::where('id_mhs', $mahasiswa->id_mhs)->first();
-        
-        return view('mahasiswa.add_presensi_pagi', compact('absen', 'mahasiswa'));
+    
+        $absen = Absen::where('id_mhs', $mahasiswa->id_mhs)
+            ->where('tanggal', $tanggal)
+            ->where('sesi_absen', 'Pagi')
+            ->first();
+    
+        return view('mahasiswa.add_presensi_pagi', compact('absen', 'mahasiswa', 'tanggal'));
     }
-
-    public function add_presensi_sore(Request $request) {
+    
+    public function add_presensi_sore(Request $request, $tanggal) {
         $user = auth()->user();
-    
-        // Pastikan bahwa relasi mahasiswa dimuat
         $user->load('mahasiswa');
-    
         $mahasiswa = $user->mahasiswa;
-        $absen = Absen::where('id_mhs', $mahasiswa->id_mhs)->first();
-        
-        return view('mahasiswa.add_presensi_sore', compact('absen', 'mahasiswa'));
-    }
+    
+        $absen = Absen::where('id_mhs', $mahasiswa->id_mhs)
+            ->where('tanggal', $tanggal)
+            ->where('sesi_absen', 'Sore')
+            ->first();
+    
+        return view('mahasiswa.add_presensi_sore', compact('absen', 'mahasiswa', 'tanggal'));
+    }    
 
     public function store_presensi_pagi(Request $request)
     {
         try {
-            $tanggal = $request->input('tanggal');
+            $tanggalPagi = $request->input('tanggal');
             $user = Auth::user();
             $user->load('mahasiswa');
             $mahasiswa = $user->mahasiswa;
     
             // Check if there is an existing record for today
             $existingAbsen = Absen::where('id_mhs', $mahasiswa->id_mhs)
-                ->whereDate('tanggal', $tanggal)
+                ->whereDate('tanggal', $tanggalPagi)
                 ->first();
     
             // If there is an existing record, update it
             if ($existingAbsen) {
                 $existingAbsen->update([
                     'keterangan' => $request->input('keterangan'),
-                    'status_isi' => 1,
+                    'status_isi' => 'Sudah Mengisi',
                     'sesi_absen' => 'Pagi',
                 ]);
             } else {
                 // Otherwise, create a new record
                 $validated = $request->validate([
                     'keterangan' => 'required',
-                    'foto' => 'required|image|mimes:jpg,jpeg,png|max:10240',
+                    'foto' => 'required|mimes:jpg,jpeg,png,pdf|max:10240',
                 ]);
     
                 if ($request->has('foto')) {
@@ -275,9 +279,10 @@ class MahasiswaController extends Controller
                 }
     
                 $validated['id_mhs'] = $mahasiswa->id_mhs;
-                $validated['status_isi'] = 1;
+                $validated['status_isi'] = 'Sudah Mengisi';
                 $validated['sesi_absen'] = 'Pagi';
-                $validated['tanggal'] = $tanggal;
+                $validated['tanggal'] = $tanggalPagi;
+                // $validated['tanggal'] = \Carbon\Carbon::parse($validated['tanggal'])->format('Y-m-d H:i:s');
     
                 Absen::create($validated);
             }
@@ -286,33 +291,47 @@ class MahasiswaController extends Controller
         } catch (\Exception $e) {
             return redirect()->route('presensi_mahasiswa')->with('error', 'Gagal melakukan presensi: ' . $e->getMessage());
         }
-    }       
+    }          
 
     public function store_presensi_sore(Request $request)
     {
         try {
-            $tanggal = $request->input('tanggal');
+            $tanggalSore = $request->input('tanggal');
             $user = Auth::user();
             $user->load('mahasiswa');
             $mahasiswa = $user->mahasiswa;
     
-            $validated = $request->validate([
-                'keterangan' => 'required',
-                'foto' => 'required|image|mimes:jpg,jpeg,png|max:10240',
-            ]);
+            // Check if there is an existing record for today
+            $existingAbsen = Absen::where('id_mhs', $mahasiswa->id_mhs)
+                ->whereDate('tanggal', $tanggalSore)
+                ->first();
     
-            if ($request->has('foto')) {
-                $fotoPath = $request->file('foto')->store('absen', 'public');
-                $validated['foto'] = $fotoPath;
-            }
-    
-            Absen::where('id_mhs', $mahasiswa->id_mhs)
-                ->whereDate('tanggal', $tanggal)
-                ->update([
-                    'keterangan' => $validated['keterangan'],
-                    'status_isi' => 1,
+            // If there is an existing record, update it
+            if ($existingAbsen) {
+                $existingAbsen->update([
+                    'keterangan' => $request->input('keterangan'),
+                    'status_isi' => 'Sudah Mengisi',
                     'sesi_absen' => 'Sore',
-                ]);  
+                ]);
+            } else {
+                // Otherwise, create a new record
+                $validated = $request->validate([
+                    'keterangan' => 'required',
+                    'foto' => 'required|mimes:jpg,jpeg,png,pdf|max:10240',
+                ]);
+    
+                if ($request->has('foto')) {
+                    $fotoPath = $request->file('foto')->store('absen', 'public');
+                    $validated['foto'] = $fotoPath;
+                }
+    
+                $validated['id_mhs'] = $mahasiswa->id_mhs;
+                $validated['status_isi'] = 'Sudah Mengisi';
+                $validated['sesi_absen'] = 'Sore';
+                $validated['tanggal'] = $tanggalSore;
+    
+                Absen::create($validated);
+            }
     
             return redirect()->route('presensi_mahasiswa')->with('success', 'Presensi berhasil!');
         } catch (\Exception $e) {
