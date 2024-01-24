@@ -68,7 +68,9 @@ Route::get('/daftar_akun', [AdminController::class, 'viewAccount'])->middleware(
 Route::get('/view_presensi', [AdminController::class, 'viewPresensi'])->middleware('only_admin')->name('view_presensi');
 Route::get('/verif_presensi/{id_mhs}', [AdminController::class, 'verifyPresensi'])->name('verif_presensi');
 Route::get('/skl_mhs', [AdminController::class, 'viewSKL'])->middleware('only_admin')->name('skl_mhs');
-Route::post('/tambah_skl', [AdminController::class, 'tambahSKL'])->name('tambah_skl');
+Route::get('/lihat_nilai/{id_mhs}', [AdminController::class, 'viewNilai'])->name('lihat_nilai');
+Route::get('/view_tambah_skl/{id_mhs}', [AdminController::class, 'viewTambahSKL'])->name('view_tambah_skl');
+Route::post('/tambah_skl/{id_mhs}', [AdminController::class, 'tambahSKL'])->name('tambah_skl');
 
 /* Mentor */
 Route::get('/dashboard_mentor', [MentorController::class, 'index'])->middleware('only_mentor')->name('dashboard_mentor');
@@ -77,8 +79,13 @@ Route::get('/search_mhs', [MentorController::class, 'searchMahasiswa'])->name('s
 Route::get('/filter_mhs', [MentorController::class, 'filterByStatus'])->name('filter_mhs');
 Route::get('/view_presensi_mentor/{id_mhs}', [MentorController::class, 'viewPresensi'])->name('view_presensi_mentor');
 Route::get('/view_progress_mentor/{id_mhs}', [MentorController::class, 'viewProgress'])->name('view_progress_mentor');
-Route::get('/view_nilai_mentor/{id_mhs}', [MentorController::class, 'viewNilai'])->name('view_nilai_mentor');
 Route::get('/view_profil_mentor', [MentorController::class, 'viewProfile'])->middleware('only_mentor')->name('view_profil_mentor');
 Route::get('/edit_profil_mentor', [MentorController::class, 'viewEditProfile'])->middleware('only_mentor')->name('edit_profil_mentor');
 Route::post('/edit_profil_mentor', [MentorController::class, 'update'])->name('edit_profil_mentor');
+Route::get('/view_nilai_mentor/{id_mhs}', [MentorController::class, 'viewNilai'])->name('view_nilai_mentor');
 Route::post('/store_nilai/{id_mhs}', [MentorController::class, 'storeNilai'])->name('store_nilai');
+Route::get('/edit_nilai_mentor/{id_mhs}', [MentorController::class, 'viewEditNilai'])->name('edit_nilai_mentor');
+Route::post('/edit_nilai_mentor_access/{id_mhs}', [MentorController::class, 'viewEditNilai2'])->name('edit_nilai_mentor_access');
+Route::post('/edit_nilai_mentor/{id_mhs}', [MentorController::class, 'storeNilai1'])->name('edit_nilai_mentor');
+Route::match(['get', 'post'], '/delete_nilai/{id_mhs}', [MentorController::class, 'deleteNilai'])->name('delete_nilai');
+

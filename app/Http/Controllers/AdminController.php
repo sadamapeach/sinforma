@@ -12,6 +12,7 @@ use App\Models\Mahasiswa;
 use App\Models\Progress;
 use App\Models\Absen;
 use App\Models\Skl;
+use App\Models\Nilai;
 use App\Models\GeneratedAccount;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
@@ -364,8 +365,6 @@ class AdminController extends Controller
                 $presensi->save();
 
                 return redirect()->route('view_presensi')->with('success', 'Presensi berhasil diverifikasi.');
-            } else {
-                return redirect()->route('view_presensi')->with('error', 'Presensi sudah diverifikasi sebelumnya.');
             }
         } else {
             return redirect()->route('view_presensi')->with('error', 'Presensi tidak ditemukan.');
@@ -374,30 +373,57 @@ class AdminController extends Controller
     
     public function viewSKL()
     {
-        $mahasiswas = Mahasiswa::whereHas('nilai')->whereDoesntHave('skl')->get();
+        $mhsData = Mahasiswa::whereHas('nilai')->get();
 
-        return view('admin.tambah_skl', ['mahasiswas' => $mahasiswas]);
+        return view('admin.daftar_skl', ['mhsData' => $mhsData]);
     }
 
-    public function tambahSKL(Request $request)
+    public function viewNilai(string $id_mhs)
     {
+        $mhs = Mahasiswa::where('id_mhs', $id_mhs)->first();
+        $foto = User::where('id', $mhs->id_user)->first()->getImageURL();
+        $nilai = Nilai::where('id_mhs', $id_mhs)->first();
+       
+        return view('admin.lihat_nilai', [
+            'mahasiswa' => $mhs,
+            'foto' => $foto,
+            'nilai' => $nilai]);
+    }
+
+    public function viewTambahSKL(string $id_mhs)
+    {
+        $mhs = Mahasiswa::where('id_mhs', $id_mhs)->first();
+        $foto = User::where('id', $mhs->id_user)->first()->getImageURL();
+       
+        return view('admin.tambah_skl', [
+            'mahasiswa' => $mhs,
+            'foto' => $foto]);
+    }
+
+    public function tambahSKL(Request $request, $id_mhs)
+    {
+        
         $request->validate([
-            'id_mhs' => 'required|exists:mahasiswa,id_mhs',
             'file_skl' => 'required|mimes:pdf|max:2048', 
         ]);
 
-        $fileSklPath = $request->file_skl->store('skl', 'public');
+        try {
+            $fileSklPath = $request->file_skl->store('skl', 'public');
 
-        $user = Auth::user();
-        $admin = Admin::where('id_user', $user->id)->first();
+            $user = Auth::user();
+            $admin = Admin::where('id_user', $user->id)->first();
 
-        $skl = new Skl();
-        $skl->id_mhs = $request->id_mhs;
-        $skl->nip_admin = $admin->nip; 
-        $skl->file_skl = $fileSklPath;
-        $skl->save();
+            $skl = new Skl();
+            $skl->id_mhs = $request->id_mhs;
+            $skl->nip_admin = $admin->nip; 
+            $skl->file_skl = $fileSklPath;
+            $skl->save();
 
-        return redirect()->route('skl_mhs')->with('success', 'SKL berhasil ditambahkan.');
+            
+            return redirect()->route('skl_mhs')->with('success', 'SKL berhasil ditambahkan.');
+        } catch (\Exception $e) {
+            return redirect()->route('skl_mhs')->with('error', 'Terjadi kesalahan saat menambah SKL.');
+        }
     }
 
 }

@@ -93,12 +93,18 @@
                         <td class="px-6 py-4">{{ $verifikasiPresensi->tanggal }}</td>
                         <td class="px-6 py-4">{{ $verifikasiPresensi->status }}</td>
                         <td>
-                            <form action="{{ route('verif_presensi', ['id_mhs' => $verifikasiPresensi->mahasiswa->id_mhs]) }}" method="GET">
-                                @csrf
+                        <form action="{{ route('verif_presensi', ['id_mhs' => $verifikasiPresensi->mahasiswa->id_mhs]) }}" method="GET">
+                            @csrf
+                            @if ($verifikasiPresensi->status !== 'Verified')
                                 <button type="submit" class="text-sm font-medium text-white bg-green-400 rounded-lg border border-green-400 px-2 py-1 focus:outline-none focus:ring-2 focus:ring-green-300 hover:bg-green-500">
                                     Verifikasi
                                 </button>
-                            </form>
+                            @else
+                                <button type="button" class="text-sm font-medium text-gray-500 bg-gray-300 rounded-lg border border-gray-300 px-2 py-1 cursor-not-allowed" disabled>
+                                    Verified
+                                </button>
+                            @endif
+                        </form>
                         </td>
                     </tr>
                 @endforeach

@@ -1,5 +1,5 @@
 @extends('index_admin')
-@section('title', 'SKL')
+@section('title', 'Penerbitan SKL')
 
 @section('isihalaman')
 <head>
@@ -22,32 +22,37 @@
                     <span class="font-medium">{{ session('error') }}</span>
                 </div>
             @endif
+
+            <a href="{{ route('skl_mhs') }}" class="text-blue-600 dark:text-blue-500 hover:underline mb-4 inline-block">
+                <i class="fas fa-arrow-left mr-2"></i> Kembali
+            </a>
             <br>
-            <h1 class="text-l mb-5 font-semibold leading-tight tracking-tight text-gray-900 md:text-xl dark:text-white">
-                Penerbitan Surat Keterangan Lulus (SKL)
+
+            <!-- Informasi Mahasiswa -->
+            <h1 class="text-l text-center mb-5 font-semibold leading-tight tracking-tight text-gray-900 md:text-xl dark:text-white">
+                Penerbitan Surat Keterangan Lulus (SKL) 
             </h1>
-            <form action="{{ route('tambah_skl') }}" method="post" enctype="multipart/form-data">
-            @csrf
-
-            <div class="mb-4">
-                <label for="id_mhs" class="block text-sm font-medium text-gray-600">Pilih Mahasiswa:</label>
-                <select name="id_mhs" id="id_mhs" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                    <option value="" disabled selected>Pilih Mahasiswa</option>
-                    @foreach ($mahasiswas as $mahasiswa)
-                        <option value="{{ $mahasiswa->id_mhs }}">{{ $mahasiswa->nama }}</option>
-                    @endforeach
-                </select>
+            <div class="flex flex-col items-center mb-6">
+                <div class="relative w-20 h-20 overflow-hidden bg-gray-100 rounded-full dark:bg-gray-600">
+                    <img src="{{ $foto }}" alt="user photo" class="w-20 h-20 object-cover" />
+                </div>
+                <br>
+                <p class="text-sm font-medium text-gray-900 dark:text-white">{{ $mahasiswa->nama }}</p>
+                <p class="text-sm text-gray-500 dark:text-gray-400">{{ $mahasiswa->instansi }} | {{ $mahasiswa->jurusan }} </p>
             </div>
 
-            <div class="mb-4">
-                <label for="file_skl" class="block text-sm font-medium text-gray-600">Unggah File SKL:</label>
-                <input type="file" name="file_skl" id="file_skl" class="mt-1 block w-full">
-            </div>
+            <form action="{{ route('tambah_skl', ['id_mhs' => $mahasiswa->id_mhs]) }}" method="POST" enctype="multipart/form-data">
+                @csrf
+                <div class="mb-4">
+                    <label for="file_skl" class="block text-sm font-medium text-gray-600">Unggah File SKL:</label>
+                    <input type="file" name="file_skl" id="file_skl" class="mt-1 block w-full">
+                </div>
 
-            <div class="mt-4 text-center">
-                <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 mx-auto">Terbitkan SKL</button>
-            </div>
-        </form>
+                <div class="mt-4 text-center">
+                    <button type="submit" name="submit" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 mx-auto">Terbitkan SKL</button>
+                </div>
+            </form>
+
         </div>
     </div>
 </body>
