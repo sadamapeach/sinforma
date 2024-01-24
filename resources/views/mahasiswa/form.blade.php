@@ -168,9 +168,9 @@
 
                 {{-- No.HP --}}
                 <div class="form-form">
-                  <label for="noHP" class="form-label">Nomor HP</label>
-                  <input type="tel" name="noHP" class="form-control @error('noHP') is-invalid @enderror" id="noHP" placeholder="Masukkan nomor HP anda" autofocus value="{{ old('noHP') }}">
-                  @error('noHP')
+                  <label for="no_telepon" class="form-label">Nomor HP</label>
+                  <input type="tel" name="no_telepon" class="form-control @error('no_telepon') is-invalid @enderror" id="no_telepon" placeholder="Masukkan nomor HP anda" autofocus value="{{ old('no_telepon') }}">
+                  @error('no_telepon')
                     <div class="invalid-feedback">
                         {{ $message }}
                     </div>
@@ -181,7 +181,7 @@
                 <div class="form-form">
                     <label for="email" class="form-label">Email</label>
                     <input type="email" name="email" class="form-control @error('email') is-invalid @enderror" id="email" placeholder="Masukkan alamat email anda" autofocus value="{{ old('email') }}">
-                    @error('noHP')
+                    @error('email')
                     <div class="invalid-feedback">
                         {{ $message }}
                     </div>

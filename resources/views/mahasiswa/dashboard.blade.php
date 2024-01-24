@@ -249,7 +249,7 @@
                             <path d="M3.5 9.75a.75.75 0 0 0-1.5 0v1.5A2.75 2.75 0 0 0 4.75 14h6.5A2.75 2.75 0 0 0 14 11.25v-1.5a.75.75 0 0 0-1.5 0v1.5c0 .69-.56 1.25-1.25 1.25h-6.5c-.69 0-1.25-.56-1.25-1.25v-1.5Z" />
                           </svg>
                         </span>
-                        <span class="bg-pink-100 text-pink-800 font-medium me-2 px-2.5 content-center py-0.5 rounded-full dark:bg-pink-900 dark:text-pink-300 ml-1.5" style="font-size: 11px">{{ $skl->file_skl }}</span>
+                        <span class="bg-pink-100 text-pink-800 font-medium me-2 px-2.5 content-center py-0.5 rounded-full dark:bg-pink-900 dark:text-pink-300 ml-1.5" style="font-size: 11px"></span>
                     </div>                     
                 </div>
             </div>
