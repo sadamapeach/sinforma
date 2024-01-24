@@ -75,19 +75,19 @@
                 <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                     <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                         <tr>
-                            <th scope="col" class="px-6 py-3">
+                            <th scope="col" class="px-6 py-3 text-center">
                                 Nama
                             </th>
-                            <th scope="col" class="px-6 py-3">
+                            <th scope="col" class="px-6 py-3 text-center">
                                 Instansi
                             </th>
-                            <th scope="col" class="px-6 py-3">
+                            <th scope="col" class="px-6 py-3 text-center">
                                 Jurusan
                             </th>
-                            <th scope="col" class="px-6 py-3">
+                            <th scope="col" class="px-6 py-3 text-center">
                                 Nilai
                             </th>
-                            <th scope="col" class="px-6 py-3">
+                            <th scope="col" class="px-6 py-3 text-center">
                                 Aksi
                             </th>
                         </tr>
@@ -102,24 +102,27 @@
                                     <td class="px-6 py-4">
                                         {{ $mhs['instansi'] }}
                                     </td>
-                                    <td class="px-6 py-4">
+                                    <td class="px-6 py-4 text-center">
                                         {{ $mhs['jurusan'] }}
                                     </td>
                                     <td>
-                                        <div class="button-container">
+                                        <div class="button-container text-center">
                                             <a href="{{ route('lihat_nilai', ['id_mhs' => $mhs['id_mhs'] ?? null]) }}" class="text-grey-400 hover:text-blue-100 button-link">
-                                                <i class="material-icons-outlined text-base"></i> Lihat Nilai
+                                                <i class="material-icons-outlined text-base text-center"></i> Lihat Nilai
                                             </a>
                                         </div>
                                     </td>
-                                    <td>
-                                        @if ($mhs['skl'])
-                                            <form action="#" method="GET">
-                                                @csrf
-                                                <button type="submit" class="text-sm font-medium text-white bg-green-400 rounded-lg border border-green-400 px-2 py-1 focus:outline-none focus:ring-2 focus:ring-green-300 hover:bg-green-500">
-                                                    Lihat SKL
-                                                </button>
-                                            </form>
+                                    <td class="px-6 py-4 text-center">
+                                    @if ($mhs['skl'])
+                                        <a href="{{ asset('storage/' . $mhs['skl']->file_skl) }}" class="text-sm font-medium text-white bg-green-400 rounded-lg border border-green-400 px-2 py-1 focus:outline-none focus:ring-2 focus:ring-green-300 hover:bg-green-500">
+                                            Lihat SKL
+                                        </a>
+                                        <a href="{{ route('view_edit_skl', ['id_mhs' => $mhs['id_mhs'] ?? null]) }}" method="GET" class="text-sm font-medium text-white bg-blue-500 ml-1 rounded-lg border px-2 py-1 focus:outline-none hover:bg-blue-200">
+                                            Edit SKL
+                                        </a>
+                                        <a href="{{ route('delete_skl', ['id_mhs' => $mhs['id_mhs'] ?? null]) }}" class="text-sm font-medium text-white bg-red-500 ml-1 rounded-lg border px-2 py-1 focus:outline-none hover:bg-red-200" onclick="return confirm('Apakah anda yakin ingin menghapus SKL ini?')">
+                                            Hapus SKL
+                                        </a>
                                         @else
                                             <form action="{{ route('view_tambah_skl', ['id_mhs' => $mhs['id_mhs'] ?? null]) }}" method="GET" enctype="multipart/form-data">
                                                 @csrf

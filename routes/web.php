@@ -71,6 +71,9 @@ Route::get('/skl_mhs', [AdminController::class, 'viewSKL'])->middleware('only_ad
 Route::get('/lihat_nilai/{id_mhs}', [AdminController::class, 'viewNilai'])->name('lihat_nilai');
 Route::get('/view_tambah_skl/{id_mhs}', [AdminController::class, 'viewTambahSKL'])->name('view_tambah_skl');
 Route::post('/tambah_skl/{id_mhs}', [AdminController::class, 'tambahSKL'])->name('tambah_skl');
+Route::get('/view_edit_skl/{id_mhs}', [AdminController::class, 'viewEditSKL'])->name('view_edit_skl');
+Route::post('/update_skl/{id_mhs}', [AdminController::class, 'updateSKL'])->name('update_skl');
+Route::match(['get', 'post'], '/delete_skl/{id_mhs}', [AdminController::class, 'deleteSKL'])->name('delete_skl');
 
 /* Mentor */
 Route::get('/dashboard_mentor', [MentorController::class, 'index'])->middleware('only_mentor')->name('dashboard_mentor');
