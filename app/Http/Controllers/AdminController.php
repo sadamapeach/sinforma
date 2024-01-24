@@ -18,6 +18,8 @@ use App\Models\GeneratedAbsen;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
+
 
 class AdminController extends Controller
 {
@@ -424,6 +426,71 @@ class AdminController extends Controller
             return redirect()->route('skl_mhs')->with('success', 'SKL berhasil ditambahkan.');
         } catch (\Exception $e) {
             return redirect()->route('skl_mhs')->with('error', 'Terjadi kesalahan saat menambah SKL.');
+        }
+    }
+
+    public function viewEditSKL(string $id_mhs)
+    {
+        $mhs = Mahasiswa::where('id_mhs', $id_mhs)->first();
+        $foto = User::where('id', $mhs->id_user)->first()->getImageURL();
+        return view('admin.edit_skl', [
+            'mahasiswa' => $mhs,
+            'foto' => $foto]);
+    }
+
+    public function viewEditNilai(string $id_mhs)
+    {
+        $mhs = Mahasiswa::where('id_mhs', $id_mhs)->first();
+        $foto = User::where('id', $mhs->id_user)->first()->getImageURL();
+        $nilai = Nilai::where('id_mhs', $id_mhs)->first();
+       
+        return view('mentor.view_edit_nilai', [
+            'mahasiswa' => $mhs,
+            'foto' => $foto,
+            'nilai' => $nilai]);
+    }
+
+    public function updateSKL(Request $request, $id_mhs)
+    {
+        $request->validate([
+            'file_skl' => 'required|mimes:pdf|max:2048',
+        ]);
+
+        try {
+            $skl = Skl::where('id_mhs', $id_mhs)->first();
+
+            if (!$skl) {
+                return redirect()->route('skl_mhs')->with('error', 'SKL tidak ditemukan.');
+            }
+
+            Storage::disk('public')->delete($skl->file_skl);
+
+            $fileSklPath = $request->file_skl->store('skl', 'public');
+
+            $skl->file_skl = $fileSklPath;
+            $skl->save();
+
+            return redirect()->route('skl_mhs')->with('success', 'SKL berhasil diperbarui.');
+        } catch (\Exception $e) {
+            return redirect()->route('skl_mhs')->with('error', 'Terjadi kesalahan saat memperbarui SKL.');
+        }
+    }
+
+
+    public function deleteSKL(string $id_mhs)
+    {
+        try {
+            $skl = SKL::where('id_mhs', $id_mhs)->first();
+
+            if (!$skl) {
+                return redirect()->route('daftar_skl')->with('error', 'SKL mahasiswa tidak ditemukan.');
+            }
+
+            $skl->delete();
+
+            return redirect()->route('skl_mhs')->with('success', 'SKL mahasiswa berhasil dihapus.');
+        } catch (\Exception $e) {
+            return redirect()->route('skl_mhs')->with('error', 'Terjadi kesalahan saat menghapus SKL mahasiswa.');
         }
     }
 
