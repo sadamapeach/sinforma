@@ -102,7 +102,7 @@
                 <div class="z-10 ml-4 w-full" style="margin-top: 70px">
                     <div class="flex items-center justify-between">
                         {{-- Header --}}
-                        <div class="font-bold text-lg text-black dark:text-white">Oktaviana Sadama | 24004</div>
+                        <div class="font-bold text-lg text-black dark:text-white">{{ $mahasiswa->nama }} | {{ $mahasiswa->id_mhs }}</div>
                     </div>                                        
 
                     <div class="flex items-center text-xs mb-1.5">
@@ -110,12 +110,12 @@
                             <path fill-rule="evenodd" d="M8.074.945A4.993 4.993 0 0 0 6 5v.032c.004.6.114 1.176.311 1.709.16.428-.204.91-.61.7a5.023 5.023 0 0 1-1.868-1.677c-.202-.304-.648-.363-.848-.058a6 6 0 1 0 8.017-1.901l-.004-.007a4.98 4.98 0 0 1-2.18-2.574c-.116-.31-.477-.472-.744-.28Zm.78 6.178a3.001 3.001 0 1 1-3.473 4.341c-.205-.365.215-.694.62-.59a4.008 4.008 0 0 0 1.873.03c.288-.065.413-.386.321-.666A3.997 3.997 0 0 1 8 8.999c0-.585.126-1.14.351-1.641a.42.42 0 0 1 .503-.235Z" clip-rule="evenodd" />
                         </svg>
                         </span>
-                        <span class="text-gray-700 dark:text-gray-400">Statistika</span>
+                        <span class="text-gray-700 dark:text-gray-400">{{ $mahasiswa->jurusan }}</span>
                         <span><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="w-3 h-3 ml-4 mr-1 fill-gray-700 dark:fill-gray-400">
                             <path fill-rule="evenodd" d="m7.539 14.841.003.003.002.002a.755.755 0 0 0 .912 0l.002-.002.003-.003.012-.009a5.57 5.57 0 0 0 .19-.153 15.588 15.588 0 0 0 2.046-2.082c1.101-1.362 2.291-3.342 2.291-5.597A5 5 0 0 0 3 7c0 2.255 1.19 4.235 2.292 5.597a15.591 15.591 0 0 0 2.046 2.082 8.916 8.916 0 0 0 .189.153l.012.01ZM8 8.5a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3Z" clip-rule="evenodd" />
                         </svg>
                         </span>
-                        <span class="text-gray-700 dark:text-gray-400">Universitas Indonesia</span>
+                        <span class="text-gray-700 dark:text-gray-400">{{ $mahasiswa->instansi }}</span>
                     </div>
                     <span class="bg-purple-100 text-purple-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-purple-900 dark:text-purple-300">Verified User</span>
                 </div>

@@ -236,23 +236,23 @@
             </div>
         
             {{-- SKL --}}
-            <div class="flex w-80 h-1/2 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+            <a href="{{ route('cetak_nilai_mhs') }}" class="flex w-80 h-1/2 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
                 <img class="h-full w-1/3 rounded-l-lg" src="assets/card_2.png" alt="image description">
                 <div class="text-left rtl:text-right mx-4">
                     <div class="text-black dark:text-white text-sm font-bold mt-4">Surat Keterangan Lulus</div>
-                    <div class=" text-gray-400 dark:text-gray-500 mt-0.5 mb-2" style="font-size: 10px">SKL dapat diunduh setelah mahasiswa dinyatakan LULUS.</div>
+                    <div class="text-gray-400 dark:text-gray-500 mt-0.5 mb-2" style="font-size: 10px">SKL dapat diunduh setelah mahasiswa dinyatakan LULUS.</div>
 
                     {{-- Downloads --}}
                     <div class="flex items-center">
                         <span><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="w-4 h-4 fill-gray-700 dark:fill-gray-400">
-                            <path d="M8.75 2.75a.75.75 0 0 0-1.5 0v5.69L5.03 6.22a.75.75 0 0 0-1.06 1.06l3.5 3.5a.75.75 0 0 0 1.06 0l3.5-3.5a.75.75 0 0 0-1.06-1.06L8.75 8.44V2.75Z" />
-                            <path d="M3.5 9.75a.75.75 0 0 0-1.5 0v1.5A2.75 2.75 0 0 0 4.75 14h6.5A2.75 2.75 0 0 0 14 11.25v-1.5a.75.75 0 0 0-1.5 0v1.5c0 .69-.56 1.25-1.25 1.25h-6.5c-.69 0-1.25-.56-1.25-1.25v-1.5Z" />
-                          </svg>
+                                <path d="M8.75 2.75a.75.75 0 0 0-1.5 0v5.69L5.03 6.22a.75.75 0 0 0-1.06 1.06l3.5 3.5a.75.75 0 0 0 1.06 0l3.5-3.5a.75.75 0 0 0-1.06-1.06L8.75 8.44V2.75Z" />
+                                <path d="M3.5 9.75a.75.75 0 0 0-1.5 0v1.5A2.75 2.75 0 0 0 4.75 14h6.5A2.75 2.75 0 0 0 14 11.25v-1.5a.75.75 0 0 0-1.5 0v1.5c0 .69-.56 1.25-1.25 1.25h-6.5c-.69 0-1.25-.56-1.25-1.25v-1.5Z" />
+                            </svg>
                         </span>
                         <span class="bg-pink-100 text-pink-800 font-medium me-2 px-2.5 content-center py-0.5 rounded-full dark:bg-pink-900 dark:text-pink-300 ml-1.5" style="font-size: 11px"></span>
-                    </div>                     
+                    </div>
                 </div>
-            </div>
+            </a>
         </div> 
     </div>
   

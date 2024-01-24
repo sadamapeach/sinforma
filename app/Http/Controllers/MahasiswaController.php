@@ -12,8 +12,10 @@ use App\Models\Admin;
 use App\Models\SKL;
 use App\Models\Absen;
 use App\Models\Progress;
+use App\Models\Nilai;
 use App\Models\User;
 use Carbon\Carbon;
+use PDF;
 
 class MahasiswaController extends Controller
 {
@@ -381,8 +383,21 @@ class MahasiswaController extends Controller
 
         $id_mhs = $request->user()->mahasiswa->id_mhs;
         $progress = Progress::where('id_mhs', $id_mhs)->first();
-    
-        return view('mahasiswa.progress', compact('progress'));
+        $mahasiswa = Mahasiswa::join('users', 'mahasiswa.id_user', '=', 'users.id')
+            ->where('mahasiswa.id_mhs', $id_mhs)
+            ->select(
+                'mahasiswa.nama',
+                'mahasiswa.jurusan',
+                'mahasiswa.instansi',
+                'mahasiswa.id_mhs',
+                'mahasiswa.no_telepon',
+                'mahasiswa.email',
+                'mahasiswa.alamat',
+                'users.username as username',
+            )
+            ->first();
+
+        return view('mahasiswa.progress', compact('progress', 'mahasiswa'));
     }
 
     public function store_progress(Request $request)
@@ -418,4 +433,34 @@ class MahasiswaController extends Controller
             dd($e->getMessage());
         }
     }
+
+    public function cetak_nilai() 
+{
+    $user = Auth::user();
+    $id_mhs = $user->mahasiswa->id_mhs;
+    $mahasiswa = Mahasiswa::join('users', 'mahasiswa.id_user', '=', 'users.id')
+        ->where('mahasiswa.id_mhs', $id_mhs)
+        ->select(
+            'mahasiswa.nama',
+            'mahasiswa.jurusan',
+            'mahasiswa.instansi',
+            'mahasiswa.id_mhs',
+        )
+        ->first();
+
+    $nilai = Nilai::where('id_mhs', $id_mhs)->first();
+
+    $criteria = [
+        'Kedisiplinan dan Etika',
+        'Kemampuan Berkomunikasi dan Bekerja Sama',
+        'Pemahaman terhadap Permasalahan',
+        'Pengetahuan Teoritis dan Praktik',
+        'Rata-rata',
+    ];
+
+    $pdf = app('dompdf.wrapper');
+    $pdf->loadView('mahasiswa.cetak_nilai', compact('criteria', 'nilai', 'mahasiswa'));
+    return $pdf->stream('cetak_nilai.pdf');
+}
+
 }
