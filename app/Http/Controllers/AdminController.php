@@ -531,9 +531,6 @@ class AdminController extends Controller
                     return redirect()->route('tambah_absen')->with('error', 'Gagal men-generate presensi!');
                 }
 
-                // $absen = new Absen();
-                // $absen->id_absen = $generateAbsen->id_absen;
-
                 DB::commit();
 
                 return redirect()->route('tambah_absen')->with('success', 'Berhasil menambahkan presensi!');
@@ -544,17 +541,4 @@ class AdminController extends Controller
             }
         } 
     }
-
-
-    // public function viewAccount()
-    // {
-    //     $accounts = DB::table('generate_account')
-    //     ->join('mahasiswa', 'mahasiswa.id_mhs', '=', 'generate_account.id_mhs')
-    //     ->where('mahasiswa.check_profil', '=', 0)
-    //     ->select('generate_account.*')
-    //     ->get();
-  
-    //     return view('admin.daftar_akun', ["accounts" => $accounts]);
-    // }
-
 }

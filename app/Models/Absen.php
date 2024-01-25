@@ -15,19 +15,24 @@ class Absen extends Model
     public $timestamps = false;
 
     protected $fillable = [
-        'id',
+        'id_absen',
         'id_mhs',
         'keterangan',
         'foto',
         'tanggal',
         'status',
-        'status_isi',
-        'sesi_absen',
     ];
 
+    // Relasi dengan GenerateAbsen
+    public function generateAbsen()
+    {
+        return $this->belongsTo(GeneratedAbsen::class, 'id_absen', 'id_absen');
+    }
+
+    // Relasi dengan Mahasiswa (jika diperlukan)
     public function mahasiswa()
     {
-        return $this->belongsTo(Mahasiswa::class, 'id_mhs');
+        return $this->belongsTo(Mahasiswa::class, 'id_mhs', 'id_mhs');
     }
 
     public function getImageURL(){

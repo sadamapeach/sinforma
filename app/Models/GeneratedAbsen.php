@@ -15,11 +15,20 @@ class GeneratedAbsen extends Model
     public $timestamps = false;
 
     protected $fillable = [
-        'id_absen',
         'judul',
         'deskripsi',
         'sesi',
         'mulai_absen',
         'selesai_absen',
     ];
+
+    public function absen()
+    {
+        return $this->hasMany(Absen::class, 'id_absen', 'id_absen');
+    }
+
+    public function hasFilledByMahasiswa($mahasiswaId)
+    {
+        return $this->absen->where('id_mhs', $mahasiswaId)->isNotEmpty();
+    }
 }

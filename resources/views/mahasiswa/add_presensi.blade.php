@@ -119,40 +119,41 @@
                 @endphp
             @endif
 
-            @foreach ($cards as $card)
-                <form method="post" action="{{ route('store_presensi_pagi', ['tanggal' => $card['date']->format('Y-m-d')]) }}" enctype="multipart/form-data">
-                    @csrf
-                    <input type="datetime-local" name="tanggal" value="{{ \Carbon\Carbon::now('Asia/Jakarta')->format('Y-m-d\TH:i') }}">
-                    <div class="grid gap-6 mb-6 md:grid-cols-1 mt-24">
-                        <div>
-                            <label for="keterangan" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Status</label>
-                            <select id="keterangan" name="keterangan"
-                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white">
-                                <option value="" disabled selected>--- Pilih Status ---</option>
-                                <option value="Hadir" {{ old('keterangan') === 'Hadir' ? 'selected' : '' }}>Hadir</option>
-                                <option value="Izin" {{ old('keterangan') === 'Izin' ? 'selected' : '' }}>Izin</option>
-                                <option value="Sakit" {{ old('keterangan') === 'Sakit' ? 'selected' : '' }}>Sakit</option>
-                            </select>             
-                        </div>
-
-                        {{-- Foto --}}
-                        <div>
-                            <label class="block mb-1 text-sm font-medium text-gray-900 dark:text-white" for="foto">Upload Foto Profil</label>
-                            <input class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-800 dark:border-gray-700 dark:placeholder-gray-400" aria-describedby="foto" id="foto" name="foto" type="file">
-                            @error('foto')
-                            <div class="invalid-feedback">
-                                {{ $message }}
-                            </div>             
-                            @enderror                  
-                        </div>
+            {{-- @foreach ($cards as $card) --}}
+            <form method="post" action="{{ route('store_presensi', ['id_absen' => $id_absen]) }}" enctype="multipart/form-data">
+                @csrf
+                <input type="" name="id_absen" value="{{ $id_absen }}">
+                <input type="datetime-local" name="tanggal" value="{{ \Carbon\Carbon::now('Asia/Jakarta')->format('Y-m-d\TH:i') }}">
+                <div class="grid gap-6 mb-6 md:grid-cols-1 mt-24">
+                    <div>
+                        <label for="keterangan" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Status</label>
+                        <select id="keterangan" name="keterangan"
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white">
+                            <option value="" disabled selected>--- Pilih Status ---</option>
+                            <option value="Hadir" {{ old('keterangan') === 'Hadir' ? 'selected' : '' }}>Hadir</option>
+                            <option value="Izin" {{ old('keterangan') === 'Izin' ? 'selected' : '' }}>Izin</option>
+                            <option value="Sakit" {{ old('keterangan') === 'Sakit' ? 'selected' : '' }}>Sakit</option>
+                        </select>             
                     </div>
 
-                    {{-- Button --}}
-                    <div class="flex justify-end mb-2">
-                        <button type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:outline-none font-medium rounded-full text-sm w-24 h-9 text-center me-2 dark:bg-blue-600 dark:hover:bg-blue-700">Send</button>
+                    {{-- Foto --}}
+                    <div>
+                        <label class="block mb-1 text-sm font-medium text-gray-900 dark:text-white" for="foto">Upload Foto Profil</label>
+                        <input class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-800 dark:border-gray-700 dark:placeholder-gray-400" aria-describedby="foto" id="foto" name="foto" type="file">
+                        @error('foto')
+                        <div class="invalid-feedback">
+                            {{ $message }}
+                        </div>             
+                        @enderror                  
                     </div>
-                </form>
-            @endforeach
+                </div>
+
+                {{-- Button --}}
+                <div class="flex justify-end mb-2">
+                    <button type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:outline-none font-medium rounded-full text-sm w-24 h-9 text-center me-2 dark:bg-blue-600 dark:hover:bg-blue-700">Send</button>
+                </div>
+            </form>
+            {{-- @endforeach --}}
         </div>
     </div>
 </body>

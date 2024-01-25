@@ -31,11 +31,8 @@ Route::controller(MahasiswaController::class)->group(function() {
     Route::post('/change_password', [MahasiswaController::class, 'change_password'])->name('password_mahasiswa');
 
     Route::get('/presensi_mahasiswa', [MahasiswaController::class, 'presensi'])->name('presensi_mahasiswa');
-    Route::get('/add_presensi/pagi/{tanggal}', [MahasiswaController::class, 'add_presensi_pagi'])->name('add_presensi_pagi');
-    Route::post('/store_presensi/pagi/{tanggal}', [MahasiswaController::class, 'store_presensi_pagi'])->name('store_presensi_pagi'); 
-    Route::get('/add_presensi/sore/{tanggal}', [MahasiswaController::class, 'add_presensi_sore'])->name('add_presensi_sore');
-    Route::post('/store_presensi/sore/{tanggal}', [MahasiswaController::class, 'store_presensi_sore'])->name('store_presensi_sore');
-    
+    Route::get('/add_presensi/{id_absen}', [MahasiswaController::class, 'add_presensi'])->name('add_presensi');
+    Route::post('/store_presensi/{id_absen}', [MahasiswaController::class, 'store_presensi'])->name('store_presensi'); 
 
     Route::get('/progress_mahasiswa', [MahasiswaController::class, 'progress'])->name('progress_mahasiswa');
     Route::post('/store_progress', [MahasiswaController::class, 'store_progress'])->name('store_progress');
