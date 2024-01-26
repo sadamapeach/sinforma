@@ -50,8 +50,8 @@
         @endif
 
         {{-- Wallpaper --}}
-        <div class="relative rounded-lg w-full bg-purple-700 h-28">
-            <img src="assets/bg.png" class="w-full absolute h-28 object-cover rounded-lg" alt="...">
+        <div class="relative rounded-lg w-full bg-white dark:bg-gray-700 h-28">
+            <img src="assets/header.png" class="w-full absolute h-28 object-cover rounded-lg" alt="...">
             <div class="absolute top-0 right-0 mt-3 mr-2">
                 {{-- Icon --}}
                 <div class="flex items-center md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
@@ -68,7 +68,7 @@
                             <span class="block text-sm  text-gray-500 truncate dark:text-gray-400">
                                 <div class="flex items-center mt-1">
                                 {{-- Light --}}
-                                <span class="mr-1"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="black" class="w-4 h-4 fill-black dark:fill-white">
+                                <span class="mr-1"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="black" class="w-4 h-4 fill-white">
                                     <path d="M8 1a.75.75 0 0 1 .75.75v1.5a.75.75 0 0 1-1.5 0v-1.5A.75.75 0 0 1 8 1ZM10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0ZM12.95 4.11a.75.75 0 1 0-1.06-1.06l-1.062 1.06a.75.75 0 0 0 1.061 1.062l1.06-1.061ZM15 8a.75.75 0 0 1-.75.75h-1.5a.75.75 0 0 1 0-1.5h1.5A.75.75 0 0 1 15 8ZM11.89 12.95a.75.75 0 0 0 1.06-1.06l-1.06-1.062a.75.75 0 0 0-1.062 1.061l1.061 1.06ZM8 12a.75.75 0 0 1 .75.75v1.5a.75.75 0 0 1-1.5 0v-1.5A.75.75 0 0 1 8 12ZM5.172 11.89a.75.75 0 0 0-1.061-1.062L3.05 11.89a.75.75 0 1 0 1.06 1.06l1.06-1.06ZM4 8a.75.75 0 0 1-.75.75h-1.5a.75.75 0 0 1 0-1.5h1.5A.75.75 0 0 1 4 8ZM4.11 5.172A.75.75 0 0 0 5.173 4.11L4.11 3.05a.75.75 0 1 0-1.06 1.06l1.06 1.06Z" />
                                 </svg></span>
 
@@ -86,13 +86,10 @@
                             </span>
                         </div>
                         <ul class="py-2" aria-labelledby="user-menu-button">
-                        <li>
-                            <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-black dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Change Password</a>
-                        </li>
                         <li class="w-full hover:bg-gray-100 dark:hover:bg-gray-600 transition">
                             <form action="{{ route('logout') }}" method="POST">
                                 @csrf
-                                <button type="submit" class="block px-4 py-2 text-sm text-gray-700  hover:text-black dark:text-gray-200 dark:hover:text-white">Sign out</button>
+                                <button type="submit" class="block px-4 py-2 text-sm text-red-700  hover:text-red-400 dark:text-red-500 dark:hover:text-red-300">Sign out</button>
                             </form>
                         </li>
                         </ul>

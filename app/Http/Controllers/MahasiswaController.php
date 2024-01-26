@@ -213,9 +213,12 @@ class MahasiswaController extends Controller
     public function presensi(Request $request) 
     {
         $user = Auth::user();
+        $user->load('mahasiswa');
+        $mahasiswa = $user->mahasiswa;
+
         $generate_absen = GeneratedAbsen::orderBy('mulai_absen', 'desc')->get();
         
-        return view('mahasiswa.presensi', ['generate_absen' => $generate_absen]);
+        return view('mahasiswa.presensi', compact('generate_absen', 'mahasiswa'));
     }
     
 

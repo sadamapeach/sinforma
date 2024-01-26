@@ -53,7 +53,7 @@
                         <li class="w-full hover:bg-gray-100 dark:hover:bg-gray-600 transition">
                             <form action="{{ route('logout') }}" method="POST">
                                 @csrf
-                                <button type="submit" class="block px-4 py-2 text-sm text-gray-700  hover:text-black dark:text-gray-200 dark:hover:text-white">Sign out</button>
+                                <button type="submit" class="block px-4 py-2 text-sm text-red-700  hover:text-red-400 dark:text-red-500 dark:hover:text-red-300">Sign out</button>
                             </form>
                         </li>
                         </ul>
