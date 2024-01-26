@@ -114,7 +114,7 @@
                         </span>
                         <span class="text-gray-700 dark:text-gray-400">{{ $mahasiswa->instansi }}</span>
                     </div>
-                    <span class="bg-purple-100 text-purple-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-purple-900 dark:text-purple-300">Verified User</span>
+                    <span class="bg-purple-100 text-purple-800 font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-purple-900 dark:text-purple-300" style="font-size: 10px">Verified User</span>
                 </div>
             </div>
         </div>

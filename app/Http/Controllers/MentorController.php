@@ -15,6 +15,7 @@ use App\Models\Absen;
 use App\Models\Nilai;
 use App\Models\Skl;
 use App\Models\GeneratedAccount;
+use App\Models\GeneratedProgress;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Hash;
@@ -261,4 +262,53 @@ class MentorController extends Controller
         }
     }
 
+    public function viewTambahProgress() 
+    {
+        $tambahProgress = DB::table('generate_progress')
+            ->join('progress', 'progress.id_progress', '=', 'generate_progress.id_progress')
+            ->select('generate_progress.*')
+            ->get();
+        
+        return view('mentor.tambah_progress', compact('tambahProgress'));
+    }
+
+    public function storeProgress(Request $request)
+    {
+        $user = Auth::user();
+        $mentor = Mentor::where('id_user', $user->id)->first();
+
+        $request->validate([
+            'judul' => 'required|max:255',
+            'deskripsi' => 'required|max:255',
+            'mulai_submit' => 'required|date',
+            'selesai_submit' => 'required|date',
+        ]);
+
+        if ($request->submit === 'generate') {
+            DB::beginTransaction();
+
+            try {
+                $generateProgress = GeneratedProgress::create([
+                    'nip_mentor' => $mentor->nip,
+                    'judul' => $request->judul,
+                    'deskripsi' => $request->deskripsi,
+                    'mulai_submit' => $request->mulai_submit,
+                    'selesai_submit' => $request->selesai_submit,
+                ]);
+
+                if (!$generateProgress) {
+                    DB::rollback();
+                    return redirect()->route('tambah_progress')->with('error', 'Gagal men-generate progress!');
+                }
+
+                DB::commit();
+
+                return redirect()->route('tambah_progress')->with('success', 'Berhasil menambahkan progress!');
+            } catch (\Exception $e) {
+                dd($e->getMessage());
+                DB::rollback();
+                return redirect()->route('tambah_progress')->with('error', 'Gagal menambahkan progress!');
+            }
+        }
+    }
 }

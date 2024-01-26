@@ -1,5 +1,5 @@
 @extends('index_mahasiswa')
-@section('title', 'Presensi')
+@section('title', 'Tambah Progress')
 
 @section('isihalaman')
 <!DOCTYPE html>
@@ -49,7 +49,7 @@
         @endif
 
         <div class="relative rounded-lg w-full bg-white dark:bg-gray-700 h-28 mb-4">
-            <img src="assets/header_1.jpg" class="w-full absolute h-28 object-cover rounded-lg" alt="...">
+            <img src="{{ asset('assets/header_2.png') }}" class="w-full absolute h-28 object-cover rounded-lg" alt="...">
             <div class="absolute top-0 right-0 mt-3 mr-2">
                 {{-- Icon --}}
                 <div class="flex items-center md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
@@ -96,89 +96,72 @@
             </div>  
         </div>
 
-        @foreach ($generate_progress as $progress)
-            @php
-                $now = \Carbon\Carbon::now('Asia/Jakarta');
-                $mulaiSubmit = \Carbon\Carbon::parse($progress->mulai_submit);
-                $selesaiSubmit = \Carbon\Carbon::parse($progress->selesai_submit);
-                $mulaiMagang = \Carbon\Carbon::parse($mahasiswa->mulai_magang);
-                $selesaiMagang = \Carbon\Carbon::parse($mahasiswa->selesai_magang);
+        {{-- Form Submission --}}
+        @php
+            use Jenssegers\Date\Date;
+            Date::setLocale('id');
+            $today = \Carbon\Carbon::now();
+        @endphp
 
-                // Cek apakah waktu sudah berada dalam rentang open
-                $isInTimeRange = $now >= $mulaiSubmit && $now <= $selesaiSubmit;
-
-                // Cek apakah mahasiswa sudah mengisi progress ini
-                $isFilled = $progress->progress()->where('id_mhs', Auth::user()->mahasiswa->id_mhs)->exists();
-
-                // Tentukan apakah card harus dinonaktifkan
-                $isDisabled = !$isInTimeRange || $isFilled;
-
-                // Cek apakah waktu saat ini berada dalam rentang mulai_magang dan selesai_magang
-                $isInInternshipPeriod = $now >= $mulaiMagang && $now <= $selesaiMagang;
-
-                // Cek apakah waktu absen berada dalam rentang mulai_magang dan selesai_magang
-                $isInStudentInternshipPeriod = $mulaiSubmit >= $mulaiMagang && $selesaiSubmit <= $selesaiMagang;
-            @endphp
-
-            @if($isInInternshipPeriod && $isInStudentInternshipPeriod)
-                <div class="p-5 mb-4 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 @if($isDisabled) opacity-50 pointer-events-none @endif">
+        <div>
+            <form method="post" action="{{ route('store_progress_mhs', ['id_progress' => $id_progress]) }}" enctype="multipart/form-data">
+                @csrf
+                <div class="mb-6">
+                    <input type="hidden" name="id_progress" value="{{ $id_progress }}">
+                    <h1 class="text-black dark:text-white font-bold text-xl mb-2">Form Pengumpulan Progress Mahasiswa Magang Diskominfo Semarang</h1>
                     <div class="flex mb-3 text-xs font-normal text-gray-600 dark:text-gray-400">
                         <div class="text-xs font-medium">Open
                             <span class="bg-blue-100 text-blue-800 font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-blue-900 dark:text-blue-300" style="font-size: 10px">
-                                {{ \Carbon\Carbon::parse($progress->mulai_submit)->format('Y-m-d H:i') }}
+                                {{ $generate_progress->mulai_submit }}
                             </span>
                         </div>
                         <div class="text-xs font-medium">Due to
                             <span class="bg-red-100 text-red-800 font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-red-900 dark:text-red-300" style="font-size: 10px">
-                                {{ \Carbon\Carbon::parse($progress->selesai_submit)->format('Y-m-d H:i') }}
+                                {{ $generate_progress->selesai_submit }}
                             </span>
                         </div>
                     </div>
-                    <a href="{{ route('add_progress', ['id_progress' => $progress->id_progress]) }}" class="items-center block p-3 sm:flex hover:bg-gray-100 dark:hover:bg-gray-700 hover:rounded-sm">
-                        <img class="w-12 h-12 me-3 rounded-full sm:mb-0" src="{{ Auth::user()->getImageURL() }}" alt="Jese Leos image"/>
-                        <div class="text-gray-600 dark:text-gray-400">
-                            <h1 class="text-sm font-bold text-gray-900 dark:text-white">{{ $progress->judul }}</h1>
-                            <div class="font-normal mb-3" style="font-size: 11px">{{ $progress->deskripsi }}</div> 
-                            <span class="inline-flex items-center text-xs font-normal text-gray-500 dark:text-gray-400">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="w-3 h-3 me-1">
-                                    <path d="M13.407 2.59a.75.75 0 0 0-1.464.326c.365 1.636.557 3.337.557 5.084 0 1.747-.192 3.448-.557 5.084a.75.75 0 0 0 1.464.327c.264-1.185.444-2.402.531-3.644a2 2 0 0 0 0-3.534 24.736 24.736 0 0 0-.531-3.643ZM4.348 11H4a3 3 0 0 1 0-6h2c1.647 0 3.217-.332 4.646-.933C10.878 5.341 11 6.655 11 8c0 1.345-.122 2.659-.354 3.933a11.946 11.946 0 0 0-4.23-.925c.203.718.478 1.407.816 2.057.12.23.057.515-.155.663l-.828.58a.484.484 0 0 1-.707-.16A12.91 12.91 0 0 1 4.348 11Z" />
-                                </svg>
-                                @if ($isFilled)
-                                    <span class="bg-green-100 text-green-800 font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300" style="font-size: 10px">
-                                        Sudah Mengisi
-                                    </span>
-                                @else
-                                    <span class="bg-gray-100 text-gray-800 font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-gray-700 dark:text-gray-300" style="font-size: 10px">
-                                        Belum Mengisi
-                                    </span>
-                                @endif                                                              
-                            </span> 
-                        </div>
-                    </a>
                 </div>
-            @endif
-        @endforeach 
-    </div>
+                <div class="grid gap-5 mb-6 md:grid-cols-1">
+                       {{-- Deskripsi --}}
+                       <div class="mt-1">
+                        <label for="deskripsi" class="block mb-1 text-sm font-medium text-gray-900 dark:text-white">Deskripsi</label>
+                        <textarea id="deskripsi" name="deskripsi" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-800 dark:border-gray-700 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Masukkan deskripsi singkat mengenai progress magang yang akan dikumpulkan" required></textarea>
+                    </div> 
+    
+                    {{-- File Progress --}}
+                    <div>
+                        <label class="block mb-1 text-sm font-medium text-gray-900 dark:text-white" for="scan_file">Upload Progress</label>
+                        <input class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-800 dark:border-gray-700 dark:placeholder-gray-400" aria-describedby="scan_file" id="scan_file" name="scan_file" type="file">
+                        @error('scan_file')
+                        <div class="invalid-feedback">
+                            {{ $message }}
+                        </div>             
+                        @enderror                  
+                    </div>
+                </div>
+    
+                {{-- Button --}}
+                <div class="flex justify-end mb-2">
+                    <button type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:outline-none font-medium rounded-full text-sm w-24 h-9 text-center me-2 dark:bg-blue-600 dark:hover:bg-blue-700">Send</button>
+                </div>
 
-    <script>
-        // Fungsi untuk mengupdate waktu secara periodik
-        function updateCurrentTime() {
-            const currentTimeElement = document.getElementById('current-time');
-            if (currentTimeElement) {
-                const currentTime = new Date();
-                const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric', second: 'numeric', timeZoneName: 'short' };
-                const formattedTime = currentTime.toLocaleDateString('en-US', options);
-                currentTimeElement.textContent = formattedTime;
-            }
-        }
-    
-        // Panggil fungsi pertama kali
-        updateCurrentTime();
-    
-        // Atur interval untuk memperbarui waktu setiap detik
-        setInterval(updateCurrentTime, 1000);
-    </script>
-    
+                <input type="datetime-local" name="tanggal" value="{{ \Carbon\Carbon::now('Asia/Jakarta')->format('Y-m-d\TH:i') }}" hidden>
+
+                <div class="mt-8">
+                    <p class="text-gray-500 dark:text-gray-400 text-xs mb-1 font-semibold">Syarat dan Ketentuan</p>
+                    <ul class="space-y-0.5 text-gray-500 list-disc list-inside dark:text-gray-400" style="font-size: 10px">
+                        <li>
+                            Upload progress magang dalam format PDF dengan ukuran maksimum 10 MB.
+                        </li>
+                        <li>
+                            Waktu pengumpulan akan direkam secara otomatis saat mahasiswa menekan tombol 'Submit'.
+                        </li>
+                    </ul>
+                </div>
+            </form>
+        </div>
+    </div>
 </body>
 </html>
 @endsection
