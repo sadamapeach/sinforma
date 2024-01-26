@@ -229,10 +229,16 @@ class MahasiswaController extends Controller
         $mahasiswa = $user->mahasiswa;
     
         $absen = Absen::where('id_mhs', $mahasiswa->id_mhs)
-                      ->where('id_absen', $id_absen)
-                      ->first();
+            ->where('id_absen', $id_absen)
+            ->first();
+
+        $generate_absen = GeneratedAbsen::where('id_absen', $id_absen)
+            ->select(
+                'generate_absen.sesi',
+            )
+            ->first();
     
-        return view('mahasiswa.add_presensi', compact('absen', 'mahasiswa', 'id_absen'));
+        return view('mahasiswa.add_presensi', compact('generate_absen', 'absen', 'mahasiswa', 'id_absen'));
     }   
 
     public function store_presensi(Request $request, $id_absen)
