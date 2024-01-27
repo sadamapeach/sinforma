@@ -28,4 +28,13 @@ class Mentor extends Model
         return $this->belongsTo(User::class, 'id_user');
     }
 
+    public function mahasiswa()
+    {
+        return $this->hasMany(Mahasiswa::class, 'nip_mentor', 'nip');
+    }
+    
+    public function generatedProgress()
+    {
+        return $this->hasMany(GeneratedProgress::class, 'nip_mentor', 'nip');
+    }
 }

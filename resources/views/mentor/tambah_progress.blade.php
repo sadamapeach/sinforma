@@ -29,7 +29,7 @@
             <h1 class="text-l mb-5 font-semibold leading-tight tracking-tight text-gray-900 md:text-xl dark:text-white">
                 Tambah Progress
             </h1>
-            <form class="space-y-4 md:space-y-6" method="POST" autocomplete="on" action="" >
+            <form class="space-y-4 md:space-y-6" method="POST" autocomplete="on" action="{{ route('store_progress') }}" >
                 @csrf
                 <div class="grid md:grid-cols-2 md:gap-6">
                     <div class="form-group">

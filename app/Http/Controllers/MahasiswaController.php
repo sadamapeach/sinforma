@@ -272,16 +272,34 @@ class MahasiswaController extends Controller
         }
     }          
 
+    // public function progress(Request $request)
+    // {
+    //     $user = Auth::user();
+    //     $user->load('mahasiswa');
+    //     $mahasiswa = $user->mahasiswa;
+
+    //     $generate_progress = GeneratedProgress::orderBy('mulai_submit', 'desc')->get();
+
+    //     return view('mahasiswa.progress', compact('generate_progress', 'mahasiswa'));
+    // }
+
     public function progress(Request $request)
     {
         $user = Auth::user();
         $user->load('mahasiswa');
         $mahasiswa = $user->mahasiswa;
-
-        $generate_progress = GeneratedProgress::orderBy('mulai_submit', 'desc')->get();
-
+    
+        // Dapatkan nip_mentor dari mahasiswa
+        $nipMentor = $mahasiswa->nip_mentor;
+    
+        // Ambil progress yang dipost oleh mentornya
+        $generate_progress = GeneratedProgress::where('nip_mentor', $nipMentor)
+            ->orderBy('mulai_submit', 'desc')
+            ->get();
+    
         return view('mahasiswa.progress', compact('generate_progress', 'mahasiswa'));
     }
+    
 
     public function add_progress($id_progress)
     {
@@ -297,46 +315,12 @@ class MahasiswaController extends Controller
             ->select(
                 'generate_progress.mulai_submit',
                 'generate_progress.selesai_submit',
+                'generate_progress.nip_mentor'
             )
             ->first();
 
         return view('mahasiswa.add_progress', compact('progress', 'mahasiswa', 'id_progress', 'generate_progress'));
     }
-
-    // public function store_progress(Request $request, $id_progress)
-    // {
-    //     dd('aa');
-    //     try {
-    //         $request->validate([
-    //             'deskripsi' => 'required',
-    //             'scan_file' => 'required|mimes:pdf|max:10240',
-    //         ]);
-        
-    //         $fileProgressPath = $request->scan_file->store('progress', 'public');
-        
-    //         $user = $request->user();
-        
-    //         // Mendapatkan data mahasiswa berdasarkan id_user
-    //         $mahasiswa = Mahasiswa::where('id_user', $user->id)->first();
-        
-    //         if ($mahasiswa === null) {
-    //             return redirect()->route('progress_mahasiswa')->with('error', 'Pengguna tidak terkait dengan seorang mahasiswa.');
-    //         }
-        
-    //         // Simpan progress dengan mengisi kolom nip_admin dan nip_mentor langsung
-    //         $progress = new Progress();
-    //         $progress->id_mhs = $mahasiswa->id_mhs;
-    //         $progress->nip_mentor = $mahasiswa->nip_mentor;
-    //         $progress->nip_admin = $mahasiswa->nip_admin; 
-    //         $progress->deskripsi = $request->deskripsi;
-    //         $progress->scan_file = $fileProgressPath;
-    //         $progress->save();
-        
-    //         return redirect()->route('progress_mahasiswa')->with('success', 'Progress berhasil dikirim!');
-    //     } catch (\Exception $e) {
-    //         dd($e->getMessage());
-    //     }
-    // }
 
     public function store_progress(Request $request, $id_progress)
     {
