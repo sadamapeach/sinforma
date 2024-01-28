@@ -48,11 +48,13 @@ class MahasiswaController extends Controller
             $absen = Absen::where('id_mhs', $id_mhs)->select('absen.status');
             $progress = Progress::where('id_mhs', $id_mhs)->select('progress.status');
 
+            $nilai = Nilai::where('id_mhs', $id_mhs)->first();
+
             $skl = SKL::where('id_mhs', $id_mhs)
                 ->select('skl.file_skl')
                 ->first();
 
-            return view('mahasiswa.dashboard', compact('mahasiswa', 'skl', 'absen', 'progress'));
+            return view('mahasiswa.dashboard', compact('mahasiswa', 'skl', 'absen', 'progress', 'nilai'));
         }
     }
 
@@ -356,7 +358,6 @@ class MahasiswaController extends Controller
 
         return response()->file($file_path);
     }
-
 
     public function cetak_nilai() 
     {
