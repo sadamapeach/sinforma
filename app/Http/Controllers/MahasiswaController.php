@@ -43,6 +43,9 @@ class MahasiswaController extends Controller
                 )
                 ->first();
 
+            $absen = Absen::where('id_mhs', $id_mhs)->select('absen.status');
+            $progress = Progress::where('id_mhs', $id_mhs)->select('progress.status');
+
             $skl = SKL::join('mahasiswa', 'skl.id_mhs', '=', 'mahasiswa.id_mhs')
                 ->where('skl.id_mhs', $id_mhs)
                 ->select(
@@ -50,7 +53,7 @@ class MahasiswaController extends Controller
                 )
                 ->first();
 
-            return view('mahasiswa.dashboard', compact('mahasiswa', 'skl'));
+            return view('mahasiswa.dashboard', compact('mahasiswa', 'skl', 'absen', 'progress'));
         }
     }
 
@@ -75,8 +78,6 @@ class MahasiswaController extends Controller
             'email' => 'required',
             'foto' => 'image|mimes:jpeg,png,jpg|max:2048',
         ]);
-
-        // dd('sss');
 
         DB::beginTransaction();
 
@@ -344,6 +345,14 @@ class MahasiswaController extends Controller
         } catch (\Exception $e) {
             return redirect()->route('progress_mahasiswa')->with('error', 'Gagal mengirim progress: ' . $e->getMessage());
         }
+    }
+
+    public function cetak_skl()
+    {
+        $skl = SKL::all();
+
+        $pdf = app('dompdf.wrapper');
+        return $pdf->stream();
     }
 
     public function cetak_nilai() 

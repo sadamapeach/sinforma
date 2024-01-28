@@ -208,6 +208,47 @@
                 </div>
             </div>
 
+            {{-- Logic Perhitungan Presensi dan Progress --}}
+            @php
+                use Jenssegers\Date\Date;
+                Date::setLocale('id');
+
+                $mulaiMagang = \Carbon\Carbon::parse($mahasiswa->mulai_magang);
+                $selesaiMagang = \Carbon\Carbon::parse($mahasiswa->selesai_magang);
+
+                // Presensi
+                $jumlahHari = $mulaiMagang->diffInDaysFiltered(function($date) {
+                    return $date->isWeekday(); 
+                }, $selesaiMagang->addDay());
+
+                $jumlahPresensi = 2 * $jumlahHari; // Penyebut
+
+                $totalAbsen = 0; // Pembilang
+                if ($absen) {
+                    $absenCollection = $absen->get();
+                    $totalAbsen = $absenCollection
+                        ->where('status', 'Verified')
+                        ->count();
+                }
+
+                // Progress
+                $jumlahHari = $mulaiMagang->diffInDaysFiltered(function($date) {
+                    return $date; 
+                }, $selesaiMagang->addDay());
+
+                $jumlahMinggu = ceil($jumlahHari / 7); // ceil => pembulatan ke atas
+
+                $totalProgress = 0;
+                if ($progress) {
+                    $progressCollection = $progress->get();
+                    $totalProgress = $progressCollection
+                        ->where('status', 'Verified')
+                        ->count();
+                }
+
+                // echo "Jumlah progress: " . $totalProgress;              
+            @endphp
+
             <div class="grid grid-rows-2 gap-3">
                 {{-- Presensi --}}
                 <div class="flex bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700" style="height: 114px">
@@ -223,7 +264,7 @@
                                     Total <br> Kehadiran
                                 </div>
                                 <div class="text-3xl font-bold text-purple-700 dark:text-purple-500 ml-3">
-                                    94%
+                                    {{ ($totalAbsen / $jumlahPresensi)*100 }}%
                                 </div>
                             </div>                        
                         </div>
@@ -244,7 +285,7 @@
                                     Total <br> Pengiriman
                                 </div>
                                 <div class="text-3xl font-bold text-purple-700 dark:text-purple-500 ml-3">
-                                    89%
+                                    {{ ($totalProgress / $jumlahMinggu)*100 }}%
                                 </div>
                             </div>  
                         </div>
