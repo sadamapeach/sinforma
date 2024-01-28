@@ -2,7 +2,7 @@
    {{-- Logo dan Header --}}
    <div class="flex items-center ps-2.5 mb-5 ml-5 mt-5">
       <a href="https://diskominfo.semarangkota.go.id/">
-         <img src="assets/logo.png" class="h-6 me-3 sm:h-12" alt="Diskominfo Logo"/>
+         <img src="{{ asset('assets/logo.png') }}" class="h-6 me-3 sm:h-12" alt="Diskominfo Logo"/>
       </a>
       <p class="self-center text-xl font-bold whitespace-nowrap text-black dark:text-white">SIPRESMA <br> Diskominfo </p>
    </div>
@@ -56,6 +56,6 @@
 
    {{-- Maskot --}}
    <div class="flex-grow flex items-end">
-      <img src="assets/maskot_2.png" alt="Maskot" class="w-full h-auto" />  
+      <img src="{{ asset('assets/maskot_2.png') }}" alt="Maskot" class="w-full h-auto" />  
    </div>
 </aside>

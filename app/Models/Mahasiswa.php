@@ -44,7 +44,12 @@ class Mahasiswa extends Model
 
     public function mentor()
     {
-        return $this->belongsTo(Mentor::class, 'nip_mentor');
+        return $this->belongsTo(Mentor::class, 'nip_mentor', 'nip');
+    }
+    
+    public function progress()
+    {
+        return $this->hasMany(Progress::class, 'id_mhs', 'id_mhs');
     }
 
     public function getImageURL(){

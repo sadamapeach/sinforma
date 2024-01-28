@@ -35,7 +35,8 @@ Route::controller(MahasiswaController::class)->group(function() {
     Route::post('/store_presensi/{id_absen}', [MahasiswaController::class, 'store_presensi'])->name('store_presensi'); 
 
     Route::get('/progress_mahasiswa', [MahasiswaController::class, 'progress'])->name('progress_mahasiswa');
-    Route::post('/store_progress', [MahasiswaController::class, 'store_progress'])->name('store_progress');
+    Route::get('/add_progress/{id_progress}', [MahasiswaController::class, 'add_progress'])->name('add_progress');
+    Route::post('/store_progress/{id_progress}', [MahasiswaController::class, 'store_progress'])->name('store_progress_mhs');
 
     Route::get('/cetak_nilai_mhs', [MahasiswaController::class, 'cetak_nilai'])->name('cetak_nilai_mhs');
 });
@@ -97,3 +98,5 @@ Route::post('/edit_nilai_mentor_access/{id_mhs}', [MentorController::class, 'vie
 Route::post('/edit_nilai_mentor/{id_mhs}', [MentorController::class, 'storeNilai1'])->name('edit_nilai_mentor');
 Route::match(['get', 'post'], '/delete_nilai/{id_mhs}', [MentorController::class, 'deleteNilai'])->name('delete_nilai');
 
+Route::get('/tambah_progress', [MentorController::class, 'viewTambahProgress'])->name('tambah_progress');
+Route::post('/store_progress', [MentorController::class, 'storeProgress'])->name('store_progress');

@@ -1,5 +1,5 @@
 @extends('index_mahasiswa')
-@section('title', 'Presensi')
+@section('title', 'Tambah Presensi')
 
 @section('isihalaman')
 <!DOCTYPE html>
@@ -8,7 +8,6 @@
     {{-- Reference Tailwind Flowbite --}}
     @vite(['resources/css/app.css','resources/js/app.js'])  
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
 </head>
 
 <body class="font-poppins"> 
@@ -49,15 +48,15 @@
             </div>
         @endif
 
-        <div class="relative rounded-lg w-full bg-purple-700 h-28 mb-4">
-            <img src="assets/bg.png" class="w-full absolute h-28 object-cover rounded-lg" alt="...">
+        <div class="relative rounded-lg w-full bg-white dark:bg-gray-700 h-28 mb-4">
+            <img src="{{ asset('assets/header_1.jpg') }}" class="w-full absolute h-28 object-cover rounded-lg" alt="...">
             <div class="absolute top-0 right-0 mt-3 mr-2">
                 {{-- Icon --}}
                 <div class="flex items-center md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
                     <!-- Dropdown menu -->
                     <span><button type="button" class="items-center justify-between hidden w-full md:flex md:w-auto md:order-1 px-2" id="user-menu-button" aria-expanded="false" data-dropdown-toggle="user-dropdown" data-dropdown-placement="bottom-start">
                         <span class="sr-only">Open user menu</span>
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="w-5 h-5 fill-black dark:fill-white">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="w-5 h-5 fill-white">
                             <path fill-rule="evenodd" d="M6.955 1.45A.5.5 0 0 1 7.452 1h1.096a.5.5 0 0 1 .497.45l.17 1.699c.484.12.94.312 1.356.562l1.321-1.081a.5.5 0 0 1 .67.033l.774.775a.5.5 0 0 1 .034.67l-1.08 1.32c.25.417.44.873.561 1.357l1.699.17a.5.5 0 0 1 .45.497v1.096a.5.5 0 0 1-.45.497l-1.699.17c-.12.484-.312.94-.562 1.356l1.082 1.322a.5.5 0 0 1-.034.67l-.774.774a.5.5 0 0 1-.67.033l-1.322-1.08c-.416.25-.872.44-1.356.561l-.17 1.699a.5.5 0 0 1-.497.45H7.452a.5.5 0 0 1-.497-.45l-.17-1.699a4.973 4.973 0 0 1-1.356-.562L4.108 13.37a.5.5 0 0 1-.67-.033l-.774-.775a.5.5 0 0 1-.034-.67l1.08-1.32a4.971 4.971 0 0 1-.561-1.357l-1.699-.17A.5.5 0 0 1 1 8.548V7.452a.5.5 0 0 1 .45-.497l1.699-.17c.12-.484.312-.94.562-1.356L2.629 4.107a.5.5 0 0 1 .034-.67l.774-.774a.5.5 0 0 1 .67-.033L5.43 3.71a4.97 4.97 0 0 1 1.356-.561l.17-1.699ZM6 8c0 .538.212 1.026.558 1.385l.057.057a2 2 0 0 0 2.828-2.828l-.058-.056A2 2 0 0 0 6 8Z" clip-rule="evenodd" />
                         </svg>  
                     </button></span>
@@ -88,7 +87,7 @@
                         <li class="w-full hover:bg-gray-100 dark:hover:bg-gray-600 transition">
                             <form action="{{ route('logout') }}" method="POST">
                                 @csrf
-                                <button type="submit" class="block px-4 py-2 text-sm text-gray-700  hover:text-black dark:text-gray-200 dark:hover:text-white">Sign out</button>
+                                <button type="submit" class="block px-4 py-2 text-sm text-red-700  hover:text-red-400 dark:text-red-500 dark:hover:text-red-300">Sign out</button>
                             </form>
                         </li>
                         </ul>
@@ -101,44 +100,47 @@
         @php
             use Jenssegers\Date\Date;
             Date::setLocale('id');
-
-            $mulaiMagang = \Carbon\Carbon::parse($mahasiswa->mulai_magang);
-            $selesaiMagang = \Carbon\Carbon::parse($mahasiswa->selesai_magang);
             $today = \Carbon\Carbon::now();
-            $cards = [];
         @endphp
 
         <div>
-            @if ($mulaiMagang->isWeekday())
-                @php
-                    $isBeforeToday = $mulaiMagang->isBefore($today);
-                    $cards[] = [
-                        'date' => $mulaiMagang->copy(),
-                        'isBeforeToday' => $isBeforeToday,
-                    ];
-                @endphp
-            @endif
-
-            {{-- @foreach ($cards as $card) --}}
             <form method="post" action="{{ route('store_presensi', ['id_absen' => $id_absen]) }}" enctype="multipart/form-data">
                 @csrf
-                <input type="" name="id_absen" value="{{ $id_absen }}">
-                <input type="datetime-local" name="tanggal" value="{{ \Carbon\Carbon::now('Asia/Jakarta')->format('Y-m-d\TH:i') }}">
-                <div class="grid gap-6 mb-6 md:grid-cols-1 mt-24">
+                <div class="mb-6">
+                    <h1 class="text-black dark:text-white font-bold text-xl mb-2">Form Presensi Magang Diskominfo Semarang</h1>
+                    <div class="flex mb-3 text-xs font-normal text-gray-600 dark:text-gray-400">
+                        <div class="text-xs font-normal">Tanggal
+                            <span class="bg-blue-100 text-blue-800 font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-blue-900 dark:text-blue-300" style="font-size: 10px">
+                                {{ \Carbon\Carbon::parse($today)->format('Y-m-d') }}
+                            </span>
+                        </div>
+                        <div class="text-xs font-normal">Sesi
+                            <span class="bg-pink-100 text-pink-800 font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-pink-900 dark:text-pink-300" style="font-size: 10px">
+                                {{ $generate_absen->sesi }}
+                            </span>
+                        </div>                        
+                    </div>
+                </div>
+                <div class="grid gap-5 mb-6 md:grid-cols-1">
                     <div>
                         <label for="keterangan" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Status</label>
                         <select id="keterangan" name="keterangan"
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white">
-                            <option value="" disabled selected>--- Pilih Status ---</option>
+                            <option disabled selected>--- Pilih Status ---</option>
                             <option value="Hadir" {{ old('keterangan') === 'Hadir' ? 'selected' : '' }}>Hadir</option>
                             <option value="Izin" {{ old('keterangan') === 'Izin' ? 'selected' : '' }}>Izin</option>
                             <option value="Sakit" {{ old('keterangan') === 'Sakit' ? 'selected' : '' }}>Sakit</option>
-                        </select>             
-                    </div>
+                        </select>  
+                        @error('keterangan')
+                        <div class="invalid-feedback">
+                            {{ $message }}
+                        </div>             
+                        @enderror            
+                    </div> 
 
                     {{-- Foto --}}
                     <div>
-                        <label class="block mb-1 text-sm font-medium text-gray-900 dark:text-white" for="foto">Upload Foto Profil</label>
+                        <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white" for="foto">Upload Bukti Kehadiran</label>
                         <input class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-800 dark:border-gray-700 dark:placeholder-gray-400" aria-describedby="foto" id="foto" name="foto" type="file">
                         @error('foto')
                         <div class="invalid-feedback">
@@ -150,10 +152,27 @@
 
                 {{-- Button --}}
                 <div class="flex justify-end mb-2">
-                    <button type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:outline-none font-medium rounded-full text-sm w-24 h-9 text-center me-2 dark:bg-blue-600 dark:hover:bg-blue-700">Send</button>
+                    <button type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:outline-none font-medium rounded-full text-sm w-24 h-9 text-center me-2 dark:bg-blue-600 dark:hover:bg-blue-700">Submit</button>
+                </div>
+
+                <input type="hidden" name="id_absen" value="{{ $id_absen }}">
+                <input type="datetime-local" name="tanggal" value="{{ \Carbon\Carbon::now('Asia/Jakarta')->format('Y-m-d\TH:i') }}" hidden>
+
+                <div class="mt-8">
+                    <p class="text-gray-500 dark:text-gray-400 text-xs mb-1 font-semibold">Syarat dan Ketentuan</p>
+                    <ul class="space-y-0.5 text-gray-500 list-disc list-inside dark:text-gray-400" style="font-size: 10px">
+                        <li>
+                            Waktu kehadiran akan direkam secara otomatis saat mahasiswa menekan tombol 'Submit'.
+                        </li>
+                        <li>
+                            Upload bukti foto presensi dalam format jpeg, jpg, atau png dengan ukuran maksimal 2MB. 
+                        </li>
+                        <li>
+                            Mahasiswa yang berhalangan hadir (izin atau sakit), harap melampirkan bukti surat dalam format pdf.
+                        </li>
+                    </ul>
                 </div>
             </form>
-            {{-- @endforeach --}}
         </div>
     </div>
 </body>
