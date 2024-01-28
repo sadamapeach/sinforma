@@ -406,9 +406,8 @@ class AdminController extends Controller
 
     public function tambahSKL(Request $request, $id_mhs)
     {
-        
         $request->validate([
-            'file_skl' => 'required|mimes:pdf|max:2048', 
+            'file_skl' => 'required|mimes:pdf|max:2048',
         ]);
 
         try {
@@ -419,16 +418,20 @@ class AdminController extends Controller
 
             $skl = new Skl();
             $skl->id_mhs = $request->id_mhs;
-            $skl->nip_admin = $admin->nip; 
+            $skl->nip_admin = $admin->nip;
             $skl->file_skl = $fileSklPath;
             $skl->save();
 
-            
-            return redirect()->route('skl_mhs')->with('success', 'SKL berhasil ditambahkan.');
+            $mahasiswa = Mahasiswa::find($id_mhs);
+            $mahasiswa->status = 'Lulus';
+            $mahasiswa->save();
+
+            return redirect()->route('skl_mhs')->with('success', 'SKL berhasil ditambahkan. Mahasiswa atas nama ' . $mahasiswa->nama . ' dinyatakan LULUS.');
         } catch (\Exception $e) {
             return redirect()->route('skl_mhs')->with('error', 'Terjadi kesalahan saat menambah SKL.');
         }
     }
+
 
     public function viewEditSKL(string $id_mhs)
     {
@@ -487,6 +490,10 @@ class AdminController extends Controller
                 return redirect()->route('daftar_skl')->with('error', 'SKL mahasiswa tidak ditemukan.');
             }
 
+            $mahasiswa = Mahasiswa::find($skl->id_mhs);
+            $mahasiswa->status = 'Aktif';
+            $mahasiswa->save();
+
             $skl->delete();
 
             return redirect()->route('skl_mhs')->with('success', 'SKL mahasiswa berhasil dihapus.');
@@ -494,6 +501,7 @@ class AdminController extends Controller
             return redirect()->route('skl_mhs')->with('error', 'Terjadi kesalahan saat menghapus SKL mahasiswa.');
         }
     }
+
 
     public function viewTambahAbsen() 
     {

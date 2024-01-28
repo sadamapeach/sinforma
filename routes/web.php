@@ -39,6 +39,7 @@ Route::controller(MahasiswaController::class)->group(function() {
     Route::post('/store_progress/{id_progress}', [MahasiswaController::class, 'store_progress'])->name('store_progress_mhs');
 
     Route::get('/cetak_nilai_mhs', [MahasiswaController::class, 'cetak_nilai'])->name('cetak_nilai_mhs');
+    Route::get('/cetak_skl_mhs', [MahasiswaController::class, 'cetak_skl'])->name('cetak_skl_mhs');
 });
 
 /* Akun */

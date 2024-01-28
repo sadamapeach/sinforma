@@ -18,6 +18,7 @@ use App\Models\GeneratedAbsen;
 use App\Models\GeneratedProgress;
 use Carbon\Carbon;
 use PDF;
+use Illuminate\Support\Facades\Storage;
 
 class MahasiswaController extends Controller
 {
@@ -349,11 +350,15 @@ class MahasiswaController extends Controller
 
     public function cetak_skl()
     {
-        $skl = SKL::all();
+        $user = Auth::user();
+        $id_mhs = $user->mahasiswa->id_mhs;
+        $skl = Skl::where('id_mhs', $id_mhs)->first();
 
-        $pdf = app('dompdf.wrapper');
-        return $pdf->stream();
+        $file_path = storage_path("app/public/skl/{$skl->file_skl}");
+
+        return response()->file($file_path);
     }
+
 
     public function cetak_nilai() 
     {
