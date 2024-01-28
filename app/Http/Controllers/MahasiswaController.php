@@ -354,10 +354,19 @@ class MahasiswaController extends Controller
         $id_mhs = $user->mahasiswa->id_mhs;
         $skl = Skl::where('id_mhs', $id_mhs)->first();
 
-        $file_path = storage_path("app/public/skl/{$skl->file_skl}");
+        if ($skl) {
+            $file_path = storage_path("app/public/{$skl->file_skl}");
 
-        return response()->file($file_path);
+            if (file_exists($file_path)) {
+                return response()->file($file_path);
+            } else {
+                return response()->json(['error' => 'SKL tidak ditemukan'], 404);
+            }
+        } else {
+            return response()->json(['error' => 'SKL tidak ditemukan untuk user ini'], 404);
+        }
     }
+
 
     public function cetak_nilai() 
     {
