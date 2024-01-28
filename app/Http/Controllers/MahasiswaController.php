@@ -272,17 +272,6 @@ class MahasiswaController extends Controller
         }
     }          
 
-    // public function progress(Request $request)
-    // {
-    //     $user = Auth::user();
-    //     $user->load('mahasiswa');
-    //     $mahasiswa = $user->mahasiswa;
-
-    //     $generate_progress = GeneratedProgress::orderBy('mulai_submit', 'desc')->get();
-
-    //     return view('mahasiswa.progress', compact('generate_progress', 'mahasiswa'));
-    // }
-
     public function progress(Request $request)
     {
         $user = Auth::user();
