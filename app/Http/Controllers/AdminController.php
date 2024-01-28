@@ -13,6 +13,7 @@ use App\Models\Progress;
 use App\Models\Absen;
 use App\Models\Skl;
 use App\Models\Nilai;
+use App\Models\Berita;
 use App\Models\GeneratedAccount;
 use App\Models\GeneratedAbsen;
 use Illuminate\Support\Facades\DB;
@@ -541,4 +542,46 @@ class AdminController extends Controller
             }
         } 
     }
+
+    public function viewBerita()
+    {
+        $berita = Berita::all();
+
+        return view('admin.daftar_berita', ['berita' => $berita]);
+    }
+
+    public function viewTambahBerita()
+    {
+        return view('admin.tambah_berita');
+    }
+
+    public function tambahBerita(Request $request)
+    {
+        $request->validate([
+            'nama' => 'required',
+            'gambar' => 'required|mimes:jpg,jpeg,png,pdf|max:10240',
+        ]);
+
+        $user = Auth::user();
+        $admin = Admin::where('id_user', $user->id)->first();
+        
+        try {
+            $berita = Berita::create([
+                'nip_admin' => $admin->nip,
+                'nama' => $request->nama,
+            ]);
+
+            $gambar = $request->gambar->store('berita', 'public');
+
+            $berita->gambar = $gambar;
+            $berita->save();
+
+            return redirect()->route('view_berita')->with('success', 'Event berhasil ditambahkan.');
+        } catch (\Exception $e) {
+            dd($e);
+            return redirect()->route('view_berita')->with('error', 'Terjadi kesalahan saat menambahkan event.');
+        }
+    }
+
+
 }

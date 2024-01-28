@@ -101,7 +101,7 @@
                                     </td>
                                     <td> 
                                         <a data-popover-target="popover-edit-{{ $mhs->id_mhs }}" href="{{ route('view_edit_status', [$mhs->id_mhs]) }}" class="text-blue-400 hover:text-blue-100 mx-2">
-                                            <i class="material-icons-outlined text-base">edit</i>
+                                            <i class="material-icons-outlined text-base">Edit</i>
                                         </a>
                                         <div data-popover id="popover-edit-{{ $mhs->id_mhs }}" role="tooltip" class="absolute z-10 invisible inline-block text-sm text-gray-500 duration-300 bg-white border border-gray-200 rounded-lg shadow-sm opacity-0 dark:text-gray-400 dark:border-gray-600 dark:bg-gray-800">
                                             <div class="px-3 py-2">
@@ -109,11 +109,11 @@
                                             </div>
                                         </div>
                                         <a data-popover-target="popover-delete-{{ $mhs->id_mhs }}" href="#" data-modal-target="delete-modal-{{ $mhs->id_mhs }}" data-modal-toggle="delete-modal-{{ $mhs->id_mhs }}" class="text-red-400 hover:text-red-100 ml-2">
-                                            <i class="material-icons-round text-base">delete</i>
+                                            <i class="material-icons-round text-base">Hapus</i>
                                         </a>
                                         <div data-popover id="popover-delete-{{ $mhs->id_mhs }}" role="tooltip" class="absolute z-10 invisible inline-block text-sm text-gray-500 duration-300 bg-white border border-gray-200 rounded-lg shadow-sm opacity-0 dark:text-gray-400 dark:border-gray-600 dark:bg-gray-800">
                                             <div class="px-3 py-2">
-                                                <p>Delete</p>
+                                                <p>Hapus</p>
                                             </div>
                                         </div>
                                         <div id="delete-modal-{{ $mhs->id_mhs }}" tabindex="-1" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
