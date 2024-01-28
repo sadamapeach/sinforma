@@ -320,19 +320,23 @@
                         </div>
                         <div class="text-left rtl:text-right col-span-2">
                             <div class="text-black dark:text-white text-sm font-bold mt-4">Surat Keterangan Lulus</div>
-                            <div class=" text-gray-400 dark:text-gray-500 mb-2" style="font-size: 10px">
+                            <div class="text-gray-400 dark:text-gray-500 mb-2" style="font-size: 10px">
                                 SKL dapat diunduh setelah mahasiswa magang dinyatakan LULUS.
                             </div>
 
                             {{-- Downloads --}}
                             <div class="flex items-center">
-                                <span><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="w-4 h-4 fill-gray-700 dark:fill-gray-400">
-                                        <path d="M8.75 2.75a.75.75 0 0 0-1.5 0v5.69L5.03 6.22a.75.75 0 0 0-1.06 1.06l3.5 3.5a.75.75 0 0 0 1.06 0l3.5-3.5a.75.75 0 0 0-1.06-1.06L8.75 8.44V2.75Z" />
-                                        <path d="M3.5 9.75a.75.75 0 0 0-1.5 0v1.5A2.75 2.75 0 0 0 4.75 14h6.5A2.75 2.75 0 0 0 14 11.25v-1.5a.75.75 0 0 0-1.5 0v1.5c0 .69-.56 1.25-1.25 1.25h-6.5c-.69 0-1.25-.56-1.25-1.25v-1.5Z" />
+                                <span>
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor"
+                                        class="w-4 h-4 fill-gray-700 dark:fill-gray-400">
+                                        <path
+                                            d="M8.75 2.75a.75.75 0 0 0-1.5 0v5.69L5.03 6.22a.75.75 0 0 0-1.06 1.06l3.5 3.5a.75.75 0 0 0 1.06 0l3.5-3.5a.75.75 0 0 0-1.06-1.06L8.75 8.44V2.75Z" />
+                                        <path
+                                            d="M3.5 9.75a.75.75 0 0 0-1.5 0v1.5A2.75 2.75 0 0 0 4.75 14h6.5A2.75 2.75 0 0 0 14 11.25v-1.5a.75.75 0 0 0-1.5 0v1.5c0 .69-.56 1.25-1.25 1.25h-6.5c-.69 0-1.25-.56-1.25-1.25v-1.5Z" />
                                     </svg>
                                 </span>
                                 @if ($mahasiswa->status == 'Lulus')
-                                    <a href="#" class="bg-green-100 text-green-800 font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300 ml-1.5" style="font-size: 11px">Unduh Penilaian</a>
+                                    <a href="{{ route('cetak_skl_mhs') }}" class="bg-green-100 text-green-800 font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300 ml-1.5" style="font-size: 11px">Unduh SKL</a>
                                 @else
                                     <span class="bg-pink-100 text-pink-800 font-medium me-2 px-2.5 content-center py-0.5 rounded-full dark:bg-pink-900 dark:text-pink-300 ml-1.5" style="font-size: 11px">Belum tersedia</span>
                                 @endif

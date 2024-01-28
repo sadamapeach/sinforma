@@ -13,6 +13,7 @@ use App\Models\Progress;
 use App\Models\Absen;
 use App\Models\Skl;
 use App\Models\Nilai;
+use App\Models\Berita;
 use App\Models\GeneratedAccount;
 use App\Models\GeneratedAbsen;
 use Illuminate\Support\Facades\DB;
@@ -405,9 +406,8 @@ class AdminController extends Controller
 
     public function tambahSKL(Request $request, $id_mhs)
     {
-        
         $request->validate([
-            'file_skl' => 'required|mimes:pdf|max:2048', 
+            'file_skl' => 'required|mimes:pdf|max:2048',
         ]);
 
         try {
@@ -418,16 +418,20 @@ class AdminController extends Controller
 
             $skl = new Skl();
             $skl->id_mhs = $request->id_mhs;
-            $skl->nip_admin = $admin->nip; 
+            $skl->nip_admin = $admin->nip;
             $skl->file_skl = $fileSklPath;
             $skl->save();
 
-            
-            return redirect()->route('skl_mhs')->with('success', 'SKL berhasil ditambahkan.');
+            $mahasiswa = Mahasiswa::find($id_mhs);
+            $mahasiswa->status = 'Lulus';
+            $mahasiswa->save();
+
+            return redirect()->route('skl_mhs')->with('success', 'SKL berhasil ditambahkan. Mahasiswa atas nama ' . $mahasiswa->nama . ' dinyatakan LULUS.');
         } catch (\Exception $e) {
             return redirect()->route('skl_mhs')->with('error', 'Terjadi kesalahan saat menambah SKL.');
         }
     }
+
 
     public function viewEditSKL(string $id_mhs)
     {
@@ -486,6 +490,10 @@ class AdminController extends Controller
                 return redirect()->route('daftar_skl')->with('error', 'SKL mahasiswa tidak ditemukan.');
             }
 
+            $mahasiswa = Mahasiswa::find($skl->id_mhs);
+            $mahasiswa->status = 'Aktif';
+            $mahasiswa->save();
+
             $skl->delete();
 
             return redirect()->route('skl_mhs')->with('success', 'SKL mahasiswa berhasil dihapus.');
@@ -493,6 +501,7 @@ class AdminController extends Controller
             return redirect()->route('skl_mhs')->with('error', 'Terjadi kesalahan saat menghapus SKL mahasiswa.');
         }
     }
+
 
     public function viewTambahAbsen() 
     {
@@ -541,4 +550,46 @@ class AdminController extends Controller
             }
         } 
     }
+
+    public function viewBerita()
+    {
+        $berita = Berita::all();
+
+        return view('admin.daftar_berita', ['berita' => $berita]);
+    }
+
+    public function viewTambahBerita()
+    {
+        return view('admin.tambah_berita');
+    }
+
+    public function tambahBerita(Request $request)
+    {
+        $request->validate([
+            'nama' => 'required',
+            'gambar' => 'required|mimes:jpg,jpeg,png,pdf|max:10240',
+        ]);
+
+        $user = Auth::user();
+        $admin = Admin::where('id_user', $user->id)->first();
+        
+        try {
+            $berita = Berita::create([
+                'nip_admin' => $admin->nip,
+                'nama' => $request->nama,
+            ]);
+
+            $gambar = $request->gambar->store('berita', 'public');
+
+            $berita->gambar = $gambar;
+            $berita->save();
+
+            return redirect()->route('view_berita')->with('success', 'Event berhasil ditambahkan.');
+        } catch (\Exception $e) {
+            dd($e);
+            return redirect()->route('view_berita')->with('error', 'Terjadi kesalahan saat menambahkan event.');
+        }
+    }
+
+
 }

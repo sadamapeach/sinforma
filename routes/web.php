@@ -39,6 +39,7 @@ Route::controller(MahasiswaController::class)->group(function() {
     Route::post('/store_progress/{id_progress}', [MahasiswaController::class, 'store_progress'])->name('store_progress_mhs');
 
     Route::get('/cetak_nilai_mhs', [MahasiswaController::class, 'cetak_nilai'])->name('cetak_nilai_mhs');
+    Route::get('/cetak_skl_mhs', [MahasiswaController::class, 'cetak_skl'])->name('cetak_skl_mhs');
 });
 
 /* Akun */
@@ -74,6 +75,9 @@ Route::post('/tambah_skl/{id_mhs}', [AdminController::class, 'tambahSKL'])->name
 Route::get('/view_edit_skl/{id_mhs}', [AdminController::class, 'viewEditSKL'])->name('view_edit_skl');
 Route::post('/update_skl/{id_mhs}', [AdminController::class, 'updateSKL'])->name('update_skl');
 Route::match(['get', 'post'], '/delete_skl/{id_mhs}', [AdminController::class, 'deleteSKL'])->name('delete_skl');
+Route::get('/view_berita', [AdminController::class, 'viewBerita'])->middleware('only_admin')->name('view_berita');
+Route::get('/view_tambah_berita', [AdminController::class, 'viewTambahBerita'])->name('view_tambah_berita');
+Route::post('/tambah_berita', [AdminController::class, 'tambahBerita'])->name('tambah_berita');
 
 Route::get('/tambah_absen', [AdminController::class, 'viewTambahAbsen'])->name('tambah_absen');
 Route::post('/store_absen', [AdminController::class, 'storeAbsen'])->name('store_absen');
