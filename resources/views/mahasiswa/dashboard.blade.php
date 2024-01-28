@@ -193,9 +193,27 @@
                 <div class="mt-3 grid grid-flow-col auto-cols-min gap-2">
                     <div class="ml-7 text-xs text-black dark:text-white">Status</div>
                     <div class="text-xs text-black dark:text-white">:</div>
-                    <div class="w-max text-center bg-green-100 text-green-800 font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300" style="font-size: 10px">
-                        {{ $mahasiswa->status }}
-                    </div>
+                    @if (trim($mahasiswa->status) == 'Aktif')
+                        <div class="w-max text-center bg-green-100 text-green-800 font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300" style="font-size: 10px">
+                            Aktif
+                        </div>
+                    @else
+                        @if (trim($mahasiswa->status) == 'Lulus')
+                            <div class="w-max text-center bg-blue-100 text-blue-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-blue-900 dark:text-blue-300" style="font-size: 10px">
+                                Lulus
+                            </div>
+                        @else
+                            @if (trim($mahasiswa->status) == 'Tidak Aktif')
+                                <div class="w-max text-center bg-red-100 text-red-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-red-900 dark:text-red-300" style="font-size: 10px">
+                                    Tidak Lulus
+                                </div>
+                            @else
+                                <div class="w-max text-center bg-purple-100 text-purple-800 font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-purple-900 dark:text-purple-300" style="font-size: 10px">
+                                    {{ $mahasiswa->status }}
+                                </div>
+                            @endif
+                        @endif
+                    @endif
                 </div>
 
                 {{-- Mentor --}}
@@ -314,7 +332,7 @@
                                     </svg>
                                 </span>
                                 @if ($mahasiswa->status == 'Lulus')
-                                    <a href="{{ route('cetak_nilai_mhs') }}" class="bg-green-100 text-green-800 font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300 ml-1.5" style="font-size: 11px">Unduh Penilaian</a>
+                                    <a href="#" class="bg-green-100 text-green-800 font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300 ml-1.5" style="font-size: 11px">Unduh Penilaian</a>
                                 @else
                                     <span class="bg-pink-100 text-pink-800 font-medium me-2 px-2.5 content-center py-0.5 rounded-full dark:bg-pink-900 dark:text-pink-300 ml-1.5" style="font-size: 11px">Belum tersedia</span>
                                 @endif
@@ -342,7 +360,7 @@
                                         <path d="M3.5 9.75a.75.75 0 0 0-1.5 0v1.5A2.75 2.75 0 0 0 4.75 14h6.5A2.75 2.75 0 0 0 14 11.25v-1.5a.75.75 0 0 0-1.5 0v1.5c0 .69-.56 1.25-1.25 1.25h-6.5c-.69 0-1.25-.56-1.25-1.25v-1.5Z" />
                                     </svg>
                                 </span>
-                                @if ($mahasiswa->status == 'Lulus')
+                                @if ($skl)
                                     <a href="{{ route('cetak_nilai_mhs') }}" class="bg-green-100 text-green-800 font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300 ml-1.5" style="font-size: 11px">Unduh Penilaian</a>
                                 @else
                                     <span class="bg-pink-100 text-pink-800 font-medium me-2 px-2.5 content-center py-0.5 rounded-full dark:bg-pink-900 dark:text-pink-300 ml-1.5" style="font-size: 11px">Belum tersedia</span>

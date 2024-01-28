@@ -27,6 +27,7 @@ class MahasiswaController extends Controller
 
         if($user->mahasiswa) {
             $id_mhs = $request->user()->mahasiswa->id_mhs;
+
             $mahasiswa = Mahasiswa::join('users', 'mahasiswa.id_user', '=', 'users.id')
                 ->leftJoin('mentor', 'mahasiswa.nip_mentor', '=', 'mentor.nip')
                 ->where('mahasiswa.id_mhs', $id_mhs)
@@ -46,11 +47,8 @@ class MahasiswaController extends Controller
             $absen = Absen::where('id_mhs', $id_mhs)->select('absen.status');
             $progress = Progress::where('id_mhs', $id_mhs)->select('progress.status');
 
-            $skl = SKL::join('mahasiswa', 'skl.id_mhs', '=', 'mahasiswa.id_mhs')
-                ->where('skl.id_mhs', $id_mhs)
-                ->select(
-                    'skl.file_skl'
-                )
+            $skl = SKL::where('id_mhs', $id_mhs)
+                ->select('skl.file_skl')
                 ->first();
 
             return view('mahasiswa.dashboard', compact('mahasiswa', 'skl', 'absen', 'progress'));
