@@ -591,5 +591,25 @@ class AdminController extends Controller
         }
     }
 
+    public function deleteBerita($id_berita)
+    {
+        try {
+            $berita = Berita::where('id_berita', $id_berita)->first();
+            
+            $berita->delete();
+
+            return redirect()->back()->with('success', 'Berhasil menghapus event.');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Gagal menghapus event.');
+        }
+    }
+
+    public function viewEditBerita($id_berita)
+    {
+        $berita = Berita::where('id_berita', $id_berita)->first();
+       
+        return view('admin.view_edit_berita', ['berita' => $berita]);
+    }
+
 
 }
