@@ -3,7 +3,6 @@
 
 @section('isihalaman')
 <!DOCTYPE html>
-<html lang="en">
 <head>
     {{-- Reference Tailwind Flowbite --}}
     @vite(['resources/css/app.css','resources/js/app.js'])  
@@ -51,7 +50,7 @@
 
         {{-- Wallpaper --}}
         <div class="relative rounded-lg w-full bg-white dark:bg-gray-700 h-28">
-            <img src="assets/header.png" class="w-full absolute h-28 object-cover rounded-lg" alt="...">
+            <img src="{{ asset('assets/header.png') }}" class="w-full absolute h-28 object-cover rounded-lg" alt="...">
             <div class="absolute top-0 right-0 mt-3 mr-2">
                 {{-- Icon --}}
                 <div class="flex items-center md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">

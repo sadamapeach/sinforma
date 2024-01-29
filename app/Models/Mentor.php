@@ -18,6 +18,7 @@ class Mentor extends Model
         'nama',
         'alamat',
         'no_telepon',
+        'email',
         'id_user',
         'username',
         'nip'

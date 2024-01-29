@@ -101,3 +101,10 @@ Route::match(['get', 'post'], '/delete_nilai/{id_mhs}', [MentorController::class
 
 Route::get('/tambah_progress', [MentorController::class, 'viewTambahProgress'])->name('tambah_progress');
 Route::post('/store_progress', [MentorController::class, 'storeProgress'])->name('store_progress');
+
+Route::post('/change_password_mentor', [MentorController::class, 'change_password'])->name('password_mentor');
+
+Route::get('/rekap_progress', [MentorController::class, 'viewRekapProgress'])->name('rekap_progress');
+Route::get('/edit_progress/{id_progress}', [MentorController::class, 'edit_progress'])->name('edit_progress');
+Route::post('/update_progress/{id_progress}', [MentorController::class, 'update_progress'])->name('update_progress');
+Route::post('/delete_progress/{id_progress}', [MentorController::class, 'delete_progress'])->name('delete_progress');

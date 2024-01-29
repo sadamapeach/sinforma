@@ -234,11 +234,11 @@
                 $selesaiMagang = \Carbon\Carbon::parse($mahasiswa->selesai_magang);
 
                 // Presensi
-                $jumlahHari = $mulaiMagang->diffInDaysFiltered(function($date) {
+                $jumlahHariAbsen = $mulaiMagang->diffInDaysFiltered(function($date) {
                     return $date->isWeekday(); 
                 }, $selesaiMagang->addDay());
 
-                $jumlahPresensi = 2 * $jumlahHari; // Penyebut
+                $jumlahPresensi = 2 * $jumlahHariAbsen; // Penyebut
 
                 $totalAbsen = 0; // Pembilang
                 if ($absen) {
@@ -249,11 +249,11 @@
                 }
 
                 // Progress
-                $jumlahHari = $mulaiMagang->diffInDaysFiltered(function($date) {
+                $jumlahHariProgress = $mulaiMagang->diffInDaysFiltered(function($date) {
                     return $date; 
                 }, $selesaiMagang->addDay());
 
-                $jumlahMinggu = ceil($jumlahHari / 7); // ceil => pembulatan ke atas
+                $jumlahMinggu = ceil($jumlahHariProgress / 7); // ceil => pembulatan ke atas
 
                 $totalProgress = 0;
                 if ($progress) {
@@ -263,7 +263,7 @@
                         ->count();
                 }
 
-                // echo "Jumlah progress: " . $totalProgress;              
+                // echo "Jumlah : " . $totalAbsen;              
             @endphp
 
             <div class="grid grid-rows-2 gap-3">
@@ -280,8 +280,8 @@
                                 <div class="text-xs font-medium text-purple-700 dark:text-purple-500 text-center border-r border-gray-700 dark:border-gray-500">
                                     Total <br> Kehadiran
                                 </div>
-                                <div class="text-3xl font-bold text-purple-700 dark:text-purple-500 ml-3">
-                                    {{ ($totalAbsen / $jumlahPresensi)*100 }}%
+                                <div class="text-2xl font-bold text-purple-700 dark:text-purple-500 ml-3">
+                                    {{ number_format(($totalAbsen / $jumlahPresensi) * 100, 1) }}%
                                 </div>
                             </div>                        
                         </div>
@@ -301,8 +301,8 @@
                                 <div class="text-xs font-medium text-purple-700 dark:text-purple-500 text-center border-r border-gray-700 dark:border-gray-500">
                                     Total <br> Pengiriman
                                 </div>
-                                <div class="text-3xl font-bold text-purple-700 dark:text-purple-500 ml-3">
-                                    {{ ($totalProgress / $jumlahMinggu)*100 }}%
+                                <div class="text-2xl font-bold text-purple-700 dark:text-purple-500 ml-3">
+                                    {{ number_format(($totalProgress / $jumlahMinggu) * 100, 1) }}%
                                 </div>
                             </div>  
                         </div>
@@ -337,7 +337,7 @@
                                 @if ($skl)
                                     <a href="{{ route('cetak_skl_mhs') }}" class="bg-green-100 text-green-800 font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300 ml-1.5 z-30" style="font-size: 11px">Unduh SKL</a>
                                 @else
-                                    <span class="bg-pink-100 text-pink-800 font-medium me-2 px-2.5 content-center py-0.5 rounded-full dark:bg-pink-900 dark:text-pink-300 ml-1.5" style="font-size: 11px">Belum tersedia</span>
+                                    <span class="bg-pink-100 text-pink-800 font-medium me-2 px-2.5 content-center py-0.5 rounded-full dark:bg-pink-900 dark:text-pink-300 ml-1.5" style="font-size: 11px">Belum Tersedia</span>
                                 @endif
                             </div>
                         </div>
@@ -366,7 +366,7 @@
                                 @if ($nilai)
                                     <a href="{{ route('cetak_nilai_mhs') }}" class="bg-green-100 text-green-800 font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300 ml-1.5" style="font-size: 11px">Unduh Penilaian</a>
                                 @else
-                                    <span class="bg-pink-100 text-pink-800 font-medium me-2 px-2.5 content-center py-0.5 rounded-full dark:bg-pink-900 dark:text-pink-300 ml-1.5" style="font-size: 11px">Belum tersedia</span>
+                                    <span class="bg-pink-100 text-pink-800 font-medium me-2 px-2.5 content-center py-0.5 rounded-full dark:bg-pink-900 dark:text-pink-300 ml-1.5" style="font-size: 11px">Belum Tersedia</span>
                                 @endif
                             </div>
                         </div>

@@ -19,6 +19,7 @@ use App\Models\GeneratedProgress;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
 
 class MentorController extends Controller
 {
@@ -118,9 +119,10 @@ class MentorController extends Controller
             $mentor = Mentor::where('id_user', $user->id)->first();
 
             $validated = $request->validate([
-                'nama' => 'required',
+                // 'nama' => 'required',
                 'alamat' => 'required',
                 'no_telepon' => 'required',
+                'email' => 'required',
                 'username' => 'required',
                 'foto' => 'nullable|image|max:10240',
             ]);
@@ -135,9 +137,10 @@ class MentorController extends Controller
                 ]);
             }
             
-            $mentor->nama = $request->nama;
+            // $mentor->nama = $request->nama;
             $mentor->alamat = $request->alamat;
             $mentor->no_telepon = $request->no_telepon;
+            $mentor->email = $request->email;
             $user->username = $request->username;
             
             $mentor->save();
@@ -148,7 +151,7 @@ class MentorController extends Controller
             
             return redirect()->route('view_profil_mentor')->with('success', 'Data mentor berhasil diperbarui.');
         } catch (\Exception $e) {
-            return redirect()->route('view_profil_mentor')->with('error', 'Terjadi kesalahan saat memperbarui data mentor.');
+            return redirect()->route('view_profil_mentor')->with('error', 'Terjadi kesalahan saat memperbarui data mentor: ' . $e->getMessage());
         }
     }
 
@@ -309,6 +312,95 @@ class MentorController extends Controller
                 DB::rollback();
                 return redirect()->route('tambah_progress')->with('error', 'Gagal menambahkan progress!');
             }
+        }
+    }
+
+    public function change_password(Request $request)
+    {
+        // Check old password
+        if (!Hash::check($request->old_password, auth()->user()->password)) {
+            return back()->with('error1', 'Password lama salah!');
+        }
+
+        // Check new password and configuration
+        if ($request->new_password != $request->config_password) {
+            return back()->with('error2', 'Konfigurasi password salah!');
+        }
+
+        User::where('id', auth()->user()->id)->update([
+            'password' => Hash::make($request->new_password)
+        ]);
+
+        return back()->with('status', 'Password berhasil diperbarui!');
+    }
+
+    public function viewRekapProgress()
+    {
+        $user = Auth::user();
+        $mentor = Mentor::where('id_user', $user->id)->first();
+
+        $nipMentor = $mentor->nip;
+
+        $generate_progress = GeneratedProgress::where('nip_mentor', $nipMentor)
+            ->orderBy('id_progress', 'desc')
+            ->get();
+
+        return view('mentor.rekap_progress', compact('generate_progress'));
+    }
+
+    public function edit_progress($id_progress)
+    {
+        $generate_progress = GeneratedProgress::where('id_progress', $id_progress)
+            ->select(
+                'generate_progress.judul',
+                'generate_progress.deskripsi',
+                'generate_progress.mulai_submit',
+                'generate_progress.selesai_submit',
+            )
+            ->first();
+        
+        return view('mentor.edit_progress', compact('generate_progress', 'id_progress'));
+    }
+
+    public function update_progress(Request $request, $id_progress)
+    {
+        $generate_progress = GeneratedProgress::where('id_progress', $id_progress)->first();
+    
+        $request->validate([
+            'judul' => 'required|max:255',
+            'deskripsi' => 'required|max:255',
+            'mulai_submit' => 'required|date',
+            'selesai_submit' => 'required|date',
+        ]);
+    
+        $generate_progress->judul = $request->judul;
+        $generate_progress->deskripsi = $request->deskripsi;
+        $generate_progress->mulai_submit = $request->mulai_submit;
+        $generate_progress->selesai_submit = $request->selesai_submit;
+    
+        $progressChanged = $generate_progress->isDirty(); 
+    
+        if ($generate_progress->save()) {
+            if ($progressChanged) {
+                return redirect()->back()->with(['success' => 'Personal information updated successfully!'] + compact('generate_progress', 'id_progress'));
+            } else {
+                return redirect()->back()->with(['info' => 'No changes made.'] + compact('generate_progress', 'id_progress'));
+            }
+        } else {
+            return redirect()->back()->with(['info' => 'Failed to update personal information.'] + compact('generate_progress', 'id_progress'));
+        }   
+    }
+
+    public function delete_progress($id_progress)
+    {
+        try {
+            $generate_progress = GeneratedProgress::where('id_progress', $id_progress)->first();
+
+            $generate_progress->delete();
+
+            return redirect()->back()->with('success', 'Berhasil menghapus record progress!');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Gagal menghapus record progress.');
         }
     }
 }
