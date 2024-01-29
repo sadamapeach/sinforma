@@ -56,14 +56,13 @@
                                     <a href="{{ asset('storage/' . $event->gambar) }}" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Lihat Gambar</a>
                                 </td>
                                 <td class="px-6 py-4 text-center">
-                                    <a href="#" class="text-center text-indigo-600 hover:text-indigo-900">Edit</a>
-
-                                    <form action="#" method="POST" class="inline-block">
+                                    <a href="{{ route('view_edit_berita', ['id_berita' => $event['id_berita'] ?? null]) }}" class="text-center text-indigo-600 hover:text-indigo-900">Edit</a>
+                                    <form action="{{ route('delete_berita', [$event->id_berita]) }}" method="POST" class="inline-block">
                                         @csrf
-                                        @method('DELETE')
-                                        <button type="submit" onclick="return confirm('Apakah anda yakin ingin menghapus event ini?')"
-                                            class="text-red-600 hover:text-red-900 ml-2">Hapus</button>
+                                        <input type="hidden" name="_method" value="DELETE">
+                                        <button type="submit" onclick="return confirm('Apakah anda yakin ingin menghapus event ini?')" class="text-red-600 hover:text-red-900 ml-2">Hapus</button>
                                     </form>
+
                                 </td>
                             </tr>
                             @endforeach
