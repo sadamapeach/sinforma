@@ -33,7 +33,7 @@
                 Edit Event
             </h1>
 
-            <form action="#" method="POST" enctype="multipart/form-data">
+            <form action="{{ route('update_berita', [$berita->id_berita]) }}" method="POST" enctype="multipart/form-data">
                 @csrf                
                 <div class="form-group">
                     <label for="nama" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Nama:</label>

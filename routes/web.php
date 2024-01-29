@@ -80,6 +80,7 @@ Route::get('/view_tambah_berita', [AdminController::class, 'viewTambahBerita'])-
 Route::post('/tambah_berita', [AdminController::class, 'tambahBerita'])->name('tambah_berita');
 Route::post('/delete_berita/{id_berita}', [AdminController::class, 'deleteBerita'])->name('delete_berita');
 Route::get('/view_edit_berita/{id_berita}', [AdminController::class, 'viewEditBerita'])->name('view_edit_berita');
+Route::post('/update_berita/{id_berita}', [AdminController::class, 'updateBerita'])->name('update_berita');
 Route::get('/tambah_absen', [AdminController::class, 'viewTambahAbsen'])->name('tambah_absen');
 Route::post('/store_absen', [AdminController::class, 'storeAbsen'])->name('store_absen');
 

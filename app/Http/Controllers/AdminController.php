@@ -611,5 +611,34 @@ class AdminController extends Controller
         return view('admin.view_edit_berita', ['berita' => $berita]);
     }
 
+    public function updateBerita(Request $request, $id_berita)
+    {
+        $request->validate([
+            'nama' => 'required',
+            'gambar' => 'nullable|mimes:jpg,jpeg,png,pdf|max:10240',
+        ]);
+
+        try {
+            $berita = Berita::findOrFail($id_berita);
+
+            $berita->nama = $request->nama;
+
+            if ($request->hasFile('gambar')) {
+                if ($berita->gambar && Storage::exists($berita->gambar)) {
+                    Storage::delete($berita->gambar);
+                }
+
+                $gambarPath = $request->file('gambar')->store('berita', 'public');
+                $berita->gambar = $gambarPath;
+            }
+
+            $berita->save();
+
+            return redirect()->route('view_berita')->with('success', 'Event berhasil diubah.');
+        } catch (\Exception $e) {
+            return redirect()->route('view_berita')->with('error', 'Terjadi kesalahan saat mengubah event.');
+        }
+    }
+
 
 }
