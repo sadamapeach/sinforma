@@ -3,8 +3,34 @@
 
 @section('isihalaman')
 <head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+
     {{-- Reference Tailwind Flowbite --}}
     @vite(['resources/css/app.css','resources/js/app.js'])
+
+    <script>
+        function sortTable(columnIndex) {
+            const table = document.querySelector('.sortable-table');
+            const rows = Array.from(table.querySelectorAll('tbody tr'));
+
+            const isAscending = table.classList.contains('sorted-asc');
+            const sortMultiplier = isAscending ? 1 : -1;
+
+            rows.sort((rowA, rowB) => {
+                const cellA = rowA.cells[columnIndex].textContent.trim().toLowerCase();
+                const cellB = rowB.cells[columnIndex].textContent.trim().toLowerCase();
+                return sortMultiplier * cellA.localeCompare(cellB);
+            });
+
+            table.querySelector('tbody').innerHTML = '';
+
+            rows.forEach(row => {
+                table.querySelector('tbody').appendChild(row);
+            });
+
+            table.classList.toggle('sorted-asc');
+        }
+    </script>
 </head>
 
 <body>
@@ -67,40 +93,70 @@
                     <p class="mt-2 ml-2 text-base text-gray-500 dark:text-gray-400">Tidak ada data verifikasi presensi yang perlu diverifikasi</p>
                 </div>
             @else
-            <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+            <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400 sortable-table">
                 <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                     <tr>
-                        <th scope="col" class="px-6 py-3">ID</th>
-                        <th scope="col" class="px-6 py-3">Nama</th>
-                        <th scope="col" class="px-6 py-3">Instansi</th>
-                        <th scope="col" class="px-6 py-3">Jurusan</th>
-                        <th scope="col" class="px-6 py-3">Foto</th>
-                        <th scope="col" class="px-6 py-3">Waktu</th>
-                        <th scope="col" class="px-6 py-3">Status</th>
-                        <th scope="col" class="px-6 py-3">Action</th>
+                        <th scope="col" class="px-6 py-3 text-center" onclick="sortTable(1)">
+                            Nama
+                            <button class="sort-button ml-2">
+                                    <span class="text-gray-800">&#8693;</span>
+                            </button>
+                        </th>
+                        <th scope="col" class="px-6 py-3 text-center" onclick="sortTable(2)">
+                            Instansi
+                            <button class="sort-button ml-2">
+                                    <span class="text-gray-800">&#8693;</span>
+                            </button>
+                        </th>
+                        <th scope="col" class="px-6 py-3 text-center" onclick="sortTable(3)">
+                            Jurusan
+                            <button class="sort-button ml-2">
+                                    <span class="text-gray-800">&#8693;</span>
+                            </button>
+                        </th>
+                        <th scope="col" class="px-6 py-3 text-center">Foto</th>
+                        <th scope="col" class="px-6 py-3 text-center" onclick="sortTable(4)">
+                            Waktu
+                            <button class="sort-button ml-2">
+                                    <span class="text-gray-800">&#8693;</span>
+                            </button>
+                        </th>
+                        <th scope="col" class="px-6 py-3 text-center" onclick="sortTable(5)">
+                            Ket
+                            <button class="sort-button">
+                                    <span class="text-gray-800">&#8693;</span>
+                            </button>
+                        </th>
+                        <th scope="col" class="px-6 py-3 text-center" onclick="sortTable(6)">
+                            Status
+                            <button class="sort-button ml-2">
+                                    <span class="text-gray-800">&#8693;</span>
+                            </button>
+                        </th>
+                        <th scope="col" class="px-6 py-3 text-center">Action</th>
                     </tr>
                 </thead>
                 <tbody>
                 @foreach ($verifikasiPresensiData as $verifikasiPresensi)
                     <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover-bg-gray-600">
-                        <td class="px-6 py-4">{{ $verifikasiPresensi->mahasiswa->id_mhs }}</td>
                         <td class="px-6 py-4">{{ $verifikasiPresensi->mahasiswa->nama }}</td>
                         <td class="px-6 py-4">{{ $verifikasiPresensi->mahasiswa->instansi }}</td>
                         <td class="px-6 py-4">{{ $verifikasiPresensi->mahasiswa->jurusan }}</td>
-                        <td class="px-6 py-4">
+                        <td class="px-6 py-4 text-center">
                             <a href="{{ asset('storage/' . $verifikasiPresensi->foto) }}" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Lihat Gambar</a>
                         </td>
-                        <td class="px-6 py-4">{{ $verifikasiPresensi->tanggal }}</td>
-                        <td class="px-6 py-4">{{ $verifikasiPresensi->status }}</td>
-                        <td>
+                        <td class="px-6 py-4 text-center">{{ $verifikasiPresensi->tanggal }}</td>
+                        <td class="px-6 py-4 text-center">{{ $verifikasiPresensi->keterangan }}</td>
+                        <td class="px-6 py-4 text-center">{{ $verifikasiPresensi->status }}</td>
+                        <td class="text-center">
                         <form action="{{ route('verif_presensi', ['id_mhs' => $verifikasiPresensi->mahasiswa->id_mhs]) }}" method="GET">
                             @csrf
                             @if ($verifikasiPresensi->status !== 'Verified')
-                                <button type="submit" class="text-sm font-medium text-white bg-green-400 rounded-lg border border-green-400 px-2 py-1 focus:outline-none focus:ring-2 focus:ring-green-300 hover:bg-green-500">
+                                <button type="submit" class="text-center text-sm font-medium text-white bg-green-400 rounded-lg border border-green-400 px-2 py-1 focus:outline-none focus:ring-2 focus:ring-green-300 hover:bg-green-500">
                                     Verifikasi
                                 </button>
                             @else
-                                <button type="button" class="text-sm font-medium text-gray-500 bg-gray-300 rounded-lg border border-gray-300 px-2 py-1 cursor-not-allowed" disabled>
+                                <button type="button" class="text-center text-sm font-medium text-gray-500 bg-gray-300 rounded-lg border border-gray-300 px-2 py-1 cursor-not-allowed" disabled>
                                     Verified
                                 </button>
                             @endif

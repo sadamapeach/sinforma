@@ -3,8 +3,34 @@
 
 @section('isihalaman')
 <head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+
     {{-- Reference Tailwind Flowbite --}}
     @vite(['resources/css/app.css','resources/js/app.js'])
+    
+    <script>
+        function sortTable(columnIndex) {
+            const table = document.querySelector('.sortable-table');
+            const rows = Array.from(table.querySelectorAll('tbody tr'));
+
+            const isAscending = table.classList.contains('sorted-asc');
+            const sortMultiplier = isAscending ? 1 : -1;
+
+            rows.sort((rowA, rowB) => {
+                const cellA = rowA.cells[columnIndex].textContent.trim().toLowerCase();
+                const cellB = rowB.cells[columnIndex].textContent.trim().toLowerCase();
+                return sortMultiplier * cellA.localeCompare(cellB);
+            });
+
+            table.querySelector('tbody').innerHTML = '';
+
+            rows.forEach(row => {
+                table.querySelector('tbody').appendChild(row);
+            });
+
+            table.classList.toggle('sorted-asc');
+        }
+    </script>
 </head>
 
 <body>
@@ -63,22 +89,40 @@
                 </form>
             </div>
             <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
-                <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400 sortable-table">
                     <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                         <tr>
-                            <th scope="col" class="px-6 py-3">
+                            <th scope="col" class="px-6 py-3 text-center" onclick="sortTable(1)">
                                 Nama
+                                <button class="sort-button ml-4">
+                                    <span class="text-gray-800">&#8693;</span>
+                                </button>
                             </th>
-                            <th scope="col" class="px-6 py-3">
+                            <th scope="col" class="px-6 py-3 text-center" onclick="sortTable(2)">
                                 Instansi
+                                <button class="sort-button ml-4">
+                                    <span class="text-gray-800">&#8693;</span>
+                                </button>
                             </th>
-                            <th scope="col" class="px-6 py-3">
+                            <th scope="col" class="px-6 py-3 text-center" onclick="sortTable(3)">
                                 Jurusan
+                                <button class="sort-button ml-4">
+                                    <span class="text-gray-800">&#8693;</span>
+                                </button>
                             </th>
-                            <th scope="col" class="px-6 py-3">
+                            <th scope="col" class="px-6 py-3 text-center" onclick="sortTable(4)">
+                                Mentor
+                                <button class="sort-button ml-4">
+                                    <span class="text-gray-800">&#8693;</span>
+                                </button>
+                            </th>
+                            <th scope="col" class="px-6 py-3 text-center" onclick="sortTable(4)">
                                 Status
+                                <button class="sort-button ml-4">
+                                    <span class="text-gray-800">&#8693;</span>
+                                </button>
                             </th>
-                            <th scope="col" class="px-6 py-3">
+                            <th scope="col" class="px-6 py-3 text-center">
                                 Aksi
                             </th>
                         </tr>
@@ -95,6 +139,9 @@
                                     </td>
                                     <td class="px-6 py-4">
                                         {{ $mhs['jurusan'] }}
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        {{ $mhs->mentor->nama }}
                                     </td>
                                     <td class="px-6 py-4">
                                         {{ $mhs['status'] }}
