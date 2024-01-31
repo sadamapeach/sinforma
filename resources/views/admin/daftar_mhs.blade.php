@@ -7,7 +7,7 @@
 
     {{-- Reference Tailwind Flowbite --}}
     @vite(['resources/css/app.css','resources/js/app.js'])
-    
+
     <script>
         function sortTable(columnIndex) {
             const table = document.querySelector('.sortable-table');

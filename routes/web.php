@@ -110,3 +110,5 @@ Route::get('/rekap_progress', [MentorController::class, 'viewRekapProgress'])->n
 Route::get('/edit_progress/{id_progress}', [MentorController::class, 'edit_progress'])->name('edit_progress');
 Route::post('/update_progress/{id_progress}', [MentorController::class, 'update_progress'])->name('update_progress');
 Route::post('/delete_progress/{id_progress}', [MentorController::class, 'delete_progress'])->name('delete_progress');
+
+Route::get('/search_progress', [MentorController::class, 'searchProgress'])->name('search_progress');

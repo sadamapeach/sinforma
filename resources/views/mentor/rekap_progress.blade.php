@@ -6,6 +6,13 @@
 <head>
     {{-- Reference Tailwind Flowbite --}}
     @vite(['resources/css/app.css','resources/js/app.js'])
+
+    <style>
+        /* Contoh CSS untuk Class "d-none" */
+        .d-none {
+            display: none;
+        }
+    </style>
 </head>
 
 <body>
@@ -96,7 +103,20 @@
 
         {{-- Header --}}
         <div class="mb-5">
-            <h1 class="basis-3/4 text-black dark:text-white font-bold text-xl">Rekapitulasi Progress Mahasiswa Magang</h1>
+            <div class="flex">
+                <h1 class="basis-3/4 text-black dark:text-white font-bold text-xl">Rekapitulasi Progress Mahasiswa Magang</h1>
+                {{-- Search --}}
+                <div class="flex items-center">   
+                    <div class="relative" style="width: 250%">
+                        <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="w-4 h-4 fill-gray-500">
+                                <path fill-rule="evenodd" d="M9.965 11.026a5 5 0 1 1 1.06-1.06l2.755 2.754a.75.75 0 1 1-1.06 1.06l-2.755-2.754ZM10.5 7a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0Z" clip-rule="evenodd" />
+                            </svg>                          
+                        </div>
+                        <input type="text" id="search" class="bg-gray-50 border border-gray-300 text-gray-900 text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block ps-10 p-2  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search Realtime Progress">
+                    </div>
+                </div>
+            </div>
             <p class="text-gray-500 dark:text-gray-400 font-normal text-xs mb-2">Anda dapat mengamati progress mahasiswa magang, mengedit, ataupun menghapusnya.</p>
         </div>
 
@@ -111,7 +131,7 @@
                 $isInTimeRange = $now >= $mulaiSubmit && $now <= $selesaiSubmit;
             @endphp
 
-            <div class="p-5 mb-3 bg-white border border-gray-200 shadow rounded-lg dark:bg-gray-800 dark:border-gray-700">
+            <div class="p-5 mb-3 bg-white border border-gray-200 shadow rounded-lg dark:bg-gray-800 dark:border-gray-700 card">
                 <div class="grid grid-cols-2 mb-3 text-xs font-normal text-gray-600 dark:text-gray-400">
                     <div class="flex">
                         <div class="text-xs font-medium">Open
@@ -150,7 +170,7 @@
                         </div>
                         
                         {{-- Pop Up --}}
-                        <div id="delete-modal-{{ $progress->id_progress }}" tabindex="-1" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
+                        <div id="delete-modal-{{ $progress->id_progress }}" tabindex="-1" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full ml-24">
                             <div class="relative p-4 w-full max-w-md max-h-full">
                                 <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
                                     <button type="button" class="absolute top-3 end-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-hide="delete-modal-{{ $progress->id_progress }}">
@@ -163,15 +183,15 @@
                                         <svg class="mx-auto mb-4 text-gray-400 w-12 h-12 dark:text-gray-200" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
                                             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 11V6m0 8h.01M19 10a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
                                         </svg>
-                                        <h3 class="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">Apakah anda yakin ingin menghapus progress ini?</h3>
+                                        <h3 class="mb-5 text-sm font-normal text-gray-500 dark:text-gray-400">Apakah anda yakin ingin menghapus progress ini?</h3>
                                         <div class="flex justify-center">
                                             <form method="POST" action="{{ route('delete_progress', ['id_progress' => $progress->id_progress]) }}">
                                                 @csrf
-                                                <button data-modal-hide="delete-modal-{{ $progress->id_progress }}" type="submit" class="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center me-2">
+                                                <button data-modal-hide="delete-modal-{{ $progress->id_progress }}" type="submit" class="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-xs inline-flex items-center px-5 py-2.5 text-center me-2">
                                                     Ya
                                                 </button>
                                             </form>
-                                            <button data-modal-hide="delete-modal-{{ $progress->id_progress }}" type="button" class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600">Tidak</button>
+                                            <button data-modal-hide="delete-modal-{{ $progress->id_progress }}" type="button" class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200 rounded-lg border border-gray-200 text-xs font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600">Tidak</button>
                                         </div>
                                     </div>
                                 </div>
@@ -208,5 +228,37 @@
             </div>
         @endforeach
     </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const search = document.getElementById("search");
+            const cards = document.querySelectorAll(".card");
+
+            search.addEventListener("input", (e) => searchData(e.target.value));
+
+            function searchData(search) {
+                cards.forEach((card) => {
+                    const cardContent = card.innerText || card.textContent;
+                    if (cardContent.toLowerCase().includes(search.toLowerCase())) {
+                        card.classList.remove("d-none");
+                    } else {
+                        card.classList.add("d-none");
+                    }
+                });
+            }
+
+            search.addEventListener("input", () => {
+                const searchTerm = search.value.trim().toLowerCase();
+                cards.forEach((card) => {
+                    const cardContent = card.innerText || card.textContent;
+                    if (cardContent.toLowerCase().includes(searchTerm)) {
+                        card.classList.remove("d-none");
+                    } else {
+                        card.classList.add("d-none");
+                    }
+                });
+            });
+        });
+    </script>
 </body>
 @endsection

@@ -56,7 +56,7 @@ class MentorController extends Controller
             })->get();
         } 
 
-         return view('mentor.daftar_mhs', ['mhsData' => $mhsData]);
+        return view('mentor.daftar_mhs', ['mhsData' => $mhsData]);
     }
 
     public function filterByStatus(Request $request)
@@ -402,5 +402,5 @@ class MentorController extends Controller
         } catch (\Exception $e) {
             return redirect()->back()->with('error', 'Gagal menghapus record progress.');
         }
-    }
+    }   
 }

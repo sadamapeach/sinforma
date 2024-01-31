@@ -1,5 +1,5 @@
 @extends('index_mentor')
-@section('title', 'Tambah Progress')
+@section('title', 'Edit Progress')
 
 @section('isihalaman')
 <!DOCTYPE html>
