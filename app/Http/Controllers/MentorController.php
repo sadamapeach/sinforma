@@ -189,6 +189,8 @@ class MentorController extends Controller
             'nilai3' => $validatedData['nilai'][2],
             'nilai4' => $validatedData['nilai'][3],
             'nilai_avg' => $nilai_avg,
+            'created_at' => now(),
+            'updated_at' => now(),
         ]);
 
         return redirect()->route('daftar_mhs_mentor')->with('success', 'Penilaian berhasil ditambahkan.');
@@ -240,6 +242,7 @@ class MentorController extends Controller
             $nilai->nilai3 = $request->nilai3;
             $nilai->nilai4 = $request->nilai4;
             $nilai->nilai_avg = ($request->nilai1 + $request->nilai2 + $request->nilai3 + $request->nilai4) / 4;
+            $nilai->updated_at = now();
             $nilai->save();
 
             return redirect()->route('daftar_mhs_mentor')->with('success', 'Penilaian mahasiswa berhasil diperbarui.');

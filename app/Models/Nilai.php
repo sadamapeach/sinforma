@@ -12,7 +12,7 @@ class Nilai extends Model
     protected $table = 'nilai';
     protected $primaryKey = 'id';
     public $incrementing = false;
-    public $timestamps = false;
+    public $timestamps = true;
 
     protected $fillable = [
         'id',
