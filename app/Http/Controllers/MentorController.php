@@ -20,6 +20,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class MentorController extends Controller
 {
@@ -28,8 +29,20 @@ class MentorController extends Controller
         if(auth()->check()) {
             $user = Auth::user();
             $mentor = Mentor::where('id_user', $user->id)->first();
+            $nipMentor = $mentor->nip;
 
-            return view('mentor.dashboard', ['mentor' => $mentor]);
+            $mahasiswa = Mahasiswa::where('nip_mentor', $nipMentor)
+                ->select(
+                    'mahasiswa.id_mhs',
+                    'mahasiswa.nama',
+                    'mahasiswa.jurusan',
+                    'mahasiswa.instansi',
+                    'mahasiswa.status',
+                    'mahasiswa.foto',
+                )
+                ->get();
+
+            return view('mentor.dashboard', compact('mentor', 'mahasiswa'));
         }
 
         return redirect()->route('login');
@@ -61,12 +74,19 @@ class MentorController extends Controller
 
     public function filterByStatus(Request $request)
     {
+        $user = Auth::user();
+        $mentor = Mentor::where('id_user', $user->id)->first();
+
+        $nipMentor = $mentor->nip;
+        
         $status = $request->input('status');
 
         if (!empty($status)) {
-            $mhsData = Mahasiswa::where('status', $status)->get();
+            $mhsData = Mahasiswa::where('status', $status)
+                ->where('nip_mentor', $nipMentor)
+                ->get();
         } else {
-            $mhsData = Mahasiswa::all();
+            $mhsData = Mahasiswa::where('nip_mentor', $nipMentor)->get();
         }
 
         return view('mentor.daftar_mhs', ['mhsData' => $mhsData]);
@@ -294,12 +314,15 @@ class MentorController extends Controller
             DB::beginTransaction();
 
             try {
+                $created_at = $request->input('created_at');
+
                 $generateProgress = GeneratedProgress::create([
                     'nip_mentor' => $mentor->nip,
                     'judul' => $request->judul,
                     'deskripsi' => $request->deskripsi,
                     'mulai_submit' => $request->mulai_submit,
                     'selesai_submit' => $request->selesai_submit,
+                    'created_at' => $created_at,
                 ]);
 
                 if (!$generateProgress) {
@@ -380,6 +403,9 @@ class MentorController extends Controller
         $generate_progress->deskripsi = $request->deskripsi;
         $generate_progress->mulai_submit = $request->mulai_submit;
         $generate_progress->selesai_submit = $request->selesai_submit;
+
+        $updated_at = $request->input('updated_at');
+        $generate_progress->updated_at = $updated_at;
     
         $progressChanged = $generate_progress->isDirty(); 
     
@@ -406,4 +432,101 @@ class MentorController extends Controller
             return redirect()->back()->with('error', 'Gagal menghapus record progress.');
         }
     }   
+
+    public function rekap_mhs($id_progress)
+    {
+        $user = Auth::user();
+
+        $rekapMhs = Progress::join('mahasiswa', 'progress.id_mhs', '=', 'mahasiswa.id_mhs')
+            ->where('id_progress', $id_progress)
+            ->select(
+                'progress.id_progress as id_progress',
+                'progress.id_mhs as id_mhs',
+                'progress.tanggal as tanggal',
+                'progress.status as status',
+                'progress.scan_file as file',
+                'mahasiswa.nama as nama',
+                'mahasiswa.jurusan as jurusan',
+                'mahasiswa.instansi as instansi',
+                'mahasiswa.foto as foto',
+            )
+            ->get();
+
+        $generate_progress = GeneratedProgress::where('id_progress', $id_progress)
+            ->select(
+                'generate_progress.judul',
+                'generate_progress.mulai_submit',
+                'generate_progress.selesai_submit',
+            )
+            ->first();
+
+        return view('mentor.rekap_mahasiswa', compact('rekapMhs', 'generate_progress', 'id_progress'));
+    }
+
+    public function verif_progress($id_progress, $id_mhs)
+    {
+        $progress = Progress::where('id_progress', $id_progress)
+            ->where('id_mhs', $id_mhs)
+            ->first();
+
+        if ($progress) {
+            if ($progress->status === 'Unverified') {
+                $progress->status = 'Verified';
+
+                $progress->save();
+
+                return redirect()->back()->with('success', 'Progress berhasil diverifikasi!');
+            }
+        } else {
+            return redirect()->back()->with('erorr', 'Progress tidak ditemukan!');
+        }
+    }
+    
+    public function filterStatusProgress(Request $request, $id_progress)
+    {        
+        $status = $request->input('status');
+    
+        if (!empty($status)) {
+            $rekapMhs = Progress::join('mahasiswa', 'progress.id_mhs', '=', 'mahasiswa.id_mhs')
+                ->where('progress.status', $status)
+                ->where('id_progress', $id_progress)
+                ->select(
+                    'progress.id_progress as id_progress',
+                    'progress.id_mhs as id_mhs',
+                    'progress.tanggal as tanggal',
+                    'progress.status as status',
+                    'progress.scan_file as file',
+                    'mahasiswa.nama as nama',
+                    'mahasiswa.jurusan as jurusan',
+                    'mahasiswa.instansi as instansi',
+                    'mahasiswa.foto as foto',
+                )
+                ->get();
+        } else {
+            $rekapMhs = Progress::join('mahasiswa', 'progress.id_mhs', '=', 'mahasiswa.id_mhs')
+                ->where('id_progress', $id_progress)
+                ->select(
+                    'progress.id_progress as id_progress',
+                    'progress.id_mhs as id_mhs',
+                    'progress.tanggal as tanggal',
+                    'progress.status as status',
+                    'progress.scan_file as file',
+                    'mahasiswa.nama as nama',
+                    'mahasiswa.jurusan as jurusan',
+                    'mahasiswa.instansi as instansi',
+                    'mahasiswa.foto as foto',
+                )
+                ->get();
+        }
+
+        $generate_progress = GeneratedProgress::where('id_progress', $id_progress)
+        ->select(
+            'generate_progress.judul',
+            'generate_progress.mulai_submit',
+            'generate_progress.selesai_submit',
+        )
+        ->first();
+    
+        return view('mentor.rekap_mahasiswa', compact('rekapMhs', 'generate_progress', 'id_progress'));
+    } 
 }

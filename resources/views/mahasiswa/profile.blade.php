@@ -191,7 +191,7 @@
         <div class="flex justify-end mb-2">
             {{-- Edit --}}
             <a href="{{ route('edit_profile') }}">
-                <button type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:outline-none font-medium rounded-full text-sm w-24 h-9 text-center me-2 dark:bg-blue-600 dark:hover:bg-blue-700">Edit</button>
+                <button type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:outline-none font-medium rounded-md text-xs w-20 h-8 text-center me-2 dark:bg-blue-600 dark:hover:bg-blue-700">Edit</button>
             </a>
         </div>
 

@@ -47,7 +47,7 @@
                   <a href="{{ route('tambah_progress') }}" class="flex items-center py-2 text-gray-900 rounded-lg group dark:text-white hover:text-purple-500">Tambah Progress</a>
                </li>
                <li>
-                  <a href="{{ route('rekap_progress') }}" class="flex items-center mt-2 mb-1 text-gray-900 rounded-lg group dark:text-white hover:text-purple-500">Rekap Progress</a>
+                  <a href="{{ route('rekap_progress') }}" class="flex items-center mt-2 mb-1 text-gray-900 rounded-lg group dark:text-white hover:text-purple-500">Rekapitulasi Progress</a>
                </li>
          </ul>
       </li>

@@ -112,3 +112,7 @@ Route::post('/update_progress/{id_progress}', [MentorController::class, 'update_
 Route::post('/delete_progress/{id_progress}', [MentorController::class, 'delete_progress'])->name('delete_progress');
 
 Route::get('/search_progress', [MentorController::class, 'searchProgress'])->name('search_progress');
+Route::get('/rekap_mhs/{id_progress}', [MentorController::class, 'rekap_mhs'])->name('rekap_mhs');
+Route::get('/verif_progress/{id_progress}/{id_mhs}', [MentorController::class, 'verif_progress'])->name('verif_progress');
+Route::get('/filter_progress/{id_progress}', [MentorController::class, 'filterStatusProgress'])->name('filter_progress');
+Route::get('/filter_nilai', [MentorController::class, 'filterByNilai'])->name('filter_nilai');

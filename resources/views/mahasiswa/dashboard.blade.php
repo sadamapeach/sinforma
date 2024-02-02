@@ -12,7 +12,7 @@
 
 <body class="font-poppins"> 
     <div class="p-4 sm:ml-64">
-        <nav class="bg-zinc-100 border-gray-200 dark:bg-gray-800 dark:border-gray-700 rounded-xl">
+        <nav class="bg-zinc-100 border-gray-200 dark:bg-gray-800 dark:border-gray-700 rounded-lg">
             {{-- Welcome User --}}
             <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-2">
                 <p class="self-center text-base font-semibold whitespace-nowrap text-black dark:text-white ml-2">Hello, {{ $mahasiswa->nama }} 👋</p>
@@ -75,9 +75,9 @@
         @endif --}}
     </div>
 
-    {{-- Profile --}}
     <div class="px-4 sm:ml-64">
         <div class="flex space-x-4">
+            {{-- Profile --}}
             <div class="block bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 w-2/5 h-56">
                 {{-- Header Card --}}
                 <ul class="flex flex-wrap text-sm font-medium text-center text-gray-500 border-b border-gray-200 rounded-t-lg bg-zinc-100 dark:border-gray-700 dark:text-gray-400 dark:bg-gray-800" id="defaultTab" data-tabs-toggle="#defaultTabContent" role="tablist">

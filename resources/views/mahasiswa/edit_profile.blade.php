@@ -162,14 +162,14 @@
             {{-- Button --}}
             <div class="flex justify-end mb-2">
                 {{-- Kembali --}}
-                <a href="{{ route('profile_mahasiswa') }}" class="text-white bg-blue-700 hover:bg-blue-800 focus:outline-none font-medium rounded-full text-sm w-24 h-9 text-center me-2 dark:bg-blue-600 dark:hover:bg-blue-700">
+                <a href="{{ route('profile_mahasiswa') }}" class="text-white bg-blue-700 hover:bg-blue-800 focus:outline-none font-medium rounded-md text-xs w-20 h-8 text-center me-2 dark:bg-blue-600 dark:hover:bg-blue-700">
                     <button type="button" class="w-full h-full">
                         Kembali
                     </button>
                 </a>        
 
                 {{-- Simpan --}}
-                <button type="submit" class="text-white bg-green-600 hover:bg-green-700 focus:outline-none font-medium rounded-full text-sm w-24 h-9 text-center me-2 dark:bg-green-500 dark:hover:bg-green-600">Simpan</button>
+                <button type="submit" class="text-white bg-green-600 hover:bg-green-700 focus:outline-none font-medium rounded-md text-xs w-20 h-8 text-center me-2 dark:bg-green-500 dark:hover:bg-green-600">Simpan</button>
             </div>
         </form>
     </div>

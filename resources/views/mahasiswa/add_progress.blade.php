@@ -142,7 +142,7 @@
     
                 {{-- Button --}}
                 <div class="flex justify-end mb-2">
-                    <button type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:outline-none font-medium rounded-full text-sm w-24 h-9 text-center me-2 dark:bg-blue-600 dark:hover:bg-blue-700">Send</button>
+                    <button type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:outline-none font-medium rounded-md text-xs w-20 h-8 text-center me-2 dark:bg-blue-600 dark:hover:bg-blue-700">Send</button>
                 </div>
 
                 <input type="datetime-local" name="tanggal" value="{{ \Carbon\Carbon::now('Asia/Jakarta')->format('Y-m-d\TH:i') }}" hidden>

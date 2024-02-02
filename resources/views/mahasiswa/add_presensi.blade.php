@@ -151,7 +151,7 @@
 
                 {{-- Button --}}
                 <div class="flex justify-end mb-2">
-                    <button type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:outline-none font-medium rounded-full text-sm w-24 h-9 text-center me-2 dark:bg-blue-600 dark:hover:bg-blue-700">Submit</button>
+                    <button type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:outline-none font-medium rounded-md text-xs w-20 h-8 text-center me-2 dark:bg-blue-600 dark:hover:bg-blue-700">Submit</button>
                 </div>
 
                 <input type="hidden" name="id_absen" value="{{ $id_absen }}">

@@ -153,7 +153,8 @@
                 </div>
             </div>
 
-            {{-- Button --}}
+            <input type="datetime-local" name="updated_at" value="{{ \Carbon\Carbon::now('Asia/Jakarta')->format('Y-m-d\TH:i') }}" hidden>
+
             {{-- Button --}}
             <div class="flex justify-end mt-6">
                 {{-- Kembali --}}

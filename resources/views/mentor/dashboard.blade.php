@@ -13,7 +13,7 @@
 
 <body class="font-poppins">  
     <div class="p-4 sm:ml-64">
-        <nav class="bg-zinc-100 border-gray-200 dark:bg-gray-800 dark:border-gray-700 rounded-xl">
+        <nav class="bg-zinc-100 border-gray-200 dark:bg-gray-800 dark:border-gray-700 rounded-lg">
             {{-- Welcome User --}}
             <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-2">
                 <p class="self-center text-base font-semibold whitespace-nowrap text-black dark:text-white ml-2">Hello, {{ $mentor->nama }} 👋</p>
@@ -50,15 +50,10 @@
                             </span>
                         </div>
                         <ul class="py-2" aria-labelledby="user-menu-button">
-                        <li>
-                            <a href="{{ route ('account.viewChangePassword') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-black dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Change Password</a>
-                        </li>
-                        <li>
-                            <form action="/logout" method="post"
-                                class="block h-full px-4 py-2 text-sm text-red-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-red"
-                                role="menuitem">
+                        <li class="w-full hover:bg-gray-100 dark:hover:bg-gray-600 transition">
+                            <form action="{{ route('logout') }}" method="POST">
                                 @csrf
-                                <button type="submit" class="h-full w-full text-left">Sign out</button>
+                                <button type="submit" class="block px-4 py-2 text-sm text-red-700  hover:text-red-400 dark:text-red-500 dark:hover:text-red-300">Sign out</button>
                             </form>
                         </li>
                         </ul>
@@ -66,213 +61,224 @@
                 </div>
             </div>
         </nav>
+    </div>
+        
+    <div class="px-4 sm:ml-64 -mt-1">
+        <div class="flex space-x-3">
+            {{-- Profile --}}
+            <div class="block bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 w-2/5 h-52">
+                {{-- Header Card --}}
+                <ul class="flex flex-wrap text-sm font-medium text-center text-gray-500 border-b border-gray-200 rounded-t-lg bg-zinc-100 dark:border-gray-700 dark:text-gray-400 dark:bg-gray-800" id="defaultTab" data-tabs-toggle="#defaultTabContent" role="tablist">
+                    <li class="me-2">
+                        <p class="font-bold text-black dark:text-white py-1.5 px-6 text-base">Profile</p>
+                    </li>
+                </ul>
 
-        {{-- Alert --}}
-        {{-- @if(session()->has('success'))
-            <div class="flex items-center p-4 mb-4 text-sm text-green-800 rounded-lg bg-green-50 dark:bg-gray-800 dark:text-green-400" role="alert">
-                <svg class="flex-shrink-0 inline w-4 h-4 me-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
-                <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z"/>
-                </svg>
-                <span class="sr-only">Info</span>
-                <div>
-                <span class="font-medium">Success alert!</span>{{ session('success') }}
+                {{-- Foto --}}
+                <figcaption class="flex items-center py-5 px-5">
+                    <img class="rounded-full w-32 h-32" src="{{ Auth::user()->getImageURL() }}" alt="profile picture">
+                    <div class="mx-4">
+                        <div class="text-black dark:text-white text-sm font-bold">{{ $mentor->nama }}</div>
+                        <div class="text-xs text-gray-700 dark:text-gray-400 mt-1">NIP. {{ $mentor->nip }}</div>
+                        {{-- No.HP --}}
+                        <div class="py-2.5 flex">
+                            <span><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="w-3.5 h-3.5 fill-gray-700 dark:fill-gray-400">
+                                <path fill-rule="evenodd" d="m3.855 7.286 1.067-.534a1 1 0 0 0 .542-1.046l-.44-2.858A1 1 0 0 0 4.036 2H3a1 1 0 0 0-1 1v2c0 .709.082 1.4.238 2.062a9.012 9.012 0 0 0 6.7 6.7A9.024 9.024 0 0 0 11 14h2a1 1 0 0 0 1-1v-1.036a1 1 0 0 0-.848-.988l-2.858-.44a1 1 0 0 0-1.046.542l-.534 1.067a7.52 7.52 0 0 1-4.86-4.859Z" clip-rule="evenodd" />
+                            </svg></span>
+                            <span class="text-xs text-gray-700 dark:text-gray-400 ml-2">{{ $mentor->no_telepon }}</span>
+                        </div>
+                        {{-- Email --}}
+                        <div class="flex">
+                            <span><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="w-3.5 h-3.5 fill-gray-700 dark:fill-gray-400">
+                                <path d="M2.5 3A1.5 1.5 0 0 0 1 4.5v.793c.026.009.051.02.076.032L7.674 8.51c.206.1.446.1.652 0l6.598-3.185A.755.755 0 0 1 15 5.293V4.5A1.5 1.5 0 0 0 13.5 3h-11Z" />
+                                <path d="M15 6.954 8.978 9.86a2.25 2.25 0 0 1-1.956 0L1 6.954V11.5A1.5 1.5 0 0 0 2.5 13h11a1.5 1.5 0 0 0 1.5-1.5V6.954Z" />
+                            </svg></span>
+                            <span class="text-xs text-gray-700 dark:text-gray-400 ml-2">{{ $mentor->email }}</span>
+                        </div>
+                    </div>
+                </figcaption>  
+            </div>
+
+            {{-- Jumlah --}}
+            <div class="w-3/5 h-52">
+                <div class="grid grid-cols-2 gap-3">
+                    <div class="grid grid-rows-2 gap-3">
+                        {{-- Total Mahasiswa --}}
+                        <div class="flex bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700" style="height: 98px">
+                            <div class="bg-yellow-200 w-1 rounded h-1/3 ml-2 mt-3"></div>
+                            <div class="p-3">
+                                <h1 class="text-sm font-bold text-black dark:text-white">Total</h1>
+                                <h1 class="text-3xl font-bold text-yellow-400 dark:text-yellow-300">{{ count($mahasiswa) }}</h1>
+                                <p class="ext-gray-400 dark:text-gray-500" style="font-size: 10px">Mahasiswa Magang Perwalian</p>
+                            </div>
+                            <div class="ml-auto p-2">
+                                <img class="h-20 w-20" src="assets/total.png" alt="image description">
+                            </div>
+                        </div>
+
+                        {{-- Aktif --}}
+                        <div class="flex bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700" style="height: 98px">
+                            <div class="bg-green-200 w-1 rounded h-1/3 ml-2 mt-3"></div>
+                            <div class="p-3">
+                                <h1 class="text-sm font-bold text-black dark:text-white">Status: Aktif</h1>
+                                <h1 class="text-3xl font-bold text-green-700 dark:text-green-500">{{ $mahasiswa->where('status', 'Aktif')->count() }}</h1>
+                                <p class="ext-gray-400 dark:text-gray-500" style="font-size: 10px">Mahasiswa Magang Perwalian</p>
+                            </div>
+                            <div class="ml-auto p-4">
+                                <img class="h-16 w-16" src="assets/aktif.png" alt="image description">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="grid grid-rows-2 gap-3">
+                        {{-- Tidak Aktif --}}
+                        <div class="flex bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700" style="height: 98px">
+                            <div class="bg-red-200 w-1 rounded h-1/3 ml-2 mt-3"></div>
+                            <div class="p-3">
+                                <h1 class="text-sm font-bold text-black dark:text-white">Status: Tidak Aktif</h1>
+                                <h1 class="text-3xl font-bold text-pink-700 dark:text-pink-500">{{ $mahasiswa->where('status', 'Tidak Aktif')->count() }}</h1>
+                                <p class="ext-gray-400 dark:text-gray-500" style="font-size: 10px">Mahasiswa Magang Perwalian</p>
+                            </div>
+                            <div class="ml-auto p-4">
+                                <img class="h-16 w-16" src="assets/tidak_aktif.png" alt="image description">
+                            </div>
+                        </div>
+                        
+                        {{-- Lulus --}}
+                        <div class="flex bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700" style="height: 98px">
+                            <div class="bg-blue-200 w-1 rounded h-1/3 ml-2 mt-3"></div>
+                            <div class="p-3">
+                                <h1 class="text-sm font-bold text-black dark:text-white">Status: Lulus</h1>
+                                <h1 class="text-3xl font-bold text-blue-700 dark:text-blue-500">{{ $mahasiswa->where('status', 'Lulus')->count() }}</h1>
+                                <p class="ext-gray-400 dark:text-gray-500" style="font-size: 10px">Mahasiswa Magang Perwalian</p>
+                            </div>
+                            <div class="ml-auto p-4">
+                                <img class="h-16 w-16" src="assets/lulus.png" alt="image description">
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
-        @endif --}}
-    </div>
-
-    {{-- Profile --}}
-    <div class="px-4 sm:ml-64">
-        <div class="flex space-x-4">
-        <div class="block max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 w-1/2 h-56">
-            {{-- Header Card --}}
-            <ul class="flex flex-wrap text-sm font-medium text-center text-gray-500 border-b border-gray-200 rounded-t-lg bg-zinc-100 dark:border-gray-700 dark:text-gray-400 dark:bg-gray-800" id="defaultTab" data-tabs-toggle="#defaultTabContent" role="tablist">
-                <li class="me-2">
-                    <p class="font-bold text-black dark:text-white py-1.5 px-6 text-base">Profile</p>
-                </li>
-            </ul>
-
-            {{-- Foto --}}
-            <figcaption class="flex items-center p-6">
-                <img class="rounded-full w-32 h-32" src="{{ Auth::user()->getImageURL() }}" alt="profile picture">
-                <div class="space-y-2.5 text-left rtl:text-right mx-4">
-                    <div class="text-black dark:text-white text-sm font-bold">{{ $mentor->nama }}</div>
-                    <div class="text-xs text-gray-700 dark:text-gray-400">Mentor Mahasiswa Magang Diskominfo</div>
-                    {{-- Alamat --}}
-                    <div class="flex items-center">
-                        <span><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="w-3.5 h-3.5 fill-gray-700 dark:fill-gray-400">
-                            <path fill-rule="evenodd" d="M7.605 2.112a.75.75 0 0 1 .79 0l5.25 3.25A.75.75 0 0 1 13 6.707V12.5h.25a.75.75 0 0 1 0 1.5H2.75a.75.75 0 0 1 0-1.5H3V6.707a.75.75 0 0 1-.645-1.345l5.25-3.25ZM4.5 8.75a.75.75 0 0 1 1.5 0v3a.75.75 0 0 1-1.5 0v-3ZM8 8a.75.75 0 0 0-.75.75v3a.75.75 0 0 0 1.5 0v-3A.75.75 0 0 0 8 8Zm2 .75a.75.75 0 0 1 1.5 0v3a.75.75 0 0 1-1.5 0v-3ZM8 6a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z" clip-rule="evenodd" />
-                        </svg></span>
-                        <span class="text-xs text-gray-700 dark:text-gray-400 ml-2">{{ $mentor->alamat}}</span>
-                    </div>
-                    {{-- No.HP --}}
-                    <div class="flex">
-                        <span><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="w-3.5 h-3.5 fill-gray-700 dark:fill-gray-400">
-                            <path fill-rule="evenodd" d="m3.855 7.286 1.067-.534a1 1 0 0 0 .542-1.046l-.44-2.858A1 1 0 0 0 4.036 2H3a1 1 0 0 0-1 1v2c0 .709.082 1.4.238 2.062a9.012 9.012 0 0 0 6.7 6.7A9.024 9.024 0 0 0 11 14h2a1 1 0 0 0 1-1v-1.036a1 1 0 0 0-.848-.988l-2.858-.44a1 1 0 0 0-1.046.542l-.534 1.067a7.52 7.52 0 0 1-4.86-4.859Z" clip-rule="evenodd" />
-                        </svg></span>
-                        <span class="text-xs text-gray-700 dark:text-gray-400 ml-2">{{ $mentor->no_telepon }}</span>
-                    </div>
-                </div>
-            </figcaption>  
         </div>
 
-        {{-- Carosel --}}
-        <div class="flex items-center justify-center rounded-lg bg-white w-2/3 h-56 dark:bg-gray-800">
-            <div id="default-carousel" class="relative w-full h-56" data-carousel="slide">
-            <!-- Carousel wrapper -->
-            <div class="relative h-56 overflow-hidden rounded-lg md:h-96">
-                <!-- Item 1 -->
-                <div class="hidden duration-700 ease-in-out" data-carousel-item>
-                    <img src="assets/gojo_1.jpg" class="absolute w-full h-56 -translate-x-1/2 -translate-y-1/2 top-28 left-1/2 object-cover rounded-lg" alt="...">
-                </div>
-                <!-- Item 2 -->
-                <div class="hidden duration-700 ease-in-out" data-carousel-item>
-                    <img src="assets/gojo_3.jpg" class="absolute w-full h-56 -translate-x-1/2 -translate-y-1/2 top-28 left-1/2 object-cover rounded-lg" alt="...">
-                </div>
-                <!-- Item 3 -->
-                <div class="hidden duration-700 ease-in-out" data-carousel-item>
-                    <img src="assets/gojo_2.jpg" class="absolute w-full h-56 -translate-x-1/2 -translate-y-1/2 top-28 left-1/2 object-cover rounded-lg" alt="...">
+        {{-- Daftar Mahasiswa --}}
+        <div class="mt-3 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 p-5" style="height: 260px">
+            <div class="flex mb-3">
+                <h1 class="font-bold text-black dark:text-white">Rekapitulasi Mahasiswa Magang Perwalian</h1>
+                <div class="flex ml-auto">
+                    {{-- Search --}}
+                    <div class="relative">
+                        <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="w-4 h-4 fill-gray-500">
+                                <path fill-rule="evenodd" d="M9.965 11.026a5 5 0 1 1 1.06-1.06l2.755 2.754a.75.75 0 1 1-1.06 1.06l-2.755-2.754ZM10.5 7a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0Z" clip-rule="evenodd" />
+                            </svg>                          
+                        </div>
+                        <input type="text" id="search" class="bg-gray-50 border border-gray-300 text-gray-900 text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block ps-10 p-1  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search Realtime Progress">
+                    </div>
+        
+                    {{-- Filter by Status --}}
+                    <form action="#" method="GET" class="flex ml-2 mb-1 items-center">
+                        <select id="status" name="status" class="p-1 text-xs text-gray-900 border ps-2.5 border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" onchange="this.form.submit()">
+                            <option value="" selected>Status</option>
+                            <option value="">Semua Status</option>
+                            <option value="Aktif">Aktif</option>
+                            <option value="Tidak Aktif">Tidak Aktif</option>
+                            <option value="Lulus">Lulus</option>
+                        </select>
+                    </form>
                 </div>
             </div>
-
-            <!-- Left Button -->
-            <button type="button" class="absolute top-28 start-0 z-30 flex items-center justify-center h-5 px-4 cursor-pointer group focus:outline-none" data-carousel-prev>
-                <span class="inline-flex items-center justify-center w-8 h-8 rounded-full bg-white/30 dark:bg-gray-800/30 group-hover:bg-white/50 dark:group-hover:bg-gray-800/60 group-focus:ring-4 group-focus:ring-white dark:group-focus:ring-gray-800/70 group-focus:outline-none">
-                    <svg class="w-2 h-2 text-white dark:text-gray-800 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
-                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 1 1 5l4 4"/>
-                    </svg>
-                    <span class="sr-only">Previous</span>
-                </span>
-            </button>
-
-            {{-- Right Button --}}
-            <button type="button" class="absolute top-28 end-0 z-30 flex items-center justify-center h-5 px-4 cursor-pointer group focus:outline-none" data-carousel-next>
-                <span class="inline-flex items-center justify-center w-8 h-8 rounded-full bg-white/30 dark:bg-gray-800/30 group-hover:bg-white/50 dark:group-hover:bg-gray-800/60 group-focus:ring-4 group-focus:ring-white dark:group-focus:ring-gray-800/70 group-focus:outline-none">
-                    <svg class="w-2 h-2 text-white dark:text-gray-800 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
-                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 9 4-4-4-4"/>
-                    </svg>
-                    <span class="sr-only">Next</span>
-                </span>
-            </button>
+            <div class="overflow-y-auto rounded-md shadow-md" style="height: 180px">
+                <div class="relative overflow-x-auto shadow sm:rounded">
+                    @if(!$mahasiswa)
+                        <div class="pb-4 bg-white dark:bg-gray-900">
+                            <p class="mt-2 ml-2 text-base text-gray-500 dark:text-gray-400">Belum ada mahasiswa perwalian. Mohon hubungi Admin.</p>
+                        </div>
+                    @else
+                        <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400 sortable-table">
+                            <thead class="text-xs text-gray-700 uppercase bg-gray-100 dark:bg-gray-900 dark:text-gray-400 border">
+                                <tr>
+                                    <th scope="col" class="text-center py-3 w-12">
+                                        No
+                                    </th>
+                                    <th scope="col" class="px-4 py-3 w-16" onclick="sortTable(1)">
+                                        ID
+                                        <button class="sort-button ml-1">
+                                            <span class="bg-gray-100 dark:bg-gray-900">&#8693;</span>
+                                        </button>
+                                    </th>
+                                    <th scope="col" class="px-4 py-3 w-52" onclick="sortTable(2)">
+                                        Nama
+                                        <button class="sort-button ml-1">
+                                            <span class="bg-gray-100 dark:bg-gray-900">&#8693;</span>
+                                        </button>
+                                    </th>
+                                    <th scope="col" class="px-4 py-3 w-40" onclick="sortTable(3)">
+                                        Jurusan
+                                        <button class="sort-button ml-1">
+                                            <span class="bg-gray-100 dark:bg-gray-900">&#8693;</span>
+                                        </button>
+                                    </th>
+                                    <th scope="col" class="px-4 py-3 w-40" onclick="sortTable(4)">
+                                        Instansi
+                                        <button class="sort-button ml-1">
+                                            <span class="bg-gray-100 dark:bg-gray-900">&#8693;</span>
+                                        </button>
+                                    </th>
+                                    <th scope="col" class="px-4 py-3 w-24 text-center" onclick="sortTable(5)">
+                                        Status
+                                        <button class="sort-button ml-1">
+                                            <span class="bg-gray-100 dark:bg-gray-900">&#8693;</span>
+                                        </button>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @if ($mahasiswa)
+                                    @foreach ($mahasiswa as $index => $mhs)
+                                    <tr class="text-xs bg-white border dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-600">
+                                            <td class="py-3.5 text-center w-12">
+                                                {{ $index + 1 }}
+                                            </td>
+                                            <td class="px-4 py-3.5 w-16">
+                                                {{ $mhs->id_mhs }}
+                                            </td>
+                                            <td class="flex items-center px-4 py-3.5">
+                                                <img class="w-7 h-7 rounded-full" src="{{ asset('storage/' . $mhs->foto) }}" alt="Jese image">
+                                                <div class="ps-3">
+                                                    {{ $mhs->nama }}
+                                                </div>  
+                                            </td>
+                                            <td class="px-4 py-3.5 w-40">
+                                                {{ $mhs->jurusan }}
+                                            </td>
+                                            <td class="px-4 py-3.5 w-40">
+                                                {{ $mhs->instansi }}
+                                            </td>
+                                            <td class="px-4 py-3.5 w-24 text-center">
+                                                @if ($mhs->status == 'Aktif')
+                                                    <span type="botton" class="bg-green-100 text-green-800 font-semibold me-2 px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300" style="font-size: 10px">Aktif</span>
+                                                @else
+                                                    @if ($mhs->status == 'Tidak Aktif')
+                                                        <span type="submit" class="bg-pink-100 text-pink-800 font-semibold me-2 px-2.5 py-0.5 rounded-full dark:bg-pink-900 dark:text-pink-300" style="font-size: 10px">Tidak Aktif</span>
+                                                    @else
+                                                        <span type="submit" class="bg-blue-100 text-blue-800 font-semibold me-2 px-2.5 py-0.5 rounded-full dark:bg-blue-900 dark:text-blue-300" style="font-size: 10px">Lulus</span>
+                                                    @endif
+                                                @endif
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                @else
+                                <tr>
+                                    <td colspan="10" class="px-6 py-4 text-center text-gray-500 dark:text-gray-400">No data available</td>
+                                </tr>
+                                @endif
+                            </tbody>
+                        </table>
+                    @endif
+                </div>
             </div>
         </div>
     </div>
-  
-    <script>
-        // ApexCharts options and config
-        window.addEventListener("load", function() {
-            const getChartOptions = () => {
-                const isDarkMode = document.querySelector('html').classList.contains('dark');
-    
-                const labelFontColor = isDarkMode ? "#ffffff" : "ffffff"; // Ganti dengan warna yang diinginkan
-    
-                return {
-                    series: [80, 10, 5, 5],
-                    colors: ["#1C64F2", "#16BDCA", "#E74694", "#FDBA8C"],
-                    chart: {
-                        height: 210,
-                        width: "110%",
-                        type: "donut",
-                    },
-                    stroke: {
-                        colors: ["transparent"],
-                        lineCap: "",
-                    },
-                    plotOptions: {
-                        pie: {
-                            donut: {
-                                labels: {
-                                    show: true,
-                                    name: {
-                                        show: true,
-                                        fontFamily: "poppins",
-                                        offsetY: 17,
-                                        style: {
-                                            colors: [labelFontColor], // Warna font untuk nama
-                                        },
-                                    },
-                                    total: {
-                                        showAlways: true,
-                                        show: true,
-                                        label: "Total Kehadiran",
-                                        fontFamily: "poppins",
-                                        fontSize: "0.55rem",
-                                        fontWeight: "bold",
-                                        formatter: function (w) {
-                                            const sum = w.globals.seriesTotals.reduce((a, b) => {
-                                                return a + b
-                                            }, 0)
-                                            return `${sum}%`
-                                        },
-                                        style: {
-                                            colors: [labelFontColor], // Warna font untuk total label
-                                        },
-                                    },
-                                    value: {
-                                        show: true,
-                                        fontFamily: "poppins",
-                                        offsetY: -15,
-                                        formatter: function (value) {
-                                            return value + "%"
-                                        },
-                                        style: {
-                                            colors: [labelFontColor], // Warna font untuk nilai
-                                        },
-                                    },
-                                },
-                                size: "80%",
-                            },
-                        },
-                    },
-                    grid: {
-                        padding: {
-                            top: -2,
-                        },
-                    },
-                    labels: ["Hadir", "Izin", "Sakit", "Alpha"],
-                    dataLabels: {
-                        enabled: false,
-                    },
-                    legend: {
-                        position: "bottom",
-                        fontFamily: "poppins",
-                        offsetY: -4,
-                    },
-                    yaxis: {
-                        labels: {
-                            formatter: function (value) {
-                                return value + "%";
-                            },
-                            style: {
-                                colors: [labelFontColor], // Warna font untuk label sumbu y
-                            },
-                        },
-                    },
-                    xaxis: {
-                        labels: {
-                            formatter: function (value) {
-                                return value + "%";
-                            },
-                            style: {
-                                colors: [labelFontColor], // Warna font untuk label sumbu x
-                            },
-                        },
-                        axisTicks: {
-                            show: false,
-                        },
-                        axisBorder: {
-                            show: false,
-                        },
-                    },
-                };
-            };
-    
-            if (document.getElementById("donut-chart") && typeof ApexCharts !== 'undefined') {
-                const chart = new ApexCharts(document.getElementById("donut-chart"), getChartOptions());
-                chart.render();
-            }
-        });
-    </script>    
 </body>
 </html>
 @endsection

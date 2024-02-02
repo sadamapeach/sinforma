@@ -20,6 +20,8 @@ class GeneratedProgress extends Model
         'deskripsi',
         'mulai_submit',
         'selesai_submit',
+        'created_at',
+        'updated_at',
     ];
 
     public function mentor()

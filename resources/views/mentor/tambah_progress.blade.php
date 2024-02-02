@@ -151,6 +151,8 @@
                 </div>
             </div>
 
+            <input type="datetime-local" name="created_at" value="{{ \Carbon\Carbon::now('Asia/Jakarta')->format('Y-m-d\TH:i') }}" hidden>
+
             {{-- Button --}}
             <div class="flex justify-end mt-6">
                 <button type="submit" name="submit" value="generate" class="text-white bg-blue-700 hover:bg-blue-800 focus:outline-none font-medium rounded-full text-sm w-24 h-9 text-center me-2 dark:bg-blue-600 dark:hover:bg-blue-700">Post</button>
