@@ -24,7 +24,7 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class MentorController extends Controller
 {
-    public function index() 
+    public function index(Request $request) 
     {
         if(auth()->check()) {
             $user = Auth::user();
@@ -46,6 +46,26 @@ class MentorController extends Controller
         }
 
         return redirect()->route('login');
+    }
+
+    public function filterDashboard(Request $request)
+    {
+        $user = Auth::user();
+        $mentor = Mentor::where('id_user', $user->id)->first();
+
+        $nipMentor = $mentor->nip;
+        
+        $status = $request->input('status');
+
+        if (!empty($status)) {
+            $mahasiswa = Mahasiswa::where('status', $status)
+                ->where('nip_mentor', $nipMentor)
+                ->get();
+        } else {
+            $mahasiswa = Mahasiswa::where('nip_mentor', $nipMentor)->get();
+        }
+
+        return view('mentor.dashboard', compact('mentor', 'mahasiswa'));
     }
 
     public function viewDaftarMhs()
