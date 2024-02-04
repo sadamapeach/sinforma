@@ -20,17 +20,71 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
+use Jenssegers\Date\Date;
+use Carbon\Carbon;
 
 
 class AdminController extends Controller
 {
-    public function index() 
+    public function index(Request $request) 
     {
-        if(auth()->check()) {
+        if (auth()->check()) {
             $user = Auth::user();
             $admin = Admin::where('id_user', $user->id)->first();
+            $nipAdmin = $admin->nip;
+            $totals = [];
 
-            return view('admin.dashboard', ['admin' => $admin]);
+            $mahasiswa = Mahasiswa::where('nip_admin', $nipAdmin)->get();
+
+            $skl1 = Skl::join('mahasiswa', 'skl.id_mhs', '=', 'mahasiswa.id_mhs')
+                ->where('skl.nip_admin', $nipAdmin)
+                ->get();
+
+            $skl2 = Mahasiswa::leftJoin('skl', 'mahasiswa.id_mhs', '=', 'skl.id_mhs')
+                ->where('mahasiswa.nip_admin', $nipAdmin)
+                ->whereNull('skl.id_mhs') 
+                ->get();
+            
+            $mahasiswaVerifikasiPresensi = Absen::join('mahasiswa', 'absen.id_mhs', '=', 'mahasiswa.id_mhs')
+                ->where('mahasiswa.nip_admin', $nipAdmin)
+                ->where('absen.status', '=', 'Unverified')
+                ->get();
+
+
+            foreach ($mahasiswa as $mhs) {
+                $mulaiMagang = Carbon::parse($mhs->mulai_magang);
+                $selesaiMagang = Carbon::parse($mhs->selesai_magang);
+
+                $jumlahHariAbsen = $mulaiMagang->diffInDaysFiltered(function ($date) {
+                    return $date->isWeekday();
+                }, $selesaiMagang->addDay());
+
+                $jumlahPresensi = 2 * $jumlahHariAbsen; 
+
+                $absen = Absen::where('id_mhs', $mhs->id_mhs)->get();
+                $totalAbsen = 0; 
+                if ($absen) {
+                    $absenCollection = $absen->where('status', 'Verified');
+                    $totalAbsen = $absenCollection->count();
+                }
+
+                $jumlahHariProgress = $mulaiMagang->diffInDaysFiltered(function ($date) {
+                    return $date;
+                }, $selesaiMagang->addDay());
+
+                $jumlahMinggu = ceil($jumlahHariProgress / 7); // ceil => pembulatan ke atas
+
+                $progress = Progress::where('id_mhs', $mhs->id_mhs)->get();
+                $totalProgress = 0;
+                if ($progress) {
+                    $progressCollection = $progress->where('status', 'Verified');
+                    $totalProgress = $progressCollection->count();
+                }
+
+                $totals[$mhs->id_mhs] = ['totalAbsen' => $totalAbsen, 'totalProgress' => $totalProgress];
+            }
+
+            return view('admin.dashboard', compact('admin', 'mahasiswa', 'skl1', 'skl2', 'mahasiswaVerifikasiPresensi', 'totalAbsen', 'totalProgress'));
         }
 
         return redirect()->route('login');
