@@ -121,7 +121,7 @@
             </table>
 
             <div class="flex justify-end mt-3">
-                <button type="submit" name="submit" value="generate" class="text-white bg-blue-700 hover:bg-blue-800 focus:outline-none font-medium rounded-full text-xs w-20 h-8 text-center me-2 dark:bg-blue-600 dark:hover:bg-blue-700">
+                <button type="submit" name="submit" value="generate" class="text-white bg-blue-700 hover:bg-blue-800 focus:outline-none font-medium rounded-md text-xs w-20 h-8 text-center me-2 dark:bg-blue-600 dark:hover:bg-blue-700">
                     Simpan
                 </button>
             </div>

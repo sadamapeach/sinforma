@@ -152,7 +152,7 @@
 
                             {{-- Aktif --}}
                             <div class="flex bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700" style="height: 98px">
-                                <div class="bg-green-200 w-1 rounded h-1/3 ml-2 mt-3"></div>
+                                <div class="bg-green-200 dark:bg-green-500 w-1 rounded h-1/3 ml-2 mt-3"></div>
                                 <div class="self-center ml-2">
                                     <h1 class="text-xs font-bold text-black dark:text-white">Status: Aktif</h1>
                                     <h1 class="text-3xl font-bold text-green-700 dark:text-green-500">{{ $mahasiswa->where('status', 'Aktif')->count() }}</h1>
@@ -166,7 +166,7 @@
                         <div class="grid grid-rows-2 gap-3">
                             {{-- Tidak Aktif --}}
                             <div class="flex bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700" style="height: 98px">
-                                <div class="bg-red-200 w-1 rounded h-1/3 ml-2 mt-3"></div>
+                                <div class="bg-red-200 dark:bg-pink-500 w-1 rounded h-1/3 ml-2 mt-3"></div>
                                 <div class="self-center ml-2">
                                     <h1 class="text-xs font-bold text-black dark:text-white">Status: Tidak Aktif</h1>
                                     <h1 class="text-3xl font-bold text-pink-700 dark:text-pink-500">{{ $mahasiswa->where('status', 'Tidak Aktif')->count() }}</h1>
@@ -179,7 +179,7 @@
                             
                             {{-- Lulus --}}
                             <div class="flex bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700" style="height: 98px">
-                                <div class="bg-blue-200 w-1 rounded h-1/3 ml-2 mt-3"></div>
+                                <div class="bg-blue-200 dark:bg-blue-500 w-1 rounded h-1/3 ml-2 mt-3"></div>
                                 <div class="self-center ml-2">
                                     <h1 class="text-xs font-bold text-black dark:text-white">Status: Lulus</h1>
                                     <h1 class="text-3xl font-bold text-blue-700 dark:text-blue-500">{{ $mahasiswa->where('status', 'Lulus')->count() }}</h1>
@@ -193,7 +193,7 @@
                         <div class="grid grid-rows-2 gap-3">
                             {{-- Sudah Dinilai --}}
                             <div class="flex bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700" style="height: 98px">
-                                <div class="bg-gray-300 w-1 rounded h-1/3 ml-2 mt-3"></div>
+                                <div class="bg-gray-300 dark:bg-gray-500 w-1 rounded h-1/3 ml-2 mt-3"></div>
                                 <div class="self-center ml-2">
                                     <h1 class="text-xs font-bold text-black dark:text-white">Penilaian: Sudah</h1>
                                     <h1 class="text-3xl font-bold text-gray-500 dark:text-gray-400">{{ count($nilai1) }}</h1>
@@ -206,7 +206,7 @@
                             
                             {{-- Belum Dinilai --}}
                             <div class="flex bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700" style="height: 98px">
-                                <div class="bg-purple-200 w-1 rounded h-1/3 ml-2 mt-3"></div>
+                                <div class="bg-purple-200 dark:bg-purple-500 w-1 rounded h-1/3 ml-2 mt-3"></div>
                                 <div class="self-center ml-2">
                                     <h1 class="text-xs font-bold text-black dark:text-white">Penilaian: Belum</h1>
                                     <h1 class="text-3xl font-bold text-purple-700 dark:text-purple-500">{{ count($nilai2) }}</h1>
@@ -221,130 +221,122 @@
                 </div>
             </div>
 
-            {{-- <div class="grid grid-cols-4 gap-3">
-                <div class="col-span-1">
-                    <div class="mt-3 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 p-5" style="height: 260px">
+            {{-- Daftar Mahasiswa --}}
+            <div class="mt-3 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 p-5" style="height: 260px">
+                <div class="flex mb-3">
+                    <h1 class="font-bold text-black dark:text-white">Daftar Mahasiswa Magang Perwalian</h1>
+                    <div class="flex ml-auto">
+                        {{-- Search --}}
+                        <div class="relative">
+                            <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="w-4 h-4 fill-gray-500">
+                                    <path fill-rule="evenodd" d="M9.965 11.026a5 5 0 1 1 1.06-1.06l2.755 2.754a.75.75 0 1 1-1.06 1.06l-2.755-2.754ZM10.5 7a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0Z" clip-rule="evenodd" />
+                                </svg>                          
+                            </div>
+                            <input type="text" id="search" class="bg-gray-50 border border-gray-300 text-gray-900 text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block ps-10 p-1  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search Realtime Progress">
+                        </div>
+            
+                        {{-- Filter by Status --}}
+                        <form action="{{ route('dashboard_mentor_filter') }}" method="GET" class="flex ml-2 mb-1 items-center">
+                            <select id="status" name="status" class="p-1 text-xs text-gray-900 border ps-2.5 border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" onchange="this.form.submit()">
+                                <option value="" selected>Status</option>
+                                <option value="">Semua Status</option>
+                                <option value="Aktif">Aktif</option>
+                                <option value="Tidak Aktif">Tidak Aktif</option>
+                                <option value="Lulus">Lulus</option>
+                            </select>
+                        </form>
                     </div>
                 </div>
-                <div class="col-span-3"> --}}
-                    {{-- Daftar Mahasiswa --}}
-                    <div class="mt-3 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 p-5" style="height: 260px">
-                        <div class="flex mb-3">
-                            <h1 class="font-bold text-black dark:text-white">Mahasiswa Magang Perwalian</h1>
-                            <div class="flex ml-auto">
-                                {{-- Search --}}
-                                <div class="relative">
-                                    <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
-                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="w-4 h-4 fill-gray-500">
-                                            <path fill-rule="evenodd" d="M9.965 11.026a5 5 0 1 1 1.06-1.06l2.755 2.754a.75.75 0 1 1-1.06 1.06l-2.755-2.754ZM10.5 7a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0Z" clip-rule="evenodd" />
-                                        </svg>                          
-                                    </div>
-                                    <input type="text" id="search" class="bg-gray-50 border border-gray-300 text-gray-900 text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block ps-10 p-1  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search Realtime Progress">
-                                </div>
-                    
-                                {{-- Filter by Status --}}
-                                <form action="{{ route('dashboard_mentor_filter') }}" method="GET" class="flex ml-2 mb-1 items-center">
-                                    <select id="status" name="status" class="p-1 text-xs text-gray-900 border ps-2.5 border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" onchange="this.form.submit()">
-                                        <option value="" selected>Status</option>
-                                        <option value="">Semua Status</option>
-                                        <option value="Aktif">Aktif</option>
-                                        <option value="Tidak Aktif">Tidak Aktif</option>
-                                        <option value="Lulus">Lulus</option>
-                                    </select>
-                                </form>
-                            </div>
+                <div class="relative overflow-x-auto shadow md:rounded" style="height: 180px">
+                    @if(!$mahasiswa)
+                        <div class="pb-4 bg-white dark:bg-gray-900">
+                            <p class="mt-2 ml-2 text-base text-gray-500 dark:text-gray-400">Belum ada mahasiswa perwalian. Mohon hubungi Admin.</p>
                         </div>
-                        <div class="relative overflow-x-auto shadow md:rounded" style="height: 180px">
-                            @if(!$mahasiswa)
-                                <div class="pb-4 bg-white dark:bg-gray-900">
-                                    <p class="mt-2 ml-2 text-base text-gray-500 dark:text-gray-400">Belum ada mahasiswa perwalian. Mohon hubungi Admin.</p>
-                                </div>
-                            @else
-                                <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400 sortable-table">
-                                    <thead class="text-xs text-gray-700 uppercase bg-gray-100 dark:bg-gray-900 dark:text-gray-400 border border-gray-300 dark:border-gray-900">
-                                        <tr>
-                                            <th scope="col" class="text-center py-3 w-12">
-                                                No
-                                            </th>
-                                            <th scope="col" class="px-4 py-3 w-16" onclick="sortTable(1)">
-                                                ID
-                                                <button class="sort-button ml-1">
-                                                    <span class="bg-gray-100 dark:bg-gray-900">&#8693;</span>
-                                                </button>
-                                            </th>
-                                            <th scope="col" class="px-4 py-3 w-52" onclick="sortTable(2)">
-                                                Nama
-                                                <button class="sort-button ml-1">
-                                                    <span class="bg-gray-100 dark:bg-gray-900">&#8693;</span>
-                                                </button>
-                                            </th>
-                                            <th scope="col" class="px-4 py-3 w-40" onclick="sortTable(3)">
-                                                Jurusan
-                                                <button class="sort-button ml-1">
-                                                    <span class="bg-gray-100 dark:bg-gray-900">&#8693;</span>
-                                                </button>
-                                            </th>
-                                            <th scope="col" class="px-4 py-3 w-40" onclick="sortTable(4)">
-                                                Instansi
-                                                <button class="sort-button ml-1">
-                                                    <span class="bg-gray-100 dark:bg-gray-900">&#8693;</span>
-                                                </button>
-                                            </th>
-                                            <th scope="col" class="px-4 py-3 w-32 text-center" onclick="sortTable(5)">
-                                                Status
-                                                <button class="sort-button ml-1">
-                                                    <span class="bg-gray-100 dark:bg-gray-900">&#8693;</span>
-                                                </button>
-                                            </th>
+                    @else
+                        <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400 sortable-table">
+                            <thead class="text-xs text-gray-700 uppercase bg-gray-100 dark:bg-gray-900 dark:text-gray-400 border border-gray-300 dark:border-gray-900">
+                                <tr>
+                                    <th scope="col" class="text-center py-3 w-12">
+                                        No
+                                    </th>
+                                    <th scope="col" class="px-4 py-3 w-16" onclick="sortTable(1)">
+                                        ID
+                                        <button class="sort-button ml-1">
+                                            <span class="bg-gray-100 dark:bg-gray-900">&#8693;</span>
+                                        </button>
+                                    </th>
+                                    <th scope="col" class="px-4 py-3 w-52" onclick="sortTable(2)">
+                                        Nama
+                                        <button class="sort-button ml-1">
+                                            <span class="bg-gray-100 dark:bg-gray-900">&#8693;</span>
+                                        </button>
+                                    </th>
+                                    <th scope="col" class="px-4 py-3 w-40" onclick="sortTable(3)">
+                                        Jurusan
+                                        <button class="sort-button ml-1">
+                                            <span class="bg-gray-100 dark:bg-gray-900">&#8693;</span>
+                                        </button>
+                                    </th>
+                                    <th scope="col" class="px-4 py-3 w-40" onclick="sortTable(4)">
+                                        Instansi
+                                        <button class="sort-button ml-1">
+                                            <span class="bg-gray-100 dark:bg-gray-900">&#8693;</span>
+                                        </button>
+                                    </th>
+                                    <th scope="col" class="px-4 py-3 w-32 text-center" onclick="sortTable(5)">
+                                        Status
+                                        <button class="sort-button ml-1">
+                                            <span class="bg-gray-100 dark:bg-gray-900">&#8693;</span>
+                                        </button>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody class="text-gray-700 dark:text-gray-400 overflow-y-auto">
+                                @if ($mahasiswa)
+                                    @foreach ($mahasiswa as $index => $mhs)
+                                        <tr class="text-xs bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-600 border border-gray-300 dark:border-gray-900">
+                                            <td class="py-3.5 text-center w-12">
+                                                {{ $index + 1 }}
+                                            </td>
+                                            <td class="px-4 py-3.5 w-16">
+                                                {{ $mhs->id_mhs }}
+                                            </td>
+                                            <td class="flex items-center px-4 py-3.5">
+                                                <img class="w-7 h-7 rounded-full" src="{{ asset('storage/' . $mhs->foto) }}" alt="Jese image">
+                                                <div class="ps-3">
+                                                    {{ $mhs->nama }}
+                                                </div>  
+                                            </td>
+                                            <td class="px-4 py-3.5 w-40">
+                                                {{ $mhs->jurusan }}
+                                            </td>
+                                            <td class="px-4 py-3.5 w-40">
+                                                {{ $mhs->instansi }}
+                                            </td>
+                                            <td class="px-4 py-3.5 w-32 text-center">
+                                                @if ($mhs->status == 'Aktif')
+                                                    <span type="botton" class="bg-green-100 text-green-800 font-semibold me-2 px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300" style="font-size: 10px">Aktif</span>
+                                                @else
+                                                    @if ($mhs->status == 'Tidak Aktif')
+                                                        <span type="submit" class="bg-pink-100 text-pink-800 font-semibold me-2 px-2.5 py-0.5 rounded-full dark:bg-pink-900 dark:text-pink-300" style="font-size: 10px">Tidak Aktif</span>
+                                                    @else
+                                                        <span type="submit" class="bg-blue-100 text-blue-800 font-semibold me-2 px-2.5 py-0.5 rounded-full dark:bg-blue-900 dark:text-blue-300" style="font-size: 10px">Lulus</span>
+                                                    @endif
+                                                @endif
+                                            </td>
                                         </tr>
-                                    </thead>
-                                    <tbody class="text-gray-700 dark:text-gray-400 overflow-y-auto">
-                                        @if ($mahasiswa)
-                                            @foreach ($mahasiswa as $index => $mhs)
-                                                <tr class="text-xs bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-600 border border-gray-300 dark:border-gray-900">
-                                                    <td class="py-3.5 text-center w-12">
-                                                        {{ $index + 1 }}
-                                                    </td>
-                                                    <td class="px-4 py-3.5 w-16">
-                                                        {{ $mhs->id_mhs }}
-                                                    </td>
-                                                    <td class="flex items-center px-4 py-3.5">
-                                                        <img class="w-7 h-7 rounded-full" src="{{ asset('storage/' . $mhs->foto) }}" alt="Jese image">
-                                                        <div class="ps-3">
-                                                            {{ $mhs->nama }}
-                                                        </div>  
-                                                    </td>
-                                                    <td class="px-4 py-3.5 w-40">
-                                                        {{ $mhs->jurusan }}
-                                                    </td>
-                                                    <td class="px-4 py-3.5 w-40">
-                                                        {{ $mhs->instansi }}
-                                                    </td>
-                                                    <td class="px-4 py-3.5 w-32 text-center">
-                                                        @if ($mhs->status == 'Aktif')
-                                                            <span type="botton" class="bg-green-100 text-green-800 font-semibold me-2 px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300" style="font-size: 10px">Aktif</span>
-                                                        @else
-                                                            @if ($mhs->status == 'Tidak Aktif')
-                                                                <span type="submit" class="bg-pink-100 text-pink-800 font-semibold me-2 px-2.5 py-0.5 rounded-full dark:bg-pink-900 dark:text-pink-300" style="font-size: 10px">Tidak Aktif</span>
-                                                            @else
-                                                                <span type="submit" class="bg-blue-100 text-blue-800 font-semibold me-2 px-2.5 py-0.5 rounded-full dark:bg-blue-900 dark:text-blue-300" style="font-size: 10px">Lulus</span>
-                                                            @endif
-                                                        @endif
-                                                    </td>
-                                                </tr>
-                                            @endforeach
-                                        @else
-                                        <tr>
-                                            <td colspan="10" class="px-6 py-4 text-center text-gray-500 dark:text-gray-400">No data available</td>
-                                        </tr>
-                                        @endif
-                                    </tbody>
-                                </table>
-                            @endif
-                        </div>
-                    </div>
-                {{-- </div>
-            </div> --}}
+                                    @endforeach
+                                @else
+                                <tr>
+                                    <td colspan="10" class="px-6 py-4 text-center text-gray-500 dark:text-gray-400">No data available</td>
+                                </tr>
+                                @endif
+                            </tbody>
+                        </table>
+                    @endif
+                </div>
+            </div>
         </div>
 
         <script>
