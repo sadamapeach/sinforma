@@ -42,7 +42,17 @@ class MentorController extends Controller
                 )
                 ->get();
 
-            return view('mentor.dashboard', compact('mentor', 'mahasiswa'));
+            $nilai1 = Nilai::join('mahasiswa', 'nilai.id_mhs', '=', 'mahasiswa.id_mhs')
+                ->where('nilai.nip_mentor', $nipMentor)
+                ->get();
+
+            $nilai2 = Mahasiswa::leftJoin('nilai', 'mahasiswa.id_mhs', '=', 'nilai.id_mhs')
+                ->where('mahasiswa.nip_mentor', $nipMentor)
+                ->whereNull('nilai.id_mhs') 
+                ->where('mahasiswa.status', 'Aktif')
+                ->get();
+
+            return view('mentor.dashboard', compact('mentor', 'mahasiswa', 'nilai1', 'nilai2'));
         }
 
         return redirect()->route('login');
