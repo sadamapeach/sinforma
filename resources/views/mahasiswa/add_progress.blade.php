@@ -110,12 +110,12 @@
                     <h1 class="text-black dark:text-white font-bold text-xl mb-2">Form Pengumpulan Progress Mahasiswa Magang Diskominfo Semarang</h1>
                     <div class="flex mb-3 text-xs font-normal text-gray-600 dark:text-gray-400">
                         <div class="text-xs font-medium">Open
-                            <span class="bg-blue-100 text-blue-800 font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-blue-900 dark:text-blue-300" style="font-size: 10px">
+                            <span class="bg-blue-100 text-blue-800 font-semibold me-2 px-2.5 py-0.5 rounded-full dark:bg-blue-900 dark:text-blue-300 ml-0.5" style="font-size: 10px">
                                 {{ $generate_progress->mulai_submit }}
                             </span>
                         </div>
                         <div class="text-xs font-medium">Due to
-                            <span class="bg-red-100 text-red-800 font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-red-900 dark:text-red-300" style="font-size: 10px">
+                            <span class="bg-red-100 text-red-800 font-semibold me-2 px-2.5 py-0.5 rounded-full dark:bg-red-900 dark:text-red-300 ml-0.5" style="font-size: 10px">
                                 {{ $generate_progress->selesai_submit }}
                             </span>
                         </div>
@@ -142,7 +142,14 @@
     
                 {{-- Button --}}
                 <div class="flex justify-end mb-2">
-                    <button type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:outline-none font-medium rounded-md text-xs w-20 h-8 text-center me-2 dark:bg-blue-600 dark:hover:bg-blue-700">Send</button>
+                    {{-- Kembali --}}
+                    <a href="{{ route('progress_mahasiswa') }}" class="text-white bg-red-700 hover:bg-red-800 focus:outline-none font-medium rounded-md text-xs w-20 h-8 text-center me-2 dark:bg-red-600 dark:hover:bg-red-700">
+                        <button type="button" class="w-full h-full">
+                            Kembali
+                        </button>
+                    </a>
+
+                    <button type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:outline-none font-medium rounded-md text-xs w-20 h-8 text-center me-2 dark:bg-blue-600 dark:hover:bg-blue-700">Submit</button>
                 </div>
 
                 <input type="datetime-local" name="tanggal" value="{{ \Carbon\Carbon::now('Asia/Jakarta')->format('Y-m-d\TH:i') }}" hidden>

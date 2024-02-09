@@ -132,20 +132,20 @@
             @endphp
 
             <div class="p-5 mb-3 bg-white border border-gray-200 shadow rounded-lg dark:bg-gray-800 dark:border-gray-700 card">
-                <div class="grid grid-cols-2 mb-3 text-xs font-normal text-gray-600 dark:text-gray-400">
-                    <div class="flex">
+                <div class="grid grid-cols-3 mb-3 text-xs font-normal text-gray-600 dark:text-gray-400">
+                    <div class="flex col-span-2">
                         <div class="text-xs font-medium">Open
-                            <span class="bg-green-100 text-green-800 font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300" style="font-size: 10px">
+                            <span class="bg-green-100 text-green-800 font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300 ml-0.5" style="font-size: 10px">
                                 {{ \Carbon\Carbon::parse($progress->mulai_submit)->format('Y-m-d H:i') }}
                             </span>
                         </div>
-                        <div class="text-xs font-medium">Due to
-                            <span class="bg-pink-100 text-pink-800 font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-pink-900 dark:text-pink-300" style="font-size: 10px">
+                        <div class="text-xs font-medium ml-0.5">Due to
+                            <span class="bg-pink-100 text-pink-800 font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-pink-900 dark:text-pink-300 ml-0.5" style="font-size: 10px">
                                 {{ \Carbon\Carbon::parse($progress->selesai_submit)->format('Y-m-d H:i') }}
                             </span>
                         </div>
                     </div>
-                    <div class="flex justify-self-end">
+                    <div class="flex justify-self-end col-span-1">
                         {{-- Edit --}}
                         <a href="{{ route('edit_progress', ['id_progress' => $progress->id_progress]) }}" data-tooltip-target="tooltip-edit-hover-{{ $loop->index }}" data-tooltip-trigger="hover" class="mt-0.5">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="w-4 h-4 mr-3">
@@ -201,7 +201,7 @@
                 </div>
                 <div class="items-center block p-3 sm:flex"> 
                     <img class="w-12 h-12 me-3 rounded-full sm:mb-0" src="{{ Auth::user()->getImageURL() }}" alt="Jese Leos image"/>  
-                    <div>
+                    <div class="w-full">
                         <h1 class="text-sm font-bold text-gray-900 dark:text-white">{{ $progress->judul }}</h1>
                         <div class="font-normal text-gray-600 dark:text-gray-400" style="font-size: 11px">{{ $progress->deskripsi }}</div> 
                         <div class="flex items-center mt-3">
@@ -210,9 +210,8 @@
                                 <path d="M6.22 8.72a.75.75 0 0 0 1.06 1.06l5.22-5.22v1.69a.75.75 0 0 0 1.5 0v-3.5a.75.75 0 0 0-.75-.75h-3.5a.75.75 0 0 0 0 1.5h1.69L6.22 8.72Z" />
                                 <path d="M3.5 6.75c0-.69.56-1.25 1.25-1.25H7A.75.75 0 0 0 7 4H4.75A2.75 2.75 0 0 0 2 6.75v4.5A2.75 2.75 0 0 0 4.75 14h4.5A2.75 2.75 0 0 0 12 11.25V9a.75.75 0 0 0-1.5 0v2.25c0 .69-.56 1.25-1.25 1.25h-4.5c-.69 0-1.25-.56-1.25-1.25v-4.5Z" />
                             </svg>    
-                            {{-- <a href="#" class="ml-2 bg-blue-100 hover:bg-blue-200 text-blue-800 font-semibold me-2 px-2.5 py-0.5 rounded dark:bg-gray-700 dark:text-blue-400 border border-blue-400 inline-flex items-center justify-center" style="font-size: 10px">Rekapitulasi Mahasiswa</a>   --}}
                             <a href="{{ route('rekap_mhs', ['id_progress' => $progress->id_progress]) }}" class="ml-1 bg-blue-100 text-blue-800 font-semibold me-2 px-2.5 py-0.5 rounded-full dark:bg-blue-900 dark:text-blue-300 inline-flex items-center justify-center" style="font-size: 10px">Rekapitulasi Mahasiswa</a>
-                            
+
                             {{-- Status --}}
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="w-3.5 h-3.5 ml-2 fill-gray-600 dark:fill-gray-400">
                                 <path d="M5.75 7.5a.75.75 0 1 0 0 1.5.75.75 0 0 0 0-1.5ZM5 10.25a.75.75 0 1 1 1.5 0 .75.75 0 0 1-1.5 0ZM10.25 7.5a.75.75 0 1 0 0 1.5.75.75 0 0 0 0-1.5ZM7.25 8.25a.75.75 0 1 1 1.5 0 .75.75 0 0 1-1.5 0ZM8 9.5A.75.75 0 1 0 8 11a.75.75 0 0 0 0-1.5Z" />
@@ -223,6 +222,14 @@
                             @else
                                 <span class="ml-1 bg-gray-200 text-gray-800 font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-gray-700 dark:text-gray-300" style="font-size: 10px">Tidak Aktif</span>
                             @endif
+
+                            {{-- Rekap verifikasi --}}
+                            <div class="flex ml-auto">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="w-4 h-4 fill-gray-600 dark:fill-gray-400">
+                                    <path d="M8 8a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5ZM3.156 11.763c.16-.629.44-1.21.813-1.72a2.5 2.5 0 0 0-2.725 1.377c-.136.287.102.58.418.58h1.449c.01-.077.025-.156.045-.237ZM12.847 11.763c.02.08.036.16.046.237h1.446c.316 0 .554-.293.417-.579a2.5 2.5 0 0 0-2.722-1.378c.374.51.653 1.09.813 1.72ZM14 7.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0ZM3.5 9a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3ZM5 13c-.552 0-1.013-.455-.876-.99a4.002 4.002 0 0 1 7.753 0c.136.535-.324.99-.877.99H5Z" />
+                                </svg>   
+                                <h1 class="ml-1 font-medium text-gray-600 dark:text-gray-400" style="font-size: 11px">Progress yang belum diverifikasi: {{ $progress->unverified_count }}</h1>                              
+                            </div>
                         </div>
                     </div>
                 </div>

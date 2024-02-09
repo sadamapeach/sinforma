@@ -117,3 +117,4 @@ Route::get('/verif_progress/{id_progress}/{id_mhs}', [MentorController::class, '
 Route::get('/filter_progress/{id_progress}', [MentorController::class, 'filterStatusProgress'])->name('filter_progress');
 Route::get('/filter_nilai', [MentorController::class, 'filterByNilai'])->name('filter_nilai');
 Route::get('/dashboard_mentor_filter', [MentorController::class, 'filterDashboard'])->name('dashboard_mentor_filter');
+Route::get('/verified_all_progress/{id_progress}', [MentorController::class, 'verifiedAllProgress'])->name('verifiedAllProgress');

@@ -31,14 +31,15 @@ class MentorController extends Controller
             $mentor = Mentor::where('id_user', $user->id)->first();
             $nipMentor = $mentor->nip;
 
-            $mahasiswa = Mahasiswa::where('nip_mentor', $nipMentor)
+            $mahasiswa = Mahasiswa::join('users', 'mahasiswa.id_user', '=', 'users.id')
+                ->where('nip_mentor', $nipMentor)
                 ->select(
                     'mahasiswa.id_mhs',
                     'mahasiswa.nama',
                     'mahasiswa.jurusan',
                     'mahasiswa.instansi',
                     'mahasiswa.status',
-                    'mahasiswa.foto',
+                    'users.foto as foto',
                 )
                 ->get();
 
@@ -82,10 +83,33 @@ class MentorController extends Controller
     {
         $user = Auth::user();
         $mentor = Mentor::where('id_user', $user->id)->first();
-        $mhsData = Mahasiswa::with('nilai')->where('nip_mentor', $mentor->nip)->get();
 
-        return view('mentor.daftar_mhs', ['mhsData' => $mhsData]);
+        $mhsData = Mahasiswa::with('nilai')
+            ->join('users', 'mahasiswa.id_user', '=', 'users.id')
+            ->where('nip_mentor', $mentor->nip)
+            ->select(
+                'mahasiswa.id_mhs',
+                'mahasiswa.nama',
+                'mahasiswa.jurusan',
+                'mahasiswa.instansi',
+                'mahasiswa.status',
+                'users.foto as foto',
+            )
+            ->get();
+
+        $nilai1 = Nilai::join('mahasiswa', 'nilai.id_mhs', '=', 'mahasiswa.id_mhs')
+            ->where('nilai.nip_mentor', $mentor->nip)
+            ->get();
+
+        $nilai2 = Mahasiswa::leftJoin('nilai', 'mahasiswa.id_mhs', '=', 'nilai.id_mhs')
+            ->where('mahasiswa.nip_mentor', $mentor->nip)
+            ->whereNull('nilai.id_mhs') 
+            ->where('mahasiswa.status', 'Aktif')
+            ->get();
+    
+        return view('mentor.daftar_mhs', compact('mhsData', 'nilai1', 'nilai2'));
     }
+    
 
     public function searchMahasiswa(Request $request)
     {
@@ -112,11 +136,30 @@ class MentorController extends Controller
         $status = $request->input('status');
 
         if (!empty($status)) {
-            $mhsData = Mahasiswa::where('status', $status)
+            $mhsData = Mahasiswa::join('users', 'mahasiswa.id_user', '=', 'users.id')
+                ->where('status', $status)
                 ->where('nip_mentor', $nipMentor)
+                ->select(
+                    'mahasiswa.id_mhs',
+                    'mahasiswa.nama',
+                    'mahasiswa.jurusan',
+                    'mahasiswa.instansi',
+                    'mahasiswa.status',
+                    'users.foto as foto',                    
+                )
                 ->get();
         } else {
-            $mhsData = Mahasiswa::where('nip_mentor', $nipMentor)->get();
+            $mhsData = Mahasiswa::join('users', 'mahasiswa.id_user', '=', 'users.id')
+                ->where('nip_mentor', $nipMentor)
+                ->select(
+                    'mahasiswa.id_mhs',
+                    'mahasiswa.nama',
+                    'mahasiswa.jurusan',
+                    'mahasiswa.instansi',
+                    'mahasiswa.status',
+                    'users.foto as foto',                    
+                )
+                ->get();
         }
 
         return view('mentor.daftar_mhs', ['mhsData' => $mhsData]);
@@ -390,6 +433,20 @@ class MentorController extends Controller
         return back()->with('status', 'Password berhasil diperbarui!');
     }
 
+    // public function viewRekapProgress()
+    // {
+    //     $user = Auth::user();
+    //     $mentor = Mentor::where('id_user', $user->id)->first();
+
+    //     $nipMentor = $mentor->nip;
+
+    //     $generate_progress = GeneratedProgress::where('nip_mentor', $nipMentor)
+    //         ->orderBy('id_progress', 'desc')
+    //         ->get();
+
+    //     return view('mentor.rekap_progress', compact('generate_progress'));
+    // }
+
     public function viewRekapProgress()
     {
         $user = Auth::user();
@@ -397,8 +454,25 @@ class MentorController extends Controller
 
         $nipMentor = $mentor->nip;
 
-        $generate_progress = GeneratedProgress::where('nip_mentor', $nipMentor)
-            ->orderBy('id_progress', 'desc')
+        $generate_progress = Progress::rightJoin('generate_progress', 'progress.id_progress', '=', 'generate_progress.id_progress')
+            ->where('generate_progress.nip_mentor', $nipMentor)
+            ->groupBy(
+                'generate_progress.id_progress', 
+                'generate_progress.judul', 
+                'generate_progress.deskripsi', 
+                'generate_progress.mulai_submit', 
+                'generate_progress.selesai_submit'
+            )
+            ->select(
+                'generate_progress.id_progress as id_progress',
+                'generate_progress.judul as judul',
+                'generate_progress.deskripsi as deskripsi',
+                'generate_progress.mulai_submit as mulai_submit',
+                'generate_progress.selesai_submit as selesai_submit',
+                DB::raw('MAX(progress.status) as status'),
+                DB::raw('SUM(CASE WHEN progress.status = "Unverified" THEN 1 ELSE 0 END) as unverified_count')
+            )
+            ->orderBy('generate_progress.id_progress', 'desc')
             ->get();
 
         return view('mentor.rekap_progress', compact('generate_progress'));
@@ -466,8 +540,12 @@ class MentorController extends Controller
     public function rekap_mhs($id_progress)
     {
         $user = Auth::user();
+        $mentor = Mentor::where('id_user', $user->id)->first();
+        $nipMentor = $mentor->nip;
 
         $rekapMhs = Progress::join('mahasiswa', 'progress.id_mhs', '=', 'mahasiswa.id_mhs')
+            ->join('users', 'mahasiswa.id_user', '=', 'users.id')
+            ->where('mahasiswa.nip_mentor', $nipMentor)
             ->where('id_progress', $id_progress)
             ->select(
                 'progress.id_progress as id_progress',
@@ -478,7 +556,7 @@ class MentorController extends Controller
                 'mahasiswa.nama as nama',
                 'mahasiswa.jurusan as jurusan',
                 'mahasiswa.instansi as instansi',
-                'mahasiswa.foto as foto',
+                'users.foto as foto',
             )
             ->get();
 
@@ -490,7 +568,21 @@ class MentorController extends Controller
             )
             ->first();
 
-        return view('mentor.rekap_mahasiswa', compact('rekapMhs', 'generate_progress', 'id_progress'));
+        $status_progress = Progress::join('mahasiswa', 'progress.id_mhs', '=', 'mahasiswa.id_mhs')
+            ->where('mahasiswa.nip_mentor', $nipMentor)
+            ->where('id_progress', $id_progress)
+            ->select(
+                'progress.status as status',
+            )
+            ->get();
+
+        $mahasiswa = Mahasiswa::where('nip_mentor', $nipMentor)
+            ->select(
+                'mahasiswa.status as status_mhs',
+            )
+            ->get();
+
+        return view('mentor.rekap_mahasiswa', compact('rekapMhs', 'generate_progress', 'id_progress', 'status_progress', 'mahasiswa'));
     }
 
     public function verif_progress($id_progress, $id_mhs)
@@ -556,7 +648,63 @@ class MentorController extends Controller
             'generate_progress.selesai_submit',
         )
         ->first();
+
+        $user = Auth::user();
+        $mentor = Mentor::where('id_user', $user->id)->first();
+        $nipMentor = $mentor->nip;
+
+        $status_progress = Progress::join('mahasiswa', 'progress.id_mhs', '=', 'mahasiswa.id_mhs')
+            ->where('mahasiswa.nip_mentor', $nipMentor)
+            ->where('id_progress', $id_progress)
+            ->select(
+                'progress.status as status',
+            )
+            ->get();
+
+        $mahasiswa = Mahasiswa::where('nip_mentor', $nipMentor)
+            ->select(
+                'mahasiswa.status as status_mhs',
+            )
+            ->get();
     
-        return view('mentor.rekap_mahasiswa', compact('rekapMhs', 'generate_progress', 'id_progress'));
+        return view('mentor.rekap_mahasiswa', compact('rekapMhs', 'generate_progress', 'id_progress', 'status_progress', 'mahasiswa'));
     } 
+
+    public function verifiedAllProgress($id_progress) {
+        $progresses = Progress::where('id_progress', $id_progress)
+            ->where('status', 'Unverified')
+            ->get();
+    
+        if ($progresses->isNotEmpty()) {
+            foreach ($progresses as $progress) {
+                $progress->status = 'Verified';
+                $progress->save();
+            }
+    
+            return redirect()->back()->with('success', 'Semua progress berhasil diverifikasi!');
+        } else {
+            return redirect()->back()->with('error', 'Semua progress sudah diverifikasi atau tidak ditemukan!');
+        }
+    }
+    
+    
+
+    // public function verif_progress($id_progress, $id_mhs)
+    // {
+    //     $progress = Progress::where('id_progress', $id_progress)
+    //         ->where('id_mhs', $id_mhs)
+    //         ->first();
+
+    //     if ($progress) {
+    //         if ($progress->status === 'Unverified') {
+    //             $progress->status = 'Verified';
+
+    //             $progress->save();
+
+    //             return redirect()->back()->with('success', 'Progress berhasil diverifikasi!');
+    //         }
+    //     } else {
+    //         return redirect()->back()->with('erorr', 'Progress tidak ditemukan!');
+    //     }
+    // }
 }

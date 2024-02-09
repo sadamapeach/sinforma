@@ -38,4 +38,11 @@ class Mentor extends Model
     {
         return $this->hasMany(GeneratedProgress::class, 'nip_mentor', 'nip');
     }
+
+    public function getImageURL(){
+        if($this->foto){
+            return url("storage/" . $this->foto);
+        }
+        return "https://freesvg.org/img/abstract-user-flat-4.png";
+    }
 }

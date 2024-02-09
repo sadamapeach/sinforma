@@ -13,12 +13,7 @@
             {{-- Welcome User --}}
             <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-2.5">
                 <div class="ml-1 flex items-center">
-                    <a href="{{ route('daftar_mhs_mentor') }}">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5 dark:fill-white">
-                            <path fill-rule="evenodd" d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25Zm-4.28 9.22a.75.75 0 0 0 0 1.06l3 3a.75.75 0 1 0 1.06-1.06l-1.72-1.72h5.69a.75.75 0 0 0 0-1.5h-5.69l1.72-1.72a.75.75 0 0 0-1.06-1.06l-3 3Z" clip-rule="evenodd" />
-                        </svg>
-                    </a> 
-                    <p class="self-center text-sm font-semibold whitespace-nowrap text-black dark:text-white ml-2">Penilaian Mahasiswa Magang</p>
+                    <p class="self-center text-sm font-semibold whitespace-nowrap text-black dark:text-white ml-1">Penilaian Mahasiswa Magang</p>
                 </div>
                 {{-- Icon --}}
                 <div class="flex items-center md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">

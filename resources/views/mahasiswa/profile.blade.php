@@ -177,7 +177,7 @@
                     {{ $message }}
                 </div>             
                 @enderror
-                <p class="mt-1 text-xs text-gray-500 dark:text-gray-300" id="image">PNG, JPG or JPEG max. 2048</p>                    
+                <p class="mt-1 text-xs text-gray-500 dark:text-gray-300" id="image">Format JPG, PNG, atau JPEG dengan ukuran maksimal 2 MB</p>                    
             </div>
         </div>
 

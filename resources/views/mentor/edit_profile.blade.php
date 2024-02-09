@@ -166,7 +166,7 @@
                         {{ $message }}
                     </div>             
                     @enderror
-                    <p class="mt-1 text-xs text-gray-500 dark:text-gray-300">PNG, JPG or JPEG max. 2040</p>                    
+                    <p class="mt-1 text-xs text-gray-500 dark:text-gray-300">Format JPG, PNG, atau JPEG dengan ukuran maksimal 2 MB</p>                    
                 </div>
             </div>
 
@@ -187,14 +187,14 @@
             {{-- Button --}}
             <div class="flex justify-end mb-2">
                 {{-- Kembali --}}
-                <a href="{{ route('view_profil_mentor') }}" class="text-white bg-blue-700 hover:bg-blue-800 focus:outline-none font-medium rounded-md text-xs w-20 h-8 text-center me-2 dark:bg-blue-600 dark:hover:bg-blue-700">
+                <a href="{{ route('view_profil_mentor') }}" class="text-white bg-red-700 hover:bg-red-800 focus:outline-none font-medium rounded-md text-xs w-20 h-8 text-center me-2 dark:bg-red-600 dark:hover:bg-red-700">
                     <button type="button" class="w-full h-full">
                         Kembali
                     </button>
                 </a>        
 
                 {{-- Simpan --}}
-                <button type="submit" class="text-white bg-green-600 hover:bg-green-700 focus:outline-none font-medium rounded-md text-xs w-20 h-8 text-center me-2 dark:bg-green-500 dark:hover:bg-green-600">Simpan</button>
+                <button type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:outline-none font-medium rounded-md text-xs w-20 h-8 text-center me-2 dark:bg-blue-600 dark:hover:bg-blue-700">Simpan</button>
             </div>
         </form>
     </div>

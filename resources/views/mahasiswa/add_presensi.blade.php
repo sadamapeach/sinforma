@@ -84,6 +84,7 @@
                         </div>
                         <ul class="py-2" aria-labelledby="user-menu-button">
                         <li class="w-full hover:bg-gray-100 dark:hover:bg-gray-600 transition">
+                            {{-- Submit --}}
                             <form action="{{ route('logout') }}" method="POST">
                                 @csrf
                                 <button type="submit" class="block px-4 py-2 text-sm text-red-700  hover:text-red-400 dark:text-red-500 dark:hover:text-red-300">Sign out</button>
@@ -109,12 +110,12 @@
                     <h1 class="text-black dark:text-white font-bold text-xl mb-2">Form Presensi Magang Diskominfo Semarang</h1>
                     <div class="flex mb-3 text-xs font-normal text-gray-600 dark:text-gray-400">
                         <div class="text-xs font-normal">Tanggal
-                            <span class="bg-blue-100 text-blue-800 font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-blue-900 dark:text-blue-300" style="font-size: 10px">
+                            <span class="bg-blue-100 text-blue-800 font-semibold me-2 px-2.5 py-0.5 rounded-full dark:bg-blue-900 dark:text-blue-300 ml-0.5" style="font-size: 10px">
                                 {{ \Carbon\Carbon::parse($today)->format('Y-m-d') }}
                             </span>
                         </div>
                         <div class="text-xs font-normal">Sesi
-                            <span class="bg-pink-100 text-pink-800 font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-pink-900 dark:text-pink-300" style="font-size: 10px">
+                            <span class="bg-pink-100 text-pink-800 font-semibold me-2 px-2.5 py-0.5 rounded-full dark:bg-pink-900 dark:text-pink-300 ml-0.5" style="font-size: 10px">
                                 {{ $generate_absen->sesi }}
                             </span>
                         </div>                        
@@ -151,6 +152,14 @@
 
                 {{-- Button --}}
                 <div class="flex justify-end mb-2">
+                    {{-- Kembali --}}
+                    <a href="{{ route('presensi_mahasiswa') }}" class="text-white bg-red-700 hover:bg-red-800 focus:outline-none font-medium rounded-md text-xs w-20 h-8 text-center me-2 dark:bg-red-600 dark:hover:bg-red-700">
+                        <button type="button" class="w-full h-full">
+                            Kembali
+                        </button>
+                    </a>
+
+                    {{-- Submit --}}
                     <button type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:outline-none font-medium rounded-md text-xs w-20 h-8 text-center me-2 dark:bg-blue-600 dark:hover:bg-blue-700">Submit</button>
                 </div>
 

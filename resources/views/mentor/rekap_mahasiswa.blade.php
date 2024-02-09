@@ -41,7 +41,7 @@
 </head>
 
 <body>
-    <div class="p-4 sm:ml-64">
+    <div class="p-4 sm:ml-64 h-screen">
         @if (session('success'))
             <div id="notification" class="flex items-center p-4 mb-4 text-green-800 rounded-lg bg-green-50 dark:bg-gray-800 dark:text-green-400" role="alert">
                 <svg class="flex-shrink-0 w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
@@ -78,16 +78,11 @@
             </div>
         @endif
 
-        <nav class="bg-zinc-100 border-gray-200 dark:bg-gray-800 dark:border-gray-700 rounded-lg">
+        <nav class="bg-zinc-100 border-gray-200 dark:bg-gray-800 dark:border-gray-700 rounded-md">
             {{-- Welcome User --}}
             <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-2.5">
-                <div class="ml-1 flex items-center">
-                    <a href="{{ route('rekap_progress') }}">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5 dark:fill-white">
-                            <path fill-rule="evenodd" d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25Zm-4.28 9.22a.75.75 0 0 0 0 1.06l3 3a.75.75 0 1 0 1.06-1.06l-1.72-1.72h5.69a.75.75 0 0 0 0-1.5h-5.69l1.72-1.72a.75.75 0 0 0-1.06-1.06l-3 3Z" clip-rule="evenodd" />
-                        </svg>
-                    </a> 
-                    <p class="self-center text-sm font-semibold whitespace-nowrap text-black dark:text-white ml-2">Rekapitulasi Progress Mahasiswa Magang</p>
+                <div class="flex items-center">
+                    <p class="self-center text-sm font-semibold whitespace-nowrap text-black dark:text-white ml-1">{{ $generate_progress->judul }}</p>
                 </div>
                 {{-- Icon --}}
                 <div class="flex items-center md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
@@ -134,167 +129,216 @@
             </div>
         </nav>
 
-        <div class="p-4 border-2 border-gray-200 border-dashed rounded-md dark:border-gray-600 mt-2">
-        {{-- Header --}}
-        <div class="grid justify-center mb-6 text-center">
-            <div class="mb-1 text-base font-semibold text-black dark:text-white">{{ $generate_progress->judul }}</div>
-            <div class="flex text-gray-600 dark:text-gray-400">
-                <div class="text-xs font-normal">Open
-                    <span class="bg-green-100 text-green-800 font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300" style="font-size: 10px">
-                        {{ \Carbon\Carbon::parse($generate_progress->mulai_submit)->format('Y-m-d H:i') }}
-                    </span>
+        <div class="grid grid-cols-6 gap-3 my-3">
+            {{-- Open --}}
+            <div class="bg-white border border-gray-200 dark:bg-gray-800 dark:border-gray-700 rounded-lg shadow">
+                <div class="self-center p-3">
+                    <h1 class="text-xs font-bold text-black dark:text-white">Open</h1>
+                    <h1 class="text-sm font-bold text-purple-600 dark:text-purple-500 my-1">{{ \Carbon\Carbon::parse($generate_progress->mulai_submit)->format('Y-m-d H:i') }}</h1>
+                    <p class="text-gray-400 dark:text-gray-500" style="font-size: 9px">Waktu progress dibuka</p>
                 </div>
-                <div class="text-xs font-normal">Due to
-                    <span class="bg-pink-100 text-pink-800 font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-pink-900 dark:text-pink-300" style="font-size: 10px">
-                        {{ \Carbon\Carbon::parse($generate_progress->selesai_submit)->format('Y-m-d H:i') }}
-                    </span>
-                </div>
-                @php
-                    $now = \Carbon\Carbon::now('Asia/Jakarta');
-                    $mulaiSubmit = \Carbon\Carbon::parse($generate_progress->mulai_submit);
-                    $selesaiSubmit = \Carbon\Carbon::parse($generate_progress->selesai_submit);
+            </div>
 
-                    $isInTimeRange = $now >= $mulaiSubmit && $now <= $selesaiSubmit;
-                @endphp
-                <div class="text-xs font-normal">| Status
-                    @if ($isInTimeRange)
-                        <span class="ml-1 bg-yellow-100 text-yellow-800 font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-yellow-900 dark:text-yellow-300" style="font-size: 10px">Aktif</span>
-                    @else
-                        <span class="ml-1 bg-gray-200 text-gray-800 font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-gray-800 dark:text-gray-300" style="font-size: 10px">Tidak Aktif</span>
-                    @endif
+            {{-- Due to --}}
+            <div class="bg-white border border-gray-200 dark:bg-gray-800 dark:border-gray-700 rounded-lg shadow">
+                <div class="self-center p-3">
+                    <h1 class="text-xs font-bold text-black dark:text-white">Due to</h1>
+                    <h1 class="text-sm font-bold text-purple-600 dark:text-purple-500 my-1">{{ \Carbon\Carbon::parse($generate_progress->selesai_submit)->format('Y-m-d H:i') }}</h1>
+                    <p class="text-gray-400 dark:text-gray-500" style="font-size: 9px">Waktu progress ditutup</p>
+                </div>
+            </div>
+
+            @php
+                $now = \Carbon\Carbon::now('Asia/Jakarta');
+                $mulaiSubmit = \Carbon\Carbon::parse($generate_progress->mulai_submit);
+                $selesaiSubmit = \Carbon\Carbon::parse($generate_progress->selesai_submit);
+
+                $isInTimeRange = $now >= $mulaiSubmit && $now <= $selesaiSubmit;
+            @endphp
+            {{-- Status Progress --}}
+            <div class="bg-white border border-gray-200 dark:bg-gray-800 dark:border-gray-700 rounded-lg shadow">
+                <div class="self-center p-3">
+                    <h1 class="text-xs font-bold text-black dark:text-white">Status Progress</h1>
+                    <h1 class="text-sm font-bold text-purple-600 dark:text-purple-500 my-1">
+                        @if ($isInTimeRange)
+                            Aktif
+                        @else
+                            Tidak Aktif
+                        @endif
+                    </h1>                    
+                    <p class="text-gray-400 dark:text-gray-500" style="font-size: 9px">
+                        @if ($isInTimeRange)
+                            Pengumpulan masih dibuka 
+                        @else
+                            Pengumpulan 'expired'
+                        @endif
+                    </p>
+                </div>
+            </div>
+
+            {{-- Jumlah yang sudah mengumpulkan sudah/total --}}
+            <div class="bg-white border border-gray-200 dark:bg-gray-800 dark:border-gray-700 rounded-lg shadow">
+                <div class="self-center p-3">
+                    <h1 class="text-xs font-bold text-black dark:text-white">Total Pengumpulan</h1>
+                    <h1 class="text-sm font-bold text-purple-600 dark:text-purple-500 my-1">{{ $status_progress->count() }} dari {{ $mahasiswa->where('status_mhs', 'Aktif')->count() }}</h1>
+                    <p class="text-gray-400 dark:text-gray-500" style="font-size: 9px">Mahasiswa Magang</p>
+                </div>
+            </div>
+
+            {{-- Verified --}}
+            <div class="bg-white border border-gray-200 dark:bg-gray-800 dark:border-gray-700 rounded-lg shadow">
+                <div class="self-center p-3">
+                    <h1 class="text-xs font-bold text-black dark:text-white">Status: Verified</h1>
+                    <h1 class="text-sm font-bold text-purple-600 dark:text-purple-500 my-1">{{ $status_progress->where('status', 'Verified')->count() }}</h1>
+                    <p class="text-gray-400 dark:text-gray-500" style="font-size: 9px">Mahasiswa Magang</p>
+                </div>
+            </div>
+
+            {{-- Unverified --}}
+            <div class="bg-white border border-gray-200 dark:bg-gray-800 dark:border-gray-700 rounded-lg shadow">
+                <div class="self-center p-3">
+                    <h1 class="text-xs font-bold text-black dark:text-white">Status: Unverified</h1>
+                    <h1 class="text-sm font-bold text-purple-600 dark:text-purple-500 my-1">{{ $status_progress->where('status', 'Unverified')->count() }}</h1>
+                    <p class="text-gray-400 dark:text-gray-500" style="font-size: 9px">Mahasiswa Magang</p>
                 </div>
             </div>
         </div>
 
-        {{-- Search --}}
-        <div class="flex items-center mb-2">   
-            <div class="relative">
-                <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="w-4 h-4 fill-gray-500">
-                        <path fill-rule="evenodd" d="M9.965 11.026a5 5 0 1 1 1.06-1.06l2.755 2.754a.75.75 0 1 1-1.06 1.06l-2.755-2.754ZM10.5 7a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0Z" clip-rule="evenodd" />
-                    </svg>                          
+        {{-- BG Table --}}
+        <div class="p-4 bg-white border border-gray-200 dark:bg-gray-800 dark:border-gray-700 rounded-lg shadow">
+            <div class="flex items-center mb-3">
+                {{--Kembali  --}}
+                <a href="{{ route('rekap_progress') }}" class="text-white bg-red-700 hover:bg-red-800 focus:outline-none font-medium rounded-md w-20 h-8 text-center me-2 dark:bg-red-600 dark:hover:bg-red-700" style="font-size: 11px">
+                    <button type="button" class="w-full h-full">
+                        Kembali
+                    </button>
+                </a> 
+
+                {{-- Verified All --}}
+                <a href="{{ route('verifiedAllProgress', ['id_progress' => $id_progress]) }}">
+                    <button type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:outline-none font-medium rounded-md w-40 h-8 text-center me-2 dark:bg-blue-600 dark:hover:bg-blue-700" style="font-size: 11px">Verified Semua Progress</button>
+                </a>
+
+                {{-- Search --}}  
+                <div class="relative ml-auto">
+                    <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="w-4 h-4 fill-gray-500">
+                            <path fill-rule="evenodd" d="M9.965 11.026a5 5 0 1 1 1.06-1.06l2.755 2.754a.75.75 0 1 1-1.06 1.06l-2.755-2.754ZM10.5 7a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0Z" clip-rule="evenodd" />
+                        </svg>                          
+                    </div>
+                    <input type="text" id="search" class="bg-gray-50 border border-gray-300 text-gray-900 text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block ps-10 p-2  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search Realtime Progress">
                 </div>
-                <input type="text" id="search" class="bg-gray-50 border border-gray-300 text-gray-900 text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block ps-10 p-2  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search Realtime Progress" style="width: 690px">
+
+                {{-- Filter by Status --}}
+                <form action="{{ route('filter_progress', ['id_progress' => $id_progress]) }}" method="GET" class="flex ml-2 items-center">
+                    <select id="status" name="status" class="w-full p-2 text-xs text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" onchange="this.form.submit()">
+                        <option value="" selected>Status</option>
+                        <option value="">Semua Status</option>
+                        <option value="Verified">Verified</option>
+                        <option value="Unverified">Unverified</option>
+                    </select>
+                </form>
             </div>
 
-            {{-- Filter by Status --}}
-            <form action="{{ route('filter_progress', ['id_progress' => $id_progress]) }}" method="GET" class="flex ml-2 items-center">
-                <select id="status" name="status" class="w-full p-2 text-xs text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" onchange="this.form.submit()">
-                    <option value="" selected>Status</option>
-                    <option value="">Semua Status</option>
-                    <option value="Verified">Verified</option>
-                    <option value="Unverified">Unverified</option>
-                </select>
-            </form>
-
-            {{-- Count Rows --}}
-            <div class="flex ml-auto font-poppins items-center mr-4">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="w-3 h-3 fill-gray-600 dark:fill-gray-400">
-                    <path d="M14 2a1 1 0 0 0-1-1H3a1 1 0 0 0-1 1v2.172a2 2 0 0 0 .586 1.414l2.828 2.828A2 2 0 0 1 6 9.828v4.363a.5.5 0 0 0 .724.447l2.17-1.085A2 2 0 0 0 10 11.763V9.829a2 2 0 0 1 .586-1.414l2.828-2.828A2 2 0 0 0 14 4.172V2Z" />
-                </svg>                  
-                <h1 class="ml-1 text-gray-600 dark:text-gray-400 text-xs font-medium">Total : {{ $rekapMhs->count() }} Rows </h1>
-            </div>
-        </div>
-
-        <div class="relative overflow-x-auto shadow sm:rounded">
-            @if(!$rekapMhs)
-                <div class="pb-4 bg-white dark:bg-gray-900">
-                    <p class="mt-2 ml-2 text-base text-gray-500 dark:text-gray-400">Tidak ada data verifikasi progress yang perlu diverifikasi.</p>
-                </div>
-            @else
-            <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400 sortable-table">
-                <thead class="text-xs text-gray-700 uppercase bg-gray-100 dark:bg-gray-900 dark:text-gray-400">
-                    <tr>
-                        <th scope="col" class="px-4 py-4 w-12">
-                            No
-                        </th>
-                        <th scope="col" class="px-4 py-4 w-16" onclick="sortTable(1)">
-                            ID
-                            <button class="sort-button ml-1">
-                                <span class="bg-gray-100 dark:bg-gray-900">&#8693;</span>
-                            </button>
-                        </th>
-                        <th scope="col" class="px-4 py-4 w-52" onclick="sortTable(2)">
-                            Nama
-                            <button class="sort-button ml-1">
-                                <span class="bg-gray-100 dark:bg-gray-900">&#8693;</span>
-                            </button>
-                        </th>
-                        <th scope="col" class="px-4 py-4 w-40" onclick="sortTable(3)">
-                            Jurusan
-                            <button class="sort-button ml-1">
-                                <span class="bg-gray-100 dark:bg-gray-900">&#8693;</span>
-                            </button>
-                        </th>
-                        <th scope="col" class="px-4 py-4 w-40" onclick="sortTable(4)">
-                            Instansi
-                            <button class="sort-button ml-1">
-                                <span class="bg-gray-100 dark:bg-gray-900">&#8693;</span>
-                            </button>
-                        </th>
-                        <th scope="col" class="px-4 py-4 w-36 items-center" onclick="sortTable(5)">
-                            Submit
-                            <button class="sort-button ml-1">
-                                <span class="bg-gray-100 dark:bg-gray-900">&#8693;</span>
-                            </button>
-                        </th>
-                        <th scope="col" class="px-4 py-4 w-28 text-center">
-                            File
-                        </th>
-                        <th scope="col" class="px-4 py-4 w-24 text-center">
-                            Status
-                        </th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @if ($rekapMhs)
-                    @foreach ($rekapMhs as $index => $rekap)
-                            <tr class="text-xs bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                                <td class="px-4 py-4 text-center w-12">
-                                    {{ $index + 1 }}
-                                </td>
-                                <td class="px-4 py-4 w-16">
-                                    {{ $rekap->id_mhs }}
-                                </td>
-                                <td class="flex items-center px-4 py-4 w-52">
-                                    <img class="w-7 h-7 rounded-full" src="{{ asset('storage/' . $rekap->foto) }}" alt="Jese image">
-                                    <div class="ps-3">
-                                        {{ $rekap->nama }}
-                                    </div>  
-                                </td>
-                                <td class="px-4 py-4 w-40">
-                                    {{ $rekap->jurusan }}
-                                </td>
-                                <td class="px-4 py-4 w-40">
-                                    {{ $rekap->instansi }}
-                                </td>
-                                <td class="px-4 py-4 w-36">
-                                    {{ $rekap->tanggal }}
-                                </td>
-                                <td class="px-4 py-4 w-28 text-center">
-                                    <a href="{{ asset('storage/' . $rekap->file) }}" class="bg-blue-100 text-blue-800 font-semibold me-2 px-2.5 py-0.5 rounded-full dark:bg-blue-900 dark:text-blue-300" style="font-size: 10px">Lihat File</a>
-                                </td>
-                                <td class="px-4 py-4 w-24 text-center">
-                                    <form action="{{ route('verif_progress', ['id_progress' => $rekap->id_progress, 'id_mhs' => $rekap->mahasiswa->id_mhs]) }}" method="GET">
-                                        @csrf
-                                        @if ($rekap->status !== 'Verified')
-                                            <button type="submit" class="bg-pink-100 text-pink-800 font-semibold me-2 px-2.5 py-0.5 rounded-full dark:bg-pink-900 dark:text-pink-300" style="font-size: 10px">Unverified</button>
-                                        @else
-                                            <button type="botton" class="bg-green-100 text-green-800 font-semibold me-2 px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300" style="font-size: 10px" disabled>Verified</button>
-                                        @endif
-                                    </form>
-                                </td>
-                            </tr>
-                        @endforeach
-                    @else
+            <div class="relative overflow-x-auto shadow md:rounded">
+                @if(!$rekapMhs)
+                    <div class="pb-4 bg-white dark:bg-gray-900">
+                        <p class="mt-2 ml-2 text-base text-gray-500 dark:text-gray-400">Tidak ada data verifikasi progress yang perlu diverifikasi.</p>
+                    </div>
+                @else
+                <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400 sortable-table">
+                    <thead class="text-xs text-gray-700 uppercase bg-gray-100 dark:bg-gray-900 dark:text-gray-400 border border-gray-300 dark:border-gray-900">
                         <tr>
-                            <td colspan="10" class="px-6 py-4 text-center text-gray-500 dark:text-gray-400">No data available</td>
+                            <th scope="col" class="px-4 py-4 w-12">
+                                No
+                            </th>
+                            <th scope="col" class="px-4 py-4 w-16" onclick="sortTable(1)">
+                                ID
+                                <button class="sort-button ml-1">
+                                    <span class="bg-gray-100 dark:bg-gray-900">&#8693;</span>
+                                </button>
+                            </th>
+                            <th scope="col" class="px-4 py-4 w-52" onclick="sortTable(2)">
+                                Nama
+                                <button class="sort-button ml-1">
+                                    <span class="bg-gray-100 dark:bg-gray-900">&#8693;</span>
+                                </button>
+                            </th>
+                            <th scope="col" class="px-4 py-4 w-40" onclick="sortTable(3)">
+                                Jurusan
+                                <button class="sort-button ml-1">
+                                    <span class="bg-gray-100 dark:bg-gray-900">&#8693;</span>
+                                </button>
+                            </th>
+                            <th scope="col" class="px-4 py-4 w-40" onclick="sortTable(4)">
+                                Instansi
+                                <button class="sort-button ml-1">
+                                    <span class="bg-gray-100 dark:bg-gray-900">&#8693;</span>
+                                </button>
+                            </th>
+                            <th scope="col" class="px-4 py-4 w-36 items-center" onclick="sortTable(5)">
+                                Submit
+                                <button class="sort-button ml-1">
+                                    <span class="bg-gray-100 dark:bg-gray-900">&#8693;</span>
+                                </button>
+                            </th>
+                            <th scope="col" class="px-4 py-4 w-28 text-center">
+                                File
+                            </th>
+                            <th scope="col" class="px-4 py-4 w-24 text-center">
+                                Status
+                            </th>
                         </tr>
-                    @endif
-                </tbody>
-            </table>
-            @endif
-        </div>    
+                    </thead>
+                    <tbody class="text-gray-700 dark:text-gray-400 overflow-y-auto">
+                        @if ($rekapMhs)
+                            @foreach ($rekapMhs as $index => $rekap)
+                                <tr class="text-xs bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-600 border border-gray-300 dark:border-gray-900">
+                                    <td class="px-4 py-4 text-center w-12">
+                                        {{ $index + 1 }}
+                                    </td>
+                                    <td class="px-4 py-4 w-16">
+                                        {{ $rekap->id_mhs }}
+                                    </td>
+                                    <td class="flex items-center px-4 py-4 w-52">
+                                        <img class="w-7 h-7 rounded-full" src="{{ asset('storage/' . $rekap->foto) }}" alt="Jese image">
+                                        <div class="ps-3">
+                                            {{ $rekap->nama }}
+                                        </div>  
+                                    </td>
+                                    <td class="px-4 py-4 w-40">
+                                        {{ $rekap->jurusan }}
+                                    </td>
+                                    <td class="px-4 py-4 w-40">
+                                        {{ $rekap->instansi }}
+                                    </td>
+                                    <td class="px-4 py-4 w-36">
+                                        {{ $rekap->tanggal }}
+                                    </td>
+                                    <td class="px-4 py-4 w-28 text-center">
+                                        <a href="{{ asset('storage/' . $rekap->file) }}" class="bg-blue-100 text-blue-800 font-semibold me-2 px-2.5 py-0.5 rounded-full dark:bg-blue-900 dark:text-blue-300" style="font-size: 10px">Lihat File</a>
+                                    </td>
+                                    <td class="px-4 py-4 w-24 text-center">
+                                        <form action="{{ route('verif_progress', ['id_progress' => $rekap->id_progress, 'id_mhs' => $rekap->mahasiswa->id_mhs]) }}" method="GET">
+                                            @csrf
+                                            @if ($rekap->status !== 'Verified')
+                                                <button type="submit" class="bg-pink-100 text-pink-800 font-semibold me-2 px-2.5 py-0.5 rounded-full dark:bg-pink-900 dark:text-pink-300" style="font-size: 10px">Unverified</button>
+                                            @else
+                                                <button type="botton" class="bg-green-100 text-green-800 font-semibold me-2 px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300" style="font-size: 10px" disabled>Verified</button>
+                                            @endif
+                                        </form>
+                                    </td>
+                                </tr>
+                            @endforeach
+                        @else
+                            <tr>
+                                <td colspan="10" class="px-6 py-4 text-center text-gray-500 dark:text-gray-400">No data available</td>
+                            </tr>
+                        @endif
+                    </tbody>
+                </table>
+                @endif
+            </div>    
         </div>    
     </div>
 

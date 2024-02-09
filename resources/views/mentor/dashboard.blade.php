@@ -45,7 +45,7 @@
         </style>
     </head>
 
-    <body class="font-poppins">  
+    <body class="font-poppins h-screen">  
         <div class="p-4 sm:ml-64">
             <nav class="bg-zinc-100 border-gray-200 dark:bg-gray-800 dark:border-gray-700 rounded-lg">
                 {{-- Welcome User --}}

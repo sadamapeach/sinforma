@@ -39,7 +39,7 @@
     </style>
 </head>
 
-<body>
+<body class="h-screen">
     <div class="p-4 sm:ml-64">
         @if (session('success'))
         <div class="p-4 mr-2 text-sm text-green-800 rounded-lg bg-green-100 dark:bg-gray-800 dark:text-green-400"
@@ -59,7 +59,7 @@
         <nav class="bg-zinc-100 border-gray-200 dark:bg-gray-800 dark:border-gray-700 rounded-lg">
             {{-- Welcome User --}}
             <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-2.5"> 
-                <p class="self-center text-sm font-semibold whitespace-nowrap text-black dark:text-white ml-2">Daftar Mahasiswa Magang Perwalian</p>
+                <p class="self-center text-sm font-semibold whitespace-nowrap text-black dark:text-white ml-1">Daftar Mahasiswa Magang Perwalian</p>
                 {{-- Icon --}}
                 <div class="flex items-center md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
                     <!-- Dropdown menu -->
@@ -105,160 +105,166 @@
             </div>
         </nav>
 
-        <div class="p-4 border-2 border-gray-200 border-dashed rounded-md dark:border-gray-600 mt-2">
-        {{-- Search --}}
-        <div class="flex items-center mb-4">   
-            <div class="relative">
-                <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="w-4 h-4 fill-gray-500">
-                        <path fill-rule="evenodd" d="M9.965 11.026a5 5 0 1 1 1.06-1.06l2.755 2.754a.75.75 0 1 1-1.06 1.06l-2.755-2.754ZM10.5 7a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0Z" clip-rule="evenodd" />
-                    </svg>                          
+        <div class="grid grid-cols-3 gap-3 my-3">
+            {{-- Jumlah Total Mahasiswa --}}
+            <div class="flex bg-white border border-gray-200 dark:bg-gray-800 dark:border-gray-700 rounded-lg shadow">
+                <div class="self-center p-3 w-full text-center">
+                    <h1 class="text-xl font-bold text-yellow-400 dark:text-yellow-300">{{ $mhsData->count() }}</h1>
+                    <p class="text-xs font-semibold text-black dark:text-white">Total Mahasiswa Perwalian</p>
                 </div>
-                <input type="text" id="search" class="bg-gray-50 border border-gray-300 text-gray-900 text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block ps-10 p-2  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search Realtime Progress" style="width: 325px">
             </div>
 
-            {{-- Filter by Status --}}
-            <form action="{{ route('filter_mhs') }}" method="GET" class="flex ml-2 items-center">
-                <select id="status" name="status" class="w-full p-2 text-xs text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" onchange="this.form.submit()">
-                    <option value="" selected>Status</option>
-                    <option value="">Semua Status</option>
-                    <option value="Aktif">Aktif</option>
-                    <option value="Tidak Aktif">Tidak Aktif</option>
-                    <option value="Lulus">Lulus</option>
-                </select>
-            </form>
+            {{-- Penilaian: Sudah --}}
+            <div class="flex bg-white border border-gray-200 dark:bg-gray-800 dark:border-gray-700 rounded-lg shadow">
+                <div class="self-center p-3 w-full text-center">
+                    <h1 class="text-xl font-bold text-blue-700 dark:text-blue-500">{{ count($nilai1) }}</h1>
+                    <p class="text-xs font-semibold text-black dark:text-white">Mahasiswa Sudah Diberi Penilaian</p>
+                </div>
+            </div>
 
-            {{-- Count Rows --}}
-            <div class="flex ml-auto font-poppins items-center mr-4">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="w-3 h-3 fill-gray-600 dark:fill-gray-400">
-                    <path d="M14 2a1 1 0 0 0-1-1H3a1 1 0 0 0-1 1v2.172a2 2 0 0 0 .586 1.414l2.828 2.828A2 2 0 0 1 6 9.828v4.363a.5.5 0 0 0 .724.447l2.17-1.085A2 2 0 0 0 10 11.763V9.829a2 2 0 0 1 .586-1.414l2.828-2.828A2 2 0 0 0 14 4.172V2Z" />
-                </svg>                  
-                <h1 class="ml-1 text-gray-600 dark:text-gray-400 text-xs font-medium">Total : {{ $mhsData->count() }} Rows </h1>
+            {{-- Penilaian: Belum --}}
+            <div class="flex bg-white border border-gray-200 dark:bg-gray-800 dark:border-gray-700 rounded-lg shadow">
+                <div class="self-center p-3 w-full text-center">
+                    <h1 class="text-xl font-bold text-pink-700 dark:text-pink-500">{{ count($nilai2) }}</h1>
+                    <p class="text-xs font-semibold text-black dark:text-white">Mahasiswa Belum Diberi Penilaian</p>
+                </div>
             </div>
         </div>
 
-        {{-- Tabel --}}
-        <div class="relative overflow-x-auto shadow sm:rounded">
-            <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400 sortable-table">
-                <thead class="text-xs text-gray-700 uppercase bg-zinc-100 dark:bg-gray-900 dark:text-gray-400">
-                    <tr>
-                        <th scope="col" class="px-4 py-4 w-12">
-                            No
-                        </th>
-                        <th scope="col" class="px-4 py-4 w-20" onclick="sortTable(1)">
-                            ID
-                            <button class="sort-button ml-1">
-                                <span class="bg-gray-100 dark:bg-gray-900">&#8693;</span>
-                            </button>
-                        </th>
-                        <th scope="col" class="px-4 py-4 w-52" onclick="sortTable(2)">
-                            Nama
-                            <button class="sort-button ml-1">
-                                <span class="bg-gray-100 dark:bg-gray-900">&#8693;</span>
-                            </button>
-                        </th>
-                        <th scope="col" class="px-4 py-4 w-40" onclick="sortTable(3)">
-                            Jurusan
-                            <button class="sort-button ml-1">
-                                <span class="bg-gray-100 dark:bg-gray-900">&#8693;</span>
-                            </button>
-                        </th>
-                        <th scope="col" class="px-4 py-4 w-40" onclick="sortTable(4)">
-                            Instansi
-                            <button class="sort-button ml-1">
-                                <span class="bg-gray-100 dark:bg-gray-900">&#8693;</span>
-                            </button>
-                        </th>
-                        <th scope="col" class="px-4 py-4 w-40 text-center" onclick="sortTable(5)">
-                            Status
-                            <button class="sort-button ml-1">
-                                <span class="bg-gray-100 dark:bg-gray-900">&#8693;</span>
-                            </button>
-                        </th>
-                        <th scope="col" class="px-4 py-4 w-16 text-center">
-                            Presensi
-                        </th>
-                        <th scope="col" class="px-4 py-4 w-16 text-center">
-                            Progress
-                        </th>
-                        <th scope="col" class="px-4 py-4 w-16 text-center">
-                            Nilai
-                        </th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @if ($mhsData)
-                        @foreach ($mhsData as $index => $mhs)
-                            <tr class="text-xs bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-zinc-50 dark:hover:bg-gray-600">
-                                <td class="px-4 py-4 text-center w-12">
-                                    {{ $index + 1 }}
-                                </td>
-                                <td class="px-4 py-4 w-20">
-                                    {{ $mhs->id_mhs }}
-                                </td>
-                                <td class="flex items-center px-4 py-4 w-52">
-                                    <img class="w-7 h-7 rounded-full" src="{{ asset('storage/' . $mhs->foto) }}" alt="Jese image">
-                                    <div class="ps-3">
-                                        {{ $mhs->nama }}
-                                    </div>  
-                                </td>
-                                <td class="px-4 py-4 w-40">
-                                    {{ $mhs->jurusan }}
-                                </td>
-                                <td class="px-4 py-4 w-40">
-                                    {{ $mhs->instansi }}
-                                </td>
-                                <td class="px-4 py-4 w-40 text-center">
-                                    {{ $mhs->status }}
-                                </td>
-                                <td class="px-4 py-4 w-16 text-center">
-                                    <a href="{{ route('view_presensi_mentor', ['id_mhs' => $mhs['id_mhs'] ?? null]) }}" class="bg-green-100 text-green-800 font-semibold me-2 px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300" style="font-size: 10px">Lihat</a>
-                                </td>
-                                <td class="px-4 py-4 w-16 text-center">
-                                    <a href="{{ route('view_progress_mentor', ['id_mhs' => $mhs['id_mhs'] ?? null]) }}" class="bg-yellow-100 text-yellow-800 font-semibold me-2 px-2.5 py-0.5 rounded-full dark:bg-yellow-900 dark:text-yellow-300" style="font-size: 10px">Lihat</a>
-                                </td>
-                                <td class="px-4 py-4 w-16 text-center">
-                                    @if ($mhs->nilai)
-                                        <form action="{{ route('edit_nilai_mentor', ['id_mhs' => $mhs->id_mhs]) }}" method="GET">
-                                            @csrf
-                                            <button type="botton" class="bg-blue-100 text-blue-800 font-semibold me-2 px-2.5 py-0.5 rounded-full dark:bg-blue-900 dark:text-blue-300" style="font-size: 10px">Sudah</button>
-                                        </form>
-                                    @else
-                                        <form action="{{ route('view_nilai_mentor', ['id_mhs' => $mhs->id_mhs]) }}" method="GET">
-                                        @csrf
-                                            <button type="submit" class="bg-pink-100 text-pink-800 font-semibold me-2 px-2.5 py-0.5 rounded-full dark:bg-pink-900 dark:text-pink-300" style="font-size: 10px">Belum</button>
-                                        </form>
-                                    @endif
-                                    </form>
-                                </td>
+        <div class="p-4 bg-white border border-gray-200 dark:bg-gray-800 dark:border-gray-700 rounded-lg shadow">
+            <div class="flex items-center mb-4"> 
+                {{-- Verified All --}}
+                <a href="#">
+                    <button type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:outline-none font-medium rounded-md w-28 h-8 text-center me-2 dark:bg-blue-600 dark:hover:bg-blue-700" style="font-size: 11px">
+                        <i class="fas fa-cloud-download-alt mr-2"></i>Download
+                    </button>
+                </a>
+                {{-- Search --}}
+                <div class="relative ml-auto">
+                    <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="w-4 h-4 fill-gray-500">
+                            <path fill-rule="evenodd" d="M9.965 11.026a5 5 0 1 1 1.06-1.06l2.755 2.754a.75.75 0 1 1-1.06 1.06l-2.755-2.754ZM10.5 7a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0Z" clip-rule="evenodd" />
+                        </svg>                          
+                    </div>
+                    <input type="text" id="search" class="bg-gray-50 border border-gray-300 text-gray-900 text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block ps-10 p-2  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search Realtime Progress" style="width: 325px">
+                </div>
 
-                                {{-- <td>
-                                    @if ($mhs->nilai)
-                                        <form action="{{ route('edit_nilai_mentor', ['id_mhs' => $mhs->id_mhs]) }}" method="GET">
-                                            @csrf
-                                            <button type="submit" class="text-sm font-medium text-white bg-green-400 rounded-lg border border-green-400 px-2 py-1 focus:outline-none focus:ring-2 focus:ring-green-300 hover:bg-green-500">
-                                                Sudah Dinilai
-                                            </button>
-                                        </form>
-                                    @else
-                                        <form action="{{ route('view_nilai_mentor', ['id_mhs' => $mhs->id_mhs]) }}" method="GET">
-                                            @csrf
-                                            <button type="submit" class="text-sm font-medium text-white bg-blue-400 rounded-lg border border-blue-400 px-2 py-1 focus:outline-none focus:ring-2 focus:ring-blue-300 hover:bg-blue-500">
-                                                Tambah Nilai
-                                            </button>
-                                        </form>
-                                    @endif
-                                </td> --}}
-                            </tr>
-                        @endforeach
-                    @else
+                {{-- Filter by Status --}}
+                <form action="{{ route('filter_mhs') }}" method="GET" class="flex ml-2 items-center">
+                    <select id="status" name="status" class="w-full p-2 text-xs text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" onchange="this.form.submit()">
+                        <option value="" selected>Status</option>
+                        <option value="">Semua Status</option>
+                        <option value="Aktif">Aktif</option>
+                        <option value="Tidak Aktif">Tidak Aktif</option>
+                        <option value="Lulus">Lulus</option>
+                    </select>
+                </form>
+            </div>
+
+            {{-- Tabel --}}
+            <div class="relative shadow md:rounded">
+                <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400 sortable-table overflow-y-auto">
+                    <thead class="text-xs text-gray-700 uppercase bg-gray-100 dark:bg-gray-900 dark:text-gray-400 border border-gray-300 dark:border-gray-900">
                         <tr>
-                            <td colspan="10" class="px-6 py-4 text-center text-gray-500 dark:text-gray-400">No data available</td>
+                            <th scope="col" class="px-4 py-4 w-12">
+                                No
+                            </th>
+                            <th scope="col" class="px-4 py-4 w-20" onclick="sortTable(1)">
+                                ID
+                                <button class="sort-button ml-1">
+                                    <span class="bg-gray-100 dark:bg-gray-900">&#8693;</span>
+                                </button>
+                            </th>
+                            <th scope="col" class="px-4 py-4 w-52" onclick="sortTable(2)">
+                                Nama
+                                <button class="sort-button ml-1">
+                                    <span class="bg-gray-100 dark:bg-gray-900">&#8693;</span>
+                                </button>
+                            </th>
+                            <th scope="col" class="px-4 py-4 w-40" onclick="sortTable(3)">
+                                Jurusan
+                                <button class="sort-button ml-1">
+                                    <span class="bg-gray-100 dark:bg-gray-900">&#8693;</span>
+                                </button>
+                            </th>
+                            <th scope="col" class="px-4 py-4 w-40" onclick="sortTable(4)">
+                                Instansi
+                                <button class="sort-button ml-1">
+                                    <span class="bg-gray-100 dark:bg-gray-900">&#8693;</span>
+                                </button>
+                            </th>
+                            <th scope="col" class="px-4 py-4 w-40 text-center" onclick="sortTable(5)">
+                                Status
+                                <button class="sort-button ml-1">
+                                    <span class="bg-gray-100 dark:bg-gray-900">&#8693;</span>
+                                </button>
+                            </th>
+                            <th scope="col" class="px-4 py-4 w-16 text-center">
+                                Presensi
+                            </th>
+                            <th scope="col" class="px-4 py-4 w-16 text-center">
+                                Progress
+                            </th>
+                            <th scope="col" class="px-4 py-4 w-16 text-center">
+                                Nilai
+                            </th>
                         </tr>
-                    @endif
-                </tbody>
-            </table>
-        </div>
+                    </thead>
+                    <tbody class="text-gray-700 dark:text-gray-400 overflow-y-auto">
+                        @if ($mhsData)
+                            @foreach ($mhsData as $index => $mhs)
+                                <tr class="text-xs bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-600 border border-gray-300 dark:border-gray-900">
+                                    <td class="px-4 py-4 text-center w-12">
+                                        {{ $index + 1 }}
+                                    </td>
+                                    <td class="px-4 py-4 w-20">
+                                        {{ $mhs->id_mhs }}
+                                    </td>
+                                    <td class="flex items-center px-4 py-4 w-52">
+                                        <img class="w-7 h-7 rounded-full" src="{{ asset('storage/' . $mhs->foto) }}" alt="Jese image">
+                                        <div class="ps-3">
+                                            {{ $mhs->nama }}
+                                        </div>  
+                                    </td>
+                                    <td class="px-4 py-4 w-40">
+                                        {{ $mhs->jurusan }}
+                                    </td>
+                                    <td class="px-4 py-4 w-40">
+                                        {{ $mhs->instansi }}
+                                    </td>
+                                    <td class="px-4 py-4 w-40 text-center">
+                                        {{ $mhs->status }}
+                                    </td>
+                                    <td class="px-4 py-4 w-16 text-center">
+                                        <a href="{{ route('view_presensi_mentor', ['id_mhs' => $mhs['id_mhs'] ?? null]) }}" class="bg-green-100 text-green-800 font-semibold me-2 px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300" style="font-size: 10px">Lihat</a>
+                                    </td>
+                                    <td class="px-4 py-4 w-16 text-center">
+                                        <a href="{{ route('view_progress_mentor', ['id_mhs' => $mhs['id_mhs'] ?? null]) }}" class="bg-yellow-100 text-yellow-800 font-semibold me-2 px-2.5 py-0.5 rounded-full dark:bg-yellow-900 dark:text-yellow-300" style="font-size: 10px">Lihat</a>
+                                    </td>
+                                    <td class="px-4 py-4 w-16 text-center">
+                                        @if ($mhs->nilai)
+                                            <form action="{{ route('edit_nilai_mentor', ['id_mhs' => $mhs->id_mhs]) }}" method="GET">
+                                                @csrf
+                                                <button type="botton" class="bg-blue-100 text-blue-800 font-semibold me-2 px-2.5 py-0.5 rounded-full dark:bg-blue-900 dark:text-blue-300" style="font-size: 10px">Sudah</button>
+                                            </form>
+                                        @else
+                                            <form action="{{ route('view_nilai_mentor', ['id_mhs' => $mhs->id_mhs]) }}" method="GET">
+                                            @csrf
+                                                <button type="submit" class="bg-pink-100 text-pink-800 font-semibold me-2 px-2.5 py-0.5 rounded-full dark:bg-pink-900 dark:text-pink-300" style="font-size: 10px">Belum</button>
+                                            </form>
+                                        @endif
+                                        </form>
+                                    </td>
+                                </tr>
+                            @endforeach
+                        @else
+                            <tr>
+                                <td colspan="10" class="px-6 py-4 text-center text-gray-500 dark:text-gray-400">No data available</td>
+                            </tr>
+                        @endif
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 
