@@ -118,3 +118,8 @@ Route::get('/filter_progress/{id_progress}', [MentorController::class, 'filterSt
 Route::get('/filter_nilai', [MentorController::class, 'filterByNilai'])->name('filter_nilai');
 Route::get('/dashboard_mentor_filter', [MentorController::class, 'filterDashboard'])->name('dashboard_mentor_filter');
 Route::get('/verified_all_progress/{id_progress}', [MentorController::class, 'verifiedAllProgress'])->name('verifiedAllProgress');
+
+Route::get('/filter_sesi_absen/{id_mhs}', [MentorController::class, 'filterSesiAbsen'])->name('filterSesiAbsen');
+Route::get('/filter_status_absen/{id_mhs}', [MentorController::class, 'filterStatusAbsen'])->name('filterStatusAbsen');
+Route::get('/filter_keterangan_absen/{id_mhs}', [MentorController::class, 'filterKetAbsen'])->name('filterKetAbsen');
+Route::get('/filter_status_progress/{id_mhs}', [MentorController::class, 'filterStatusProgress2'])->name('filterStatusProgress2');

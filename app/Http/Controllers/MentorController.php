@@ -162,31 +162,195 @@ class MentorController extends Controller
                 ->get();
         }
 
-        return view('mentor.daftar_mhs', ['mhsData' => $mhsData]);
+        $nilai1 = Nilai::join('mahasiswa', 'nilai.id_mhs', '=', 'mahasiswa.id_mhs')
+            ->where('nilai.nip_mentor', $mentor->nip)
+            ->get();
+
+        $nilai2 = Mahasiswa::leftJoin('nilai', 'mahasiswa.id_mhs', '=', 'nilai.id_mhs')
+            ->where('mahasiswa.nip_mentor', $mentor->nip)
+            ->whereNull('nilai.id_mhs') 
+            ->where('mahasiswa.status', 'Aktif')
+            ->get();
+
+        return view('mentor.daftar_mhs', compact('mhsData', 'nilai1', 'nilai2'));
     }
 
     public function viewPresensi(string $id_mhs)
     {
         $mahasiswa = Mahasiswa::where('id_mhs', $id_mhs)->first();
         $foto = User::where('id', $mahasiswa->id_user)->first()->getImageURL();
-        $PresensiData = Absen::where('id_mhs', $id_mhs)
-                            ->where('status', 'Verified')
-                            ->first();
+        $PresensiData = Absen::join('generate_absen', 'absen.id_absen', '=', 'generate_absen.id_absen')
+            ->where('absen.id_mhs', $id_mhs)
+            ->select(
+                'generate_absen.sesi as sesi',
+                'absen.tanggal',
+                'absen.keterangan',
+                'absen.foto',
+                'absen.status',
+            )
+            ->get();
 
-        return view('mentor.view_presensi', compact('PresensiData', 'foto', 'mahasiswa'));
+        $absenPagi = Absen::join('generate_absen', 'absen.id_absen', '=', 'generate_absen.id_absen')
+            ->where('absen.status', 'Verified')
+            ->where('generate_absen.sesi', 'Pagi')
+            ->where('absen.id_mhs', $id_mhs)
+            ->get();
+
+        $absenSore = Absen::join('generate_absen', 'absen.id_absen', '=', 'generate_absen.id_absen')
+            ->where('absen.status', 'Verified')
+            ->where('generate_absen.sesi', 'Sore')
+            ->where('absen.id_mhs', $id_mhs)
+            ->get();
+
+        return view('mentor.view_presensi', compact('PresensiData', 'foto', 'mahasiswa', 'id_mhs', 'absenPagi', 'absenSore'));
+    }
+
+    public function filterStatusAbsen(Request $request, $id_mhs)
+    {
+        $mahasiswa = Mahasiswa::where('id_mhs', $id_mhs)->first();
+        $foto = User::where('id', $mahasiswa->id_user)->first()->getImageURL();
+
+        $status = $request->input('status');
+
+        if (!empty($status)) {
+            $PresensiData = Absen::join('generate_absen', 'absen.id_absen', '=', 'generate_absen.id_absen')
+                ->where('absen.id_mhs', $id_mhs)
+                ->where('absen.status', $status)
+                ->select(
+                    'generate_absen.sesi as sesi',
+                    'absen.tanggal',
+                    'absen.keterangan',
+                    'absen.foto',
+                    'absen.status',                  
+                )
+                ->get();
+        } else {
+            $PresensiData = Absen::join('generate_absen', 'absen.id_absen', '=', 'generate_absen.id_absen')
+                ->where('absen.id_mhs', $id_mhs)
+                ->select(
+                    'generate_absen.sesi as sesi',
+                    'absen.tanggal',
+                    'absen.keterangan',
+                    'absen.foto',
+                    'absen.status',                  
+                )
+                ->get();
+        }
+
+        return view('mentor.view_presensi', compact('PresensiData', 'foto', 'mahasiswa', 'id_mhs'));
+    }
+
+    public function filterSesiAbsen(Request $request, $id_mhs)
+    {
+        $mahasiswa = Mahasiswa::where('id_mhs', $id_mhs)->first();
+        $foto = User::where('id', $mahasiswa->id_user)->first()->getImageURL();
+
+        $sesi = $request->input('sesi');
+
+        if (!empty($sesi)) {
+            $PresensiData = Absen::join('generate_absen', 'absen.id_absen', '=', 'generate_absen.id_absen')
+                ->where('absen.id_mhs', $id_mhs)
+                ->where('generate_absen.sesi', $sesi)
+                ->select(
+                    'generate_absen.sesi as sesi',
+                    'absen.tanggal',
+                    'absen.keterangan',
+                    'absen.foto',
+                    'absen.status',                  
+                )
+                ->get();
+        } else {
+            $PresensiData = Absen::join('generate_absen', 'absen.id_absen', '=', 'generate_absen.id_absen')
+                ->where('absen.id_mhs', $id_mhs)
+                ->select(
+                    'generate_absen.sesi as sesi',
+                    'absen.tanggal',
+                    'absen.keterangan',
+                    'absen.foto',
+                    'absen.status',                  
+                )
+                ->get();
+        }
+
+        return view('mentor.view_presensi', compact('PresensiData', 'mahasiswa', 'foto', 'id_mhs'));
+    }
+
+    public function filterKetAbsen(Request $request, $id_mhs)
+    {
+        $mahasiswa = Mahasiswa::where('id_mhs', $id_mhs)->first();
+        $foto = User::where('id', $mahasiswa->id_user)->first()->getImageURL();
+
+        $keterangan = $request->input('keterangan');
+
+        if (!empty($keterangan)) {
+            $PresensiData = Absen::join('generate_absen', 'absen.id_absen', '=', 'generate_absen.id_absen')
+                ->where('absen.id_mhs', $id_mhs)
+                ->where('absen.keterangan', $keterangan)
+                ->select(
+                    'generate_absen.sesi as sesi',
+                    'absen.tanggal',
+                    'absen.keterangan',
+                    'absen.foto',
+                    'absen.status',                  
+                )
+                ->get();
+        } else {
+            $PresensiData = Absen::join('generate_absen', 'absen.id_absen', '=', 'generate_absen.id_absen')
+                ->where('absen.id_mhs', $id_mhs)
+                ->select(
+                    'generate_absen.sesi as sesi',
+                    'absen.tanggal',
+                    'absen.keterangan',
+                    'absen.foto',
+                    'absen.status',                  
+                )
+                ->get();
+        }
+
+        return view('mentor.view_presensi', compact('PresensiData', 'mahasiswa', 'foto', 'id_mhs'));
     }
 
     public function viewProgress(string $id_mhs)
     {
-        $mhs = Mahasiswa::where('id_mhs', $id_mhs)->first();
-        $foto = User::where('id', $mhs->id_user)->first()->getImageURL();
-        $progressMagang = Progress::where('id_mhs', $mhs->id_mhs)->get();
+        $mahasiswa = Mahasiswa::where('id_mhs', $id_mhs)->first();
+        $foto = User::where('id', $mahasiswa->id_user)->first()->getImageURL();
+        $progressMagang = Progress::where('id_mhs', $mahasiswa->id_mhs)->get();
 
-        return view('mentor.view_progress', [
-            'mahasiswa' => $mhs,
-            'foto' => $foto,
-            'progressMagang' => $progressMagang,
-        ]);
+        $progVer = Progress::where('id_mhs', $mahasiswa->id_mhs)
+            ->where('progress.status', 'Verified')
+            ->get();
+
+        $progUnver = Progress::where('id_mhs', $mahasiswa->id_mhs)
+            ->where('progress.status', 'Unverified')
+            ->get();
+
+        return view('mentor.view_progress', compact('mahasiswa', 'foto', 'progressMagang', 'id_mhs', 'progVer', 'progUnver'));
+    }
+
+    public function filterStatusProgress2(Request $request, $id_mhs)
+    {
+        $mahasiswa = Mahasiswa::where('id_mhs', $id_mhs)->first();
+        $foto = User::where('id', $mahasiswa->id_user)->first()->getImageURL();
+
+        $status = $request->input('status');
+
+        if (!empty($status)) {
+            $progressMagang = Progress::where('id_mhs', $mahasiswa->id_mhs)
+                ->where('progress.status', $status)
+                ->get();
+        } else {
+            $progressMagang = Progress::where('id_mhs', $mahasiswa->id_mhs)->get();      
+        }
+
+        $progVer = Progress::where('id_mhs', $mahasiswa->id_mhs)
+            ->where('progress.status', 'Verified')
+            ->get();
+
+        $progUnver = Progress::where('id_mhs', $mahasiswa->id_mhs)
+            ->where('progress.status', 'Unverified')
+            ->get();
+
+        return view('mentor.view_progress', compact('mahasiswa', 'foto', 'progressMagang', 'id_mhs', 'progVer', 'progUnver'));
     }
 
     public function viewProfile()
@@ -686,25 +850,4 @@ class MentorController extends Controller
             return redirect()->back()->with('error', 'Semua progress sudah diverifikasi atau tidak ditemukan!');
         }
     }
-    
-    
-
-    // public function verif_progress($id_progress, $id_mhs)
-    // {
-    //     $progress = Progress::where('id_progress', $id_progress)
-    //         ->where('id_mhs', $id_mhs)
-    //         ->first();
-
-    //     if ($progress) {
-    //         if ($progress->status === 'Unverified') {
-    //             $progress->status = 'Verified';
-
-    //             $progress->save();
-
-    //             return redirect()->back()->with('success', 'Progress berhasil diverifikasi!');
-    //         }
-    //     } else {
-    //         return redirect()->back()->with('erorr', 'Progress tidak ditemukan!');
-    //     }
-    // }
 }
