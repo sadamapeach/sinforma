@@ -133,14 +133,8 @@
 
         <div class="p-4 bg-white border border-gray-200 dark:bg-gray-800 dark:border-gray-700 rounded-lg shadow">
             <div class="flex items-center mb-4"> 
-                {{-- Verified All --}}
-                <a href="#">
-                    <button type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:outline-none font-medium rounded-md w-28 h-8 text-center me-2 dark:bg-blue-600 dark:hover:bg-blue-700" style="font-size: 11px">
-                        <i class="fas fa-cloud-download-alt mr-2"></i>Download
-                    </button>
-                </a>
                 {{-- Search --}}
-                <div class="relative ml-auto">
+                <div class="relative">
                     <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="w-4 h-4 fill-gray-500">
                             <path fill-rule="evenodd" d="M9.965 11.026a5 5 0 1 1 1.06-1.06l2.755 2.754a.75.75 0 1 1-1.06 1.06l-2.755-2.754ZM10.5 7a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0Z" clip-rule="evenodd" />
@@ -150,7 +144,7 @@
                 </div>
 
                 {{-- Filter by Status --}}
-                <form action="{{ route('filter_mhs') }}" method="GET" class="flex ml-2 items-center">
+                <form action="{{ route('filter_mhs') }}" method="GET" class="flex ml-2 items-center ml-auto">
                     <select id="status" name="status" class="w-full p-2 text-xs text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" onchange="this.form.submit()">
                         <option value="" selected>Status</option>
                         <option value="">Semua Status</option>

@@ -414,15 +414,28 @@ class MentorController extends Controller
 
     public function viewNilai(string $id_mhs)
     {
-        $mhs = Mahasiswa::where('id_mhs', $id_mhs)->first();
-        $foto = User::where('id', $mhs->id_user)->first()->getImageURL();
-        $tambahNilai = Nilai::where('id_mhs', $mhs->id_mhs)->get();
+        $mahasiswa = Mahasiswa::where('id_mhs', $id_mhs)->first();
         
-        return view('mentor.nilai', [
-            'mahasiswa' => $mhs,
-            'foto' => $foto,
-            'tambahNilai' => $tambahNilai,
-        ]);
+        $foto = User::where('id', $mahasiswa->id_user)->first()->getImageURL();
+        $tambahNilai = Nilai::where('id_mhs', $mahasiswa->id_mhs)->get();
+
+        $absenPagi = Absen::join('generate_absen', 'absen.id_absen', '=', 'generate_absen.id_absen')
+            ->where('absen.status', 'Verified')
+            ->where('generate_absen.sesi', 'Pagi')
+            ->where('absen.id_mhs', $id_mhs)
+            ->get();
+
+        $absenSore = Absen::join('generate_absen', 'absen.id_absen', '=', 'generate_absen.id_absen')
+            ->where('absen.status', 'Verified')
+            ->where('generate_absen.sesi', 'Sore')
+            ->where('absen.id_mhs', $id_mhs)
+            ->get();
+
+        $progVer = Progress::where('id_mhs', $mahasiswa->id_mhs)
+            ->where('progress.status', 'Verified')
+            ->get();
+        
+        return view('mentor.nilai', compact('mahasiswa', 'foto', 'tambahNilai', 'absenPagi', 'absenSore', 'progVer'));
     } 
     
     public function storeNilai(Request $request, string $id_mhs)
@@ -455,26 +468,52 @@ class MentorController extends Controller
 
     public function viewEditNilai(string $id_mhs)
     {
-        $mhs = Mahasiswa::where('id_mhs', $id_mhs)->first();
-        $foto = User::where('id', $mhs->id_user)->first()->getImageURL();
+        $mahasiswa = Mahasiswa::where('id_mhs', $id_mhs)->first();
+        $foto = User::where('id', $mahasiswa->id_user)->first()->getImageURL();
         $nilai = Nilai::where('id_mhs', $id_mhs)->first();
+
+        $absenPagi = Absen::join('generate_absen', 'absen.id_absen', '=', 'generate_absen.id_absen')
+            ->where('absen.status', 'Verified')
+            ->where('generate_absen.sesi', 'Pagi')
+            ->where('absen.id_mhs', $id_mhs)
+            ->get();
+
+        $absenSore = Absen::join('generate_absen', 'absen.id_absen', '=', 'generate_absen.id_absen')
+            ->where('absen.status', 'Verified')
+            ->where('generate_absen.sesi', 'Sore')
+            ->where('absen.id_mhs', $id_mhs)
+            ->get();
+
+        $progVer = Progress::where('id_mhs', $mahasiswa->id_mhs)
+            ->where('progress.status', 'Verified')
+            ->get();
        
-        return view('mentor.view_edit_nilai', [
-            'mahasiswa' => $mhs,
-            'foto' => $foto,
-            'nilai' => $nilai]);
+        return view('mentor.view_edit_nilai', compact('mahasiswa', 'foto', 'nilai', 'absenPagi', 'absenSore', 'progVer'));
     }
 
     public function viewEditNilai2(string $id_mhs)
     {
-        $mhs = Mahasiswa::where('id_mhs', $id_mhs)->first();
-        $foto = User::where('id', $mhs->id_user)->first()->getImageURL();
+        $mahasiswa = Mahasiswa::where('id_mhs', $id_mhs)->first();
+        $foto = User::where('id', $mahasiswa->id_user)->first()->getImageURL();
         $nilai = Nilai::where('id_mhs', $id_mhs)->first();
+
+        $absenPagi = Absen::join('generate_absen', 'absen.id_absen', '=', 'generate_absen.id_absen')
+            ->where('absen.status', 'Verified')
+            ->where('generate_absen.sesi', 'Pagi')
+            ->where('absen.id_mhs', $id_mhs)
+            ->get();
+
+        $absenSore = Absen::join('generate_absen', 'absen.id_absen', '=', 'generate_absen.id_absen')
+            ->where('absen.status', 'Verified')
+            ->where('generate_absen.sesi', 'Sore')
+            ->where('absen.id_mhs', $id_mhs)
+            ->get();
+
+        $progVer = Progress::where('id_mhs', $mahasiswa->id_mhs)
+            ->where('progress.status', 'Verified')
+            ->get();
        
-        return view('mentor.edit_nilai', [
-            'mahasiswa' => $mhs,
-            'foto' => $foto,
-            'nilai' => $nilai]);
+        return view('mentor.edit_nilai', compact('mahasiswa', 'foto', 'nilai', 'absenPagi', 'absenSore', 'progVer'));
     }
 
     public function storeNilai1(Request $request, $id_mhs)

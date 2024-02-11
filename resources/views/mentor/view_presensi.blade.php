@@ -290,7 +290,7 @@
                                                     <span class="bg-red-100 text-red-800 font-semibold me-2 px-2.5 py-0.5 rounded-full dark:bg-red-900 dark:text-red-300" style="font-size: 10px">Sakit</span>
                                                 @else
                                                     @if ($presensi->keterangan == 'Izin')
-                                                        <span class="bg-purple-100 text-purple-800 font-semibold me-2 px-2.5 py-0.5 rounded-full dark:bg-purple-900 dark:text-purple-300" style="font-size: 10px">Izin</span>
+                                                        <span class="bg-purple-100 text-purple-800 font-semibold me-2 px-4 py-0.5 rounded-full dark:bg-purple-900 dark:text-purple-300" style="font-size: 10px">Izin</span>
                                                     @endif
                                                 @endif
                                             @endif

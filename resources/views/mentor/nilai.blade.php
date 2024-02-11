@@ -9,7 +9,19 @@
 
 <body>
     <div class="p-4 sm:ml-64">
-        <nav class="bg-zinc-100 border-gray-200 dark:bg-gray-800 dark:border-gray-700 rounded-lg">
+        @if (session('success'))
+            <div class="p-4 mr-2 text-sm text-green-800 rounded-lg bg-green-100 dark:bg-gray-800 dark:text-green-400" role="alert">
+                <span class="font-medium">{{ session('success') }}</span>
+            </div>
+        @endif
+
+        @if (session('error'))
+            <div class="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-100 dark:bg-gray-800 dark:text-red-400" role="alert">
+                <span class="font-medium">{{ session('error') }}</span>
+            </div>
+        @endif
+
+        <nav class="bg-zinc-100 border-gray-200 dark:bg-gray-800 dark:border-gray-700 rounded-lg mb-3">
             {{-- Welcome User --}}
             <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-2.5">
                 <div class="ml-1 flex items-center">
@@ -60,79 +72,140 @@
             </div>
         </nav>
 
-        <div class="p-4 border-2 border-gray-200 border-dashed rounded-md dark:border-gray-600 mt-2">
-
-        <!-- Informasi Mahasiswa -->
-        <div class="flex flex-col items-center mb-6">
-            <div class="relative w-24 h-24 overflow-hidden bg-gray-100 rounded-full dark:bg-gray-600">
-                <img src="{{ $foto }}" alt="user photo" class="w-24 h-24 object-cover" />
+        <div class="grid grid-cols-7 gap-3">
+            {{-- Profile --}}
+            <div class="col-span-3 bg-white border border-gray-200 dark:bg-gray-800 dark:border-gray-700 rounded-lg shadow">
+                {{-- Foto --}}
+                <div class="flex items-center py-4 px-5">
+                    <img src="{{ $foto }}" alt="user photo" class="w-24 h-24 object-cover rounded-full ml-1"/>
+                    <div class="mx-4">
+                        <div class="text-black dark:text-white text-sm font-bold">{{ $mahasiswa->nama }}</div>
+                        <div class="text-xs text-gray-700 dark:text-gray-400 mt-1">ID. {{ $mahasiswa->id_mhs }} | {{ $mahasiswa->status }}</div>
+                        {{-- Jurusan --}}
+                        <div class="py-2 flex items-center">
+                            <span><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="w-3.5 h-3.5 fill-gray-700 dark:fill-gray-400">
+                                <path fill-rule="evenodd" d="M11 4V3a2 2 0 0 0-2-2H7a2 2 0 0 0-2 2v1H4a2 2 0 0 0-2 2v3a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2h-1ZM9 2.5H7a.5.5 0 0 0-.5.5v1h3V3a.5.5 0 0 0-.5-.5ZM9 9a1 1 0 1 1-2 0 1 1 0 0 1 2 0Z" clip-rule="evenodd" />
+                                <path d="M3 11.83V12a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2v-.17c-.313.11-.65.17-1 .17H4c-.35 0-.687-.06-1-.17Z" />
+                            </svg></span>
+                            <span class="text-xs text-gray-700 dark:text-gray-400 ml-2">{{ $mahasiswa->jurusan }}</span>
+                        </div>
+                        {{-- Instansi --}}
+                        <div class="flex items-center">
+                            <span><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="w-3.5 h-3.5 fill-gray-700 dark:fill-gray-400">
+                                <path fill-rule="evenodd" d="M7.605 2.112a.75.75 0 0 1 .79 0l5.25 3.25A.75.75 0 0 1 13 6.707V12.5h.25a.75.75 0 0 1 0 1.5H2.75a.75.75 0 0 1 0-1.5H3V6.707a.75.75 0 0 1-.645-1.345l5.25-3.25ZM4.5 8.75a.75.75 0 0 1 1.5 0v3a.75.75 0 0 1-1.5 0v-3ZM8 8a.75.75 0 0 0-.75.75v3a.75.75 0 0 0 1.5 0v-3A.75.75 0 0 0 8 8Zm2 .75a.75.75 0 0 1 1.5 0v3a.75.75 0 0 1-1.5 0v-3ZM8 6a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z" clip-rule="evenodd" />
+                            </svg></span>
+                            <span class="text-xs text-gray-700 dark:text-gray-400 ml-2">{{ $mahasiswa->instansi }}</span>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <br>
-            <p class="text-sm font-semibold mt-2 text-gray-900 dark:text-white">{{ $mahasiswa->nama }}</p>
-            <p class="text-xs text-gray-500 dark:text-gray-400">{{$mahasiswa->id_mhs}} | {{ $mahasiswa->instansi }} | {{ $mahasiswa->jurusan }} | {{ $mahasiswa->status }}</p>
+
+            @php
+                use Jenssegers\Date\Date;
+                Date::setLocale('id');
+
+                $mulaiMagang = \Carbon\Carbon::parse($mahasiswa->mulai_magang);
+                $selesaiMagang = \Carbon\Carbon::parse($mahasiswa->selesai_magang);
+
+                // Presensi
+                $jumlahHariAbsen = $mulaiMagang->diffInDaysFiltered(function($date) {
+                    return $date->isWeekday(); 
+                }, $selesaiMagang->addDay());
+
+                $jumlahPresensi = 2 * $jumlahHariAbsen; // Penyebut
+
+                // Progress
+                $jumlahHariProgress = $mulaiMagang->diffInDaysFiltered(function($date) {
+                    return $date; 
+                }, $selesaiMagang->addDay());
+
+                $jumlahMinggu = ceil($jumlahHariProgress / 7); // ceil => pembulatan ke atas
+            @endphp
+
+            {{-- Persentase Absen --}}
+            <div class="col-span-2 bg-white border border-gray-200 dark:bg-gray-800 dark:border-gray-700 rounded-lg shadow">
+                <div class="flex items-center py-4 px-5">
+                    <div class="space-y-0.5">
+                        <h1 class="text-xs font-medium dark:text-white">Rekapitulasi Pengisian Presensi</h1>
+                        <p class="text-2xl font-semibold text-purple-600 dark:text-purple-500">{{ number_format((($absenPagi->count() + $absenSore->count())/$jumlahPresensi)*100, 2) }}%</p>
+                        <p class="text-gray-700 dark:text-gray-400" style="font-size: 9px">* Sesi pagi + sore dengan status 'Verified'</p>
+                    </div>
+                    <img src="{{ asset('assets/pres2.png') }}" alt="user photo" class="w-20 h-20 object-cover rounded-full mt-1"/>
+                </div>
+            </div>
+
+            {{-- Persentase Progress --}}
+            <div class="col-span-2 bg-white border border-gray-200 dark:bg-gray-800 dark:border-gray-700 rounded-lg shadow">
+                <div class="flex items-center py-4 px-5">
+                    <div class="space-y-0.5">
+                        <h1 class="text-xs font-medium dark:text-white">Rekapitulasi Pengisian Progress</h1>
+                        <p class="text-2xl font-semibold text-purple-600 dark:text-purple-500">{{ number_format(($progVer->count()/$jumlahMinggu)*100, 2)}}%</p>
+                        <p class="text-gray-700 dark:text-gray-400" style="font-size: 9px">* Semua progress dengan status 'Verified'</p>
+                    </div>
+                    <img src="{{ asset('assets/prog2.png') }}" alt="user photo" class="w-16 h-16 object-cover rounded-full"/>
+                </div>
+            </div>
         </div>
 
-        <!-- Tabel Penilaian Magang -->
-        <form action="{{ route('store_nilai', ['id_mhs' => $mahasiswa->id_mhs]) }}" method="post">
-            @csrf
-            <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-                <thead class="border dark:border-gray-700 text-xs text-gray-800 uppercase bg-gray-100 dark:bg-gray-900 dark:text-gray-400">
-                    <tr>
-                        <th class="py-3 px-4 text-center border dark:border-gray-700">Nomor</th>
-                        <th class="py-3 px-4 text-left border dark:border-gray-700">Kriteria Penilaian</th>
-                        <th class="py-3 px-4 text-left border dark:border-gray-700">Nilai</th>
-                    </tr>
-                </thead>
-                <tbody class="text-gray-800 border dark:border-gray-700 text-xs font-medium">
-                    <tr class="bg-white dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                        <td class="py-3 px-4 text-center border dark:border-gray-700">1</td>
-                        <td class="py-3 px-4 border dark:border-gray-700">Kedisiplinan dan Etika</td>
-                        <td class="py-3 px-4 border dark:border-gray-700">
-                            <input type="number" name="nilai[]" class="w-full border rounded py-1 px-2 dark:bg-gray-700 text-xs">
-                        </td>
-                    </tr>
-                    <tr class="bg-white dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                        <td class="py-3 px-4 text-center border dark:border-gray-700">2</td>
-                        <td class="py-3 px-4 border dark:border-gray-700">Kemampuan Berkomunikasi dan Bekerja Sama</td>
-                        <td class="py-3 px-4 border dark:border-gray-700">
-                            <input type="number" name="nilai[]" class="w-full border rounded py-1 px-2 dark:bg-gray-700 text-xs">
-                        </td>
-                    </tr>
-                    <tr class="bg-white dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                        <td class="py-3 px-4 text-center border dark:border-gray-700">3</td>
-                        <td class="py-3 px-4 border dark:border-gray-700">Pemahaman terhadap Permasalahan</td>
-                        <td class="py-3 px-4 border dark:border-gray-700">
-                            <input type="number" name="nilai[]" class="w-full border rounded py-1 px-2 dark:bg-gray-700 text-xs">
-                        </td>
-                    </tr>
-                    <tr class="bg-white dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                        <td class="py-3 px-4 text-center border dark:border-gray-700">4</td>
-                        <td class="py-3 px-4 border dark:border-gray-700">Pengetahuan Teoritis dan Praktik</td>
-                        <td class="py-3 px-4 border dark:border-gray-700">
-                            <input type="number" name="nilai[]" class="w-full border rounded py-1 px-2 dark:bg-gray-700 text-xs">
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+        <div class="p-5 bg-white border border-gray-200 dark:bg-gray-800 dark:border-gray-700 rounded-lg shadow mt-3">
+            <!-- Tabel Penilaian Magang -->
+            <form action="{{ route('store_nilai', ['id_mhs' => $mahasiswa->id_mhs]) }}" method="post">
+                @csrf
+                <table class="w-full text-sm text-left rtl:text-right">
+                    <thead class="border dark:border-gray-800 text-xs text-black uppercase bg-gray-100 dark:bg-gray-900 dark:text-white">
+                        <tr>
+                            <th class="py-3 px-4 text-center border dark:border-gray-700">Nomor</th>
+                            <th class="py-3 px-4 text-left border dark:border-gray-700">Kriteria Penilaian</th>
+                            <th class="py-3 px-4 text-left border dark:border-gray-700">Nilai</th>
+                        </tr>
+                    </thead>
+                    <tbody class="text-gray-800 dark:text-gray-200 border dark:border-gray-800 text-xs font-medium">
+                        <tr class="bg-white dark:bg-gray-800 dark:border-gray-800">
+                            <td class="py-3 px-4 text-center border dark:border-gray-700">1</td>
+                            <td class="py-3 px-4 border dark:border-gray-700">Kedisiplinan dan Etika</td>
+                            <td class="py-3 px-4 border dark:border-gray-700">
+                                <input type="number" name="nilai[]" class="w-full border rounded py-1 px-2 dark:bg-gray-700 text-xs">
+                            </td>
+                        </tr>
+                        <tr class="bg-white dark:bg-gray-800 dark:border-gray-800">
+                            <td class="py-3 px-4 text-center border dark:border-gray-700">2</td>
+                            <td class="py-3 px-4 border dark:border-gray-700">Kemampuan Berkomunikasi dan Bekerja Sama</td>
+                            <td class="py-3 px-4 border dark:border-gray-700">
+                                <input type="number" name="nilai[]" class="w-full border rounded py-1 px-2 dark:bg-gray-700 text-xs">
+                            </td>
+                        </tr>
+                        <tr class="bg-white dark:bg-gray-800 dark:border-gray-800">
+                            <td class="py-3 px-4 text-center border dark:border-gray-700">3</td>
+                            <td class="py-3 px-4 border dark:border-gray-700">Pemahaman terhadap Permasalahan</td>
+                            <td class="py-3 px-4 border dark:border-gray-700">
+                                <input type="number" name="nilai[]" class="w-full border rounded py-1 px-2 dark:bg-gray-700 text-xs">
+                            </td>
+                        </tr>
+                        <tr class="bg-white dark:bg-gray-800 dark:border-gray-800">
+                            <td class="py-3 px-4 text-center border dark:border-gray-700">4</td>
+                            <td class="py-3 px-4 border dark:border-gray-700">Pengetahuan Teoritis dan Praktik</td>
+                            <td class="py-3 px-4 border dark:border-gray-700">
+                                <input type="number" name="nilai[]" class="w-full border rounded py-1 px-2 dark:bg-gray-700 text-xs">
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
 
-            <div class="flex justify-end mt-3">
-                <button type="submit" name="submit" value="generate" class="text-white bg-blue-700 hover:bg-blue-800 focus:outline-none font-medium rounded-md text-xs w-20 h-8 text-center me-2 dark:bg-blue-600 dark:hover:bg-blue-700">
-                    Simpan
-                </button>
-            </div>
-        </form>
-        
-        @if (session('success'))
-            <div class="p-4 mr-2 text-sm text-green-800 rounded-lg bg-green-100 dark:bg-gray-800 dark:text-green-400" role="alert">
-                <span class="font-medium">{{ session('success') }}</span>
-            </div>
-        @endif
+                <div class="flex mt-3">
+                    {{-- Kembali --}}
+                    <a href="{{ route('daftar_mhs_mentor') }}" class="text-white bg-red-700 hover:bg-red-800 focus:outline-none font-medium rounded-md text-xs w-20 h-8 text-center me-2 dark:bg-red-600 dark:hover:bg-red-700">
+                        <button type="button" class="w-full h-full">
+                            Kembali
+                        </button>
+                    </a> 
 
-        @if (session('error'))
-            <div class="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-100 dark:bg-gray-800 dark:text-red-400" role="alert">
-                <span class="font-medium">{{ session('error') }}</span>
-            </div>
-        @endif
+                    {{-- Simpan --}}
+                    <button type="submit" name="submit" value="generate" class="ml-auto text-white bg-blue-700 hover:bg-blue-800 focus:outline-none font-medium rounded-md text-xs w-20 h-8 text-center dark:bg-blue-600 dark:hover:bg-blue-700">
+                        Simpan
+                    </button>
+                </div>
+            </form>
+        </div>
     </div>
 </body>
 @endsection
