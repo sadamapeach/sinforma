@@ -239,9 +239,39 @@ class AdminController extends Controller
     public function viewDaftarMhs()
     {
         $user = Auth::user();
-        $mhsData = Mahasiswa::all();
+        $admin = Admin::where('id_user', $user->id)->first();
 
-        return view('admin.daftar_mhs', ['mhsData' => $mhsData]);
+        $nipAdmin = $admin->nip;
+
+        $mhsData = Mahasiswa::join('users', 'mahasiswa.id_user', '=', 'users.id')
+            ->join('mentor', 'mahasiswa.nip_mentor', '=', 'mentor.nip')
+            ->where('mahasiswa.nip_admin', $nipAdmin)
+            ->select(
+                'mahasiswa.id_mhs',
+                'mahasiswa.nama',
+                'mahasiswa.jurusan',
+                'mahasiswa.instansi',
+                'mahasiswa.status',
+                'users.foto as foto',
+                'mentor.nama as mentor',
+            )
+            ->get();
+
+        $totalMahasiswa = Mahasiswa::where('nip_admin', $nipAdmin)->count();
+
+        $totalAktif = Mahasiswa::where('nip_admin', $nipAdmin)
+            ->where('status', 'Aktif')
+            ->count();
+
+        $totalNonAktif = Mahasiswa::where('nip_admin', $nipAdmin)
+            ->where('status', 'Tidak Aktif')
+            ->count();
+
+        $totalLulus = Mahasiswa::where('nip_admin', $nipAdmin)
+            ->where('status', 'Lulus')
+            ->count();
+
+        return view('admin.daftar_mhs', compact('mhsData', 'totalMahasiswa', 'totalAktif', 'totalNonAktif', 'totalLulus'));
     }
 
     public function filterByStatus(Request $request)
