@@ -168,6 +168,25 @@ class AdminController extends Controller
         return view('admin.profile', ['admin' => $admin]);
     }
 
+    public function change_password(Request $request)
+    {
+        // Check old password
+        if (!Hash::check($request->old_password, auth()->user()->password)) {
+            return back()->with('error1', 'Password lama salah!');
+        }
+
+        // Check new password and configuration
+        if ($request->new_password != $request->config_password) {
+            return back()->with('error2', 'Konfigurasi password salah!');
+        }
+
+        User::where('id', auth()->user()->id)->update([
+            'password' => Hash::make($request->new_password)
+        ]);
+
+        return back()->with('status', 'Password berhasil diperbarui!');
+    }
+
     public function viewEditProfile()
     {
         $user = Auth::user();
@@ -183,9 +202,9 @@ class AdminController extends Controller
             $admin = Admin::where('id_user', $user->id)->first();
 
             $validated = $request->validate([
-                'nama' => 'required',
                 'alamat' => 'required',
                 'no_telepon' => 'required',
+                'email' => 'required',
                 'username' => 'required',
                 'foto' => 'nullable|image|max:10240',
             ]);
@@ -200,9 +219,9 @@ class AdminController extends Controller
                 ]);
             }
             
-            $admin->nama = $request->nama;
             $admin->alamat = $request->alamat;
             $admin->no_telepon = $request->no_telepon;
+            $admin->email = $request->email;
             $user->username = $request->username;
             
             $admin->save();
@@ -213,7 +232,7 @@ class AdminController extends Controller
             
             return redirect()->route('view_profil')->with('success', 'Data admin berhasil diperbarui.');
         } catch (\Exception $e) {
-            return redirect()->route('view_profil')->with('error', 'Terjadi kesalahan saat memperbarui data admin.');
+            return redirect()->route('view_profil')->with('error', 'Terjadi kesalahan saat memperbarui data admin: ' . $e->getMessage());
         }
     }
 
@@ -409,14 +428,13 @@ class AdminController extends Controller
     public function viewAccount()
     {
         $accounts = DB::table('generate_account')
-        ->join('mahasiswa', 'mahasiswa.id_mhs', '=', 'generate_account.id_mhs')
-        ->where('mahasiswa.check_profil', '=', 0)
-        ->select('generate_account.*')
-        ->get();
+            ->join('mahasiswa', 'mahasiswa.id_mhs', '=', 'generate_account.id_mhs')
+            ->where('mahasiswa.check_profil', '=', 0)
+            ->select('generate_account.*')
+            ->get();
   
-        return view('admin.daftar_akun', ["accounts" => $accounts]);
+        return view('admin.daftar_akun', compact('accounts'));
     }
-
 
     public function cetakDaftarAkun()
     {

@@ -275,7 +275,7 @@
 
         <div class="px-4 sm:ml-64 mb-4">
             {{-- Daftar Mahasiswa --}}
-            <div class="mt-3 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 p-5" style="height: 260px">
+            <div class="mt-3 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 p-5" style="height: 300px">
                 <div class="flex mb-3">
                     <h1 class="font-bold text-black dark:text-white">Daftar Mahasiswa Magang Perwalian</h1>
                     <div class="flex ml-auto">
@@ -301,7 +301,7 @@
                         </form>
                     </div>
                 </div>
-                <div class="relative overflow-x-auto shadow md:rounded" style="height: 180px">
+                <div class="relative overflow-x-auto shadow md:rounded" style="height: 217px">
                     @if(!$mahasiswa)
                         <div class="pb-4 bg-white dark:bg-gray-900">
                             <p class="mt-2 ml-2 text-base text-gray-500 dark:text-gray-400">Belum ada mahasiswa perwalian. Mohon hubungi Admin.</p>

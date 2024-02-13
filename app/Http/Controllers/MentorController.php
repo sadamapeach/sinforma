@@ -707,20 +707,6 @@ class MentorController extends Controller
         return back()->with('status', 'Password berhasil diperbarui!');
     }
 
-    // public function viewRekapProgress()
-    // {
-    //     $user = Auth::user();
-    //     $mentor = Mentor::where('id_user', $user->id)->first();
-
-    //     $nipMentor = $mentor->nip;
-
-    //     $generate_progress = GeneratedProgress::where('nip_mentor', $nipMentor)
-    //         ->orderBy('id_progress', 'desc')
-    //         ->get();
-
-    //     return view('mentor.rekap_progress', compact('generate_progress'));
-    // }
-
     public function viewRekapProgress()
     {
         $user = Auth::user();

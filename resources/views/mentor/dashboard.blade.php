@@ -97,7 +97,7 @@
             </nav>
         </div>
             
-        <div class="px-4 sm:ml-64 -mt-1">
+        <div class="px-4 sm:ml-64">
             <div class="flex space-x-3">
                 {{-- Profile --}}
                 <div class="block bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 w-2/5 h-52">
@@ -220,15 +220,17 @@
                     </div>
                 </div>
             </div>
+        </div>
 
+        <div class="p-4 sm:ml-64">
             <div class="grid grid-cols-4 gap-3">
                 <div class="col-span-1">
-                    <div class="mt-3 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 p-5" style="height: 260px">
-                        <div class="flex flex-col text-center py-6">
+                    <div class="bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 p-5" style="height: 260px">
+                        <div class="flex flex-col text-center py-4">
                             <div class="text-sm font-bold text-black dark:text-white">Verifikasi Progress</div>
                             <div class=" text-gray-500 dark:text-gray-500" style="font-size: 10px">Berapa progress yang belum diverifikasi?</div>
                             <div class="my-3.5 self-center">
-                                <img class="h-16 w-16 self-center" src="assets/skl_belum.png" alt="image description">
+                                <img class="h-20 w-20 self-center" src="assets/skl_belum.png" alt="image description">
                             </div>
                             <div class="grid grid-cols-2">
                                 <div class="text-xs font-medium text-gray-700 dark:text-gray-400 text-center border-r border-gray-700 dark:border-gray-500">
@@ -244,29 +246,34 @@
 
                 {{-- Daftar Mahasiswa --}}
                 <div class="col-span-3">
-                    <div class="mt-3 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 p-5" style="height: 260px">
+                    <div class="bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 p-5" style="height: 260px">
                         <div class="flex mb-3">
-                            {{-- Search --}}
-                            <div class="relative">
-                                <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
-                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="w-4 h-4 fill-gray-500">
-                                        <path fill-rule="evenodd" d="M9.965 11.026a5 5 0 1 1 1.06-1.06l2.755 2.754a.75.75 0 1 1-1.06 1.06l-2.755-2.754ZM10.5 7a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0Z" clip-rule="evenodd" />
-                                    </svg>                          
+                            <h1 class="font-bold text-black dark:text-white">Mahasiswa Magang Perwalian</h1>
+                            <div class="flex ml-auto">
+                                {{-- Search --}}
+                                <div class="relative">
+                                    <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="w-4 h-4 fill-gray-500">
+                                            <path fill-rule="evenodd" d="M9.965 11.026a5 5 0 1 1 1.06-1.06l2.755 2.754a.75.75 0 1 1-1.06 1.06l-2.755-2.754ZM10.5 7a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0Z" clip-rule="evenodd" />
+                                        </svg>                          
+                                    </div>
+                                    <input type="text" id="search" class="bg-gray-50 border border-gray-300 text-gray-900 text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block ps-10 p-1  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search Realtime Progress">
                                 </div>
-                                <input type="text" id="search" class="bg-gray-50 border border-gray-300 text-gray-900 text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block ps-10 p-1  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search Realtime Progress">
+                    
+                                {{-- Filter by Status --}}
+                                <form action="{{ route('dashboard_admin_filter') }}" method="GET" class="flex ml-2 mb-1 items-center">
+                                    <select id="status" name="status" class="p-1 text-xs text-gray-900 border ps-2.5 border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" onchange="this.form.submit()">
+                                        <option value="" selected>Status</option>
+                                        <option value="">Semua Status</option>
+                                        <option value="Aktif">Aktif</option>
+                                        <option value="Tidak Aktif">Tidak Aktif</option>
+                                        <option value="Lulus">Lulus</option>
+                                    </select>
+                                </form>
                             </div>
-                
-                            {{-- Filter by Status --}}
-                            <form action="{{ route('dashboard_mentor_filter') }}" method="GET" class="ml-auto mb-1 items-center">
-                                <select id="status" name="status" class="p-1 text-xs text-gray-900 border ps-2.5 border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" onchange="this.form.submit()">
-                                    <option value="" selected>Status</option>
-                                    <option value="">Semua Status</option>
-                                    <option value="Aktif">Aktif</option>
-                                    <option value="Tidak Aktif">Tidak Aktif</option>
-                                    <option value="Lulus">Lulus</option>
-                                </select>
-                            </form>
                         </div>
+
+                        {{-- Table --}}
                         <div class="relative overflow-x-auto shadow md:rounded" style="height: 180px">
                             @if(!$mahasiswa)
                                 <div class="pb-4 bg-white dark:bg-gray-900">
