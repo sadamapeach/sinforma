@@ -109,7 +109,7 @@
             {{-- Jumlah Total Mahasiswa --}}
             <div class="flex bg-white border border-gray-200 dark:bg-gray-800 dark:border-gray-700 rounded-lg shadow">
                 <div class="self-center p-3 w-full text-center">
-                    <h1 class="text-xl font-bold text-yellow-400 dark:text-yellow-300">{{ $mhsData->count() }}</h1>
+                    <h1 class="text-xl font-bold text-yellow-400 dark:text-yellow-300">{{ $totalMahasiswa }}</h1>
                     <p class="text-xs font-semibold text-black dark:text-white">Total Mahasiswa Perwalian</p>
                 </div>
             </div>

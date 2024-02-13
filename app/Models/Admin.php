@@ -21,6 +21,7 @@ class Admin extends Model
         'no_telepon',
         'id_user',
         'username',
+        'email',
     ];
 
     public function user()

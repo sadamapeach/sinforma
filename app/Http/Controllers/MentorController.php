@@ -36,11 +36,19 @@ class MentorController extends Controller
                 ->select(
                     'mahasiswa.id_mhs',
                     'mahasiswa.nama',
-                    'mahasiswa.jurusan',
-                    'mahasiswa.instansi',
                     'mahasiswa.status',
                     'users.foto as foto',
                 )
+                ->get();
+
+            $mhsAbsen = Absen::join('mahasiswa', 'absen.id_mhs', '=', 'mahasiswa.id_mhs')
+                ->where('mahasiswa.nip_mentor', $nipMentor)
+                ->where('absen.status', 'Verified')
+                ->get();
+
+            $mhsProgress = Progress::join('mahasiswa', 'progress.id_mhs', '=', 'mahasiswa.id_mhs')
+                ->where('mahasiswa.nip_mentor', $nipMentor)
+                ->where('progress.status', 'Verified')
                 ->get();
 
             $nilai1 = Nilai::join('mahasiswa', 'nilai.id_mhs', '=', 'mahasiswa.id_mhs')
@@ -53,7 +61,26 @@ class MentorController extends Controller
                 ->where('mahasiswa.status', 'Aktif')
                 ->get();
 
-            return view('mentor.dashboard', compact('mentor', 'mahasiswa', 'nilai1', 'nilai2'));
+            $progress = Progress::join('generate_progress', 'progress.id_progress', '=', 'generate_progress.id_progress')
+                ->where('generate_progress.nip_mentor', $nipMentor)
+                ->where('progress.status', 'Unverified')
+                ->get();
+
+            $totalMahasiswa = Mahasiswa::where('nip_mentor', $nipMentor)->count();
+
+            $totalAktif = Mahasiswa::where('nip_mentor', $nipMentor)
+                ->where('status', 'Aktif')
+                ->count();
+
+            $totalNonAktif = Mahasiswa::where('nip_mentor', $nipMentor)
+                ->where('status', 'Tidak Aktif')
+                ->count();
+
+            $totalLulus = Mahasiswa::where('nip_mentor', $nipMentor)
+                ->where('status', 'Lulus')
+                ->count();
+
+            return view('mentor.dashboard', compact('totalMahasiswa', 'totalAktif', 'totalNonAktif', 'totalLulus', 'mentor', 'mahasiswa', 'nilai1', 'nilai2', 'progress', 'mhsProgress', 'mhsAbsen'));
         }
 
         return redirect()->route('login');
@@ -69,20 +96,76 @@ class MentorController extends Controller
         $status = $request->input('status');
 
         if (!empty($status)) {
-            $mahasiswa = Mahasiswa::where('status', $status)
+            $mahasiswa = Mahasiswa::join('users', 'mahasiswa.id_user', '=', 'users.id')
+                ->where('status', $status)
                 ->where('nip_mentor', $nipMentor)
+                ->select(
+                    'mahasiswa.id_mhs',
+                    'mahasiswa.nama',
+                    'mahasiswa.status',
+                    'users.foto as foto',
+                )
                 ->get();
         } else {
-            $mahasiswa = Mahasiswa::where('nip_mentor', $nipMentor)->get();
+            $mahasiswa = Mahasiswa::join('users', 'mahasiswa.id_user', '=', 'users.id')
+            ->where('nip_mentor', $nipMentor)
+            ->select(
+                'mahasiswa.id_mhs',
+                'mahasiswa.nama',
+                'mahasiswa.status',
+                'users.foto as foto',
+            )
+            ->get();
         }
 
-        return view('mentor.dashboard', compact('mentor', 'mahasiswa'));
+        $mhsAbsen = Absen::join('mahasiswa', 'absen.id_mhs', '=', 'mahasiswa.id_mhs')
+            ->where('mahasiswa.nip_mentor', $nipMentor)
+            ->where('absen.status', 'Verified')
+            ->get();
+
+        $mhsProgress = Progress::join('mahasiswa', 'progress.id_mhs', '=', 'mahasiswa.id_mhs')
+            ->where('mahasiswa.nip_mentor', $nipMentor)
+            ->where('progress.status', 'Verified')
+            ->get();
+
+        $nilai1 = Nilai::join('mahasiswa', 'nilai.id_mhs', '=', 'mahasiswa.id_mhs')
+            ->where('nilai.nip_mentor', $nipMentor)
+            ->get();
+
+        $nilai2 = Mahasiswa::leftJoin('nilai', 'mahasiswa.id_mhs', '=', 'nilai.id_mhs')
+            ->where('mahasiswa.nip_mentor', $nipMentor)
+            ->whereNull('nilai.id_mhs') 
+            ->where('mahasiswa.status', 'Aktif')
+            ->get();
+
+        $progress = Progress::join('generate_progress', 'progress.id_progress', '=', 'generate_progress.id_progress')
+            ->where('generate_progress.nip_mentor', $nipMentor)
+            ->where('progress.status', 'Unverified')
+            ->get();
+
+        $totalMahasiswa = Mahasiswa::where('nip_mentor', $nipMentor)->count();
+
+        $totalAktif = Mahasiswa::where('nip_mentor', $nipMentor)
+            ->where('status', 'Aktif')
+            ->count();
+
+        $totalNonAktif = Mahasiswa::where('nip_mentor', $nipMentor)
+            ->where('status', 'Tidak Aktif')
+            ->count();
+
+        $totalLulus = Mahasiswa::where('nip_mentor', $nipMentor)
+            ->where('status', 'Lulus')
+            ->count();
+
+        return view('mentor.dashboard', compact('totalMahasiswa', 'totalAktif', 'totalNonAktif', 'totalLulus', 'mentor', 'mahasiswa', 'mhsAbsen', 'mhsProgress', 'nilai1', 'nilai2', 'progress'));
     }
 
     public function viewDaftarMhs()
     {
         $user = Auth::user();
         $mentor = Mentor::where('id_user', $user->id)->first();
+
+        $nipMentor = $mentor->nip;
 
         $mhsData = Mahasiswa::with('nilai')
             ->join('users', 'mahasiswa.id_user', '=', 'users.id')
@@ -106,24 +189,10 @@ class MentorController extends Controller
             ->whereNull('nilai.id_mhs') 
             ->where('mahasiswa.status', 'Aktif')
             ->get();
+        
+        $totalMahasiswa = Mahasiswa::where('nip_mentor', $nipMentor)->count();
     
-        return view('mentor.daftar_mhs', compact('mhsData', 'nilai1', 'nilai2'));
-    }
-    
-
-    public function searchMahasiswa(Request $request)
-    {
-        $search = $request->input('search');
-
-        if (!empty($search)) {
-            $mhsData = Mahasiswa::where(function($query) use ($search) {
-                $query->where('nama', 'like', '%' . $search . '%')
-                    ->orWhere('instansi', 'like', '%' . $search . '%')
-                    ->orWhere('jurusan', 'like', '%' . $search . '%');
-            })->get();
-        } 
-
-        return view('mentor.daftar_mhs', ['mhsData' => $mhsData]);
+        return view('mentor.daftar_mhs', compact('mhsData', 'nilai1', 'nilai2', 'totalMahasiswa'));
     }
 
     public function filterByStatus(Request $request)
@@ -171,8 +240,10 @@ class MentorController extends Controller
             ->whereNull('nilai.id_mhs') 
             ->where('mahasiswa.status', 'Aktif')
             ->get();
+        
+        $totalMahasiswa = Mahasiswa::where('nip_mentor', $nipMentor)->count();
 
-        return view('mentor.daftar_mhs', compact('mhsData', 'nilai1', 'nilai2'));
+        return view('mentor.daftar_mhs', compact('mhsData', 'nilai1', 'nilai2', 'totalMahasiswa'));
     }
 
     public function viewPresensi(string $id_mhs)
@@ -635,20 +706,6 @@ class MentorController extends Controller
 
         return back()->with('status', 'Password berhasil diperbarui!');
     }
-
-    // public function viewRekapProgress()
-    // {
-    //     $user = Auth::user();
-    //     $mentor = Mentor::where('id_user', $user->id)->first();
-
-    //     $nipMentor = $mentor->nip;
-
-    //     $generate_progress = GeneratedProgress::where('nip_mentor', $nipMentor)
-    //         ->orderBy('id_progress', 'desc')
-    //         ->get();
-
-    //     return view('mentor.rekap_progress', compact('generate_progress'));
-    // }
 
     public function viewRekapProgress()
     {

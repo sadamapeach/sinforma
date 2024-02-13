@@ -44,7 +44,7 @@
          </div>
          <ul id="dropdown-example" class="hidden mr-5 text-xs pl-10">
                <li>
-                  <a href="{{ route('tambah_progress') }}" class="flex items-center py-2 text-gray-900 rounded-lg group dark:text-white hover:text-purple-500">Tambah Progress</a>
+                  <a href="{{ route('tambah_progress') }}" class="flex items-center py-2 text-gray-900 rounded-lg group dark:text-white hover:text-purple-500">Generate Progress</a>
                </li>
                <li>
                   <a href="{{ route('rekap_progress') }}" class="flex items-center mt-2 mb-1 text-gray-900 rounded-lg group dark:text-white hover:text-purple-500">Rekapitulasi Progress</a>
