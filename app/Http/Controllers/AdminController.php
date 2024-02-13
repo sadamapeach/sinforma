@@ -32,9 +32,16 @@ class AdminController extends Controller
             $user = Auth::user();
             $admin = Admin::where('id_user', $user->id)->first();
             $nipAdmin = $admin->nip;
-            $totals = [];
 
-            $mahasiswa = Mahasiswa::where('nip_admin', $nipAdmin)->get();
+            $mahasiswa = Mahasiswa::join('users', 'mahasiswa.id_user', '=', 'users.id')
+                ->where('mahasiswa.nip_admin', $nipAdmin)
+                ->select(
+                    'mahasiswa.id_mhs',
+                    'mahasiswa.nama',
+                    'mahasiswa.status',
+                    'users.foto as foto',
+                )
+                ->get();
 
             $skl1 = Skl::join('mahasiswa', 'skl.id_mhs', '=', 'mahasiswa.id_mhs')
                 ->where('skl.nip_admin', $nipAdmin)
@@ -50,44 +57,107 @@ class AdminController extends Controller
                 ->where('absen.status', '=', 'Unverified')
                 ->get();
 
+            $mhsAbsen = Absen::join('mahasiswa', 'absen.id_mhs', '=', 'mahasiswa.id_mhs')
+                ->where('mahasiswa.nip_admin', $nipAdmin)
+                ->where('absen.status', 'Verified')
+                ->get();
 
-            foreach ($mahasiswa as $mhs) {
-                $mulaiMagang = Carbon::parse($mhs->mulai_magang);
-                $selesaiMagang = Carbon::parse($mhs->selesai_magang);
+            $mhsProgress = Progress::join('mahasiswa', 'progress.id_mhs', '=', 'mahasiswa.id_mhs')
+                ->where('mahasiswa.nip_admin', $nipAdmin)
+                ->where('progress.status', 'Verified')
+                ->get();
 
-                $jumlahHariAbsen = $mulaiMagang->diffInDaysFiltered(function ($date) {
-                    return $date->isWeekday();
-                }, $selesaiMagang->addDay());
+            $totalMahasiswa = Mahasiswa::where('nip_admin', $nipAdmin)->count();
 
-                $jumlahPresensi = 2 * $jumlahHariAbsen; 
+            $totalAktif = Mahasiswa::where('nip_admin', $nipAdmin)
+                ->where('status', 'Aktif')
+                ->count();
 
-                $absen = Absen::where('id_mhs', $mhs->id_mhs)->get();
-                $totalAbsen = 0; 
-                if ($absen) {
-                    $absenCollection = $absen->where('status', 'Verified');
-                    $totalAbsen = $absenCollection->count();
-                }
+            $totalNonAktif = Mahasiswa::where('nip_admin', $nipAdmin)
+                ->where('status', 'Tidak Aktif')
+                ->count();
 
-                $jumlahHariProgress = $mulaiMagang->diffInDaysFiltered(function ($date) {
-                    return $date;
-                }, $selesaiMagang->addDay());
+            $totalLulus = Mahasiswa::where('nip_admin', $nipAdmin)
+                ->where('status', 'Lulus')
+                ->count();
 
-                $jumlahMinggu = ceil($jumlahHariProgress / 7); // ceil => pembulatan ke atas
-
-                $progress = Progress::where('id_mhs', $mhs->id_mhs)->get();
-                $totalProgress = 0;
-                if ($progress) {
-                    $progressCollection = $progress->where('status', 'Verified');
-                    $totalProgress = $progressCollection->count();
-                }
-
-                $totals[$mhs->id_mhs] = ['totalAbsen' => $totalAbsen, 'totalProgress' => $totalProgress];
-            }
-
-            return view('admin.dashboard', compact('admin', 'mahasiswa', 'skl1', 'skl2', 'mahasiswaVerifikasiPresensi', 'totalAbsen', 'totalProgress'));
+            return view('admin.dashboard', compact('totalMahasiswa', 'totalAktif', 'totalNonAktif', 'totalLulus', 'admin', 'mahasiswa', 'skl1', 'skl2', 'mahasiswaVerifikasiPresensi', 'mhsAbsen', 'mhsProgress'));
         }
 
         return redirect()->route('login');
+    }
+
+    public function filterDashboard(Request $request)
+    {
+        $user = Auth::user();
+        $admin = Admin::where('id_user', $user->id)->first();
+
+        $nipAdmin = $admin->nip;
+        
+        $status = $request->input('status');
+
+        if (!empty($status)) {
+            $mahasiswa = Mahasiswa::join('users', 'mahasiswa.id_user', '=', 'users.id')
+                ->where('status', $status)
+                ->where('nip_admin', $nipAdmin)
+                ->select(
+                    'mahasiswa.id_mhs',
+                    'mahasiswa.nama',
+                    'mahasiswa.status',
+                    'users.foto as foto',
+                )
+                ->get();
+        } else {
+            $mahasiswa = Mahasiswa::join('users', 'mahasiswa.id_user', '=', 'users.id')
+            ->where('nip_admin', $nipAdmin)
+            ->select(
+                'mahasiswa.id_mhs',
+                'mahasiswa.nama',
+                'mahasiswa.status',
+                'users.foto as foto',
+            )
+            ->get();
+        }
+
+        $mhsAbsen = Absen::join('mahasiswa', 'absen.id_mhs', '=', 'mahasiswa.id_mhs')
+            ->where('mahasiswa.nip_admin', $nipAdmin)
+            ->where('absen.status', 'Verified')
+            ->get();
+
+        $mhsProgress = Progress::join('mahasiswa', 'progress.id_mhs', '=', 'mahasiswa.id_mhs')
+            ->where('mahasiswa.nip_admin', $nipAdmin)
+            ->where('progress.status', 'Verified')
+            ->get();
+
+        $skl1 = Skl::join('mahasiswa', 'skl.id_mhs', '=', 'mahasiswa.id_mhs')
+            ->where('skl.nip_admin', $nipAdmin)
+            ->get();
+
+        $skl2 = Mahasiswa::leftJoin('skl', 'mahasiswa.id_mhs', '=', 'skl.id_mhs')
+            ->where('mahasiswa.nip_admin', $nipAdmin)
+            ->whereNull('skl.id_mhs') 
+            ->get();
+
+        $mahasiswaVerifikasiPresensi = Absen::join('mahasiswa', 'absen.id_mhs', '=', 'mahasiswa.id_mhs')
+            ->where('mahasiswa.nip_admin', $nipAdmin)
+            ->where('absen.status', '=', 'Unverified')
+            ->get();
+
+        $totalMahasiswa = Mahasiswa::where('nip_admin', $nipAdmin)->count();
+
+        $totalAktif = Mahasiswa::where('nip_admin', $nipAdmin)
+            ->where('status', 'Aktif')
+            ->count();
+
+        $totalNonAktif = Mahasiswa::where('nip_admin', $nipAdmin)
+            ->where('status', 'Tidak Aktif')
+            ->count();
+
+        $totalLulus = Mahasiswa::where('nip_admin', $nipAdmin)
+            ->where('status', 'Lulus')
+            ->count();
+
+        return view('admin.dashboard', compact('totalMahasiswa', 'totalAktif', 'totalNonAktif', 'totalLulus', 'admin', 'mahasiswa', 'mhsAbsen', 'mhsProgress', 'skl1', 'skl2', 'mahasiswaVerifikasiPresensi'));
     }
 
     public function viewProfile()
@@ -153,21 +223,6 @@ class AdminController extends Controller
         $mhsData = Mahasiswa::all();
 
         return view('admin.daftar_mhs', ['mhsData' => $mhsData]);
-    }
-
-    public function searchMahasiswa(Request $request)
-    {
-        $search = $request->input('search');
-
-        if (!empty($search)) {
-            $mhsData = Mahasiswa::where(function($query) use ($search) {
-                $query->where('nama', 'like', '%' . $search . '%')
-                    ->orWhere('instansi', 'like', '%' . $search . '%')
-                    ->orWhere('jurusan', 'like', '%' . $search . '%');
-            })->get();
-        } 
-
-         return view('admin.daftar_mhs', ['mhsData' => $mhsData]);
     }
 
     public function filterByStatus(Request $request)

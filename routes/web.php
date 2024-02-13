@@ -83,6 +83,7 @@ Route::get('/view_edit_berita/{id_berita}', [AdminController::class, 'viewEditBe
 Route::post('/update_berita/{id_berita}', [AdminController::class, 'updateBerita'])->name('update_berita');
 Route::get('/tambah_absen', [AdminController::class, 'viewTambahAbsen'])->name('tambah_absen');
 Route::post('/store_absen', [AdminController::class, 'storeAbsen'])->name('store_absen');
+Route::get('/dashboard_admin_filter', [AdminController::class, 'filterDashboard'])->name('dashboard_admin_filter');
 
 /* Mentor */
 Route::get('/dashboard_mentor', [MentorController::class, 'index'])->middleware('only_mentor')->name('dashboard_mentor');
