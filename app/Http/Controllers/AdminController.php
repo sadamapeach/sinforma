@@ -328,7 +328,17 @@ class AdminController extends Controller
     {
         try {
             $mhs = Mahasiswa::where('id_mhs', $id_mhs)->first();
-            
+
+            if (!$mhs) {
+                return redirect()->back()->with('error', 'Mahasiswa not found.');
+            }
+
+            $akun = GeneratedAccount::where('id_mhs', $id_mhs)->first();
+
+            if ($akun) {
+                $akun->delete();
+            }
+
             $mhs->delete();
 
             return redirect()->back()->with('success', 'Berhasil menghapus data mahasiswa.');
