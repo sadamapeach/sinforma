@@ -3,36 +3,44 @@
 
 @section('isihalaman')
 <head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+
     {{-- Reference Tailwind Flowbite --}}
     @vite(['resources/css/app.css','resources/js/app.js'])
 
-    <style>
+    <script>
+        function sortTable(columnIndex) {
+            const table = document.querySelector('.sortable-table');
+            const rows = Array.from(table.querySelectorAll('tbody tr'));
 
-        .button-link {
-            display: inline-block;
-            padding: 6px 10px;
-            margin: 4px 0;
-            font-size: 12px;
-            font-weight: bold;
-            text-align: center;
-            text-decoration: none;
-            border: 1px solid #ccc; 
-            border-radius: 4px;
-            color: #666; 
-            background-color: #f0f0f0;
-            transition: background-color 0.3s, color 0.3s;
+            const isAscending = table.classList.contains('sorted-asc');
+            const sortMultiplier = isAscending ? 1 : -1;
+
+            rows.sort((rowA, rowB) => {
+                const cellA = rowA.cells[columnIndex].textContent.trim().toLowerCase();
+                const cellB = rowB.cells[columnIndex].textContent.trim().toLowerCase();
+                return sortMultiplier * cellA.localeCompare(cellB);
+            });
+
+            table.querySelector('tbody').innerHTML = '';
+
+            rows.forEach(row => {
+                table.querySelector('tbody').appendChild(row);
+            });
+
+            table.classList.toggle('sorted-asc');
         }
+    </script>
 
-        .button-link:hover {
-            background-color: #ccc; 
-            color: #fff;
+    <style>
+        .d-none {
+            display: none;
         }
     </style>
 </head>
 
-<body>
-<div class="p-4 sm:ml-64">
-    <div class="p-4 border-2 border-gray-200 border-dashed rounded-lg dark:border-gray-700 mt-14">
+<body class="h-screen">
+    <div class="p-4 sm:ml-64">
         @if (session('success'))
         <div class="p-4 mr-2 text-sm text-green-800 rounded-lg bg-green-100 dark:bg-gray-800 dark:text-green-400"
             role="alert">
@@ -47,89 +55,257 @@
             </div>
             <br>
         @endif
-        <h1
-            class="text-2xl mb-5 font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
-            Daftar Mahasiswa Penerbitan SKL
-        </h1>
-        <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
-            <div class="pb-4 bg-white dark:bg-gray-900">
-                <form class="flex items-center" action="{{ route('search_mhs') }}" method="GET">   
-                    <label for="simple-search" class="sr-only">Search</label>
-                    <div class="relative mt-1">
-                        <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                        <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
-                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
-                        </svg>
+
+        <nav class="bg-zinc-100 border-gray-200 dark:bg-gray-800 dark:border-gray-700 rounded-lg">
+            {{-- Welcome User --}}
+            <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-2.5"> 
+                <p class="self-center text-sm font-semibold whitespace-nowrap text-black dark:text-white ml-1">Daftar Penerbitan SKL Mahasiswa Magang</p>
+                {{-- Icon --}}
+                <div class="flex items-center md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
+                    <!-- Dropdown menu -->
+                    <span><button type="button" class="items-center justify-between hidden w-full md:flex md:w-auto md:order-1 px-2" id="user-menu-button" aria-expanded="false" data-dropdown-toggle="user-dropdown" data-dropdown-placement="bottom-start">
+                        <span class="sr-only">Open user menu</span>
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="w-4 h-4 fill-black dark:fill-white">
+                            <path fill-rule="evenodd" d="M6.955 1.45A.5.5 0 0 1 7.452 1h1.096a.5.5 0 0 1 .497.45l.17 1.699c.484.12.94.312 1.356.562l1.321-1.081a.5.5 0 0 1 .67.033l.774.775a.5.5 0 0 1 .034.67l-1.08 1.32c.25.417.44.873.561 1.357l1.699.17a.5.5 0 0 1 .45.497v1.096a.5.5 0 0 1-.45.497l-1.699.17c-.12.484-.312.94-.562 1.356l1.082 1.322a.5.5 0 0 1-.034.67l-.774.774a.5.5 0 0 1-.67.033l-1.322-1.08c-.416.25-.872.44-1.356.561l-.17 1.699a.5.5 0 0 1-.497.45H7.452a.5.5 0 0 1-.497-.45l-.17-1.699a4.973 4.973 0 0 1-1.356-.562L4.108 13.37a.5.5 0 0 1-.67-.033l-.774-.775a.5.5 0 0 1-.034-.67l1.08-1.32a4.971 4.971 0 0 1-.561-1.357l-1.699-.17A.5.5 0 0 1 1 8.548V7.452a.5.5 0 0 1 .45-.497l1.699-.17c.12-.484.312-.94.562-1.356L2.629 4.107a.5.5 0 0 1 .034-.67l.774-.774a.5.5 0 0 1 .67-.033L5.43 3.71a4.97 4.97 0 0 1 1.356-.561l.17-1.699ZM6 8c0 .538.212 1.026.558 1.385l.057.057a2 2 0 0 0 2.828-2.828l-.058-.056A2 2 0 0 0 6 8Z" clip-rule="evenodd" />
+                        </svg>  
+                    </button></span>
+                    <div class="z-50 hidden my-4 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-700 dark:divide-gray-600" id="user-dropdown">
+                        <div class="px-4 py-3">
+                            <span class="block text-sm text-gray-900 dark:text-white">Customize Mode</span>
+                            <span class="block text-sm  text-gray-500 truncate dark:text-gray-400">
+                                <div class="flex items-center mt-1">
+                                {{-- Light --}}
+                                <span class="mr-1"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="black" class="w-4 h-4 fill-black dark:fill-white">
+                                    <path d="M8 1a.75.75 0 0 1 .75.75v1.5a.75.75 0 0 1-1.5 0v-1.5A.75.75 0 0 1 8 1ZM10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0ZM12.95 4.11a.75.75 0 1 0-1.06-1.06l-1.062 1.06a.75.75 0 0 0 1.061 1.062l1.06-1.061ZM15 8a.75.75 0 0 1-.75.75h-1.5a.75.75 0 0 1 0-1.5h1.5A.75.75 0 0 1 15 8ZM11.89 12.95a.75.75 0 0 0 1.06-1.06l-1.06-1.062a.75.75 0 0 0-1.062 1.061l1.061 1.06ZM8 12a.75.75 0 0 1 .75.75v1.5a.75.75 0 0 1-1.5 0v-1.5A.75.75 0 0 1 8 12ZM5.172 11.89a.75.75 0 0 0-1.061-1.062L3.05 11.89a.75.75 0 1 0 1.06 1.06l1.06-1.06ZM4 8a.75.75 0 0 1-.75.75h-1.5a.75.75 0 0 1 0-1.5h1.5A.75.75 0 0 1 4 8ZM4.11 5.172A.75.75 0 0 0 5.173 4.11L4.11 3.05a.75.75 0 1 0-1.06 1.06l1.06 1.06Z" />
+                                </svg></span>
+
+                                {{-- Toogle --}}
+                                <label class="relative inline-flex items-center cursor-pointer">
+                                    <input type="checkbox" value="" class="sr-only peer" id="toggle">
+                                    <div class="w-9 h-5 bg-zinc-300 peer-focus:outline-none peer-focus peer-focus dark:peer-focus rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all dark:border-gray-600 peer-checked:bg-purple-400 toggle-circle"></div>
+                                </label>
+
+                                {{-- Dark --}}
+                                <span class="ml-1"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="w-4 h-4 fill-black dark:fill-white">
+                                    <path d="M14.438 10.148c.19-.425-.321-.787-.748-.601A5.5 5.5 0 0 1 6.453 2.31c.186-.427-.176-.938-.6-.748a6.501 6.501 0 1 0 8.585 8.586Z" />
+                                </svg></span>
+                                </div>
+                            </span>
                         </div>
-                        <input type="text" name="search" id="simple-search" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Cari Nama/Instansi/Jurusan" required>
+                        <ul class="py-2" aria-labelledby="user-menu-button">
+                        <li class="w-full hover:bg-gray-100 dark:hover:bg-gray-600 transition">
+                            <form action="{{ route('logout') }}" method="POST">
+                                @csrf
+                                <button type="submit" class="block px-4 py-2 text-sm text-red-700  hover:text-red-400 dark:text-red-500 dark:hover:text-red-300">Sign out</button>
+                            </form>
+                        </li>
+                        </ul>
                     </div>
-                    <button type="submit" class="p-2.5 ml-2 text-sm font-medium text-white bg-blue-700 rounded-lg border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-                        <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
-                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
-                        </svg>
-                        <span class="sr-only">Search</span>
-                    </button>
+                </div>
+            </div>
+        </nav>
+
+        <div class="grid grid-cols-3 gap-3 my-3">
+            {{-- Jumlah Total Mahasiswa --}}
+            <div class="flex bg-white border border-gray-200 dark:bg-gray-800 dark:border-gray-700 rounded-lg shadow">
+                <div class="self-center p-3 w-full text-center">
+                    <h1 class="text-xl font-bold text-yellow-400 dark:text-yellow-300">{{ $totalMahasiswa }}</h1>
+                    <p class="text-xs font-semibold text-black dark:text-white">Total Mahasiswa Magang</p>
+                </div>
+            </div>
+
+            {{-- Penilaian: Sudah --}}
+            <div class="flex bg-white border border-gray-200 dark:bg-gray-800 dark:border-gray-700 rounded-lg shadow">
+                <div class="self-center p-3 w-full text-center">
+                    <h1 class="text-xl font-bold text-blue-700 dark:text-blue-500">{{ count($skl1) }}</h1>
+                    <p class="text-xs font-semibold text-black dark:text-white">SKL Sudah Diterbitkan</p>
+                </div>
+            </div>
+
+            {{-- Penilaian: Belum --}}
+            <div class="flex bg-white border border-gray-200 dark:bg-gray-800 dark:border-gray-700 rounded-lg shadow">
+                <div class="self-center p-3 w-full text-center">
+                    <h1 class="text-xl font-bold text-pink-700 dark:text-pink-500">{{ count($skl2) }}</h1>
+                    <p class="text-xs font-semibold text-black dark:text-white">SKL Belum Diterbitkan</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="p-4 bg-white border border-gray-200 dark:bg-gray-800 dark:border-gray-700 rounded-lg shadow h-screen">
+            <div class="flex items-center mb-4"> 
+                {{-- Search --}}
+                <div class="relative">
+                    <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="w-4 h-4 fill-gray-500">
+                            <path fill-rule="evenodd" d="M9.965 11.026a5 5 0 1 1 1.06-1.06l2.755 2.754a.75.75 0 1 1-1.06 1.06l-2.755-2.754ZM10.5 7a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0Z" clip-rule="evenodd" />
+                        </svg>                          
+                    </div>
+                    <input type="text" id="search" class="bg-gray-50 border border-gray-300 text-gray-900 text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block ps-10 p-2  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search Realtime Progress" style="width: 325px">
+                </div>
+
+                {{-- Filter by Status --}}
+                <form action="{{ route('filter_mhs') }}" method="GET" class="flex items-center ml-auto">
+                    <select id="status" name="status" class="w-full p-2 text-xs text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" onchange="this.form.submit()">
+                        <option value="" selected>Status</option>
+                        <option value="">Semua Status</option>
+                        <option value="Aktif">Aktif</option>
+                        <option value="Tidak Aktif">Tidak Aktif</option>
+                        <option value="Lulus">Lulus</option>
+                    </select>
                 </form>
             </div>
-            <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
-                <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-                    <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+
+            {{-- Tabel --}}
+            <div class="relative shadow md:rounded">
+                <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400 sortable-table overflow-y-auto">
+                    <thead class="text-xs text-gray-700 uppercase bg-gray-100 dark:bg-gray-900 dark:text-gray-400 border border-gray-300 dark:border-gray-900">
                         <tr>
-                            <th scope="col" class="px-6 py-3 text-center">
+                            <th scope="col" class="px-4 py-4 w-12">
+                                No
+                            </th>
+                            <th scope="col" class="px-4 py-4 w-20" onclick="sortTable(1)">
+                                ID
+                                <button class="sort-button ml-1">
+                                    <span class="bg-gray-100 dark:bg-gray-900">&#8693;</span>
+                                </button>
+                            </th>
+                            <th scope="col" class="px-4 py-4 w-52" onclick="sortTable(2)">
                                 Nama
+                                <button class="sort-button ml-1">
+                                    <span class="bg-gray-100 dark:bg-gray-900">&#8693;</span>
+                                </button>
                             </th>
-                            <th scope="col" class="px-6 py-3 text-center">
-                                Instansi
-                            </th>
-                            <th scope="col" class="px-6 py-3 text-center">
+                            <th scope="col" class="px-4 py-4 w-40" onclick="sortTable(3)">
                                 Jurusan
+                                <button class="sort-button ml-1">
+                                    <span class="bg-gray-100 dark:bg-gray-900">&#8693;</span>
+                                </button>
                             </th>
-                            <th scope="col" class="px-6 py-3 text-center">
+                            <th scope="col" class="px-4 py-4 w-40" onclick="sortTable(4)">
+                                Instansi
+                                <button class="sort-button ml-1">
+                                    <span class="bg-gray-100 dark:bg-gray-900">&#8693;</span>
+                                </button>
+                            </th>
+                            <th scope="col" class="px-4 py-4 w-16 text-center">
                                 Nilai
                             </th>
-                            <th scope="col" class="px-6 py-3 text-center">
-                                Aksi
+                            <th scope="col" class="px-4 py-4 w-16 text-center">
+                                SKL
+                            </th>
+                            <th scope="col" class="px-4 py-4 w-24 text-center">
+                                Aksi SKL
                             </th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody class="text-gray-700 dark:text-gray-400 overflow-y-auto">
                         @if ($mhsData)
-                            @foreach ($mhsData as $mhs)
-                                <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover-bg-gray-600">
-                                    <td class="px-6 py-4">
-                                        {{ $mhs['nama'] }}
-                                    </td>    
-                                    <td class="px-6 py-4">
-                                        {{ $mhs['instansi'] }}
+                            @foreach ($mhsData as $index => $mhs)
+                                <tr class="text-xs bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-600 border border-gray-300 dark:border-gray-900">
+                                    <td class="px-4 py-4 text-center w-12">
+                                        {{ $index + 1 }}
                                     </td>
-                                    <td class="px-6 py-4 text-center">
-                                        {{ $mhs['jurusan'] }}
+                                    <td class="px-4 py-4 w-20">
+                                        {{ $mhs->id_mhs }}
                                     </td>
-                                    <td>
-                                        <div class="button-container text-center">
-                                            <a href="{{ route('lihat_nilai', ['id_mhs' => $mhs['id_mhs'] ?? null]) }}" class="text-grey-400 hover:text-blue-100 button-link">
-                                                <i class="material-icons-outlined text-base text-center"></i> Lihat Nilai
-                                            </a>
-                                        </div>
+                                    <td class="flex items-center px-4 py-4 w-52">
+                                        <img class="w-7 h-7 rounded-full" src="{{ asset('storage/' . $mhs->foto) }}" alt="Jese image">
+                                        <div class="ps-3">
+                                            {{ $mhs->nama }}
+                                        </div>  
                                     </td>
-                                    <td class="px-6 py-4 text-center">
-                                    @if ($mhs['skl'])
-                                        <a href="{{ asset('storage/' . $mhs['skl']->file_skl) }}" class="text-sm font-medium text-white bg-green-400 rounded-lg border border-green-400 px-2 py-1 focus:outline-none focus:ring-2 focus:ring-green-300 hover:bg-green-500">
-                                            Lihat SKL
-                                        </a>
-                                        <a href="{{ route('view_edit_skl', ['id_mhs' => $mhs['id_mhs'] ?? null]) }}" method="GET" class="text-sm font-medium text-white bg-blue-500 ml-1 rounded-lg border px-2 py-1 focus:outline-none hover:bg-blue-200">
-                                            Edit SKL
-                                        </a>
-                                        <a href="{{ route('delete_skl', ['id_mhs' => $mhs['id_mhs'] ?? null]) }}" class="text-sm font-medium text-white bg-red-500 ml-1 rounded-lg border px-2 py-1 focus:outline-none hover:bg-red-200" onclick="return confirm('Apakah anda yakin ingin menghapus SKL ini?')">
-                                            Hapus SKL
-                                        </a>
+                                    <td class="px-4 py-4 w-40">
+                                        {{ $mhs->jurusan }}
+                                    </td>
+                                    <td class="px-4 py-4 w-40">
+                                        {{ $mhs->instansi }}
+                                    </td>
+                                    <td class="px-4 py-4 w-16 text-center">
+                                        <a href="{{ route('lihat_nilai', ['id_mhs' => $mhs['id_mhs'] ?? null]) }}" class="bg-green-100 text-green-800 font-semibold me-2 px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300" style="font-size: 10px">Lihat</a>
+                                    </td>
+                                    <td class="px-4 py-4 w-16 text-center">
+                                        @if ($mhs['skl'])
+                                        <form action="{{ asset('storage/' . $mhs['skl']->file_skl) }}" method="GET" enctype="multipart/form-data">
+                                            @csrf
+                                            <button type="botton" class="bg-blue-100 text-blue-800 font-semibold me-2 px-2.5 py-0.5 rounded-full dark:bg-blue-900 dark:text-blue-300" style="font-size: 10px">Sudah</button>
+                                        </form>
                                         @else
                                             <form action="{{ route('view_tambah_skl', ['id_mhs' => $mhs['id_mhs'] ?? null]) }}" method="GET" enctype="multipart/form-data">
                                                 @csrf
-                                                <button type="submit" class="text-sm font-medium text-white rounded-lg border px-2 py-1 focus:outline-none bg-blue-500 hover:bg-blue-200">
-                                                    Tambah SKL
-                                                </button>
+                                                <button type="submit" class="bg-pink-100 text-pink-800 font-semibold me-2 px-2.5 py-0.5 rounded-full dark:bg-pink-900 dark:text-pink-300" style="font-size: 10px">Belum</button>
                                             </form>
+                                        @endif
+                                    </td>
+                                    <td class="px-4 py-4 w-24 text-center">
+                                        @if ($mhs['skl'])
+                                            {{-- Edit --}}
+                                            <div class="flex items-center ml-3">
+                                                <a href="{{ route('view_edit_skl', ['id_mhs' => $mhs['id_mhs'] ?? null]) }}" data-tooltip-target="tooltip-edit-hover-{{ $loop->index }}" data-tooltip-trigger="hover">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="w-3.5 h-3.5 mr-3">
+                                                        <path d="M13.488 2.513a1.75 1.75 0 0 0-2.475 0L6.75 6.774a2.75 2.75 0 0 0-.596.892l-.848 2.047a.75.75 0 0 0 .98.98l2.047-.848a2.75 2.75 0 0 0 .892-.596l4.261-4.262a1.75 1.75 0 0 0 0-2.474Z" />
+                                                        <path d="M4.75 3.5c-.69 0-1.25.56-1.25 1.25v6.5c0 .69.56 1.25 1.25 1.25h6.5c.69 0 1.25-.56 1.25-1.25V9A.75.75 0 0 1 14 9v2.25A2.75 2.75 0 0 1 11.25 14h-6.5A2.75 2.75 0 0 1 2 11.25v-6.5A2.75 2.75 0 0 1 4.75 2H7a.75.75 0 0 1 0 1.5H4.75Z" />
+                                                    </svg>
+                                                </a>
+                                                <div id="tooltip-edit-hover-{{ $loop->index }}" role="tooltip" class="absolute z-10 invisible inline-block px-3 py-2 font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700" style="font-size: 10px">
+                                                    Edit
+                                                    <div class="tooltip-arrow" data-popper-arrow></div>
+                                                </div> 
+
+                                                {{-- Delete --}}
+                                                <button data-modal-target="delete-modal-{{ $mhs->id_mhs }}" data-modal-toggle="delete-modal-{{ $mhs->id_mhs }}" data-tooltip-target="tooltip-delete-hover-{{ $loop->index }}" data-tooltip-trigger="hover">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="w-3.5 h-3.5">
+                                                        <path fill-rule="evenodd" d="M5 3.25V4H2.75a.75.75 0 0 0 0 1.5h.3l.815 8.15A1.5 1.5 0 0 0 5.357 15h5.285a1.5 1.5 0 0 0 1.493-1.35l.815-8.15h.3a.75.75 0 0 0 0-1.5H11v-.75A2.25 2.25 0 0 0 8.75 1h-1.5A2.25 2.25 0 0 0 5 3.25Zm2.25-.75a.75.75 0 0 0-.75.75V4h3v-.75a.75.75 0 0 0-.75-.75h-1.5ZM6.05 6a.75.75 0 0 1 .787.713l.275 5.5a.75.75 0 0 1-1.498.075l-.275-5.5A.75.75 0 0 1 6.05 6Zm3.9 0a.75.75 0 0 1 .712.787l-.275 5.5a.75.75 0 0 1-1.498-.075l.275-5.5a.75.75 0 0 1 .786-.711Z" clip-rule="evenodd" />
+                                                    </svg>
+                                                </button>   
+                                                <div id="tooltip-delete-hover-{{ $loop->index }}" role="tooltip" class="absolute z-10 invisible inline-block px-3 py-2 font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700" style="font-size: 10px">
+                                                    Delete
+                                                    <div class="tooltip-arrow" data-popper-arrow></div>
+                                                </div>
+                                            </div>
+
+                                            {{-- Pop Up --}}
+                                            <div id="delete-modal-{{ $mhs->id_mhs }}" tabindex="-1" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full ml-24">
+                                            <div class="relative p-4 w-full max-w-md max-h-full">
+                                                <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+                                                    <button type="button" class="absolute top-3 end-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-hide="delete-modal-{{ $mhs->id_mhs }}">
+                                                        <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                                                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
+                                                        </svg>
+                                                        <span class="sr-only">Close modal</span>
+                                                    </button>
+                                                    <div class="p-4 md:p-5 text-center">
+                                                        <svg class="mx-auto mb-4 text-gray-400 w-12 h-12 dark:text-gray-200" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                                                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 11V6m0 8h.01M19 10a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
+                                                        </svg>
+                                                        <h3 class="mb-5 text-sm font-normal text-gray-500 dark:text-gray-400">Apakah anda yakin ingin menghapus SKL ini?</h3>
+                                                        <div class="flex justify-center">
+                                                            <form method="POST" action="{{ route('delete_skl', ['id_mhs' => $mhs['id_mhs'] ?? null]) }}">
+                                                                @csrf
+                                                                <button data-modal-hide="delete-modal-{{ $mhs->id_mhs }}" type="submit" class="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-xs inline-flex items-center px-5 py-2.5 text-center me-2">
+                                                                    Ya
+                                                                </button>
+                                                            </form>
+                                                            <button data-modal-hide="delete-modal-{{ $mhs->id_mhs }}" type="button" class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200 rounded-lg border border-gray-200 text-xs font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600">Tidak</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        @else
+                                            {{-- Edit --}}
+                                            <button class="text-gray-400 dark:text-gray-600" aria-disabled="true" tabindex="-1">
+                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="w-3.5 h-3.5 mr-3">
+                                                    <path d="M13.488 2.513a1.75 1.75 0 0 0-2.475 0L6.75 6.774a2.75 2.75 0 0 0-.596.892l-.848 2.047a.75.75 0 0 0 .98.98l2.047-.848a2.75 2.75 0 0 0 .892-.596l4.261-4.262a1.75 1.75 0 0 0 0-2.474Z" />
+                                                    <path d="M4.75 3.5c-.69 0-1.25.56-1.25 1.25v6.5c0 .69.56 1.25 1.25 1.25h6.5c.69 0 1.25-.56 1.25-1.25V9A.75.75 0 0 1 14 9v2.25A2.75 2.75 0 0 1 11.25 14h-6.5A2.75 2.75 0 0 1 2 11.25v-6.5A2.75 2.75 0 0 1 4.75 2H7a.75.75 0 0 1 0 1.5H4.75Z" />
+                                                </svg>  
+                                            </button>
+                                            
+
+                                            {{-- Delete --}}
+                                            <button class="text-gray-400 dark:text-gray-600" aria-disabled="true" tabindex="-1">
+                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="w-3.5 h-3.5">
+                                                    <path fill-rule="evenodd" d="M5 3.25V4H2.75a.75.75 0 0 0 0 1.5h.3l.815 8.15A1.5 1.5 0 0 0 5.357 15h5.285a1.5 1.5 0 0 0 1.493-1.35l.815-8.15h.3a.75.75 0 0 0 0-1.5H11v-.75A2.25 2.25 0 0 0 8.75 1h-1.5A2.25 2.25 0 0 0 5 3.25Zm2.25-.75a.75.75 0 0 0-.75.75V4h3v-.75a.75.75 0 0 0-.75-.75h-1.5ZM6.05 6a.75.75 0 0 1 .787.713l.275 5.5a.75.75 0 0 1-1.498.075l-.275-5.5A.75.75 0 0 1 6.05 6Zm3.9 0a.75.75 0 0 1 .712.787l-.275 5.5a.75.75 0 0 1-1.498-.075l.275-5.5a.75.75 0 0 1 .786-.711Z" clip-rule="evenodd" />
+                                                </svg>
+                                            </button>   
                                         @endif
                                     </td>
                                 </tr>
@@ -144,7 +320,22 @@
             </div>
         </div>
     </div>
-</div>
 
+    <script>
+        const search = document.getElementById("search");
+        const items = document.querySelectorAll("tbody tr");
+
+        search.addEventListener("input", (e) => searchData(e.target.value));
+
+        function searchData(search) {
+            items.forEach((item) => {
+                if (item.innerText.toLowerCase().includes(search.toLowerCase())) {
+                    item.classList.remove("d-none");
+                } else {
+                    item.classList.add("d-none");
+                }
+            });
+        }
+    </script>
 </body>
 @endsection

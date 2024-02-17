@@ -870,6 +870,7 @@ class MentorController extends Controller
     
         if (!empty($status)) {
             $rekapMhs = Progress::join('mahasiswa', 'progress.id_mhs', '=', 'mahasiswa.id_mhs')
+                ->join('users', 'mahasiswa.id_user', '=', 'users.id')
                 ->where('progress.status', $status)
                 ->where('id_progress', $id_progress)
                 ->select(
@@ -881,11 +882,12 @@ class MentorController extends Controller
                     'mahasiswa.nama as nama',
                     'mahasiswa.jurusan as jurusan',
                     'mahasiswa.instansi as instansi',
-                    'mahasiswa.foto as foto',
+                    'users.foto as foto',
                 )
                 ->get();
         } else {
             $rekapMhs = Progress::join('mahasiswa', 'progress.id_mhs', '=', 'mahasiswa.id_mhs')
+                ->join('users', 'mahasiswa.id_user', '=', 'users.id')
                 ->where('id_progress', $id_progress)
                 ->select(
                     'progress.id_progress as id_progress',
@@ -896,7 +898,7 @@ class MentorController extends Controller
                     'mahasiswa.nama as nama',
                     'mahasiswa.jurusan as jurusan',
                     'mahasiswa.instansi as instansi',
-                    'mahasiswa.foto as foto',
+                    'users.foto as foto',
                 )
                 ->get();
         }

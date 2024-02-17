@@ -544,9 +544,34 @@ class AdminController extends Controller
     
     public function viewSKL()
     {
-        $mhsData = Mahasiswa::whereHas('nilai')->get();
+        $user = Auth::user();
+        $admin = Admin::where('id_user', $user->id)->first();
+        $nipAdmin = $admin->nip;
 
-        return view('admin.daftar_skl', ['mhsData' => $mhsData]);
+        $mhsData = Mahasiswa::whereHas('nilai')
+            ->join('users', 'mahasiswa.id_user', '=', 'users.id')
+            ->where('nip_admin', $nipAdmin)
+            ->select(
+                'mahasiswa.id_mhs',
+                'mahasiswa.nama',
+                'mahasiswa.jurusan',
+                'mahasiswa.instansi',
+                'users.foto as foto',
+            )
+            ->get();
+
+        $skl1 = Skl::join('mahasiswa', 'skl.id_mhs', '=', 'mahasiswa.id_mhs')
+            ->where('skl.nip_admin', $nipAdmin)
+            ->get();
+
+        $skl2 = Mahasiswa::leftJoin('skl', 'mahasiswa.id_mhs', '=', 'skl.id_mhs')
+            ->where('mahasiswa.nip_admin', $nipAdmin)
+            ->whereNull('skl.id_mhs') 
+            ->get();
+
+        $totalMahasiswa = Mahasiswa::where('nip_admin', $nipAdmin)->count();
+
+        return view('admin.daftar_skl', compact('mhsData', 'skl1', 'skl2', 'totalMahasiswa'));
     }
 
     public function viewNilai(string $id_mhs)
@@ -807,5 +832,251 @@ class AdminController extends Controller
         }
     }
 
+    public function viewRekapPresensi()
+    {
+        $user = Auth::user();
+        $admin = Admin::where('id_user', $user->id)->first();
 
+        $nipAdmin = $admin->nip;
+
+        $generate_absen = Absen::rightJoin('generate_absen', 'absen.id_absen', '=', 'generate_absen.id_absen')
+            ->groupBy(
+                'generate_absen.id_absen', 
+                'generate_absen.judul', 
+                'generate_absen.deskripsi', 
+                'generate_absen.sesi', 
+                'generate_absen.mulai_absen', 
+                'generate_absen.selesai_absen'
+            )
+            ->select(
+                'generate_absen.id_absen as id_absen',
+                'generate_absen.judul as judul',
+                'generate_absen.deskripsi as deskripsi',
+                'generate_absen.sesi',
+                'generate_absen.mulai_absen as mulai_absen',
+                'generate_absen.selesai_absen as selesai_absen',
+                DB::raw('MAX(absen.status) as status'),
+                DB::raw('SUM(CASE WHEN absen.status = "Unverified" THEN 1 ELSE 0 END) as unverified_count')
+            )
+            ->orderBy('generate_absen.id_absen', 'desc')
+            ->get();
+
+        return view('admin.rekap_presensi', compact('generate_absen'));
+    }
+
+    public function edit_absen($id_absen)
+    {
+        $generate_absen = GeneratedAbsen::where('id_absen', $id_absen)
+            ->select(
+                'generate_absen.judul',
+                'generate_absen.deskripsi',
+                'generate_absen.sesi',
+                'generate_absen.mulai_absen',
+                'generate_absen.selesai_absen',
+            )
+            ->first();
+        
+        return view('admin.edit_absen', compact('generate_absen', 'id_absen'));
+    }
+
+    public function update_absen(Request $request, $id_absen)
+    {
+        $generate_absen = GeneratedAbsen::where('id_absen', $id_absen)->first();
+    
+        $request->validate([
+            'judul' => 'required|max:255',
+            'deskripsi' => 'required|max:255',
+            'sesi' => 'required',
+            'mulai_absen' => 'required|date',
+            'selesai_absen' => 'required|date',
+        ]);
+    
+        $generate_absen->judul = $request->judul;
+        $generate_absen->deskripsi = $request->deskripsi;
+        $generate_absen->sesi = $request->sesi;
+        $generate_absen->mulai_absen = $request->mulai_absen;
+        $generate_absen->selesai_absen = $request->selesai_absen;
+
+        // $updated_at = $request->input('updated_at');
+        // $generate_absen->updated_at = $updated_at;
+    
+        $absenChanged = $generate_absen->isDirty(); 
+    
+        if ($generate_absen->save()) {
+            if ($absenChanged) {
+                return redirect()->back()->with(['success' => 'Personal information updated successfully!'] + compact('generate_absen', 'id_absen'));
+            } else {
+                return redirect()->back()->with(['info' => 'No changes made.'] + compact('generate_absen', 'id_absen'));
+            }
+        } else {
+            return redirect()->back()->with(['info' => 'Failed to update personal information.'] + compact('generate_absen', 'id_absen'));
+        }   
+    }
+
+    public function delete_absen($id_absen)
+    {
+        try {
+            $generate_absen = GeneratedAbsen::where('id_absen', $id_absen)->first();
+
+            $generate_absen->delete();
+
+            return redirect()->back()->with('success', 'Berhasil menghapus record absen!');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Gagal menghapus record absen.');
+        }
+    }  
+
+    public function rekap_mhs($id_absen)
+    {
+        $user = Auth::user();
+        $admin = Admin::where('id_user', $user->id)->first();
+        $nipAdmin = $admin->nip;
+
+        $rekapMhs = Absen::join('mahasiswa', 'absen.id_mhs', '=', 'mahasiswa.id_mhs')
+            ->join('users', 'mahasiswa.id_user', '=', 'users.id')
+            ->where('mahasiswa.nip_admin', $nipAdmin)
+            ->where('id_absen', $id_absen)
+            ->select(
+                'absen.id_absen as id_absen',
+                'absen.id_mhs as id_mhs',
+                'absen.tanggal as tanggal',
+                'absen.status as status',
+                'absen.foto as foto_absen',
+                'mahasiswa.nama as nama',
+                'mahasiswa.jurusan as jurusan',
+                'mahasiswa.instansi as instansi',
+                'users.foto as foto',
+            )
+            ->get();
+
+        $generate_absen = GeneratedAbsen::where('id_absen', $id_absen)
+            ->select(
+                'generate_absen.judul',
+                'generate_absen.sesi',
+                'generate_absen.mulai_absen',
+                'generate_absen.selesai_absen',
+            )
+            ->first();
+
+        $status_absen = Absen::join('mahasiswa', 'absen.id_mhs', '=', 'mahasiswa.id_mhs')
+            ->where('mahasiswa.nip_admin', $nipAdmin)
+            ->where('id_absen', $id_absen)
+            ->select(
+                'absen.status as status',
+            )
+            ->get();
+
+        $mahasiswa = Mahasiswa::where('nip_admin', $nipAdmin)
+            ->select(
+                'mahasiswa.status as status_mhs',
+            )
+            ->get();
+
+        return view('admin.rekap_mahasiswa', compact('rekapMhs', 'generate_absen', 'id_absen', 'status_absen', 'mahasiswa'));
+    }
+
+    public function verif_absen($id_absen, $id_mhs)
+    {
+        $absen = Absen::where('id_absen', $id_absen)
+            ->where('id_mhs', $id_mhs)
+            ->first();
+
+        if ($absen) {
+            if ($absen->status === 'Unverified') {
+                $absen->status = 'Verified';
+
+                $absen->save();
+
+                return redirect()->back()->with('success', 'Absen berhasil diverifikasi!');
+            }
+        } else {
+            return redirect()->back()->with('erorr', 'Absen tidak ditemukan!');
+        }
+    }
+    
+    public function filterStatusAbsen(Request $request, $id_absen)
+    {        
+        $status = $request->input('status');
+    
+        if (!empty($status)) {
+            $rekapMhs = Absen::join('mahasiswa', 'absen.id_mhs', '=', 'mahasiswa.id_mhs')
+                ->join('users', 'mahasiswa.id_user', '=', 'users.id')
+                ->where('absen.status', $status)
+                ->where('id_absen', $id_absen)
+                ->select(
+                    'absen.id_absen as id_absen',
+                    'absen.id_mhs as id_mhs',
+                    'absen.tanggal as tanggal',
+                    'absen.status as status',
+                    'absen.foto as foto_absen',
+                    'mahasiswa.nama as nama',
+                    'mahasiswa.jurusan as jurusan',
+                    'mahasiswa.instansi as instansi',
+                    'users.foto as foto',
+                )
+                ->get();
+        } else {
+            $rekapMhs = Absen::join('mahasiswa', 'absen.id_mhs', '=', 'mahasiswa.id_mhs')
+                ->join('users', 'mahasiswa.id_user', '=', 'users.id')
+                ->where('id_absen', $id_absen)
+                ->select(
+                    'absen.id_absen as id_absen',
+                    'absen.id_mhs as id_mhs',
+                    'absen.tanggal as tanggal',
+                    'absen.status as status',
+                    'absen.foto as foto_absen',
+                    'mahasiswa.nama as nama',
+                    'mahasiswa.jurusan as jurusan',
+                    'mahasiswa.instansi as instansi',
+                    'users.foto as foto',
+                )
+                ->get();
+        }
+
+        $generate_absen = GeneratedAbsen::where('id_absen', $id_absen)
+        ->select(
+            'generate_absen.judul',
+            'generate_absen.sesi',
+            'generate_absen.mulai_absen',
+            'generate_absen.selesai_absen',
+        )
+        ->first();
+
+        $user = Auth::user();
+        $admin = Admin::where('id_user', $user->id)->first();
+        $nipAdmin = $admin->nip;
+
+        $status_absen = Absen::join('mahasiswa', 'absen.id_mhs', '=', 'mahasiswa.id_mhs')
+            ->where('mahasiswa.nip_admin', $nipAdmin)
+            ->where('id_absen', $id_absen)
+            ->select(
+                'absen.status as status',
+            )
+            ->get();
+
+        $mahasiswa = Mahasiswa::where('nip_admin', $nipAdmin)
+            ->select(
+                'mahasiswa.status as status_mhs',
+            )
+            ->get();
+    
+        return view('admin.rekap_mahasiswa', compact('rekapMhs', 'generate_absen', 'id_absen', 'status_absen', 'mahasiswa'));
+    } 
+
+    public function verifiedAllAbsen($id_absen) {
+        $absens = Absen::where('id_absen', $id_absen)
+            ->where('status', 'Unverified')
+            ->get();
+    
+        if ($absens->isNotEmpty()) {
+            foreach ($absens as $absen) {
+                $absen->status = 'Verified';
+                $absen->save();
+            }
+    
+            return redirect()->back()->with('success', 'Semua absen berhasil diverifikasi!');
+        } else {
+            return redirect()->back()->with('error', 'Semua absen sudah diverifikasi atau tidak ditemukan!');
+        }
+    }
 }

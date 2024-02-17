@@ -1,5 +1,5 @@
 @extends('index_admin')
-@section('title', 'Tambah Presensi')
+@section('title', 'Edit Presensi')
 
 @section('isihalaman')
 <head>
@@ -99,7 +99,7 @@
             $today = \Carbon\Carbon::now();
         @endphp
 
-        <form method="POST" autocomplete="on" action="{{ route('store_absen') }}">
+        <form method="POST" autocomplete="on" action="{{ route('update_absen', ['id_absen' => $id_absen]) }}">
             @csrf
             <div class="mb-5">
                 <div class="flex flex-row">
@@ -117,7 +117,7 @@
                 {{-- Judul --}}
                 <div class="form-group mb-4">
                     <label for="judul" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Judul</label>
-                    <input type="text" id="judul" name="judul" value="{{ old('judul') }}" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Masukkan judul presensi">
+                    <input type="text" id="judul" name="judul" value="{{ $generate_absen->judul }}" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                     @error('judul')
                         <div class="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-100 dark:bg-gray-800 dark:text-red-400" role="alert">
                             <div>
@@ -132,17 +132,16 @@
                     <label for="sesi" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Sesi</label>
                     <select id="sesi" name="sesi"
                         class="bg-gray-50 border font-poppins border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white">
-                        <option value="" disabled selected>Pilih Sesi</option>
-                        <option value="Pagi" {{ old('sesi') === 'Pagi' ? 'selected' : '' }}>Pagi</option>
-                        <option value="Sore" {{ old('sesi') === 'Sore' ? 'selected' : '' }}>Sore</option>
-                    </select>   
+                        <option value="Pagi" {{ $generate_absen->sesi === 'Pagi' ? 'selected' : '' }}>Pagi</option>
+                        <option value="Sore" {{ $generate_absen->sesi === 'Sore' ? 'selected' : '' }}>Sore</option>
+                    </select>
                 </div>
             </div>
 
             {{-- Deskripsi --}}
             <div class="form-group mb-4">
                 <label for="deskripsi" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Deskripsi</label>
-                <textarea type="text" id="deskripsi" name="deskripsi" value="{{ old('deskripsi') }}" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Masukkan deskripsi singkat presensi"></textarea>
+                <textarea id="deskripsi" name="deskripsi" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">{{ $generate_absen->deskripsi }}</textarea>
                 @error('deskripsi')
                     <div class="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-100 dark:bg-gray-800 dark:text-red-400" role="alert">
                         <div>
@@ -155,11 +154,11 @@
             <div class="grid md:grid-cols-2 md:gap-6">
                 <div class="form-group">
                     <label for="mulai_absen" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Mulai Absen</label>
-                    <input type="datetime-local" name="mulai_absen" id="mulai_absen" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" value="{{ \Carbon\Carbon::now('Asia/Jakarta')->format('Y-m-d\TH:i') }}">
+                    <input type="datetime-local" name="mulai_absen" id="mulai_absen" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" value="{{ $generate_absen->mulai_absen }}">
                 </div>
                 <div class="form-group">
                     <label for="selesai_absen" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Selesai Absen</label>
-                    <input type="datetime-local" name="selesai_absen" id="selesai_absen" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" value="{{ \Carbon\Carbon::now('Asia/Jakarta')->format('Y-m-d\TH:i') }}">
+                    <input type="datetime-local" name="selesai_absen" id="selesai_absen" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" value="{{ $generate_absen->selesai_absen }}">
                 </div>
             </div>
 
@@ -167,7 +166,15 @@
 
             {{-- Button --}}
             <div class="flex justify-end mt-6">
-                <button type="submit" name="submit" value="generate" class="text-white bg-blue-700 hover:bg-blue-800 focus:outline-none font-medium rounded-md text-xs w-20 h-8 text-center me-2 dark:bg-blue-600 dark:hover:bg-blue-700">Post</button>
+                {{-- Kembali --}}
+                <a href="{{ route('rekap_presensi') }}" class="text-white bg-red-700 hover:bg-red-800 focus:outline-none font-medium rounded-md text-xs w-20 h-8 text-center me-2 dark:bg-red-600 dark:hover:bg-red-700">
+                    <button type="button" class="w-full h-full">
+                        Kembali
+                    </button>
+                </a>        
+
+                {{-- Simpan --}}
+                <button type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:outline-none font-medium rounded-md text-xs w-20 h-8 text-center me-2 dark:bg-blue-600 dark:hover:bg-blue-700">Simpan</button>
             </div>
         </form>
     </div>

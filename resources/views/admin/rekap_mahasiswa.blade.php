@@ -1,4 +1,4 @@
-@extends('index_mentor')
+@extends('index_admin')
 @section('title', 'Rekap Mahasiswa')
 
 @section('isihalaman')
@@ -82,7 +82,7 @@
             {{-- Welcome User --}}
             <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-2.5">
                 <div class="flex items-center">
-                    <p class="self-center text-sm font-semibold whitespace-nowrap text-black dark:text-white ml-1">{{ $generate_progress->judul }}</p>
+                    <p class="self-center text-sm font-semibold whitespace-nowrap text-black dark:text-white ml-1">{{ $generate_absen->judul }} | Sesi {{ $generate_absen->sesi }}</p>
                 </div>
                 {{-- Icon --}}
                 <div class="flex items-center md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
@@ -134,8 +134,8 @@
             <div class="bg-white border border-gray-200 dark:bg-gray-800 dark:border-gray-700 rounded-lg shadow">
                 <div class="self-center p-3">
                     <h1 class="text-xs font-bold text-black dark:text-white">Open</h1>
-                    <h1 class="text-sm font-bold text-purple-600 dark:text-purple-500 my-1">{{ \Carbon\Carbon::parse($generate_progress->mulai_submit)->format('Y-m-d H:i') }}</h1>
-                    <p class="text-gray-400 dark:text-gray-500" style="font-size: 9px">Waktu progress dibuka</p>
+                    <h1 class="text-sm font-bold text-purple-600 dark:text-purple-500 my-1">{{ \Carbon\Carbon::parse($generate_absen->mulai_absen)->format('Y-m-d H:i') }}</h1>
+                    <p class="text-gray-400 dark:text-gray-500" style="font-size: 9px">Waktu absen dibuka</p>
                 </div>
             </div>
 
@@ -143,17 +143,17 @@
             <div class="bg-white border border-gray-200 dark:bg-gray-800 dark:border-gray-700 rounded-lg shadow">
                 <div class="self-center p-3">
                     <h1 class="text-xs font-bold text-black dark:text-white">Due to</h1>
-                    <h1 class="text-sm font-bold text-purple-600 dark:text-purple-500 my-1">{{ \Carbon\Carbon::parse($generate_progress->selesai_submit)->format('Y-m-d H:i') }}</h1>
-                    <p class="text-gray-400 dark:text-gray-500" style="font-size: 9px">Waktu progress ditutup</p>
+                    <h1 class="text-sm font-bold text-purple-600 dark:text-purple-500 my-1">{{ \Carbon\Carbon::parse($generate_absen->selesai_absen)->format('Y-m-d H:i') }}</h1>
+                    <p class="text-gray-400 dark:text-gray-500" style="font-size: 9px">Waktu absen ditutup</p>
                 </div>
             </div>
 
             @php
                 $now = \Carbon\Carbon::now('Asia/Jakarta');
-                $mulaiSubmit = \Carbon\Carbon::parse($generate_progress->mulai_submit);
-                $selesaiSubmit = \Carbon\Carbon::parse($generate_progress->selesai_submit);
+                $mulaiAbsen = \Carbon\Carbon::parse($generate_absen->mulai_absen);
+                $selesaiAbsen = \Carbon\Carbon::parse($generate_absen->selesai_absen);
 
-                $isInTimeRange = $now >= $mulaiSubmit && $now <= $selesaiSubmit;
+                $isInTimeRange = $now >= $mulaiAbsen && $now <= $selesaiAbsen;
             @endphp
             {{-- Status Progress --}}
             <div class="bg-white border border-gray-200 dark:bg-gray-800 dark:border-gray-700 rounded-lg shadow">
@@ -180,7 +180,7 @@
             <div class="bg-white border border-gray-200 dark:bg-gray-800 dark:border-gray-700 rounded-lg shadow">
                 <div class="self-center p-3">
                     <h1 class="text-xs font-bold text-black dark:text-white">Total Pengumpulan</h1>
-                    <h1 class="text-sm font-bold text-purple-600 dark:text-purple-500 my-1">{{ $status_progress->count() }} dari {{ $mahasiswa->where('status_mhs', 'Aktif')->count() }}</h1>
+                    <h1 class="text-sm font-bold text-purple-600 dark:text-purple-500 my-1">{{ $status_absen->count() }} dari {{ $mahasiswa->where('status_mhs', 'Aktif')->count() }}</h1>
                     <p class="text-gray-400 dark:text-gray-500" style="font-size: 9px">Mahasiswa Magang</p>
                 </div>
             </div>
@@ -189,7 +189,7 @@
             <div class="bg-white border border-gray-200 dark:bg-gray-800 dark:border-gray-700 rounded-lg shadow">
                 <div class="self-center p-3">
                     <h1 class="text-xs font-bold text-black dark:text-white">Status: Verified</h1>
-                    <h1 class="text-sm font-bold text-purple-600 dark:text-purple-500 my-1">{{ $status_progress->where('status', 'Verified')->count() }}</h1>
+                    <h1 class="text-sm font-bold text-purple-600 dark:text-purple-500 my-1">{{ $status_absen->where('status', 'Verified')->count() }}</h1>
                     <p class="text-gray-400 dark:text-gray-500" style="font-size: 9px">Mahasiswa Magang</p>
                 </div>
             </div>
@@ -198,7 +198,7 @@
             <div class="bg-white border border-gray-200 dark:bg-gray-800 dark:border-gray-700 rounded-lg shadow">
                 <div class="self-center p-3">
                     <h1 class="text-xs font-bold text-black dark:text-white">Status: Unverified</h1>
-                    <h1 class="text-sm font-bold text-purple-600 dark:text-purple-500 my-1">{{ $status_progress->where('status', 'Unverified')->count() }}</h1>
+                    <h1 class="text-sm font-bold text-purple-600 dark:text-purple-500 my-1">{{ $status_absen->where('status', 'Unverified')->count() }}</h1>
                     <p class="text-gray-400 dark:text-gray-500" style="font-size: 9px">Mahasiswa Magang</p>
                 </div>
             </div>
@@ -208,14 +208,14 @@
         <div class="p-4 bg-white border border-gray-200 dark:bg-gray-800 dark:border-gray-700 rounded-lg shadow">
             <div class="flex items-center mb-3">
                 {{--Kembali  --}}
-                <a href="{{ route('rekap_progress') }}" class="text-white bg-red-700 hover:bg-red-800 focus:outline-none font-medium rounded-md w-20 h-8 text-center me-2 dark:bg-red-600 dark:hover:bg-red-700" style="font-size: 11px">
+                <a href="{{ route('rekap_presensi') }}" class="text-white bg-red-700 hover:bg-red-800 focus:outline-none font-medium rounded-md w-20 h-8 text-center me-2 dark:bg-red-600 dark:hover:bg-red-700" style="font-size: 11px">
                     <button type="button" class="w-full h-full">
                         Kembali
                     </button>
                 </a> 
 
                 {{-- Verified All --}}
-                <a href="{{ route('verifiedAllProgress', ['id_progress' => $id_progress]) }}">
+                <a href="{{ route('verifiedAllAbsen', ['id_absen' => $id_absen]) }}">
                     <button type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:outline-none font-medium rounded-md w-40 h-8 text-center me-2 dark:bg-blue-600 dark:hover:bg-blue-700" style="font-size: 11px">Verified Semua Progress</button>
                 </a>
 
@@ -230,7 +230,7 @@
                 </div>
 
                 {{-- Filter by Status --}}
-                <form action="{{ route('filter_progress', ['id_progress' => $id_progress]) }}" method="GET" class="flex ml-2 items-center">
+                <form action="{{ route('filter_absen', ['id_absen' => $id_absen]) }}" method="GET" class="flex ml-2 items-center">
                     <select id="status" name="status" class="w-full p-2 text-xs text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" onchange="this.form.submit()">
                         <option value="" selected>Status</option>
                         <option value="">Semua Status</option>
@@ -243,7 +243,7 @@
             <div class="relative overflow-x-auto shadow md:rounded">
                 @if(!$rekapMhs)
                     <div class="pb-4 bg-white dark:bg-gray-900">
-                        <p class="mt-2 ml-2 text-base text-gray-500 dark:text-gray-400">Tidak ada data verifikasi progress yang perlu diverifikasi.</p>
+                        <p class="mt-2 ml-2 text-base text-gray-500 dark:text-gray-400">Tidak ada data verifikasi absen yang perlu diverifikasi.</p>
                     </div>
                 @else
                 <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400 sortable-table">
@@ -316,10 +316,10 @@
                                         {{ $rekap->tanggal }}
                                     </td>
                                     <td class="px-4 py-4 w-32 text-center">
-                                        <a href="{{ asset('storage/' . $rekap->file) }}" class="bg-blue-100 text-blue-800 font-semibold me-2 px-2.5 py-0.5 rounded-full dark:bg-blue-900 dark:text-blue-300" style="font-size: 10px">Lihat File</a>
+                                        <a href="{{ asset('storage/' . $rekap->foto_absen) }}" class="bg-blue-100 text-blue-800 font-semibold me-2 px-2.5 py-0.5 rounded-full dark:bg-blue-900 dark:text-blue-300" style="font-size: 10px">Lihat File</a>
                                     </td>
                                     <td class="px-4 py-4 w-24 text-center">
-                                        <form action="{{ route('verif_progress', ['id_progress' => $rekap->id_progress, 'id_mhs' => $rekap->mahasiswa->id_mhs]) }}" method="GET">
+                                        <form action="{{ route('verif_absen', ['id_absen' => $rekap->id_absen, 'id_mhs' => $rekap->mahasiswa->id_mhs]) }}" method="GET">
                                             @csrf
                                             @if ($rekap->status !== 'Verified')
                                                 <button type="submit" class="bg-pink-100 text-pink-800 font-semibold me-2 px-2.5 py-0.5 rounded-full dark:bg-pink-900 dark:text-pink-300" style="font-size: 10px">Unverified</button>

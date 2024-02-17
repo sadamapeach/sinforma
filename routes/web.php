@@ -86,6 +86,16 @@ Route::post('/store_absen', [AdminController::class, 'storeAbsen'])->name('store
 Route::get('/dashboard_admin_filter', [AdminController::class, 'filterDashboard'])->name('dashboard_admin_filter');
 Route::post('/change_password_admin', [AdminController::class, 'change_password'])->name('password_admin');
 
+Route::get('/rekap_presensi', [AdminController::class, 'viewRekapPresensi'])->name('rekap_presensi');
+Route::get('/edit_absen/{id_absen}', [AdminController::class, 'edit_absen'])->name('edit_absen');
+Route::post('/update_absen/{id_absen}', [AdminController::class, 'update_absen'])->name('update_absen');
+Route::post('/delete_absen/{id_absen}', [AdminController::class, 'delete_absen'])->name('delete_absen');
+
+Route::get('/rekap_mhs/{id_absen}', [AdminController::class, 'rekap_mhs'])->name('rekap_mhs_admin');
+Route::get('/verif_absen/{id_absen}/{id_mhs}', [AdminController::class, 'verif_absen'])->name('verif_absen');
+Route::get('/filter_absen/{id_absen}', [AdminController::class, 'filterStatusAbsen'])->name('filter_absen');
+Route::get('/verified_all_absen/{id_absen}', [AdminController::class, 'verifiedAllAbsen'])->name('verifiedAllAbsen');
+
 /* Mentor */
 Route::get('/dashboard_mentor', [MentorController::class, 'index'])->middleware('only_mentor')->name('dashboard_mentor');
 Route::get('/daftar_mhs_mentor', [MentorController::class, 'viewDaftarMhs'])->middleware('only_mentor')->name('daftar_mhs_mentor');

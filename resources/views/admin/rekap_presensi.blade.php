@@ -1,5 +1,5 @@
-@extends('index_mentor')
-@section('title', 'Rekap Progress')
+@extends('index_admin')
+@section('title', 'Rekap Presensi')
 
 @section('isihalaman')
 <!DOCTYPE html>
@@ -54,7 +54,7 @@
         @endif
 
         <div class="relative rounded-lg w-full bg-white dark:bg-gray-700 h-28 mb-4">
-            <img src="{{ asset('assets/header_3.png') }}" class="w-full absolute h-28 object-cover rounded-lg" alt="...">
+            <img src="{{ asset('assets/header_4.png') }}" class="w-full absolute h-28 object-cover rounded-lg" alt="...">
             <div class="absolute top-0 right-0 mt-3 mr-2">
                 {{-- Icon --}}
                 <div class="flex items-center md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
@@ -104,7 +104,7 @@
         {{-- Header --}}
         <div class="mb-5">
             <div class="flex">
-                <h1 class="basis-3/4 text-black dark:text-white font-bold text-xl">Rekapitulasi Progress Mahasiswa Magang</h1>
+                <h1 class="basis-3/4 text-black dark:text-white font-bold text-xl">Rekapitulasi Presensi Mahasiswa Magang</h1>
                 {{-- Search --}}
                 <div class="flex items-center">   
                     <div class="relative" style="width: 250%">
@@ -113,42 +113,31 @@
                                 <path fill-rule="evenodd" d="M9.965 11.026a5 5 0 1 1 1.06-1.06l2.755 2.754a.75.75 0 1 1-1.06 1.06l-2.755-2.754ZM10.5 7a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0Z" clip-rule="evenodd" />
                             </svg>                          
                         </div>
-                        <input type="text" id="search" class="bg-gray-50 border border-gray-300 text-gray-900 text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block ps-10 p-2  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search Realtime Progress">
+                        <input type="text" id="search" class="bg-gray-50 border border-gray-300 text-gray-900 text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block ps-10 p-2  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search Realtime Presensi">
                     </div>
                 </div>
             </div>
-            <p class="text-gray-500 dark:text-gray-400 font-normal text-xs -mt-1 mb-2">Anda dapat mengamati progress mahasiswa magang, mengedit, ataupun menghapusnya.</p>
+            <p class="text-gray-500 dark:text-gray-400 font-normal text-xs -mt-1 mb-2">Anda dapat mengamati presensi mahasiswa magang, mengedit, ataupun menghapusnya.</p>
         </div>
 
         {{-- Card --}}
-        @foreach ($generate_progress as $progress)
+        @foreach ($generate_absen as $absen)
             @php
                 $now = \Carbon\Carbon::now('Asia/Jakarta');
-                $mulaiSubmit = \Carbon\Carbon::parse($progress->mulai_submit);
-                $selesaiSubmit = \Carbon\Carbon::parse($progress->selesai_submit);
+                $mulaiAbsen = \Carbon\Carbon::parse($absen->mulai_absen);
+                $selesaiAbsen = \Carbon\Carbon::parse($absen->selesai_absen);
 
                 // Cek apakah waktu sudah berada dalam rentang open
-                $isInTimeRange = $now >= $mulaiSubmit && $now <= $selesaiSubmit;
+                $isInTimeRange = $now >= $mulaiAbsen && $now <= $selesaiAbsen;
             @endphp
 
             <div class="p-5 mb-3 bg-white border border-gray-200 shadow rounded-lg dark:bg-gray-800 dark:border-gray-700 card">
-                <div class="grid grid-cols-3 mb-3 text-xs font-normal text-gray-600 dark:text-gray-400">
-                    <div class="flex col-span-2">
-                        <div class="text-xs font-medium">Open
-                            <span class="bg-green-100 text-green-800 font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300 ml-0.5" style="font-size: 10px">
-                                {{ \Carbon\Carbon::parse($progress->mulai_submit)->format('Y-m-d H:i') }}
-                            </span>
-                        </div>
-                        <div class="text-xs font-medium ml-0.5">Due to
-                            <span class="bg-pink-100 text-pink-800 font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-pink-900 dark:text-pink-300 ml-0.5" style="font-size: 10px">
-                                {{ \Carbon\Carbon::parse($progress->selesai_submit)->format('Y-m-d H:i') }}
-                            </span>
-                        </div>
-                    </div>
-                    <div class="flex justify-self-end col-span-1">
+                <div class="grid grid-cols-3">
+                    <h1 class="col-span-2 font-semibold text-gray-900 dark:text-white mb-1.5" style="font-size: 15px">{{ $absen->judul }}</h1>
+                    <div class="flex items-center justify-self-end col-span-1">
                         {{-- Edit --}}
-                        <a href="{{ route('edit_progress', ['id_progress' => $progress->id_progress]) }}" data-tooltip-target="tooltip-edit-hover-{{ $loop->index }}" data-tooltip-trigger="hover" class="mt-0.5">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="w-4 h-4 mr-3">
+                        <a href="{{ route('edit_absen', ['id_absen' => $absen->id_absen]) }}" data-tooltip-target="tooltip-edit-hover-{{ $loop->index }}" data-tooltip-trigger="hover">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="w-4 h-4 mr-3 fill-gray-600 dark:fill-gray-400">
                                 <path d="M13.488 2.513a1.75 1.75 0 0 0-2.475 0L6.75 6.774a2.75 2.75 0 0 0-.596.892l-.848 2.047a.75.75 0 0 0 .98.98l2.047-.848a2.75 2.75 0 0 0 .892-.596l4.261-4.262a1.75 1.75 0 0 0 0-2.474Z" />
                                 <path d="M4.75 3.5c-.69 0-1.25.56-1.25 1.25v6.5c0 .69.56 1.25 1.25 1.25h6.5c.69 0 1.25-.56 1.25-1.25V9A.75.75 0 0 1 14 9v2.25A2.75 2.75 0 0 1 11.25 14h-6.5A2.75 2.75 0 0 1 2 11.25v-6.5A2.75 2.75 0 0 1 4.75 2H7a.75.75 0 0 1 0 1.5H4.75Z" />
                             </svg>  
@@ -159,8 +148,8 @@
                         </div> 
 
                         {{-- Delete --}}
-                        <button data-modal-target="delete-modal-{{ $progress->id_progress }}" data-modal-toggle="delete-modal-{{ $progress->id_progress }}" data-tooltip-target="tooltip-delete-hover-{{ $loop->index }}" data-tooltip-trigger="hover">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="w-4 h-4">
+                        <button data-modal-target="delete-modal-{{ $absen->id_absen }}" data-modal-toggle="delete-modal-{{ $absen->id_absen }}" data-tooltip-target="tooltip-delete-hover-{{ $loop->index }}" data-tooltip-trigger="hover">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="w-4 h-4 fill-gray-600 dark:fill-gray-400">
                                 <path fill-rule="evenodd" d="M5 3.25V4H2.75a.75.75 0 0 0 0 1.5h.3l.815 8.15A1.5 1.5 0 0 0 5.357 15h5.285a1.5 1.5 0 0 0 1.493-1.35l.815-8.15h.3a.75.75 0 0 0 0-1.5H11v-.75A2.25 2.25 0 0 0 8.75 1h-1.5A2.25 2.25 0 0 0 5 3.25Zm2.25-.75a.75.75 0 0 0-.75.75V4h3v-.75a.75.75 0 0 0-.75-.75h-1.5ZM6.05 6a.75.75 0 0 1 .787.713l.275 5.5a.75.75 0 0 1-1.498.075l-.275-5.5A.75.75 0 0 1 6.05 6Zm3.9 0a.75.75 0 0 1 .712.787l-.275 5.5a.75.75 0 0 1-1.498-.075l.275-5.5a.75.75 0 0 1 .786-.711Z" clip-rule="evenodd" />
                             </svg>
                         </button>   
@@ -170,10 +159,10 @@
                         </div>
                         
                         {{-- Pop Up --}}
-                        <div id="delete-modal-{{ $progress->id_progress }}" tabindex="-1" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full ml-24">
+                        <div id="delete-modal-{{ $absen->id_absen }}" tabindex="-1" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full ml-24">
                             <div class="relative p-4 w-full max-w-md max-h-full">
                                 <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
-                                    <button type="button" class="absolute top-3 end-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-hide="delete-modal-{{ $progress->id_progress }}">
+                                    <button type="button" class="absolute top-3 end-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-hide="delete-modal-{{ $absen->id_absen }}">
                                         <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
                                             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
                                         </svg>
@@ -183,15 +172,15 @@
                                         <svg class="mx-auto mb-4 text-gray-400 w-12 h-12 dark:text-gray-200" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
                                             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 11V6m0 8h.01M19 10a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
                                         </svg>
-                                        <h3 class="mb-5 text-sm font-normal text-gray-500 dark:text-gray-400">Apakah anda yakin ingin menghapus progress ini?</h3>
+                                        <h3 class="mb-5 text-sm font-normal text-gray-500 dark:text-gray-400">Apakah anda yakin ingin menghapus presensi ini?</h3>
                                         <div class="flex justify-center">
-                                            <form method="POST" action="{{ route('delete_progress', ['id_progress' => $progress->id_progress]) }}">
+                                            <form method="POST" action="{{ route('delete_absen', ['id_absen' => $absen->id_absen]) }}">
                                                 @csrf
-                                                <button data-modal-hide="delete-modal-{{ $progress->id_progress }}" type="submit" class="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-xs inline-flex items-center px-5 py-2.5 text-center me-2">
+                                                <button data-modal-hide="delete-modal-{{ $absen->id_absen }}" type="submit" class="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-xs inline-flex items-center px-5 py-2.5 text-center me-2">
                                                     Ya
                                                 </button>
                                             </form>
-                                            <button data-modal-hide="delete-modal-{{ $progress->id_progress }}" type="button" class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200 rounded-lg border border-gray-200 text-xs font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600">Tidak</button>
+                                            <button data-modal-hide="delete-modal-{{ $absen->id_absen }}" type="button" class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200 rounded-lg border border-gray-200 text-xs font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600">Tidak</button>
                                         </div>
                                     </div>
                                 </div>
@@ -199,18 +188,30 @@
                         </div> 
                     </div>
                 </div>
+                <div class="flex mb-3 text-xs font-normal text-gray-600 dark:text-gray-400">
+                    <div class="text-xs font-medium">Open
+                        <span class="bg-green-100 text-green-800 font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300 ml-0.5" style="font-size: 10px">
+                            {{ \Carbon\Carbon::parse($absen->mulai_absen)->format('Y-m-d H:i') }}
+                        </span>
+                    </div>
+                    <div class="text-xs font-medium ml-0.5">Due to
+                        <span class="bg-pink-100 text-pink-800 font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-pink-900 dark:text-pink-300 ml-0.5" style="font-size: 10px">
+                            {{ \Carbon\Carbon::parse($absen->selesai_absen)->format('Y-m-d H:i') }}
+                        </span>
+                    </div>
+                </div>
                 <div class="items-center block p-3 sm:flex"> 
                     <img class="w-12 h-12 me-3 rounded-full sm:mb-0" src="{{ Auth::user()->getImageURL() }}" alt="Jese Leos image"/>  
                     <div class="w-full">
-                        <h1 class="text-sm font-bold text-gray-900 dark:text-white">{{ $progress->judul }}</h1>
-                        <div class="font-normal text-gray-600 dark:text-gray-400" style="font-size: 11px">{{ $progress->deskripsi }}</div> 
+                        <h1 class="font-bold text-gray-900 dark:text-white" style="font-size: 13px">Sesi {{ $absen->sesi }}</h1>
+                        <div class="font-normal text-gray-600 dark:text-gray-400" style="font-size: 11px">{{ $absen->deskripsi }}</div> 
                         <div class="flex items-center mt-3">
                             {{-- Rekap Mahasiswa --}}
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="w-3.5 h-3.5 fill-gray-600 dark:fill-gray-400">
-                                <path d="M6.22 8.72a.75.75 0 0 0 1.06 1.06l5.22-5.22v1.69a.75.75 0 0 0 1.5 0v-3.5a.75.75 0 0 0-.75-.75h-3.5a.75.75 0 0 0 0 1.5h1.69L6.22 8.72Z" />
-                                <path d="M3.5 6.75c0-.69.56-1.25 1.25-1.25H7A.75.75 0 0 0 7 4H4.75A2.75 2.75 0 0 0 2 6.75v4.5A2.75 2.75 0 0 0 4.75 14h4.5A2.75 2.75 0 0 0 12 11.25V9a.75.75 0 0 0-1.5 0v2.25c0 .69-.56 1.25-1.25 1.25h-4.5c-.69 0-1.25-.56-1.25-1.25v-4.5Z" />
-                            </svg>    
-                            <a href="{{ route('rekap_mhs', ['id_progress' => $progress->id_progress]) }}" class="ml-1 bg-blue-100 text-blue-800 font-semibold me-2 px-2.5 py-0.5 rounded-full dark:bg-blue-900 dark:text-blue-300 inline-flex items-center justify-center" style="font-size: 10px">Rekapitulasi Mahasiswa</a>
+                                <path fill-rule="evenodd" d="M8.914 6.025a.75.75 0 0 1 1.06 0 3.5 3.5 0 0 1 0 4.95l-2 2a3.5 3.5 0 0 1-5.396-4.402.75.75 0 0 1 1.251.827 2 2 0 0 0 3.085 2.514l2-2a2 2 0 0 0 0-2.828.75.75 0 0 1 0-1.06Z" clip-rule="evenodd" />
+                                <path fill-rule="evenodd" d="M7.086 9.975a.75.75 0 0 1-1.06 0 3.5 3.5 0 0 1 0-4.95l2-2a3.5 3.5 0 0 1 5.396 4.402.75.75 0 0 1-1.251-.827 2 2 0 0 0-3.085-2.514l-2 2a2 2 0 0 0 0 2.828.75.75 0 0 1 0 1.06Z" clip-rule="evenodd" />
+                            </svg>
+                            <a href="{{ route('rekap_mhs_admin', ['id_absen' => $absen->id_absen]) }}" class="ml-1 bg-blue-100 text-blue-800 font-semibold me-2 px-2.5 py-0.5 rounded-full dark:bg-blue-900 dark:text-blue-300 inline-flex items-center justify-center" style="font-size: 10px">Rekapitulasi Mahasiswa</a>
 
                             {{-- Status --}}
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="w-3.5 h-3.5 ml-2 fill-gray-600 dark:fill-gray-400">
@@ -228,7 +229,7 @@
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="w-4 h-4 fill-gray-600 dark:fill-gray-400">
                                     <path d="M8 8a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5ZM3.156 11.763c.16-.629.44-1.21.813-1.72a2.5 2.5 0 0 0-2.725 1.377c-.136.287.102.58.418.58h1.449c.01-.077.025-.156.045-.237ZM12.847 11.763c.02.08.036.16.046.237h1.446c.316 0 .554-.293.417-.579a2.5 2.5 0 0 0-2.722-1.378c.374.51.653 1.09.813 1.72ZM14 7.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0ZM3.5 9a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3ZM5 13c-.552 0-1.013-.455-.876-.99a4.002 4.002 0 0 1 7.753 0c.136.535-.324.99-.877.99H5Z" />
                                 </svg>   
-                                <h1 class="ml-1 font-medium text-gray-600 dark:text-gray-400" style="font-size: 11px">Progress yang belum diverifikasi: {{ $progress->unverified_count }}</h1>                              
+                                <h1 class="ml-1 font-medium text-gray-600 dark:text-gray-400" style="font-size: 11px">Presensi yang belum diverifikasi: {{ $absen->unverified_count }}</h1>                              
                             </div>
                         </div>
                     </div>

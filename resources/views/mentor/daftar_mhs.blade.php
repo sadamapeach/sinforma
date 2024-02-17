@@ -131,7 +131,7 @@
             </div>
         </div>
 
-        <div class="p-4 bg-white border border-gray-200 dark:bg-gray-800 dark:border-gray-700 rounded-lg shadow">
+        <div class="p-4 bg-white border border-gray-200 dark:bg-gray-800 dark:border-gray-700 rounded-lg shadow h-screen">
             <div class="flex items-center mb-4"> 
                 {{-- Search --}}
                 <div class="relative">

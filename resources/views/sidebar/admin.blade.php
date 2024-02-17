@@ -79,7 +79,7 @@
                <a href="{{ route('tambah_absen') }}" class="flex items-center py-1 text-gray-900 rounded-lg group dark:text-white hover:text-purple-500">Generate Presensi</a>
             </li>
             <li>
-               <a href="{{ route('view_presensi') }}" class="flex items-center mt-2 mb-2 text-gray-900 rounded-lg group dark:text-white hover:text-purple-500">Rekapitulasi Presensi</a>
+               <a href="{{ route('rekap_presensi') }}" class="flex items-center mt-2 mb-2 text-gray-900 rounded-lg group dark:text-white hover:text-purple-500">Rekapitulasi Presensi</a>
             </li>
          </ul>
       </li>

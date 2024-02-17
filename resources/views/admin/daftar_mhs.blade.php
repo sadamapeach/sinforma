@@ -123,7 +123,7 @@
             {{-- Status: Aktif --}}
             <div class="flex bg-white border border-gray-200 dark:bg-gray-800 dark:border-gray-700 rounded-lg shadow">
                 <div class="self-center p-3 w-full text-center">
-                    <h1 class="text-xl font-bold text-blue-700 dark:text-blue-500">{{ $totalAktif }}</h1>
+                    <h1 class="text-xl font-bold text-green-700 dark:text-green-500">{{ $totalAktif }}</h1>
                     <p class="text-xs font-semibold text-black dark:text-white">Mahasiswa Status: Aktif</p>
                 </div>
             </div>
@@ -139,7 +139,7 @@
             {{-- Status: Lulus --}}
             <div class="flex bg-white border border-gray-200 dark:bg-gray-800 dark:border-gray-700 rounded-lg shadow">
                 <div class="self-center p-3 w-full text-center">
-                    <h1 class="text-xl font-bold text-pink-700 dark:text-pink-500">{{ $totalLulus }}</h1>
+                    <h1 class="text-xl font-bold text-blue-700 dark:text-blue-500">{{ $totalLulus }}</h1>
                     <p class="text-xs font-semibold text-black dark:text-white">Mahasiswa Status: Lulus</p>
                 </div>
             </div>
@@ -174,7 +174,7 @@
                 <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400 sortable-table">
                     <thead class="text-xs text-gray-700 uppercase bg-gray-100 dark:bg-gray-900 dark:text-gray-400 border border-gray-300 dark:border-gray-900">
                         <tr>
-                            <th scope="col" class="px-4 py-4 w-12">
+                            <th scope="col" class="px-4 py-4 w-12 text-center">
                                 No
                             </th>
                             <th scope="col" class="px-4 py-4 w-20" onclick="sortTable(1)" data-sort="id_mhs">
@@ -189,13 +189,13 @@
                                     <span class="bg-gray-100 dark:bg-gray-900">&#8693;</span>
                                 </button>
                             </th>
-                            <th scope="col" class="px-4 py-4 w-40" onclick="sortTable(3)">
+                            <th scope="col" class="px-4 py-4 w-48" onclick="sortTable(3)">
                                 Jurusan
                                 <button class="sort-button ml-1">
                                     <span class="bg-gray-100 dark:bg-gray-900">&#8693;</span>
                                 </button>
                             </th>
-                            <th scope="col" class="px-4 py-4 w-40" onclick="sortTable(4)">
+                            <th scope="col" class="px-4 py-4 w-48" onclick="sortTable(4)">
                                 Instansi
                                 <button class="sort-button ml-1">
                                     <span class="bg-gray-100 dark:bg-gray-900">&#8693;</span>
@@ -213,6 +213,9 @@
                                     <span class="bg-gray-100 dark:bg-gray-900">&#8693;</span>
                                 </button>
                             </th>
+                            <th scope="col" class="px-4 py-4 w-20 text-center">
+                                Aksi
+                            </th>
                         </tr>
                     </thead>
                     <tbody class="text-gray-700 dark:text-gray-400 overflow-y-auto">
@@ -222,10 +225,10 @@
                                     <td class="px-4 py-4 text-center w-12">
                                         {{ $index + 1 }}
                                     </td>
-                                    <td class="px-4 py-4 w-20">
+                                    <td class="px-4 py-4 w-20 text-center">
                                         {{ $mhs->id_mhs }}
                                     </td>
-                                    <td class="flex items-center px-4 py-4 w-52">
+                                    <td class="flex items-center w-52 px-4 py-4">
                                         @if (!empty($mhs->foto))
                                             <img class="w-7 h-7 rounded-full" src="{{ asset('storage/' . $mhs->foto) }}" alt="Jese image">
                                         @else
@@ -235,10 +238,10 @@
                                             {{ $mhs->nama }}
                                         </div>  
                                     </td>
-                                    <td class="px-4 py-4 w-40">
+                                    <td class="px-4 py-4 w-48">
                                         {{ $mhs->jurusan }}
                                     </td>
-                                    <td class="px-4 py-4 w-40">
+                                    <td class="px-4 py-4 w-48">
                                         {{ $mhs->instansi }}
                                     </td>
                                     <td class="px-4 py-4 w-52">
@@ -254,6 +257,59 @@
                                                 <span type="submit" class="bg-blue-100 text-blue-800 font-semibold me-2 px-2.5 py-0.5 rounded-full dark:bg-blue-900 dark:text-blue-300" style="font-size: 10px">Lulus</span>
                                             @endif
                                         @endif
+                                    </td>
+                                    <td class="flex px-4 py-4 text-center w-20">
+                                        {{-- Edit --}}
+                                        <a href="{{ route('view_edit_status', [$mhs->id_mhs]) }}" data-tooltip-target="tooltip-edit-hover-{{ $loop->index }}" data-tooltip-trigger="hover" class="mt-0.5">
+                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="w-3.5 h-3.5 mr-3">
+                                                <path d="M13.488 2.513a1.75 1.75 0 0 0-2.475 0L6.75 6.774a2.75 2.75 0 0 0-.596.892l-.848 2.047a.75.75 0 0 0 .98.98l2.047-.848a2.75 2.75 0 0 0 .892-.596l4.261-4.262a1.75 1.75 0 0 0 0-2.474Z" />
+                                                <path d="M4.75 3.5c-.69 0-1.25.56-1.25 1.25v6.5c0 .69.56 1.25 1.25 1.25h6.5c.69 0 1.25-.56 1.25-1.25V9A.75.75 0 0 1 14 9v2.25A2.75 2.75 0 0 1 11.25 14h-6.5A2.75 2.75 0 0 1 2 11.25v-6.5A2.75 2.75 0 0 1 4.75 2H7a.75.75 0 0 1 0 1.5H4.75Z" />
+                                            </svg>  
+                                        </a>
+                                        <div id="tooltip-edit-hover-{{ $loop->index }}" role="tooltip" class="absolute z-10 invisible inline-block px-3 py-2 font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700" style="font-size: 10px">
+                                            Edit
+                                            <div class="tooltip-arrow" data-popper-arrow></div>
+                                        </div> 
+
+                                        {{-- Delete --}}
+                                        <button data-modal-target="delete-modal-{{ $mhs->id_mhs }}" data-modal-toggle="delete-modal-{{ $mhs->id_mhs }}" data-tooltip-target="tooltip-delete-hover-{{ $loop->index }}" data-tooltip-trigger="hover">
+                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="w-3.5 h-3.5">
+                                                <path fill-rule="evenodd" d="M5 3.25V4H2.75a.75.75 0 0 0 0 1.5h.3l.815 8.15A1.5 1.5 0 0 0 5.357 15h5.285a1.5 1.5 0 0 0 1.493-1.35l.815-8.15h.3a.75.75 0 0 0 0-1.5H11v-.75A2.25 2.25 0 0 0 8.75 1h-1.5A2.25 2.25 0 0 0 5 3.25Zm2.25-.75a.75.75 0 0 0-.75.75V4h3v-.75a.75.75 0 0 0-.75-.75h-1.5ZM6.05 6a.75.75 0 0 1 .787.713l.275 5.5a.75.75 0 0 1-1.498.075l-.275-5.5A.75.75 0 0 1 6.05 6Zm3.9 0a.75.75 0 0 1 .712.787l-.275 5.5a.75.75 0 0 1-1.498-.075l.275-5.5a.75.75 0 0 1 .786-.711Z" clip-rule="evenodd" />
+                                            </svg>
+                                        </button>   
+                                        <div id="tooltip-delete-hover-{{ $loop->index }}" role="tooltip" class="absolute z-10 invisible inline-block px-3 py-2 font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700" style="font-size: 10px">
+                                            Delete
+                                            <div class="tooltip-arrow" data-popper-arrow></div>
+                                        </div>
+
+                                        {{-- Pop Up --}}
+                                        <div id="delete-modal-{{ $mhs->id_mhs }}" tabindex="-1" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full ml-24">
+                                            <div class="relative p-4 w-full max-w-md max-h-full">
+                                                <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+                                                    <button type="button" class="absolute top-3 end-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-hide="delete-modal-{{ $mhs->id_mhs }}">
+                                                        <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                                                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
+                                                        </svg>
+                                                        <span class="sr-only">Close modal</span>
+                                                    </button>
+                                                    <div class="p-4 md:p-5 text-center">
+                                                        <svg class="mx-auto mb-4 text-gray-400 w-12 h-12 dark:text-gray-200" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                                                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 11V6m0 8h.01M19 10a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
+                                                        </svg>
+                                                        <h3 class="mb-5 text-sm font-normal text-gray-500 dark:text-gray-400">Apakah anda yakin ingin menghapus mahasiswa ini?</h3>
+                                                        <div class="flex justify-center">
+                                                            <form method="POST" action="{{ route('delete_mhs', [$mhs->id_mhs]) }}">
+                                                                @csrf
+                                                                <button data-modal-hide="delete-modal-{{ $mhs->id_mhs }}" type="submit" class="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-xs inline-flex items-center px-5 py-2.5 text-center me-2">
+                                                                    Ya
+                                                                </button>
+                                                            </form>
+                                                            <button data-modal-hide="delete-modal-{{ $mhs->id_mhs }}" type="button" class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200 rounded-lg border border-gray-200 text-xs font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600">Tidak</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div> 
                                     </td>
                                 </tr>
                             @endforeach

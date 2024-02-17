@@ -124,7 +124,7 @@
 
                 {{-- Download --}}
                 <a href="{{ route('cetak_akun_mhs') }}" class="ml-auto">             
-                    <button type="submit" class="text-white bg-red-700 hover:bg-red-800 focus:outline-none font-medium rounded-md w-32 h-8 text-center me-2 dark:bg-red-600 dark:hover:bg-red-700 flex items-center px-3" style="font-size: 11px">
+                    <button type="submit" class="text-white bg-red-700 hover:bg-red-800 focus:outline-none font-medium rounded-md w-32 h-8 text-center dark:bg-red-600 dark:hover:bg-red-700 flex items-center px-3" style="font-size: 11px">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="w-4 h-4 mr-1">
                             <path fill-rule="evenodd" d="M4.5 13a3.5 3.5 0 0 1-1.41-6.705A3.5 3.5 0 0 1 9.72 4.124a2.5 2.5 0 0 1 3.197 3.018A3.001 3.001 0 0 1 12 13H4.5Zm6.28-3.97a.75.75 0 1 0-1.06-1.06l-.97.97V6.25a.75.75 0 0 0-1.5 0v2.69l-.97-.97a.75.75 0 0 0-1.06 1.06l2.25 2.25a.75.75 0 0 0 1.06 0l2.25-2.25Z" clip-rule="evenodd" />
                         </svg>    
