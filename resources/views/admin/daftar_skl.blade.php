@@ -131,7 +131,7 @@
             </div>
         </div>
 
-        <div class="p-4 bg-white border border-gray-200 dark:bg-gray-800 dark:border-gray-700 rounded-lg shadow h-screen">
+        <div class="p-4 bg-white border border-gray-200 dark:bg-gray-800 dark:border-gray-700 rounded-lg shadow">
             <div class="flex items-center mb-4"> 
                 {{-- Search --}}
                 <div class="relative">
@@ -144,13 +144,12 @@
                 </div>
 
                 {{-- Filter by Status --}}
-                <form action="{{ route('filter_mhs') }}" method="GET" class="flex items-center ml-auto">
+                <form action="{{ route('filter_skl_mhs') }}" method="GET" class="flex items-center ml-auto">
                     <select id="status" name="status" class="w-full p-2 text-xs text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" onchange="this.form.submit()">
-                        <option value="" selected>Status</option>
-                        <option value="">Semua Status</option>
-                        <option value="Aktif">Aktif</option>
-                        <option value="Tidak Aktif">Tidak Aktif</option>
-                        <option value="Lulus">Lulus</option>
+                        <option value="" selected>SKL</option>
+                        <option value="">Semua Status SKL</option>
+                        <option value="Sudah">Sudah</option>
+                        <option value="Belum">Belum</option>
                     </select>
                 </form>
             </div>
@@ -223,36 +222,85 @@
                                     <td class="px-4 py-4 w-16 text-center">
                                         <a href="{{ route('lihat_nilai', ['id_mhs' => $mhs['id_mhs'] ?? null]) }}" class="bg-green-100 text-green-800 font-semibold me-2 px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300" style="font-size: 10px">Lihat</a>
                                     </td>
-                                    <td class="px-4 py-4 w-16 text-center">
+                                    <td class="px-4 py-4 w-16">
                                         @if ($mhs['skl'])
-                                        <form action="{{ asset('storage/' . $mhs['skl']->file_skl) }}" method="GET" enctype="multipart/form-data">
-                                            @csrf
-                                            <button type="botton" class="bg-blue-100 text-blue-800 font-semibold me-2 px-2.5 py-0.5 rounded-full dark:bg-blue-900 dark:text-blue-300" style="font-size: 10px">Sudah</button>
-                                        </form>
-                                        @else
-                                            <form action="{{ route('view_tambah_skl', ['id_mhs' => $mhs['id_mhs'] ?? null]) }}" method="GET" enctype="multipart/form-data">
+                                            <form action="{{ asset('storage/' . $mhs['skl']->file_skl) }}" method="GET" enctype="multipart/form-data" class="text-center">
                                                 @csrf
-                                                <button type="submit" class="bg-pink-100 text-pink-800 font-semibold me-2 px-2.5 py-0.5 rounded-full dark:bg-pink-900 dark:text-pink-300" style="font-size: 10px">Belum</button>
+                                                <button type="botton" class="bg-blue-100 text-blue-800 font-semibold me-2 px-2.5 py-0.5 rounded-full dark:bg-blue-900 dark:text-blue-300" style="font-size: 10px">
+                                                    Sudah
+                                                </button>
                                             </form>
+                                        @else
+                                            <div class="text-center">
+                                                <button data-modal-target="upload-modal-{{ $mhs->id_mhs }}" data-modal-toggle="upload-modal-{{ $mhs->id_mhs }}" type="submit" class="bg-pink-100 text-pink-800 font-semibold me-2 px-2.5 py-0.5 rounded-full dark:bg-pink-900 dark:text-pink-300" style="font-size: 10px">
+                                                    Belum
+                                                </button>
+                                            </div>
+                                        @endif
+
+                                        {{-- Pop Up --}}
+                                        @if (!$mhs['skl'])
+                                            <!-- Modal untuk Upload SKL -->
+                                            <div id="upload-modal-{{ $mhs->id_mhs }}" tabindex="-1" aria-hidden="true" class="modal hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full ml-24" data-modal="upload-modal-{{ $mhs->id_mhs }}">
+                                                <div class="modal-box relative p-4 w-full max-w-md max-h-full">
+                                                    {{-- Modal Content --}}
+                                                    <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+                                                        <!-- Modal header -->
+                                                        <div class="modal-header flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
+                                                            <h3 class="modal-title text-sm font-semibold text-gray-900 dark:text-white">
+                                                                Penerbitan Surat Keterangan Lulus (SKL)
+                                                            </h3>
+                                                            <button class="btn btn-clear text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-6 h-6 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-toggle="upload-modal-{{ $mhs->id_mhs }}" data-modal-hide="upload-modal-{{ $mhs->id_mhs }}">
+                                                                <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                                                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
+                                                                </svg>
+                                                                <span class="sr-only">Close modal</span>
+                                                            </button>
+                                                        </div>
+                                                    <div class="modal-body p-4 md:p-5">
+                                                        <form action="{{ route('tambah_skl', ['id_mhs' => $mhs->id_mhs]) }}" method="POST" enctype="multipart/form-data">
+                                                            @csrf
+                                                            <div class="form-control flex items-center justify-center w-full">
+                                                                <label for="file-skl-{{ $mhs->id_mhs }}" class="label flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600">
+                                                                    <div class="flex flex-col items-center justify-center pt-5 pb-6">
+                                                                        <svg class="w-8 h-8 mb-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 16">
+                                                                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"/>
+                                                                        </svg>
+                                                                        <p class="label-text mb-2 text-sm text-gray-500 dark:text-gray-400"><span class="font-semibold">Click to upload</span> or drag and drop</p>
+                                                                        <p class="text-xs text-gray-500 dark:text-gray-400">SVG, PNG, JPG or GIF (MAX. 800x400px)</p>
+                                                                    </div>                                                                   
+                                                                    <input type="file" name="file_skl" id="file-skl-{{ $mhs->id_mhs }}" class="input input-bordered">
+                                                                </label>
+                                                            </div>
+                                                            <div class="flex form-control mt-4">
+                                                                {{-- Simpan --}}
+                                                                <button type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:outline-none font-medium rounded-md text-xs w-20 h-8 text-center me-2 dark:bg-blue-600 dark:hover:bg-blue-700">Simpan</button>
+                                                                {{-- Cancel --}}
+                                                                <button type="button" onclick="resetUpload('{{ $mhs->id_mhs }}')" class="text-white bg-red-700 hover:bg-red-800 focus:outline-none font-medium rounded-md text-xs w-20 h-8 text-center me-2 dark:bg-red-600 dark:hover:bg-red-700">Reset</button>
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         @endif
                                     </td>
                                     <td class="px-4 py-4 w-24 text-center">
                                         @if ($mhs['skl'])
                                             {{-- Edit --}}
                                             <div class="flex items-center ml-3">
-                                                <a href="{{ route('view_edit_skl', ['id_mhs' => $mhs['id_mhs'] ?? null]) }}" data-tooltip-target="tooltip-edit-hover-{{ $loop->index }}" data-tooltip-trigger="hover">
+                                                <button data-modal-target="update-modal-{{ $mhs->id_mhs }}" data-modal-toggle="update-modal-{{ $mhs->id_mhs }}" type="submit" data-tooltip-target="tooltip-edit-hover-{{ $loop->index }}" data-tooltip-trigger="hover">
                                                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="w-3.5 h-3.5 mr-3">
                                                         <path d="M13.488 2.513a1.75 1.75 0 0 0-2.475 0L6.75 6.774a2.75 2.75 0 0 0-.596.892l-.848 2.047a.75.75 0 0 0 .98.98l2.047-.848a2.75 2.75 0 0 0 .892-.596l4.261-4.262a1.75 1.75 0 0 0 0-2.474Z" />
                                                         <path d="M4.75 3.5c-.69 0-1.25.56-1.25 1.25v6.5c0 .69.56 1.25 1.25 1.25h6.5c.69 0 1.25-.56 1.25-1.25V9A.75.75 0 0 1 14 9v2.25A2.75 2.75 0 0 1 11.25 14h-6.5A2.75 2.75 0 0 1 2 11.25v-6.5A2.75 2.75 0 0 1 4.75 2H7a.75.75 0 0 1 0 1.5H4.75Z" />
                                                     </svg>
-                                                </a>
+                                                </button>
                                                 <div id="tooltip-edit-hover-{{ $loop->index }}" role="tooltip" class="absolute z-10 invisible inline-block px-3 py-2 font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700" style="font-size: 10px">
                                                     Edit
                                                     <div class="tooltip-arrow" data-popper-arrow></div>
                                                 </div> 
 
                                                 {{-- Delete --}}
-                                                <button data-modal-target="delete-modal-{{ $mhs->id_mhs }}" data-modal-toggle="delete-modal-{{ $mhs->id_mhs }}" data-tooltip-target="tooltip-delete-hover-{{ $loop->index }}" data-tooltip-trigger="hover">
+                                                <button class="ml-0.5" data-modal-target="delete-modal-{{ $mhs->id_mhs }}" data-modal-toggle="delete-modal-{{ $mhs->id_mhs }}" data-tooltip-target="tooltip-delete-hover-{{ $loop->index }}" data-tooltip-trigger="hover">
                                                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="w-3.5 h-3.5">
                                                         <path fill-rule="evenodd" d="M5 3.25V4H2.75a.75.75 0 0 0 0 1.5h.3l.815 8.15A1.5 1.5 0 0 0 5.357 15h5.285a1.5 1.5 0 0 0 1.493-1.35l.815-8.15h.3a.75.75 0 0 0 0-1.5H11v-.75A2.25 2.25 0 0 0 8.75 1h-1.5A2.25 2.25 0 0 0 5 3.25Zm2.25-.75a.75.75 0 0 0-.75.75V4h3v-.75a.75.75 0 0 0-.75-.75h-1.5ZM6.05 6a.75.75 0 0 1 .787.713l.275 5.5a.75.75 0 0 1-1.498.075l-.275-5.5A.75.75 0 0 1 6.05 6Zm3.9 0a.75.75 0 0 1 .712.787l-.275 5.5a.75.75 0 0 1-1.498-.075l.275-5.5a.75.75 0 0 1 .786-.711Z" clip-rule="evenodd" />
                                                     </svg>
@@ -263,7 +311,50 @@
                                                 </div>
                                             </div>
 
-                                            {{-- Pop Up --}}
+                                            <!-- Pop Up Edit -->
+                                            <div id="update-modal-{{ $mhs->id_mhs }}" tabindex="-1" aria-hidden="true" class="modal hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full ml-24" data-modal="update-modal-{{ $mhs->id_mhs }}">
+                                                <div class="modal-box relative p-4 w-full max-w-md max-h-full">
+                                                    {{-- Modal Content --}}
+                                                    <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+                                                        <!-- Modal header -->
+                                                        <div class="modal-header flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
+                                                            <h3 class="modal-title text-sm font-semibold text-gray-900 dark:text-white">
+                                                                Penerbitan Surat Keterangan Lulus (SKL)
+                                                            </h3>
+                                                            <button class="btn btn-clear text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-6 h-6 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-toggle="update-modal-{{ $mhs->id_mhs }}" data-modal-hide="upload-modal-{{ $mhs->id_mhs }}">
+                                                                <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                                                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
+                                                                </svg>
+                                                                <span class="sr-only">Close modal</span>
+                                                            </button>
+                                                        </div>
+                                                    <div class="modal-body p-4 md:p-5">
+                                                        <form action="{{ route('update_skl', ['id_mhs' => $mhs->id_mhs]) }}" method="POST" enctype="multipart/form-data">
+                                                            @csrf
+                                                            <div class="form-control flex items-center justify-center w-full">
+                                                                <label for="file-skl-{{ $mhs->id_mhs }}" class="label flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600">
+                                                                    <div class="flex flex-col items-center justify-center pt-5 pb-6">
+                                                                        <svg class="w-8 h-8 mb-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 16">
+                                                                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"/>
+                                                                        </svg>
+                                                                        <p class="label-text mb-2 text-sm text-gray-500 dark:text-gray-400"><span class="font-semibold">Click to upload</span> or drag and drop</p>
+                                                                        <p class="text-xs text-gray-500 dark:text-gray-400">SVG, PNG, JPG or GIF (MAX. 800x400px)</p>
+                                                                    </div>                                                                   
+                                                                    <input type="file" name="file_skl" id="file-skl-{{ $mhs->id_mhs }}" class="input input-bordered">
+                                                                </label>
+                                                            </div>
+                                                            <div class="flex form-control mt-4">
+                                                                {{-- Simpan --}}
+                                                                <button type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:outline-none font-medium rounded-md text-xs w-20 h-8 text-center me-2 dark:bg-blue-600 dark:hover:bg-blue-700">Simpan</button>
+                                                                {{-- Cancel --}}
+                                                                <button type="button" onclick="resetUpload('{{ $mhs->id_mhs }}')" class="text-white bg-red-700 hover:bg-red-800 focus:outline-none font-medium rounded-md text-xs w-20 h-8 text-center me-2 dark:bg-red-600 dark:hover:bg-red-700">Reset</button>
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            {{-- Pop Up Delete --}}
                                             <div id="delete-modal-{{ $mhs->id_mhs }}" tabindex="-1" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full ml-24">
                                             <div class="relative p-4 w-full max-w-md max-h-full">
                                                 <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
@@ -292,7 +383,7 @@
                                             </div>
                                         @else
                                             {{-- Edit --}}
-                                            <button class="text-gray-400 dark:text-gray-600" aria-disabled="true" tabindex="-1">
+                                            <button class="text-gray-400 dark:text-gray-500" aria-disabled="true" tabindex="-1">
                                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="w-3.5 h-3.5 mr-3">
                                                     <path d="M13.488 2.513a1.75 1.75 0 0 0-2.475 0L6.75 6.774a2.75 2.75 0 0 0-.596.892l-.848 2.047a.75.75 0 0 0 .98.98l2.047-.848a2.75 2.75 0 0 0 .892-.596l4.261-4.262a1.75 1.75 0 0 0 0-2.474Z" />
                                                     <path d="M4.75 3.5c-.69 0-1.25.56-1.25 1.25v6.5c0 .69.56 1.25 1.25 1.25h6.5c.69 0 1.25-.56 1.25-1.25V9A.75.75 0 0 1 14 9v2.25A2.75 2.75 0 0 1 11.25 14h-6.5A2.75 2.75 0 0 1 2 11.25v-6.5A2.75 2.75 0 0 1 4.75 2H7a.75.75 0 0 1 0 1.5H4.75Z" />
@@ -301,7 +392,7 @@
                                             
 
                                             {{-- Delete --}}
-                                            <button class="text-gray-400 dark:text-gray-600" aria-disabled="true" tabindex="-1">
+                                            <button class="text-gray-400 dark:text-gray-500" aria-disabled="true" tabindex="-1">
                                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="w-3.5 h-3.5">
                                                     <path fill-rule="evenodd" d="M5 3.25V4H2.75a.75.75 0 0 0 0 1.5h.3l.815 8.15A1.5 1.5 0 0 0 5.357 15h5.285a1.5 1.5 0 0 0 1.493-1.35l.815-8.15h.3a.75.75 0 0 0 0-1.5H11v-.75A2.25 2.25 0 0 0 8.75 1h-1.5A2.25 2.25 0 0 0 5 3.25Zm2.25-.75a.75.75 0 0 0-.75.75V4h3v-.75a.75.75 0 0 0-.75-.75h-1.5ZM6.05 6a.75.75 0 0 1 .787.713l.275 5.5a.75.75 0 0 1-1.498.075l-.275-5.5A.75.75 0 0 1 6.05 6Zm3.9 0a.75.75 0 0 1 .712.787l-.275 5.5a.75.75 0 0 1-1.498-.075l.275-5.5a.75.75 0 0 1 .786-.711Z" clip-rule="evenodd" />
                                                 </svg>
@@ -335,6 +426,29 @@
                     item.classList.add("d-none");
                 }
             });
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            // Inisialisasi modal Flowbite
+            const modals = document.querySelectorAll('.modal');
+            modals.forEach(modal => {
+                new mdb.Modal(modal);
+            });
+        });
+
+        function resetUpload(id) {
+            var fileInput = document.getElementById('file-skl-' + id);
+            var uploadIcon = document.getElementById('upload-icon-' + id);
+            var uploadInfo = document.getElementById('upload-info-' + id);
+            var fileName = document.getElementById('file-name-' + id);
+
+            // Reset input file
+            fileInput.value = null;
+
+            // Reset logo dan informasi upload
+            uploadIcon.style.color = 'gray';
+            uploadInfo.innerHTML = '<span class="font-semibold">Click to upload</span> or drag and drop';
+            fileName.innerHTML = 'SVG, PNG, JPG, or GIF (MAX. 800x400px)';
         }
     </script>
 </body>

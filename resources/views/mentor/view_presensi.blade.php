@@ -169,7 +169,7 @@
                 <div class="text-xs font-medium text-gray-700 dark:text-gray-400 mb-1">Akumulasi Persentase Kehadiran</div>
                 <span class="bg-green-100 text-green-800 font-semibold me-2 px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300" style="font-size: 9px">Selama Magang</span>
                 <div class="mt-2 font-bold text-2xl text-gray-700 dark:text-white">{{ number_format((($absenPagi->count() + $absenSore->count())/$jumlahPresensi)*100, 2) }}%</div>
-                <div class="text-gray-700 dark:text-gray-400" style="font-size: 9px">* termasuk presensi pagi dan sore</div>
+                <div class="text-gray-700 dark:text-gray-400" style="font-size: 9px">* termasuk presensi pagi & sore</div>
             </div>
         </div>
 

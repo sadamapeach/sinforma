@@ -81,7 +81,9 @@ class AdminController extends Controller
                 ->where('status', 'Lulus')
                 ->count();
 
-            return view('admin.dashboard', compact('totalMahasiswa', 'totalAktif', 'totalNonAktif', 'totalLulus', 'admin', 'mahasiswa', 'skl1', 'skl2', 'mahasiswaVerifikasiPresensi', 'mhsAbsen', 'mhsProgress'));
+            $berita = Berita::all();
+
+            return view('admin.dashboard', compact('berita', 'totalMahasiswa', 'totalAktif', 'totalNonAktif', 'totalLulus', 'admin', 'mahasiswa', 'skl1', 'skl2', 'mahasiswaVerifikasiPresensi', 'mhsAbsen', 'mhsProgress'));
         }
 
         return redirect()->route('login');
@@ -274,17 +276,61 @@ class AdminController extends Controller
         return view('admin.daftar_mhs', compact('mhsData', 'totalMahasiswa', 'totalAktif', 'totalNonAktif', 'totalLulus'));
     }
 
-    public function filterByStatus(Request $request)
+    public function filterByStatusAdmin(Request $request)
     {
+        $user = Auth::user();
+        $admin = Admin::where('id_user', $user->id)->first();
+
+        $nipAdmin = $admin->nip;
+
         $status = $request->input('status');
 
         if (!empty($status)) {
-            $mhsData = Mahasiswa::where('status', $status)->get();
+            $mhsData = Mahasiswa::join('users', 'mahasiswa.id_user', '=', 'users.id')
+            ->where('status', $status)
+            ->join('mentor', 'mahasiswa.nip_mentor', '=', 'mentor.nip')
+            ->where('mahasiswa.nip_admin', $nipAdmin)
+            ->select(
+                'mahasiswa.id_mhs',
+                'mahasiswa.nama',
+                'mahasiswa.jurusan',
+                'mahasiswa.instansi',
+                'mahasiswa.status',
+                'users.foto as foto',
+                'mentor.nama as mentor',
+            )
+            ->get();
         } else {
-            $mhsData = Mahasiswa::all();
+            $mhsData = Mahasiswa::join('users', 'mahasiswa.id_user', '=', 'users.id')
+            ->join('mentor', 'mahasiswa.nip_mentor', '=', 'mentor.nip')
+            ->where('mahasiswa.nip_admin', $nipAdmin)
+            ->select(
+                'mahasiswa.id_mhs',
+                'mahasiswa.nama',
+                'mahasiswa.jurusan',
+                'mahasiswa.instansi',
+                'mahasiswa.status',
+                'users.foto as foto',
+                'mentor.nama as mentor',
+            )
+            ->get();
         }
 
-        return view('admin.daftar_mhs', ['mhsData' => $mhsData]);
+        $totalMahasiswa = Mahasiswa::where('nip_admin', $nipAdmin)->count();
+
+        $totalAktif = Mahasiswa::where('nip_admin', $nipAdmin)
+            ->where('status', 'Aktif')
+            ->count();
+
+        $totalNonAktif = Mahasiswa::where('nip_admin', $nipAdmin)
+            ->where('status', 'Tidak Aktif')
+            ->count();
+
+        $totalLulus = Mahasiswa::where('nip_admin', $nipAdmin)
+            ->where('status', 'Lulus')
+            ->count();
+
+        return view('admin.daftar_mhs', compact('mhsData', 'totalMahasiswa', 'totalAktif', 'totalNonAktif', 'totalLulus'));
     }
 
 
@@ -574,16 +620,78 @@ class AdminController extends Controller
         return view('admin.daftar_skl', compact('mhsData', 'skl1', 'skl2', 'totalMahasiswa'));
     }
 
+    public function filterSKL(Request $request)
+    {
+        $user = Auth::user();
+        $admin = Admin::where('id_user', $user->id)->first();
+        $nipAdmin = $admin->nip;
+
+        $status = $request->input('status');
+
+        if (!empty($status)) {
+            $mhsData = Mahasiswa::whereHas('nilai')
+                ->join('users', 'mahasiswa.id_user', '=', 'users.id')
+                ->whereHas('skl')
+                ->where('nip_admin', $nipAdmin)
+                ->select(
+                    'mahasiswa.id_mhs',
+                    'mahasiswa.nama',
+                    'mahasiswa.jurusan',
+                    'mahasiswa.instansi',
+                    'users.foto as foto',
+                )
+                ->get();
+        } else {
+            $mhsData = Mahasiswa::whereHas('nilai')
+                ->join('users', 'mahasiswa.id_user', '=', 'users.id')
+                ->where('nip_admin', $nipAdmin)
+                ->select(
+                    'mahasiswa.id_mhs',
+                    'mahasiswa.nama',
+                    'mahasiswa.jurusan',
+                    'mahasiswa.instansi',
+                    'users.foto as foto',
+                )
+                ->get();
+        }
+
+        $skl1 = Skl::join('mahasiswa', 'skl.id_mhs', '=', 'mahasiswa.id_mhs')
+            ->where('skl.nip_admin', $nipAdmin)
+            ->get();
+
+        $skl2 = Mahasiswa::leftJoin('skl', 'mahasiswa.id_mhs', '=', 'skl.id_mhs')
+            ->where('mahasiswa.nip_admin', $nipAdmin)
+            ->whereNull('skl.id_mhs') 
+            ->get();
+
+        $totalMahasiswa = Mahasiswa::where('nip_admin', $nipAdmin)->count();
+
+        return view('admin.daftar_skl', compact('mhsData', 'skl1', 'skl2', 'totalMahasiswa'));
+    }
+
     public function viewNilai(string $id_mhs)
     {
-        $mhs = Mahasiswa::where('id_mhs', $id_mhs)->first();
-        $foto = User::where('id', $mhs->id_user)->first()->getImageURL();
+        $mahasiswa = Mahasiswa::where('id_mhs', $id_mhs)->first();
+        $foto = User::where('id', $mahasiswa->id_user)->first()->getImageURL();
         $nilai = Nilai::where('id_mhs', $id_mhs)->first();
+
+        $absenPagi = Absen::join('generate_absen', 'absen.id_absen', '=', 'generate_absen.id_absen')
+            ->where('absen.status', 'Verified')
+            ->where('generate_absen.sesi', 'Pagi')
+            ->where('absen.id_mhs', $id_mhs)
+            ->get();
+
+        $absenSore = Absen::join('generate_absen', 'absen.id_absen', '=', 'generate_absen.id_absen')
+            ->where('absen.status', 'Verified')
+            ->where('generate_absen.sesi', 'Sore')
+            ->where('absen.id_mhs', $id_mhs)
+            ->get();
+
+        $progVer = Progress::where('id_mhs', $mahasiswa->id_mhs)
+            ->where('progress.status', 'Verified')
+            ->get();
        
-        return view('admin.lihat_nilai', [
-            'mahasiswa' => $mhs,
-            'foto' => $foto,
-            'nilai' => $nilai]);
+        return view('admin.lihat_nilai', compact('mahasiswa', 'foto', 'nilai', 'absenPagi', 'absenSore', 'progVer'));
     }
 
     public function viewTambahSKL(string $id_mhs)
@@ -601,29 +709,27 @@ class AdminController extends Controller
         $request->validate([
             'file_skl' => 'required|mimes:pdf|max:2048',
         ]);
-
+    
         try {
             $fileSklPath = $request->file_skl->store('skl', 'public');
-
             $user = Auth::user();
             $admin = Admin::where('id_user', $user->id)->first();
-
+    
             $skl = new Skl();
             $skl->id_mhs = $request->id_mhs;
             $skl->nip_admin = $admin->nip;
             $skl->file_skl = $fileSklPath;
             $skl->save();
-
+    
             $mahasiswa = Mahasiswa::find($id_mhs);
             $mahasiswa->status = 'Lulus';
             $mahasiswa->save();
-
+    
             return redirect()->route('skl_mhs')->with('success', 'SKL berhasil ditambahkan. Mahasiswa atas nama ' . $mahasiswa->nama . ' dinyatakan LULUS.');
         } catch (\Exception $e) {
             return redirect()->route('skl_mhs')->with('error', 'Terjadi kesalahan saat menambah SKL.');
         }
-    }
-
+    }    
 
     public function viewEditSKL(string $id_mhs)
     {

@@ -195,7 +195,7 @@ class MentorController extends Controller
         return view('mentor.daftar_mhs', compact('mhsData', 'nilai1', 'nilai2', 'totalMahasiswa'));
     }
 
-    public function filterByStatus(Request $request)
+    public function filterByStatusMentor(Request $request)
     {
         $user = Auth::user();
         $mentor = Mentor::where('id_user', $user->id)->first();
@@ -797,7 +797,7 @@ class MentorController extends Controller
         }
     }   
 
-    public function rekap_mhs($id_progress)
+    public function rekap_mhs_mentor($id_progress)
     {
         $user = Auth::user();
         $mentor = Mentor::where('id_user', $user->id)->first();

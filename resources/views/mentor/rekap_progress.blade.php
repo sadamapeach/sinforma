@@ -210,7 +210,7 @@
                                 <path d="M6.22 8.72a.75.75 0 0 0 1.06 1.06l5.22-5.22v1.69a.75.75 0 0 0 1.5 0v-3.5a.75.75 0 0 0-.75-.75h-3.5a.75.75 0 0 0 0 1.5h1.69L6.22 8.72Z" />
                                 <path d="M3.5 6.75c0-.69.56-1.25 1.25-1.25H7A.75.75 0 0 0 7 4H4.75A2.75 2.75 0 0 0 2 6.75v4.5A2.75 2.75 0 0 0 4.75 14h4.5A2.75 2.75 0 0 0 12 11.25V9a.75.75 0 0 0-1.5 0v2.25c0 .69-.56 1.25-1.25 1.25h-4.5c-.69 0-1.25-.56-1.25-1.25v-4.5Z" />
                             </svg>    
-                            <a href="{{ route('rekap_mhs', ['id_progress' => $progress->id_progress]) }}" class="ml-1 bg-blue-100 text-blue-800 font-semibold me-2 px-2.5 py-0.5 rounded-full dark:bg-blue-900 dark:text-blue-300 inline-flex items-center justify-center" style="font-size: 10px">Rekapitulasi Mahasiswa</a>
+                            <a href="{{ route('rekap_mhs_mentor', ['id_progress' => $progress->id_progress]) }}" class="ml-1 bg-blue-100 text-blue-800 font-semibold me-2 px-2.5 py-0.5 rounded-full dark:bg-blue-900 dark:text-blue-300 inline-flex items-center justify-center" style="font-size: 10px">Rekapitulasi Mahasiswa</a>
 
                             {{-- Status --}}
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="w-3.5 h-3.5 ml-2 fill-gray-600 dark:fill-gray-400">

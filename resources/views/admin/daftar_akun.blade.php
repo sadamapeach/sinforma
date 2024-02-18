@@ -171,7 +171,7 @@
                                     <td class="px-4 py-4 w-20 text-center">
                                         {{ $account->id_mhs }}
                                     </td>
-                                    <td class="flex items-cen px-4 py-4 w-52">
+                                    <td class="flex items-center px-4 py-4 w-52">
                                         {{ $account->nama }}
                                     </td>
                                     <td class="px-4 py-4 w-40">

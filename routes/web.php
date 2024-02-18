@@ -55,7 +55,7 @@ Route::get('/edit_profil', [AdminController::class, 'viewEditProfile'])->middlew
 Route::post('/edit_profil', [AdminController::class, 'update'])->name('edit_profil');
 Route::get('/daftar_mhs', [AdminController::class, 'viewDaftarMhs'])->middleware('only_admin')->name('daftar_mhs');
 Route::get('/search_mhs', [AdminController::class, 'searchMahasiswa'])->name('search_mhs');
-Route::get('/filter_mhs', [AdminController::class, 'filterByStatus'])->name('filter_mhs');
+Route::get('/filter_mhs_admin', [AdminController::class, 'filterByStatusAdmin'])->name('filter_mhs_admin');
 Route::get('/filter_presensi', [AdminController::class, 'filterPresensi'])->name('filter_presensi');
 Route::get('/search_presensi', [AdminController::class, 'searchPresensi'])->name('search_presensi');
 Route::get('/progress_mhs/{id_mhs}', [AdminController::class, 'viewProgress'])->middleware('only_admin')->name('progress_mhs');
@@ -78,7 +78,8 @@ Route::match(['get', 'post'], '/delete_skl/{id_mhs}', [AdminController::class, '
 Route::get('/view_berita', [AdminController::class, 'viewBerita'])->middleware('only_admin')->name('view_berita');
 Route::get('/view_tambah_berita', [AdminController::class, 'viewTambahBerita'])->name('view_tambah_berita');
 Route::post('/tambah_berita', [AdminController::class, 'tambahBerita'])->name('tambah_berita');
-Route::post('/delete_berita/{id_berita}', [AdminController::class, 'deleteBerita'])->name('delete_berita');
+// Route::post('/delete_berita/{id_berita}', [AdminController::class, 'deleteBerita'])->name('delete_berita');
+Route::delete('/delete_berita/{id_berita}', [AdminController::class, 'deleteBerita'])->name('delete_berita');
 Route::get('/view_edit_berita/{id_berita}', [AdminController::class, 'viewEditBerita'])->name('view_edit_berita');
 Route::post('/update_berita/{id_berita}', [AdminController::class, 'updateBerita'])->name('update_berita');
 Route::get('/tambah_absen', [AdminController::class, 'viewTambahAbsen'])->name('tambah_absen');
@@ -96,11 +97,13 @@ Route::get('/verif_absen/{id_absen}/{id_mhs}', [AdminController::class, 'verif_a
 Route::get('/filter_absen/{id_absen}', [AdminController::class, 'filterStatusAbsen'])->name('filter_absen');
 Route::get('/verified_all_absen/{id_absen}', [AdminController::class, 'verifiedAllAbsen'])->name('verifiedAllAbsen');
 
+Route::get('/filter_skl_mhs', [AdminController::class, 'filterSKL'])->name('filter_skl_mhs');
+
 /* Mentor */
 Route::get('/dashboard_mentor', [MentorController::class, 'index'])->middleware('only_mentor')->name('dashboard_mentor');
 Route::get('/daftar_mhs_mentor', [MentorController::class, 'viewDaftarMhs'])->middleware('only_mentor')->name('daftar_mhs_mentor');
 Route::get('/search_mhs', [MentorController::class, 'searchMahasiswa'])->name('search_mhs');
-Route::get('/filter_mhs', [MentorController::class, 'filterByStatus'])->name('filter_mhs');
+Route::get('/filter_mhs_mentor', [MentorController::class, 'filterByStatusMentor'])->name('filter_mhs_mentor');
 Route::get('/view_presensi_mentor/{id_mhs}', [MentorController::class, 'viewPresensi'])->name('view_presensi_mentor');
 Route::get('/view_progress_mentor/{id_mhs}', [MentorController::class, 'viewProgress'])->name('view_progress_mentor');
 Route::get('/view_profil_mentor', [MentorController::class, 'viewProfile'])->middleware('only_mentor')->name('view_profil_mentor');
@@ -124,7 +127,7 @@ Route::post('/update_progress/{id_progress}', [MentorController::class, 'update_
 Route::post('/delete_progress/{id_progress}', [MentorController::class, 'delete_progress'])->name('delete_progress');
 
 Route::get('/search_progress', [MentorController::class, 'searchProgress'])->name('search_progress');
-Route::get('/rekap_mhs/{id_progress}', [MentorController::class, 'rekap_mhs'])->name('rekap_mhs');
+Route::get('/rekap_mhs_mentor/{id_progress}', [MentorController::class, 'rekap_mhs_mentor'])->name('rekap_mhs_mentor');
 Route::get('/verif_progress/{id_progress}/{id_mhs}', [MentorController::class, 'verif_progress'])->name('verif_progress');
 Route::get('/filter_progress/{id_progress}', [MentorController::class, 'filterStatusProgress'])->name('filter_progress');
 Route::get('/filter_nilai', [MentorController::class, 'filterByNilai'])->name('filter_nilai');
