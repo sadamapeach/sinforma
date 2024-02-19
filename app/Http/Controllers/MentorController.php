@@ -14,6 +14,7 @@ use App\Models\Progress;
 use App\Models\Absen;
 use App\Models\Nilai;
 use App\Models\Skl;
+use App\Models\Berita;
 use App\Models\GeneratedAccount;
 use App\Models\GeneratedProgress;
 use Illuminate\Support\Facades\DB;
@@ -308,7 +309,19 @@ class MentorController extends Controller
                 ->get();
         }
 
-        return view('mentor.view_presensi', compact('PresensiData', 'foto', 'mahasiswa', 'id_mhs'));
+        $absenPagi = Absen::join('generate_absen', 'absen.id_absen', '=', 'generate_absen.id_absen')
+            ->where('absen.status', 'Verified')
+            ->where('generate_absen.sesi', 'Pagi')
+            ->where('absen.id_mhs', $id_mhs)
+            ->get();
+
+        $absenSore = Absen::join('generate_absen', 'absen.id_absen', '=', 'generate_absen.id_absen')
+            ->where('absen.status', 'Verified')
+            ->where('generate_absen.sesi', 'Sore')
+            ->where('absen.id_mhs', $id_mhs)
+            ->get();
+
+        return view('mentor.view_presensi', compact('PresensiData', 'foto', 'mahasiswa', 'id_mhs', 'absenPagi', 'absenSore'));
     }
 
     public function filterSesiAbsen(Request $request, $id_mhs)
@@ -343,7 +356,19 @@ class MentorController extends Controller
                 ->get();
         }
 
-        return view('mentor.view_presensi', compact('PresensiData', 'mahasiswa', 'foto', 'id_mhs'));
+        $absenPagi = Absen::join('generate_absen', 'absen.id_absen', '=', 'generate_absen.id_absen')
+            ->where('absen.status', 'Verified')
+            ->where('generate_absen.sesi', 'Pagi')
+            ->where('absen.id_mhs', $id_mhs)
+            ->get();
+
+        $absenSore = Absen::join('generate_absen', 'absen.id_absen', '=', 'generate_absen.id_absen')
+            ->where('absen.status', 'Verified')
+            ->where('generate_absen.sesi', 'Sore')
+            ->where('absen.id_mhs', $id_mhs)
+            ->get();
+
+        return view('mentor.view_presensi', compact('PresensiData', 'mahasiswa', 'foto', 'id_mhs', 'absenPagi', 'absenSore'));
     }
 
     public function filterKetAbsen(Request $request, $id_mhs)
@@ -378,7 +403,19 @@ class MentorController extends Controller
                 ->get();
         }
 
-        return view('mentor.view_presensi', compact('PresensiData', 'mahasiswa', 'foto', 'id_mhs'));
+        $absenPagi = Absen::join('generate_absen', 'absen.id_absen', '=', 'generate_absen.id_absen')
+            ->where('absen.status', 'Verified')
+            ->where('generate_absen.sesi', 'Pagi')
+            ->where('absen.id_mhs', $id_mhs)
+            ->get();
+
+        $absenSore = Absen::join('generate_absen', 'absen.id_absen', '=', 'generate_absen.id_absen')
+            ->where('absen.status', 'Verified')
+            ->where('generate_absen.sesi', 'Sore')
+            ->where('absen.id_mhs', $id_mhs)
+            ->get();
+
+        return view('mentor.view_presensi', compact('PresensiData', 'mahasiswa', 'foto', 'id_mhs', 'absenPagi', 'absenSore'));
     }
 
     public function viewProgress(string $id_mhs)

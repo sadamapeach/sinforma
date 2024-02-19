@@ -7,7 +7,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         {{-- menyesuaikan tampilan @device --}}
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
-        <title>SIPRESMA | @yield('title')</title>
+        <title>SINFORMA | @yield('title')</title>
 
         {{-- link untuk akses bootstrap and js --}}
         <link rel="stylesheet" type="text/css" href="{{ asset('assets') }}/css/bootstrap.css">

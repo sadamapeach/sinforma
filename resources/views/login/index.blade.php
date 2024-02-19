@@ -96,7 +96,7 @@
       <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
       <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
       
-      <title>SIPRESMA | Login</title>
+      <title>SINFORMA | Login</title>
     </head>
   
     <body>
@@ -108,32 +108,53 @@
   
               {{-- Alert Success--}}
               @if(session()->has('success'))
-                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                <div class="alert alert-success alert-dismissible fade show" role="alert" id="notification-success">
                     {{ session('success') }}
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
+
+                <script>
+                    // Hide info notification after 5000 milliseconds (5 seconds)
+                    setTimeout(function() {
+                        document.getElementById('notification-success').style.display = 'none';
+                    }, 3000);
+                </script>
               @endif
   
               {{-- Alert Logout --}}
               @if(session()->has('logoutSuccess'))
-              <div class="alert alert-success alert-dismissible fade show" role="alert">
-                  {{ session('logoutSuccess') }}
-                  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-              </div>
-            @endif
+                <div class="alert alert-success alert-dismissible fade show" role="alert" id="notification-logout">
+                    {{ session('logoutSuccess') }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+
+                <script>
+                    // Hide info notification after 5000 milliseconds (5 seconds)
+                    setTimeout(function() {
+                        document.getElementById('notification-logout').style.display = 'none';
+                    }, 3000);
+                </script>
+              @endif
   
               {{-- Alert Error --}}
               @if(session()->has('loginError'))
-                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <div class="alert alert-danger alert-dismissible fade show" role="alert" id="notification-error">
                     {{ session('loginError') }}
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
+
+                <script>
+                    // Hide info notification after 5000 milliseconds (5 seconds)
+                    setTimeout(function() {
+                        document.getElementById('notification-error').style.display = 'none';
+                    }, 3000);
+                </script>
               @endif
   
               <div class="header mt-5">
                 <img src="assets/logo.png" style="width: 8%; margin-bottom: 2.5%" alt="">
                 <span class="h2">
-                  <strong>SIPRESMA Diskominfo</strong>
+                  <strong>SINFORMA Diskominfo</strong>
                 </span>
                 <p>Welcome! Please enter your details.</p>
               </div>

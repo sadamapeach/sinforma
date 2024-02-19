@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-    <html lang="en">
+    <html>
         <head>            
-            <link rel="icon" type="image/x-icon" href="assets/logo.png">
+            <link rel="icon" type="image/x-icon" href="{{ asset('assets/logo.png') }}">
 
             <style>
                 body, html {
@@ -55,3 +55,4 @@
             </script>
         </body>     
     </html>
+    </[object Object]>

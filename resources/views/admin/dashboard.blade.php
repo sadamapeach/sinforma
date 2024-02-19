@@ -251,7 +251,7 @@
                         <div class="text-xs font-bold text-black dark:text-white">Verifikasi Presensi</div>
                         <div class=" text-gray-500 dark:text-gray-500" style="font-size: 10px">Berapa presensi yang belum diverifikasi?</div>
                         <div class="my-3.5 self-center">
-                            <img class="h-16 w-16 self-center" src="assets/skl_belum.png" alt="image description">
+                            <img class="h-16 w-16 self-center" src="{{ asset('assets/skl_belum.png') }}" alt="image description">
                         </div>
                         <div class="grid grid-cols-2">
                             <div class="text-xs font-medium text-gray-700 dark:text-gray-400 text-center border-r border-gray-700 dark:border-gray-500">

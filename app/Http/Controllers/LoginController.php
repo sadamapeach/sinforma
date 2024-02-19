@@ -44,14 +44,14 @@ class LoginController extends Controller
         
             switch ($user->id_role) {
                 case 1:
-                    return redirect()->intended('/dashboard_admin');
+                    return redirect()->intended('/admin/dashboard');
                 case 2:
-                    return redirect()->intended('/dashboard_mentor');
+                    return redirect()->intended('/mentor/dashboard');
                 case 3:
                     if ($mhs->check_profil === 0) {
                         return redirect()->route('form_mahasiswa')->with('error', 'Harap lengkapi data diri terlebih dahulu.');
                     }
-                    return redirect()->intended('/dashboard_mahasiswa');
+                    return redirect()->intended('/mahasiswa/dashboard');
                 default:
                     return back()->with('loginError', 'Role tidak valid');
             }

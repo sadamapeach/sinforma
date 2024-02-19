@@ -20,9 +20,6 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
-use Jenssegers\Date\Date;
-use Carbon\Carbon;
-
 
 class AdminController extends Controller
 {
@@ -159,7 +156,9 @@ class AdminController extends Controller
             ->where('status', 'Lulus')
             ->count();
 
-        return view('admin.dashboard', compact('totalMahasiswa', 'totalAktif', 'totalNonAktif', 'totalLulus', 'admin', 'mahasiswa', 'mhsAbsen', 'mhsProgress', 'skl1', 'skl2', 'mahasiswaVerifikasiPresensi'));
+        $berita = Berita::all();
+
+        return view('admin.dashboard', compact('berita', 'totalMahasiswa', 'totalAktif', 'totalNonAktif', 'totalLulus', 'admin', 'mahasiswa', 'mhsAbsen', 'mhsProgress', 'skl1', 'skl2', 'mahasiswaVerifikasiPresensi'));
     }
 
     public function viewProfile()
@@ -174,19 +173,19 @@ class AdminController extends Controller
     {
         // Check old password
         if (!Hash::check($request->old_password, auth()->user()->password)) {
-            return back()->with('error1', 'Password lama salah!');
+            return back()->with('error', 'Password lama salah!');
         }
 
         // Check new password and configuration
         if ($request->new_password != $request->config_password) {
-            return back()->with('error2', 'Konfigurasi password salah!');
+            return back()->with('error', 'Konfigurasi password salah!');
         }
 
         User::where('id', auth()->user()->id)->update([
             'password' => Hash::make($request->new_password)
         ]);
 
-        return back()->with('status', 'Password berhasil diperbarui!');
+        return back()->with('success', 'Password berhasil diperbarui!');
     }
 
     public function viewEditProfile()
@@ -210,7 +209,9 @@ class AdminController extends Controller
                 'username' => 'required',
                 'foto' => 'nullable|image|max:10240',
             ]);
-        
+
+            $dataUpdated = false; // Flag to check if any data is updated
+
             if ($request->has('foto')) {
                 $fotoPath = $request->file('foto')->store('profile', 'public');
                 
@@ -219,19 +220,32 @@ class AdminController extends Controller
                 $user->update([
                     'foto' => $validated['foto'],
                 ]);
-            }
-            
-            $admin->alamat = $request->alamat;
-            $admin->no_telepon = $request->no_telepon;
-            $admin->email = $request->email;
-            $user->username = $request->username;
-            
-            $admin->save();
 
-            $user->update([
-                'username' => $request->username
-            ]);
-            
+                $dataUpdated = true;
+            }
+
+            if ($admin->alamat != $request->alamat ||
+                $admin->no_telepon != $request->no_telepon ||
+                $admin->email != $request->email ||
+                $user->username != $request->username) {
+                
+                $admin->alamat = $request->alamat;
+                $admin->no_telepon = $request->no_telepon;
+                $admin->email = $request->email;
+                $user->username = $request->username;
+
+                $admin->save();
+                $user->update([
+                    'username' => $request->username
+                ]);
+
+                $dataUpdated = true;
+            }
+
+            if (!$dataUpdated) {
+                return redirect()->route('view_profil')->with('info', 'Tidak ada data yang diperbarui!');
+            }
+
             return redirect()->route('view_profil')->with('success', 'Data admin berhasil diperbarui.');
         } catch (\Exception $e) {
             return redirect()->route('view_profil')->with('error', 'Terjadi kesalahan saat memperbarui data admin: ' . $e->getMessage());
@@ -333,20 +347,6 @@ class AdminController extends Controller
         return view('admin.daftar_mhs', compact('mhsData', 'totalMahasiswa', 'totalAktif', 'totalNonAktif', 'totalLulus'));
     }
 
-
-    public function viewProgress(string $id_mhs)
-    {
-        $mhs = Mahasiswa::where('id_mhs', $id_mhs)->first();
-        $foto = User::where('id', $mhs->id_user)->first()->getImageURL();
-        $progressMagang = Progress::where('id_mhs', $mhs->id_mhs)->get();
-
-        return view('admin.progress', [
-            'mahasiswa' => $mhs,
-            'foto' => $foto,
-            'progressMagang' => $progressMagang,
-        ]);
-    }
-
     public function viewEditStatus(string $id_mhs)
     {
         $mhs = Mahasiswa::where('id_mhs', $id_mhs)->first();
@@ -368,7 +368,6 @@ class AdminController extends Controller
             'foto' => $foto
         ]);
     }
-
 
     public function delete2($id_mhs)
     {
@@ -452,6 +451,10 @@ class AdminController extends Controller
 
     public function store(Request $request)
     {
+        $user = Auth::user();
+        $admin = Admin::where('id_user', $user->id)->first();
+        $nipAdmin = $admin->nip;
+
         $request->validate([
             'id_mhs' => 'required|unique:mahasiswa,id_mhs|max:14',
             'nama' => 'required|max:255',
@@ -488,6 +491,7 @@ class AdminController extends Controller
                 $mahasiswa->selesai_magang = $request->selesai_magang;
                 $mahasiswa->nip_mentor = $request->mentor;
                 $mahasiswa->id_user = $user->id;
+                $mahasiswa->nip_admin = $nipAdmin;
 
                 $mahasiswa->save();
 
@@ -530,63 +534,6 @@ class AdminController extends Controller
         $pdf->loadView('admin.daftar_akun_pdf', ['accounts' => $accounts]);
         return $pdf->stream('daftar_akun.pdf');
     }
-
-    public function viewPresensi()
-    {
-        $verifikasiPresensiData = Absen::with('mahasiswa')->get();
-        return view('admin.verifikasi_presensi', compact('verifikasiPresensiData'));
-    }
-
-    public function filterPresensi(Request $request)
-    {
-        $filter = $request->input('filter');
-
-        $query = Absen::query();
-
-        if ($filter && $filter !== 'all') {
-            $query->where('status', $filter);
-        }
-
-        $verifikasiPresensiData = $query->get();
-
-        return view('admin.verifikasi_presensi', compact('verifikasiPresensiData'));
-    }
-
-    public function searchPresensi(Request $request)
-    {
-        $search = $request->input('search');
-
-        $query = Absen::query();
-
-        if ($search) {
-            $query->where(function ($q) use ($search) {
-                $q->where('id_mhs', 'like', "%$search%")
-                    ->orWhere('nama', 'like', "%$search%")
-                    ->orWhere('instansi', 'like', "%$search%")
-                    ->orWhere('jurusan', 'like', "%$search%");
-            });
-        }
-
-        $verifikasiPresensiData = $query->get();
-
-        return view('admin.verifikasi_presensi', compact('verifikasiPresensiData'));
-    }
-
-    public function verifyPresensi($id_mhs)
-    {
-        $presensi = Absen::where('id_mhs', $id_mhs)->first();
-
-        if ($presensi) {
-            if ($presensi->status === 'Unverified') {
-                $presensi->status = 'Verified';
-                $presensi->save();
-
-                return redirect()->route('view_presensi')->with('success', 'Presensi berhasil diverifikasi.');
-            }
-        } else {
-            return redirect()->route('view_presensi')->with('error', 'Presensi tidak ditemukan.');
-        }
-    }
     
     public function viewSKL()
     {
@@ -605,55 +552,6 @@ class AdminController extends Controller
                 'users.foto as foto',
             )
             ->get();
-
-        $skl1 = Skl::join('mahasiswa', 'skl.id_mhs', '=', 'mahasiswa.id_mhs')
-            ->where('skl.nip_admin', $nipAdmin)
-            ->get();
-
-        $skl2 = Mahasiswa::leftJoin('skl', 'mahasiswa.id_mhs', '=', 'skl.id_mhs')
-            ->where('mahasiswa.nip_admin', $nipAdmin)
-            ->whereNull('skl.id_mhs') 
-            ->get();
-
-        $totalMahasiswa = Mahasiswa::where('nip_admin', $nipAdmin)->count();
-
-        return view('admin.daftar_skl', compact('mhsData', 'skl1', 'skl2', 'totalMahasiswa'));
-    }
-
-    public function filterSKL(Request $request)
-    {
-        $user = Auth::user();
-        $admin = Admin::where('id_user', $user->id)->first();
-        $nipAdmin = $admin->nip;
-
-        $status = $request->input('status');
-
-        if (!empty($status)) {
-            $mhsData = Mahasiswa::whereHas('nilai')
-                ->join('users', 'mahasiswa.id_user', '=', 'users.id')
-                ->whereHas('skl')
-                ->where('nip_admin', $nipAdmin)
-                ->select(
-                    'mahasiswa.id_mhs',
-                    'mahasiswa.nama',
-                    'mahasiswa.jurusan',
-                    'mahasiswa.instansi',
-                    'users.foto as foto',
-                )
-                ->get();
-        } else {
-            $mhsData = Mahasiswa::whereHas('nilai')
-                ->join('users', 'mahasiswa.id_user', '=', 'users.id')
-                ->where('nip_admin', $nipAdmin)
-                ->select(
-                    'mahasiswa.id_mhs',
-                    'mahasiswa.nama',
-                    'mahasiswa.jurusan',
-                    'mahasiswa.instansi',
-                    'users.foto as foto',
-                )
-                ->get();
-        }
 
         $skl1 = Skl::join('mahasiswa', 'skl.id_mhs', '=', 'mahasiswa.id_mhs')
             ->where('skl.nip_admin', $nipAdmin)
@@ -694,16 +592,6 @@ class AdminController extends Controller
         return view('admin.lihat_nilai', compact('mahasiswa', 'foto', 'nilai', 'absenPagi', 'absenSore', 'progVer'));
     }
 
-    public function viewTambahSKL(string $id_mhs)
-    {
-        $mhs = Mahasiswa::where('id_mhs', $id_mhs)->first();
-        $foto = User::where('id', $mhs->id_user)->first()->getImageURL();
-       
-        return view('admin.tambah_skl', [
-            'mahasiswa' => $mhs,
-            'foto' => $foto]);
-    }
-
     public function tambahSKL(Request $request, $id_mhs)
     {
         $request->validate([
@@ -731,15 +619,7 @@ class AdminController extends Controller
         }
     }    
 
-    public function viewEditSKL(string $id_mhs)
-    {
-        $mhs = Mahasiswa::where('id_mhs', $id_mhs)->first();
-        $foto = User::where('id', $mhs->id_user)->first()->getImageURL();
-        return view('admin.edit_skl', [
-            'mahasiswa' => $mhs,
-            'foto' => $foto]);
-    }
-
+    // ???????????????
     public function viewEditNilai(string $id_mhs)
     {
         $mhs = Mahasiswa::where('id_mhs', $id_mhs)->first();
@@ -778,7 +658,6 @@ class AdminController extends Controller
         }
     }
 
-
     public function deleteSKL(string $id_mhs)
     {
         try {
@@ -799,7 +678,6 @@ class AdminController extends Controller
             return redirect()->route('skl_mhs')->with('error', 'Terjadi kesalahan saat menghapus SKL mahasiswa.');
         }
     }
-
 
     public function viewTambahAbsen() 
     {
@@ -856,11 +734,6 @@ class AdminController extends Controller
         return view('admin.daftar_berita', ['berita' => $berita]);
     }
 
-    public function viewTambahBerita()
-    {
-        return view('admin.tambah_berita');
-    }
-
     public function tambahBerita(Request $request)
     {
         $request->validate([
@@ -900,13 +773,6 @@ class AdminController extends Controller
         } catch (\Exception $e) {
             return redirect()->back()->with('error', 'Gagal menghapus event.');
         }
-    }
-
-    public function viewEditBerita($id_berita)
-    {
-        $berita = Berita::where('id_berita', $id_berita)->first();
-       
-        return view('admin.view_edit_berita', ['berita' => $berita]);
     }
 
     public function updateBerita(Request $request, $id_berita)
@@ -1002,9 +868,6 @@ class AdminController extends Controller
         $generate_absen->sesi = $request->sesi;
         $generate_absen->mulai_absen = $request->mulai_absen;
         $generate_absen->selesai_absen = $request->selesai_absen;
-
-        // $updated_at = $request->input('updated_at');
-        // $generate_absen->updated_at = $updated_at;
     
         $absenChanged = $generate_absen->isDirty(); 
     
@@ -1184,5 +1047,219 @@ class AdminController extends Controller
         } else {
             return redirect()->back()->with('error', 'Semua absen sudah diverifikasi atau tidak ditemukan!');
         }
+    }
+
+    public function viewPresensi(string $id_mhs)
+    {
+        $mahasiswa = Mahasiswa::where('id_mhs', $id_mhs)->first();
+        $foto = User::where('id', $mahasiswa->id_user)->first()->getImageURL();
+        $PresensiData = Absen::join('generate_absen', 'absen.id_absen', '=', 'generate_absen.id_absen')
+            ->where('absen.id_mhs', $id_mhs)
+            ->select(
+                'generate_absen.sesi as sesi',
+                'absen.tanggal',
+                'absen.keterangan',
+                'absen.foto',
+                'absen.status',
+            )
+            ->get();
+
+        $absenPagi = Absen::join('generate_absen', 'absen.id_absen', '=', 'generate_absen.id_absen')
+            ->where('absen.status', 'Verified')
+            ->where('generate_absen.sesi', 'Pagi')
+            ->where('absen.id_mhs', $id_mhs)
+            ->get();
+
+        $absenSore = Absen::join('generate_absen', 'absen.id_absen', '=', 'generate_absen.id_absen')
+            ->where('absen.status', 'Verified')
+            ->where('generate_absen.sesi', 'Sore')
+            ->where('absen.id_mhs', $id_mhs)
+            ->get();
+
+        return view('admin.view_presensi', compact('PresensiData', 'foto', 'mahasiswa', 'id_mhs', 'absenPagi', 'absenSore'));
+    }
+
+    public function filterViewPresensi(Request $request, $id_mhs)
+    {
+        $mahasiswa = Mahasiswa::where('id_mhs', $id_mhs)->first();
+        $foto = User::where('id', $mahasiswa->id_user)->first()->getImageURL();
+
+        $status = $request->input('status');
+
+        if (!empty($status)) {
+            $PresensiData = Absen::join('generate_absen', 'absen.id_absen', '=', 'generate_absen.id_absen')
+                ->where('absen.id_mhs', $id_mhs)
+                ->where('absen.status', $status)
+                ->select(
+                    'generate_absen.sesi as sesi',
+                    'absen.tanggal',
+                    'absen.keterangan',
+                    'absen.foto',
+                    'absen.status',                  
+                )
+                ->get();
+        } else {
+            $PresensiData = Absen::join('generate_absen', 'absen.id_absen', '=', 'generate_absen.id_absen')
+                ->where('absen.id_mhs', $id_mhs)
+                ->select(
+                    'generate_absen.sesi as sesi',
+                    'absen.tanggal',
+                    'absen.keterangan',
+                    'absen.foto',
+                    'absen.status',                  
+                )
+                ->get();
+        }
+
+        $absenPagi = Absen::join('generate_absen', 'absen.id_absen', '=', 'generate_absen.id_absen')
+            ->where('absen.status', 'Verified')
+            ->where('generate_absen.sesi', 'Pagi')
+            ->where('absen.id_mhs', $id_mhs)
+            ->get();
+
+        $absenSore = Absen::join('generate_absen', 'absen.id_absen', '=', 'generate_absen.id_absen')
+            ->where('absen.status', 'Verified')
+            ->where('generate_absen.sesi', 'Sore')
+            ->where('absen.id_mhs', $id_mhs)
+            ->get();
+
+        return view('admin.view_presensi', compact('PresensiData', 'foto', 'mahasiswa', 'id_mhs', 'absenPagi', 'absenSore'));
+    }
+
+    public function filterSesiAbsen(Request $request, $id_mhs)
+    {
+        $mahasiswa = Mahasiswa::where('id_mhs', $id_mhs)->first();
+        $foto = User::where('id', $mahasiswa->id_user)->first()->getImageURL();
+
+        $sesi = $request->input('sesi');
+
+        if (!empty($sesi)) {
+            $PresensiData = Absen::join('generate_absen', 'absen.id_absen', '=', 'generate_absen.id_absen')
+                ->where('absen.id_mhs', $id_mhs)
+                ->where('generate_absen.sesi', $sesi)
+                ->select(
+                    'generate_absen.sesi as sesi',
+                    'absen.tanggal',
+                    'absen.keterangan',
+                    'absen.foto',
+                    'absen.status',                  
+                )
+                ->get();
+        } else {
+            $PresensiData = Absen::join('generate_absen', 'absen.id_absen', '=', 'generate_absen.id_absen')
+                ->where('absen.id_mhs', $id_mhs)
+                ->select(
+                    'generate_absen.sesi as sesi',
+                    'absen.tanggal',
+                    'absen.keterangan',
+                    'absen.foto',
+                    'absen.status',                  
+                )
+                ->get();
+        }
+
+        $absenPagi = Absen::join('generate_absen', 'absen.id_absen', '=', 'generate_absen.id_absen')
+            ->where('absen.status', 'Verified')
+            ->where('generate_absen.sesi', 'Pagi')
+            ->where('absen.id_mhs', $id_mhs)
+            ->get();
+
+        $absenSore = Absen::join('generate_absen', 'absen.id_absen', '=', 'generate_absen.id_absen')
+            ->where('absen.status', 'Verified')
+            ->where('generate_absen.sesi', 'Sore')
+            ->where('absen.id_mhs', $id_mhs)
+            ->get();
+
+        return view('admin.view_presensi', compact('PresensiData', 'mahasiswa', 'foto', 'id_mhs', 'absenPagi', 'absenSore'));
+    }
+
+    public function filterKetAbsen(Request $request, $id_mhs)
+    {
+        $mahasiswa = Mahasiswa::where('id_mhs', $id_mhs)->first();
+        $foto = User::where('id', $mahasiswa->id_user)->first()->getImageURL();
+
+        $keterangan = $request->input('keterangan');
+
+        if (!empty($keterangan)) {
+            $PresensiData = Absen::join('generate_absen', 'absen.id_absen', '=', 'generate_absen.id_absen')
+                ->where('absen.id_mhs', $id_mhs)
+                ->where('absen.keterangan', $keterangan)
+                ->select(
+                    'generate_absen.sesi as sesi',
+                    'absen.tanggal',
+                    'absen.keterangan',
+                    'absen.foto',
+                    'absen.status',                  
+                )
+                ->get();
+        } else {
+            $PresensiData = Absen::join('generate_absen', 'absen.id_absen', '=', 'generate_absen.id_absen')
+                ->where('absen.id_mhs', $id_mhs)
+                ->select(
+                    'generate_absen.sesi as sesi',
+                    'absen.tanggal',
+                    'absen.keterangan',
+                    'absen.foto',
+                    'absen.status',                  
+                )
+                ->get();
+        }
+
+        $absenPagi = Absen::join('generate_absen', 'absen.id_absen', '=', 'generate_absen.id_absen')
+            ->where('absen.status', 'Verified')
+            ->where('generate_absen.sesi', 'Pagi')
+            ->where('absen.id_mhs', $id_mhs)
+            ->get();
+
+        $absenSore = Absen::join('generate_absen', 'absen.id_absen', '=', 'generate_absen.id_absen')
+            ->where('absen.status', 'Verified')
+            ->where('generate_absen.sesi', 'Sore')
+            ->where('absen.id_mhs', $id_mhs)
+            ->get();
+
+        return view('admin.view_presensi', compact('PresensiData', 'mahasiswa', 'foto', 'id_mhs', 'absenPagi', 'absenSore'));
+    }
+
+    public function viewProgress(string $id_mhs)
+    {
+        $mahasiswa = Mahasiswa::where('id_mhs', $id_mhs)->first();
+        $foto = User::where('id', $mahasiswa->id_user)->first()->getImageURL();
+        $progressMagang = Progress::where('id_mhs', $mahasiswa->id_mhs)->get();
+
+        $progVer = Progress::where('id_mhs', $mahasiswa->id_mhs)
+            ->where('progress.status', 'Verified')
+            ->get();
+
+        $progUnver = Progress::where('id_mhs', $mahasiswa->id_mhs)
+            ->where('progress.status', 'Unverified')
+            ->get();
+
+        return view('admin.view_progress', compact('mahasiswa', 'foto', 'progressMagang', 'id_mhs', 'progVer', 'progUnver'));
+    }
+
+    public function filterStatusProgress2(Request $request, $id_mhs)
+    {
+        $mahasiswa = Mahasiswa::where('id_mhs', $id_mhs)->first();
+        $foto = User::where('id', $mahasiswa->id_user)->first()->getImageURL();
+
+        $status = $request->input('status');
+
+        if (!empty($status)) {
+            $progressMagang = Progress::where('id_mhs', $mahasiswa->id_mhs)
+                ->where('progress.status', $status)
+                ->get();
+        } else {
+            $progressMagang = Progress::where('id_mhs', $mahasiswa->id_mhs)->get();      
+        }
+
+        $progVer = Progress::where('id_mhs', $mahasiswa->id_mhs)
+            ->where('progress.status', 'Verified')
+            ->get();
+
+        $progUnver = Progress::where('id_mhs', $mahasiswa->id_mhs)
+            ->where('progress.status', 'Unverified')
+            ->get();
+
+        return view('admin.view_progress', compact('mahasiswa', 'foto', 'progressMagang', 'id_mhs', 'progVer', 'progUnver'));
     }
 }

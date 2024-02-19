@@ -146,7 +146,7 @@
                                     <p class="text-gray-400 dark:text-gray-500" style="font-size: 9px">Mahasiswa Magang</p>
                                 </div>
                                 <div class="ml-auto self-center mr-2">
-                                    <img class="h-14 w-14" src="assets/total.png" alt="image description">
+                                    <img class="h-14 w-14" src="{{ asset('assets/total.png') }}" alt="image description">
                                 </div>
                             </div>
 
@@ -159,7 +159,7 @@
                                     <p class="text-gray-400 dark:text-gray-500" style="font-size: 10px">Mahasiswa Magang</p>
                                 </div>
                                 <div class="ml-auto self-center mr-4">
-                                    <img class="h-10 w-10" src="assets/aktif.png" alt="image description">
+                                    <img class="h-10 w-10" src="{{ asset('assets/aktif.png') }}" alt="image description">
                                 </div>
                             </div>
                         </div>
@@ -173,7 +173,7 @@
                                     <p class="text-gray-400 dark:text-gray-500" style="font-size: 10px">Mahasiswa Magang</p>
                                 </div>
                                 <div class="ml-auto self-center mr-3">
-                                    <img class="h-10 w-10" src="assets/tidak_aktif.png" alt="image description">
+                                    <img class="h-10 w-10" src="{{ asset('assets/tidak_aktif.png') }}" alt="image description">
                                 </div>
                             </div>
                             
@@ -186,7 +186,7 @@
                                     <p class="text-gray-400 dark:text-gray-500" style="font-size: 10px">Mahasiswa Magang</p>
                                 </div>
                                 <div class="ml-auto self-center mr-3">
-                                    <img class="h-10 w-10" src="assets/lulus.png" alt="image description">
+                                    <img class="h-10 w-10" src="{{ asset('assets/lulus.png') }}" alt="image description">
                                 </div>
                             </div>
                         </div>
@@ -200,7 +200,7 @@
                                     <p class="text-gray-400 dark:text-gray-500" style="font-size: 10px">Mahasiswa Aktif</p>
                                 </div>
                                 <div class="ml-auto self-center mr-3">
-                                    <img class="h-12 w-12" src="assets/sudah_nilai.png" alt="image description">
+                                    <img class="h-12 w-12" src="{{ asset('assets/sudah_nilai.png') }}" alt="image description">
                                 </div>
                             </div>
                             
@@ -213,7 +213,7 @@
                                     <p class="text-gray-400 dark:text-gray-500" style="font-size: 10px">Mahasiswa Aktif</p>
                                 </div>
                                 <div class="ml-auto self-center mr-2">
-                                    <img class="h-14 w-14" src="assets/belum_nilai.png" alt="image description">
+                                    <img class="h-14 w-14" src="{{ asset('assets/belum_nilai.png') }}" alt="image description">
                                 </div>
                             </div>
                         </div>
@@ -230,7 +230,7 @@
                             <div class="text-sm font-bold text-black dark:text-white">Verifikasi Progress</div>
                             <div class=" text-gray-500 dark:text-gray-500" style="font-size: 10px">Berapa progress yang belum diverifikasi?</div>
                             <div class="my-3.5 self-center">
-                                <img class="h-20 w-20 self-center" src="assets/skl_belum.png" alt="image description">
+                                <img class="h-20 w-20 self-center" src="{{ asset('assets/skl_belum.png') }}" alt="image description">
                             </div>
                             <div class="grid grid-cols-2">
                                 <div class="text-xs font-medium text-gray-700 dark:text-gray-400 text-center border-r border-gray-700 dark:border-gray-500">
@@ -323,7 +323,11 @@
                                                         {{ $mhs->id_mhs }}
                                                     </td>
                                                     <td class="flex items-center px-4 py-3.5">
-                                                        <img class="w-7 h-7 rounded-full" src="{{ asset('storage/' . $mhs->foto) }}" alt="Jese image">
+                                                        @if (!empty($mhs->foto))
+                                                            <img class="w-7 h-7 rounded-full" src="{{ asset('storage/' . $mhs->foto) }}" alt="...">
+                                                        @else
+                                                            <img class="w-7 h-7 rounded-full" src="{{ asset('assets/profpic_naruto.jpg') }}" alt="...">
+                                                        @endif
                                                         <div class="ps-3">
                                                             {{ $mhs->nama }}
                                                         </div>  

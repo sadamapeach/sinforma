@@ -48,18 +48,53 @@
 <body class="h-screen">
     <div class="p-4 sm:ml-64">
         @if (session('success'))
-        <div class="p-4 mr-2 text-sm text-green-800 rounded-lg bg-green-100 dark:bg-gray-800 dark:text-green-400"
-            role="alert">
-            <span class="font-medium">{{ session('success') }}</span>
-        </div>
-        <br>
-        @endif
-        @if (session('error'))
-            <div class="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-100 dark:bg-gray-800 dark:text-red-400"
-                role="alert">
-                <span class="font-medium">{{ session('error') }}</span>
+            <div id="notification-success" class="flex items-center p-4 mb-4 text-green-800 rounded-lg bg-green-50 dark:bg-gray-800 dark:text-green-400" role="alert">
+                <svg class="flex-shrink-0 w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z"/>
+                </svg>
+                <span class="sr-only">Info</span>
+                <div class="ms-3 text-sm font-medium">
+                    {{ session('success') }}
+                </div>
+                <button type="button" class="ms-auto -mx-1.5 -my-1.5 bg-green-50 text-green-500 rounded-lg focus:ring-2 focus:ring-green-400 p-1.5 hover:bg-green-200 inline-flex items-center justify-center h-8 w-8 dark:bg-gray-800 dark:text-green-400 dark:hover:bg-gray-700" data-dismiss-target="#notification" aria-label="Close">
+                    <span class="sr-only">Close</span>
+                    <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                      <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
+                    </svg>
+                </button>
             </div>
-            <br>
+
+            <script>
+                // Hide success notification after 5000 milliseconds (5 seconds)
+                setTimeout(function() {
+                    document.getElementById('notification-success').style.display = 'none';
+                }, 3000);
+            </script>
+        @endif
+
+        @if (session('error'))
+            <div id="notification-error" class="flex items-center p-4 mb-4 text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400" role="alert">
+                <svg class="flex-shrink-0 w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z"/>
+                </svg>
+                <span class="sr-only">Info</span>
+                <div class="ms-3 text-sm font-medium">
+                    {{ session('error') }}
+                </div>
+                <button type="button" class="ms-auto -mx-1.5 -my-1.5 bg-red-50 text-red-500 rounded-lg focus:ring-2 focus:ring-red-400 p-1.5 hover:bg-red-200 inline-flex items-center justify-center h-8 w-8 dark:bg-gray-800 dark:text-red-400 dark:hover:bg-gray-700" data-dismiss-target="#notification" aria-label="Close">
+                    <span class="sr-only">Close</span>
+                    <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
+                    </svg>
+                </button>
+            </div>
+
+            <script>
+                // Hide error notification after 5000 milliseconds (5 seconds)
+                setTimeout(function() {
+                    document.getElementById('notification-error').style.display = 'none';
+                }, 3000);
+            </script>
         @endif
 
         <nav class="bg-zinc-100 border-gray-200 dark:bg-gray-800 dark:border-gray-700 rounded-lg">
@@ -171,7 +206,7 @@
 
             {{-- Tabel --}}
             <div class="relative overflow-x-auto shadow md:rounded">
-                <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400 sortable-table">
+                <table class="text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400 sortable-table" style="width: 1300px">
                     <thead class="text-xs text-gray-700 uppercase bg-gray-100 dark:bg-gray-900 dark:text-gray-400 border border-gray-300 dark:border-gray-900">
                         <tr>
                             <th scope="col" class="px-4 py-4 w-12 text-center">
@@ -207,11 +242,17 @@
                                     <span class="bg-gray-100 dark:bg-gray-900">&#8693;</span>
                                 </button>
                             </th>
-                            <th scope="col" class="px-4 py-4 w-40 text-center" onclick="sortTable(6)">
+                            <th scope="col" class="px-4 py-4 w-36 text-center" onclick="sortTable(6)">
                                 Status
                                 <button class="sort-button ml-1">
                                     <span class="bg-gray-100 dark:bg-gray-900">&#8693;</span>
                                 </button>
+                            </th>
+                            <th scope="col" class="px-4 py-4 w-28 text-center">
+                                Presensi
+                            </th>
+                            <th scope="col" class="px-4 py-4 w-28 text-center">
+                                Progress
                             </th>
                             <th scope="col" class="px-4 py-4 w-20 text-center">
                                 Aksi
@@ -247,16 +288,22 @@
                                     <td class="px-4 py-4 w-52">
                                         {{ $mhs->mentor }}
                                     </td>
-                                    <td class="px-4 py-4 w-40 text-center">
+                                    <td class="px-4 py-4 w-36 text-center">
                                         @if ($mhs->status == 'Aktif')
                                             <span type="botton" class="bg-green-100 text-green-800 font-semibold me-2 px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300" style="font-size: 10px">Aktif</span>
                                         @else
                                             @if ($mhs->status == 'Tidak Aktif')
                                                 <span type="submit" class="bg-pink-100 text-pink-800 font-semibold me-2 px-2.5 py-0.5 rounded-full dark:bg-pink-900 dark:text-pink-300" style="font-size: 10px">Tidak Aktif</span>
                                             @else
-                                                <span type="submit" class="bg-blue-100 text-blue-800 font-semibold me-2 px-2.5 py-0.5 rounded-full dark:bg-blue-900 dark:text-blue-300" style="font-size: 10px">Lulus</span>
+                                                <span type="submit" class="bg-yellow-100 text-yellow-800 font-semibold me-2 px-2.5 py-0.5 rounded-full dark:bg-yellow-900 dark:text-yellow-300" style="font-size: 10px">Lulus</span>
                                             @endif
                                         @endif
+                                    </td>
+                                    <td class="px-4 py-4 w-28 text-center">
+                                        <a href="{{ route('view_presensi_admin', ['id_mhs' => $mhs['id_mhs'] ?? null]) }}" type="submit" class="bg-indigo-100 text-indigo-800 font-semibold me-2 px-2.5 py-0.5 rounded-full dark:bg-indigo-900 dark:text-indigo-300" style="font-size: 10px">Lihat</a>
+                                    </td>
+                                    <td class="px-4 py-4 w-28 text-center">
+                                        <a href="{{ route('view_progress_admin', ['id_mhs' => $mhs['id_mhs'] ?? null]) }}" type="submit" class="bg-purple-100 text-purple-800 font-semibold me-2 px-2.5 py-0.5 rounded-full dark:bg-purple-900 dark:text-purple-300" style="font-size: 10px">Lihat</a>
                                     </td>
                                     <td class="flex px-4 py-4 text-center w-20">
                                         {{-- Edit --}}

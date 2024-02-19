@@ -10,6 +10,7 @@ use App\Models\Mahasiswa;
 use App\Models\Mentor;
 use App\Models\Admin;
 use App\Models\SKL;
+use App\Models\Berita;
 use App\Models\Absen;
 use App\Models\Progress;
 use App\Models\Nilai;
@@ -54,7 +55,9 @@ class MahasiswaController extends Controller
                 ->select('skl.file_skl')
                 ->first();
 
-            return view('mahasiswa.dashboard', compact('mahasiswa', 'skl', 'absen', 'progress', 'nilai'));
+            $berita = Berita::all();
+
+            return view('mahasiswa.dashboard', compact('berita', 'mahasiswa', 'skl', 'absen', 'progress', 'nilai'));
         }
     }
 
