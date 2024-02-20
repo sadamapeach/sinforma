@@ -120,7 +120,7 @@
                     <h1 class="basis-3/4 text-black dark:text-white font-bold text-xl">Generate Akun Mahasiswa Magang</h1>
                     <div class="basis-1/4 flex justify-end mb-3 text-xs font-normal text-gray-600 dark:text-gray-400">
                         <span class="bg-blue-100 text-blue-800 font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-blue-900 dark:text-blue-300" style="font-size: 10px">
-                            {{ \Carbon\Carbon::parse($today)->formatLocalized('%A, %d %B %Y') }}
+                            {{ \Carbon\Carbon::parse($today)->locale('id_ID')->isoFormat('dddd, D MMMM YYYY') }}
                         </span>                    
                     </div>
                 </div>
@@ -130,10 +130,10 @@
             <div class="grid md:grid-cols-2 md:gap-6 mb-4">
                 {{-- ID Mahasiswa --}}
                 <div class="form-group">
-                    <label for="id_mhs" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">ID Mahasiswa</label>
+                    <label for="id_mhs" class="block mb-1.5 text-sm font-medium text-gray-900 dark:text-white">ID Mahasiswa</label>
                     <input type="text" name="id_mhs" id="id_mhs" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" value="{{ old('id_mhs') }}">
                     @error('id_mhs')
-                        <div class="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-100 dark:bg-gray-800 dark:text-red-400" role="alert">
+                        <div class="mt-1 text-xs text-red-600 dark:text-red-500" role="alert">
                             <div>
                                 {{ $message }}
                             </div>
@@ -143,10 +143,10 @@
 
                 {{-- Nama --}}
                 <div class="form-group">
-                    <label for="nama" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Nama</label>
+                    <label for="nama" class="block mb-1.5 text-sm font-medium text-gray-900 dark:text-white">Nama</label>
                     <input type="text" name="nama" id="nama" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" value="{{ old('nama') }}">
                     @error('nama')
-                        <div class="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-100 dark:bg-gray-800 dark:text-red-400" role="alert">
+                        <div class="mt-1 text-xs text-red-600 dark:text-red-500" role="alert">
                             <div>
                                 {{ $message }}
                             </div>
@@ -158,10 +158,10 @@
             <div class="grid md:grid-cols-2 md:gap-6 mb-4">
                 {{-- Instansi --}}
                 <div class="form-group">
-                    <label for="instansi" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Instansi</label>
+                    <label for="instansi" class="block mb-1.5 text-sm font-medium text-gray-900 dark:text-white">Instansi</label>
                     <input type="text" name="instansi" id="instansi" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" value="{{ old('instansi') }}">
                     @error('instansi')
-                        <div class="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-100 dark:bg-gray-800 dark:text-red-400" role="alert">
+                        <div class="mt-1 text-xs text-red-600 dark:text-red-500" role="alert">
                             <div>
                                 {{ $message }}
                             </div>
@@ -171,10 +171,10 @@
 
                 {{-- Jurusan --}}
                 <div class="form-group">
-                    <label for="jurusan" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Jurusan</label>
+                    <label for="jurusan" class="block mb-1.5 text-sm font-medium text-gray-900 dark:text-white">Jurusan</label>
                     <input type="text" name="jurusan" id="jurusan" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" value="{{ old('jurusan') }}">
                     @error('jurusan')
-                        <div class="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-100 dark:bg-gray-800 dark:text-red-400" role="alert">
+                        <div class="mt-1 text-xs text-red-600 dark:text-red-500" role="alert">
                             <div>
                                 {{ $message }}
                             </div>
@@ -186,10 +186,10 @@
             <div class="grid md:grid-cols-2 md:gap-6 mb-4">
                 {{-- Mulai Magang --}}
                 <div class="form-group">
-                    <label for="mulai_magang" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Mulai Magang</label>
+                    <label for="mulai_magang" class="block mb-1.5 text-sm font-medium text-gray-900 dark:text-white">Mulai Magang</label>
                     <input type="date" name="mulai_magang" id="mulai_magang" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" value="{{ old('mulai_magang') }}">
                     @error('mulai_magang')
-                        <div class="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-100 dark:bg-gray-800 dark:text-red-400" role="alert">
+                        <div class="mt-1 text-xs text-red-600 dark:text-red-500" role="alert">
                             <div>
                                 {{ $message }}
                             </div>
@@ -199,10 +199,10 @@
 
                 {{-- Selesai Magang --}}
                 <div class="form-group">
-                    <label for="selesai_magang" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Selesai Magang</label>
+                    <label for="selesai_magang" class="block mb-1.5 text-sm font-medium text-gray-900 dark:text-white">Selesai Magang</label>
                     <input type="date" name="selesai_magang" id="selesai_magang" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" value="{{ old('selesai_magang') }}">
                     @error('selesai_magang')
-                        <div class="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-100 dark:bg-gray-800 dark:text-red-400" role="alert">
+                        <div class="mt-1 text-xs text-red-600 dark:text-red-500" role="alert">
                             <div>
                                 {{ $message }}
                             </div>
@@ -212,7 +212,7 @@
             </div>
 
             <div class="form-group">
-                <label for="mentor" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Mentor:</label>
+                <label for="mentor" class="block mb-1.5 text-sm font-medium text-gray-900 dark:text-white">Mentor:</label>
                 <select id="mentor" name="mentor" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                     <option value="" selected disabled>Pilih Mentor</option>
                     @foreach ($mentor as $mentorItem)
@@ -222,7 +222,7 @@
                     @endforeach
                 </select>
                 @error('mentor')
-                    <div class="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-100 dark:bg-gray-800 dark:text-red-400" role="alert">
+                    <div class="mt-1 text-xs text-red-600 dark:text-red-500" role="alert">
                         <div>
                             {{ $message }}
                         </div>
@@ -232,7 +232,7 @@
 
             {{-- Button --}}
             <div class="flex justify-end mt-6">
-                {{-- Kembali --}}
+                {{-- Reset --}}
                 <a href="{{ route('entry_mhs') }}" class="text-white bg-red-700 hover:bg-red-800 focus:outline-none font-medium rounded-md text-xs w-24 h-8 text-center me-2 dark:bg-red-600 dark:hover:bg-red-700">
                     <button type="button" class="w-full h-full -ml-1">
                         <i class="fa fa-repeat mr-1"></i>
@@ -240,7 +240,7 @@
                     </button>
                 </a>  
 
-                <button type="submit" name="submit" value="generate" class="text-white bg-blue-700 hover:bg-blue-800 focus:outline-none font-medium rounded-md text-xs w-24 h-8 text-center me-2 dark:bg-blue-600 dark:hover:bg-blue-700">Generate</button>
+                <button type="submit" name="submit" value="generate" class="text-white bg-blue-700 hover:bg-blue-800 focus:outline-none font-medium rounded-md text-xs w-24 h-8 text-center dark:bg-blue-600 dark:hover:bg-blue-700">Generate</button>
             </div>
         </form>
     </div>

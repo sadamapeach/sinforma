@@ -131,54 +131,25 @@
                 {{-- Username --}}
                 <div>
                     <label for="username" class="block mb-1 text-sm font-medium text-gray-900 dark:text-white">Username</label>
-                    <input type="text" id="username" name="username" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-800 dark:border-gray-700 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" value="{{ $admin->user->username }}">
-                    @error('username')
-                        <div class="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-100 dark:bg-gray-800 dark:text-red-400"
-                            role="alert">
-                            <div>
-                                {{ $message }}
-                            </div>
-                        </div>
-                    @enderror
+                    <input type="text" id="username" name="username" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" value="{{ $admin->user->username }}">
                 </div>
 
                 {{-- Email --}}
                 <div>
                     <label for="email" class="block mb-1 text-sm font-medium text-gray-900 dark:text-white">Email</label>
-                    <input type="email" id="email" name="email" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-800 dark:border-gray-700 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" value="{{ $admin->email }}">
-                    @error('email')
-                        <div class="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-100 dark:bg-gray-800 dark:text-red-400"
-                            role="alert">
-                            <div>
-                                {{ $message }}
-                            </div>
-                        </div>
-                    @enderror
+                    <input type="email" id="email" name="email" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" value="{{ $admin->email }}">
                 </div>
 
                 {{-- No. HP --}}
                 <div>
                     <label for="no_telepon" class="block mb-1 text-sm font-medium text-gray-900 dark:text-white">No. HP</label>
-                    <input type="text" id="no_telepon" name="no_telepon" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-800 dark:border-gray-700 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" value="{{ $admin->no_telepon }}">
-                    @error('nomor_telepon')
-                        <div class="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-100 dark:bg-gray-800 dark:text-red-400"
-                            role="alert">
-                            <div>
-                                {{ $message }}
-                            </div>
-                        </div>
-                    @enderror
+                    <input type="text" id="no_telepon" name="no_telepon" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" value="{{ $admin->no_telepon }}">
                 </div> 
                 
                 {{-- Foto --}}
                 <div>
                     <label class="block mb-1 text-sm font-medium text-gray-900 dark:text-white" for="foto">Upload Foto Profil</label>
-                    <input class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-800 dark:border-gray-700 dark:placeholder-gray-400" aria-describedby="foto" id="foto" name="foto" type="file">
-                    @error('foto')
-                    <div class="invalid-feedback">
-                        {{ $message }}
-                    </div>             
-                    @enderror
+                    <input class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" aria-describedby="foto" id="foto" name="foto" type="file">
                     <p class="mt-1 text-xs text-gray-500 dark:text-gray-300">Format JPG, PNG, atau JPEG dengan ukuran maksimal 2 MB</p>                    
                 </div>
             </div>
@@ -186,15 +157,7 @@
             {{-- Alamat --}}
             <div class="mb-6 mt-1">
                 <label for="alamat" class="block mb-1 text-sm font-medium text-gray-900 dark:text-white">Alamat</label>
-                <textarea id="alamat" name="alamat" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-800 dark:border-gray-700 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>{{ $admin->alamat }}</textarea>
-                @error('alamat')
-                    <div class="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-100 dark:bg-gray-800 dark:text-red-400"
-                        role="alert">
-                        <div>
-                            {{ $message }}
-                        </div>
-                    </div>
-                @enderror
+                <textarea id="alamat" name="alamat" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>{{ $admin->alamat }}</textarea>
             </div> 
 
             {{-- Button --}}

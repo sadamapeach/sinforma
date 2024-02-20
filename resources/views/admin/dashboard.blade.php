@@ -46,7 +46,7 @@
 
     <body class="font-poppins">  
         <div class="p-4 sm:ml-64">
-            <nav class="bg-zinc-100 border-gray-200 dark:bg-gray-800 dark:border-gray-700 rounded-lg">
+            <nav class="bg-zinc-100 border-gray-200 dark:bg-gray-900 dark:border-gray-800 rounded-lg">
                 {{-- Welcome User --}}
                 <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-2">
                     <p class="self-center text-base font-semibold whitespace-nowrap text-black dark:text-white ml-2">Hello, {{ $admin->nama }} 👋</p>
@@ -99,9 +99,9 @@
         <div class="px-4 sm:ml-64 mb-4">
             <div class="grid grid-cols-5 gap-3">
                 {{-- Profile --}}
-                <div class="col-span-2 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 w-full h-full">
+                <div class="col-span-2 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-900 dark:border-gray-800 w-full h-full">
                     {{-- Header Card --}}
-                    <ul class="flex flex-wrap text-sm font-medium text-center text-gray-500 border-b border-gray-200 rounded-t-lg bg-zinc-100 dark:border-gray-700 dark:text-gray-400 dark:bg-gray-800" id="defaultTab" data-tabs-toggle="#defaultTabContent" role="tablist">
+                    <ul class="flex flex-wrap text-sm font-medium text-center text-gray-500 border-b border-gray-200 rounded-t-lg bg-zinc-100 dark:border-gray-800 dark:text-gray-400 dark:bg-gray-900" id="defaultTab" data-tabs-toggle="#defaultTabContent" role="tablist">
                         <li class="me-2">
                             <p class="font-bold text-black dark:text-white py-1.5 px-6 text-base">Profile</p>
                         </li>
@@ -135,7 +135,7 @@
 
                 <div class="col-span-3">
                     {{-- Carousel --}}
-                    <div class="items-center justify-center rounded-lg bg-white dark:bg-gray-800">
+                    <div class="items-center justify-center rounded-lg bg-white dark:bg-gray-900">
                         <div id="default-carousel" class="relative w-full h-56" data-carousel="slide">
                             <!-- Carousel wrapper -->
                             <div class="relative h-56 overflow-hidden rounded-lg md:h-96">
@@ -148,7 +148,7 @@
 
                             <!-- Left Button -->
                             <button type="button" class="absolute top-28 start-0 z-30 flex items-center justify-center h-5 px-4 cursor-pointer group focus:outline-none" data-carousel-prev>
-                                <span class="inline-flex items-center justify-center w-8 h-8 rounded-full bg-white/30 dark:bg-gray-800/30 group-hover:bg-white/50 dark:group-hover:bg-gray-800/60 group-focus:ring-4 group-focus:ring-white dark:group-focus:ring-gray-800/70 group-focus:outline-none">
+                                <span class="inline-flex items-center justify-center w-8 h-8 rounded-full bg-white/30 dark:bg-gray-900/30 group-hover:bg-white/50 dark:group-hover:bg-gray-800/60 group-focus:ring-4 group-focus:ring-white dark:group-focus:ring-gray-800/70 group-focus:outline-none">
                                     <svg class="w-2 h-2 text-white dark:text-gray-800 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
                                         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 1 1 5l4 4"/>
                                     </svg>
@@ -158,7 +158,7 @@
 
                             {{-- Right Button --}}
                             <button type="button" class="absolute top-28 end-0 z-30 flex items-center justify-center h-5 px-4 cursor-pointer group focus:outline-none" data-carousel-next>
-                                <span class="inline-flex items-center justify-center w-8 h-8 rounded-full bg-white/30 dark:bg-gray-800/30 group-hover:bg-white/50 dark:group-hover:bg-gray-800/60 group-focus:ring-4 group-focus:ring-white dark:group-focus:ring-gray-800/70 group-focus:outline-none">
+                                <span class="inline-flex items-center justify-center w-8 h-8 rounded-full bg-white/30 dark:bg-gray-900/30 group-hover:bg-white/50 dark:group-hover:bg-gray-800/60 group-focus:ring-4 group-focus:ring-white dark:group-focus:ring-gray-800/70 group-focus:outline-none">
                                     <svg class="w-2 h-2 text-white dark:text-gray-800 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
                                         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 9 4-4-4-4"/>
                                     </svg>
@@ -175,7 +175,7 @@
             <div class="col-span-1">
                 <div class="grid grid-rows-2 gap-3">
                     {{-- Total --}}
-                    <div class="flex bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 py-4">
+                    <div class="flex bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-900 dark:border-gray-800 py-4">
                         <div class="w-1.5 ml-3 bg-yellow-100 dark:bg-yellow-200 rounded-full"></div>
                         <div class="w-full text-center mr-4">
                             <h1 class="text-xs font-bold text-black dark:text-white">Total</h1>
@@ -185,7 +185,7 @@
                     </div>
                     
                     {{-- Aktif --}}
-                    <div class="flex bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 py-4">
+                    <div class="flex bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-900 dark:border-gray-800 py-4">
                         <div class="w-1.5 ml-3 bg-green-200 dark:bg-green-500 rounded-full"></div>
                         <div class="w-full text-center mr-4">
                             <h1 class="text-xs font-bold text-black dark:text-white">Status: Aktif</h1>
@@ -199,7 +199,7 @@
             <div class="col-span-1">
                 <div class="grid grid-rows-2 gap-3">
                     {{-- Tidak Aktif --}}
-                    <div class="flex bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 py-4">
+                    <div class="flex bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-900 dark:border-gray-800 py-4">
                         <div class="w-1.5 ml-3 bg-red-200 dark:bg-pink-500 rounded-full"></div>
                         <div class="w-full text-center mr-4">
                             <h1 class="text-xs font-bold text-black dark:text-white">Status: Tidak Aktif</h1>
@@ -209,7 +209,7 @@
                     </div>
                     
                     {{-- Lulus --}}
-                    <div class="flex bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 py-4">
+                    <div class="flex bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-900 dark:border-gray-800 py-4">
                         <div class="w-1.5 ml-3 bg-blue-200 dark:bg-blue-500 rounded-full"></div>
                         <div class="w-full text-center mr-4">
                             <h1 class="text-xs font-bold text-black dark:text-white">Status: Lulus</h1>
@@ -223,7 +223,7 @@
             <div class="col-span-1">
                 <div class="grid grid-rows-2 gap-3">
                     {{-- SKL: Sudah Terbit --}}
-                    <div class="flex bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 py-4">
+                    <div class="flex bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-900 dark:border-gray-800 py-4">
                         <div class="w-1.5 ml-3 bg-purple-200 dark:bg-purple-500 rounded-full"></div>
                         <div class="w-full text-center mr-4">
                             <h1 class="text-xs font-bold text-black dark:text-white">SKL: Sudah Terbit</h1>
@@ -233,7 +233,7 @@
                     </div>
                     
                     {{-- SKL: Belum Terbit --}}
-                    <div class="flex bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 py-4">
+                    <div class="flex bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-900 dark:border-gray-800 py-4">
                         <div class="w-1.5 ml-3 bg-fuchsia-200 dark:bg-fuchsia-500 rounded-full"></div>
                         <div class="w-full text-center mr-4">
                             <h1 class="text-xs font-bold text-black dark:text-white">SKL: Belum Terbit</h1>
@@ -246,7 +246,7 @@
 
             <div class="col-span-1">
                 {{-- Rekap Presensi --}}
-                <div class="bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+                <div class="bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-900 dark:border-gray-800">
                     <div class="flex flex-col text-center py-6">
                         <div class="text-xs font-bold text-black dark:text-white">Verifikasi Presensi</div>
                         <div class=" text-gray-500 dark:text-gray-500" style="font-size: 10px">Berapa presensi yang belum diverifikasi?</div>
@@ -268,9 +268,12 @@
 
         <div class="px-4 sm:ml-64 mb-4">
             {{-- Daftar Mahasiswa --}}
-            <div class="mt-3 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 p-5" style="height: 300px">
+            <div class="mt-3 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-900 dark:border-gray-800 p-5" style="height: 300px">
                 <div class="flex mb-3">
-                    <h1 class="font-bold text-black dark:text-white">Daftar Mahasiswa Magang Perwalian</h1>
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="w-6 h-6 fill-gray-800 dark:fill-white">
+                        <path d="M8 8a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5ZM3.156 11.763c.16-.629.44-1.21.813-1.72a2.5 2.5 0 0 0-2.725 1.377c-.136.287.102.58.418.58h1.449c.01-.077.025-.156.045-.237ZM12.847 11.763c.02.08.036.16.046.237h1.446c.316 0 .554-.293.417-.579a2.5 2.5 0 0 0-2.722-1.378c.374.51.653 1.09.813 1.72ZM14 7.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0ZM3.5 9a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3ZM5 13c-.552 0-1.013-.455-.876-.99a4.002 4.002 0 0 1 7.753 0c.136.535-.324.99-.877.99H5Z" />
+                    </svg>
+                    <h1 class="font-bold text-gray-800 dark:text-white ml-2">Daftar Mahasiswa Magang</h1>
                     <div class="flex ml-auto">
                         {{-- Search --}}
                         <div class="relative">
@@ -294,14 +297,14 @@
                         </form>
                     </div>
                 </div>
-                <div class="relative overflow-x-auto shadow md:rounded" style="height: 217px">
+                <div class="relative overflow-x-auto shadow" style="height: 217px">
                     @if(!$mahasiswa)
                         <div class="pb-4 bg-white dark:bg-gray-900">
                             <p class="mt-2 ml-2 text-base text-gray-500 dark:text-gray-400">Belum ada mahasiswa perwalian. Mohon hubungi Admin.</p>
                         </div>
                     @else
                         <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400 sortable-table">
-                            <thead class="text-xs text-gray-700 uppercase bg-gray-100 dark:bg-gray-900 dark:text-gray-400 border border-gray-300 dark:border-gray-900">
+                            <thead class="text-xs text-gray-700 uppercase bg-zinc-100 dark:bg-gray-900 dark:text-gray-400 border border-gray-300 dark:border-black">
                                 <tr>
                                     <th scope="col" class="text-center py-3 w-12">
                                         No
@@ -335,7 +338,7 @@
                             <tbody class="text-gray-700 dark:text-gray-400 overflow-y-auto">
                                 @if ($mahasiswa)
                                     @foreach ($mahasiswa as $index => $mhs)
-                                        <tr class="text-xs bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-600 border border-gray-300 dark:border-gray-900">
+                                        <tr class="text-xs bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-600 border border-gray-300 dark:border-black">
                                             <td class="py-3.5 text-center w-12">
                                                 {{ $index + 1 }}
                                             </td>

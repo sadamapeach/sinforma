@@ -1,4 +1,4 @@
-<aside id="logo-sidebar" class="fixed z-40 w-64 h-screen flex flex-col transition-transform -translate-x-full sm:translate-x-0 font-poppins overflow-hidden bg-zinc-100 dark:bg-gray-800" aria-label="Sidebar">
+<aside id="logo-sidebar" class="fixed z-40 w-64 h-screen flex flex-col transition-transform -translate-x-full sm:translate-x-0 font-poppins overflow-hidden bg-zinc-100 dark:bg-gray-900" aria-label="Sidebar">
    {{-- Logo dan Header --}}
    <div class="flex items-center ps-2.5 mb-5 ml-5 mt-5">
       <a href="https://diskominfo.semarangkota.go.id/">

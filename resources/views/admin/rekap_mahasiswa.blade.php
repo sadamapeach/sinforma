@@ -43,7 +43,7 @@
 <body>
     <div class="p-4 sm:ml-64 h-screen">
         @if (session('success'))
-            <div id="notification-success" class="flex items-center p-4 mb-4 text-green-800 rounded-lg bg-green-50 dark:bg-gray-800 dark:text-green-400" role="alert">
+            <div id="notification-success" class="flex items-center p-4 mb-4 text-green-800 rounded-lg bg-green-50 dark:bg-gray-900 dark:text-green-400" role="alert">
                 <svg class="flex-shrink-0 w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
                 <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z"/>
                 </svg>
@@ -51,7 +51,7 @@
                 <div class="ms-3 text-sm font-medium">
                     {{ session('success') }}
                 </div>
-                <button type="button" class="ms-auto -mx-1.5 -my-1.5 bg-green-50 text-green-500 rounded-lg focus:ring-2 focus:ring-green-400 p-1.5 hover:bg-green-200 inline-flex items-center justify-center h-8 w-8 dark:bg-gray-800 dark:text-green-400 dark:hover:bg-gray-700" data-dismiss-target="#notification" aria-label="Close">
+                <button type="button" class="ms-auto -mx-1.5 -my-1.5 bg-green-50 text-green-500 rounded-lg focus:ring-2 focus:ring-green-400 p-1.5 hover:bg-green-200 inline-flex items-center justify-center h-8 w-8 dark:bg-gray-900 dark:text-green-400 dark:hover:bg-gray-700" data-dismiss-target="#notification" aria-label="Close">
                     <span class="sr-only">Close</span>
                     <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
                       <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
@@ -68,7 +68,7 @@
         @endif
 
         @if (session('error'))
-            <div id="notification-error" class="flex items-center p-4 mb-4 text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400" role="alert">
+            <div id="notification-error" class="flex items-center p-4 mb-4 text-red-800 rounded-lg bg-red-50 dark:bg-gray-900 dark:text-red-400" role="alert">
                 <svg class="flex-shrink-0 w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
                 <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z"/>
                 </svg>
@@ -76,7 +76,7 @@
                 <div class="ms-3 text-sm font-medium">
                     {{ session('error') }}
                 </div>
-                <button type="button" class="ms-auto -mx-1.5 -my-1.5 bg-red-50 text-red-500 rounded-lg focus:ring-2 focus:ring-red-400 p-1.5 hover:bg-red-200 inline-flex items-center justify-center h-8 w-8 dark:bg-gray-800 dark:text-red-400 dark:hover:bg-gray-700" data-dismiss-target="#notification" aria-label="Close">
+                <button type="button" class="ms-auto -mx-1.5 -my-1.5 bg-red-50 text-red-500 rounded-lg focus:ring-2 focus:ring-red-400 p-1.5 hover:bg-red-200 inline-flex items-center justify-center h-8 w-8 dark:bg-gray-900 dark:text-red-400 dark:hover:bg-gray-700" data-dismiss-target="#notification" aria-label="Close">
                     <span class="sr-only">Close</span>
                     <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
                         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
@@ -92,7 +92,7 @@
             </script>
         @endif
 
-        <nav class="bg-zinc-100 border-gray-200 dark:bg-gray-800 dark:border-gray-700 rounded-md">
+        <nav class="bg-zinc-100 border-gray-200 dark:bg-gray-900 dark:border-gray-800 rounded-md">
             {{-- Welcome User --}}
             <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-2.5">
                 <div class="flex items-center">
@@ -145,7 +145,7 @@
 
         <div class="grid grid-cols-6 gap-3 my-3">
             {{-- Open --}}
-            <div class="bg-white border border-gray-200 dark:bg-gray-800 dark:border-gray-700 rounded-lg shadow">
+            <div class="bg-white border border-gray-200 dark:bg-gray-900 dark:border-gray-800 rounded-lg shadow">
                 <div class="self-center p-3">
                     <h1 class="text-xs font-bold text-black dark:text-white">Open</h1>
                     <h1 class="text-sm font-bold text-purple-600 dark:text-purple-500 my-1">{{ \Carbon\Carbon::parse($generate_absen->mulai_absen)->format('Y-m-d H:i') }}</h1>
@@ -154,7 +154,7 @@
             </div>
 
             {{-- Due to --}}
-            <div class="bg-white border border-gray-200 dark:bg-gray-800 dark:border-gray-700 rounded-lg shadow">
+            <div class="bg-white border border-gray-200 dark:bg-gray-900 dark:border-gray-800 rounded-lg shadow">
                 <div class="self-center p-3">
                     <h1 class="text-xs font-bold text-black dark:text-white">Due to</h1>
                     <h1 class="text-sm font-bold text-purple-600 dark:text-purple-500 my-1">{{ \Carbon\Carbon::parse($generate_absen->selesai_absen)->format('Y-m-d H:i') }}</h1>
@@ -170,7 +170,7 @@
                 $isInTimeRange = $now >= $mulaiAbsen && $now <= $selesaiAbsen;
             @endphp
             {{-- Status Progress --}}
-            <div class="bg-white border border-gray-200 dark:bg-gray-800 dark:border-gray-700 rounded-lg shadow">
+            <div class="bg-white border border-gray-200 dark:bg-gray-900 dark:border-gray-800 rounded-lg shadow">
                 <div class="self-center p-3">
                     <h1 class="text-xs font-bold text-black dark:text-white">Status Progress</h1>
                     <h1 class="text-sm font-bold text-purple-600 dark:text-purple-500 my-1">
@@ -191,7 +191,7 @@
             </div>
 
             {{-- Jumlah yang sudah mengumpulkan sudah/total --}}
-            <div class="bg-white border border-gray-200 dark:bg-gray-800 dark:border-gray-700 rounded-lg shadow">
+            <div class="bg-white border border-gray-200 dark:bg-gray-900 dark:border-gray-800 rounded-lg shadow">
                 <div class="self-center p-3">
                     <h1 class="text-xs font-bold text-black dark:text-white">Total Pengumpulan</h1>
                     <h1 class="text-sm font-bold text-purple-600 dark:text-purple-500 my-1">{{ $status_absen->count() }} dari {{ $mahasiswa->where('status_mhs', 'Aktif')->count() }}</h1>
@@ -200,7 +200,7 @@
             </div>
 
             {{-- Verified --}}
-            <div class="bg-white border border-gray-200 dark:bg-gray-800 dark:border-gray-700 rounded-lg shadow">
+            <div class="bg-white border border-gray-200 dark:bg-gray-900 dark:border-gray-800 rounded-lg shadow">
                 <div class="self-center p-3">
                     <h1 class="text-xs font-bold text-black dark:text-white">Status: Verified</h1>
                     <h1 class="text-sm font-bold text-purple-600 dark:text-purple-500 my-1">{{ $status_absen->where('status', 'Verified')->count() }}</h1>
@@ -209,7 +209,7 @@
             </div>
 
             {{-- Unverified --}}
-            <div class="bg-white border border-gray-200 dark:bg-gray-800 dark:border-gray-700 rounded-lg shadow">
+            <div class="bg-white border border-gray-200 dark:bg-gray-900 dark:border-gray-800 rounded-lg shadow">
                 <div class="self-center p-3">
                     <h1 class="text-xs font-bold text-black dark:text-white">Status: Unverified</h1>
                     <h1 class="text-sm font-bold text-purple-600 dark:text-purple-500 my-1">{{ $status_absen->where('status', 'Unverified')->count() }}</h1>
@@ -219,7 +219,7 @@
         </div>
 
         {{-- BG Table --}}
-        <div class="p-4 bg-white border border-gray-200 dark:bg-gray-800 dark:border-gray-700 rounded-lg shadow">
+        <div class="p-4 bg-white border border-gray-200 dark:bg-gray-900 dark:border-gray-800 rounded-lg shadow">
             <div class="flex items-center mb-3">
                 {{--Kembali  --}}
                 <a href="{{ route('rekap_presensi') }}" class="text-white bg-red-700 hover:bg-red-800 focus:outline-none font-medium rounded-md w-20 h-8 text-center me-2 dark:bg-red-600 dark:hover:bg-red-700" style="font-size: 11px">
@@ -254,14 +254,14 @@
                 </form>
             </div>
 
-            <div class="relative overflow-x-auto shadow md:rounded">
+            <div class="relative overflow-x-auto shadow">
                 @if(!$rekapMhs)
                     <div class="pb-4 bg-white dark:bg-gray-900">
                         <p class="mt-2 ml-2 text-base text-gray-500 dark:text-gray-400">Tidak ada data verifikasi absen yang perlu diverifikasi.</p>
                     </div>
                 @else
                 <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400 sortable-table">
-                    <thead class="text-xs text-gray-700 uppercase bg-gray-100 dark:bg-gray-900 dark:text-gray-400 border border-gray-300 dark:border-gray-900">
+                    <thead class="text-xs text-gray-700 uppercase bg-zinc-100 dark:bg-gray-900 dark:text-gray-400 border border-gray-300 dark:border-black">
                         <tr>
                             <th scope="col" class="px-4 py-4 w-12">
                                 No
@@ -307,7 +307,7 @@
                     <tbody class="text-gray-700 dark:text-gray-400 overflow-y-auto">
                         @if ($rekapMhs)
                             @foreach ($rekapMhs as $index => $rekap)
-                                <tr class="text-xs bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-600 border border-gray-300 dark:border-gray-900">
+                                <tr class="text-xs bg-white dark:bg-gray-800 hover:bg-zinc-50 dark:hover:bg-gray-600 border border-gray-300 dark:border-black">
                                     <td class="px-4 py-4 text-center w-12">
                                         {{ $index + 1 }}
                                     </td>

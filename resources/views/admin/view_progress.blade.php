@@ -41,20 +41,7 @@
 
 <body>
     <div class="p-4 sm:ml-64">
-        @if (session('success'))
-            <div class="p-4 mr-2 text-sm text-green-800 rounded-lg bg-green-100 dark:bg-gray-800 dark:text-green-400" role="alert">
-                <span class="font-medium">{{ session('success') }}</span>
-            </div>
-            <br>
-        @endif
-        @if (session('error'))
-            <div class="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-100 dark:bg-gray-800 dark:text-red-400" role="alert">
-                <span class="font-medium">{{ session('error') }}</span>
-            </div>
-            <br>
-        @endif
-
-        <nav class="bg-zinc-100 border-gray-200 dark:bg-gray-800 dark:border-gray-700 rounded-lg">
+        <nav class="bg-zinc-100 border-gray-200 dark:bg-gray-900 dark:border-gray-800 rounded-lg">
             {{-- Welcome User --}}
             <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-2.5">
                 <div class="ml-1 flex items-center">
@@ -107,7 +94,7 @@
 
         <div class="grid grid-cols-5 gap-3">
             {{-- Profile --}}
-            <div class="bg-white border border-gray-200 dark:bg-gray-800 dark:border-gray-700 rounded-lg shadow mt-4 col-span-2">
+            <div class="bg-white border border-gray-200 dark:bg-gray-900 dark:border-gray-800 rounded-lg shadow mt-4 col-span-2">
                 {{-- Foto --}}
                 <figcaption class="flex items-center py-5 px-5">
                     <img src="{{ $foto }}" alt="user photo" class="w-24 h-24 object-cover rounded-full ml-1"/>
@@ -134,14 +121,14 @@
             </div>
 
             {{-- Progress dengan status Verified --}}
-            <div class="flex flex-col items-center bg-white border border-gray-200 dark:bg-gray-800 dark:border-gray-700 rounded-lg shadow mt-4 col-span-1 text-center p-4">
+            <div class="flex flex-col items-center bg-white border border-gray-200 dark:bg-gray-900 dark:border-gray-800 rounded-lg shadow mt-4 col-span-1 text-center p-4">
                 <div class="text-xs font-medium text-gray-700 dark:text-gray-400">Total Pengumpulan Progress</div>
                 <div class="my-2 font-bold text-2xl text-gray-700 dark:text-white">{{ $progVer->count() }}</div>
                 <span class="bg-blue-100 text-blue-800 font-semibold me-2 px-2.5 py-0.5 rounded-full dark:bg-blue-900 dark:text-blue-300" style="font-size: 9px">Status: Verified</span>
             </div>
 
             {{-- Progress dengan status Unverified --}}
-            <div class="flex flex-col items-center bg-white border border-gray-200 dark:bg-gray-800 dark:border-gray-700 rounded-lg shadow mt-4 col-span-1 text-center p-4">
+            <div class="flex flex-col items-center bg-white border border-gray-200 dark:bg-gray-900 dark:border-gray-800 rounded-lg shadow mt-4 col-span-1 text-center p-4">
                 <div class="text-xs font-medium text-gray-700 dark:text-gray-400">Total Pengumpulan Progress</div>
                 <div class="my-2 font-bold text-2xl text-gray-700 dark:text-white">{{ $progUnver->count() }}</div>
                 <span class="bg-pink-100 text-pink-800 font-semibold me-2 px-2.5 py-0.5 rounded-full dark:bg-pink-900 dark:text-pink-300" style="font-size: 9px">Status: Unverified</span>
@@ -163,7 +150,7 @@
                 $jumlahMinggu = ceil($jumlahHariProgress / 7); // ceil => pembulatan ke atas
             @endphp
 
-            <div class="flex flex-col items-center bg-white border border-gray-200 dark:bg-gray-800 dark:border-gray-700 rounded-lg shadow mt-4 col-span-1 text-center p-4">
+            <div class="flex flex-col items-center bg-white border border-gray-200 dark:bg-gray-900 dark:border-gray-800 rounded-lg shadow mt-4 col-span-1 text-center p-4">
                 <div class="text-xs font-medium text-gray-700 dark:text-gray-400">Akumulasi Persentase Progress</div>
                 <div class="my-2 font-bold text-2xl text-gray-700 dark:text-white">{{ number_format(($progVer->count()/$jumlahMinggu)*100, 2)}}%</div>
                 <span class="bg-green-100 text-green-800 font-semibold me-2 px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300" style="font-size: 9px">Status: Verified</span>
@@ -171,7 +158,7 @@
         </div>
 
         {{-- BG Table --}}
-        <div class="p-4 bg-white border border-gray-200 dark:bg-gray-800 dark:border-gray-700 rounded-lg shadow mt-4">
+        <div class="p-4 bg-white border border-gray-200 dark:bg-gray-900 dark:border-gray-800 rounded-lg shadow mt-4">
             <div class="flex items-center mb-3">
                 {{--Kembali  --}}
                 <a href="{{ route('daftar_mhs') }}" class="text-white bg-red-700 hover:bg-red-800 focus:outline-none font-medium rounded-md w-20 h-8 text-center me-2 dark:bg-red-600 dark:hover:bg-red-700" style="font-size: 11px">
@@ -201,14 +188,14 @@
                 </form>
             </div>
 
-            <div class="relative overflow-x-auto shadow md:rounded">
+            <div class="relative overflow-x-auto shadow">
                 @if(!$progressMagang)
                     <div class="pb-4 bg-white dark:bg-gray-900">
                         <p class="mt-2 ml-2 text-base text-gray-500 dark:text-gray-400">Belum pernah mengisikan presensi.</p>
                     </div>
                 @else
                     <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400 sortable-table">
-                        <thead class="text-xs text-gray-700 uppercase bg-gray-100 dark:bg-gray-900 dark:text-gray-400 border border-gray-300 dark:border-gray-900">
+                        <thead class="text-xs text-gray-700 uppercase bg-gray-100 dark:bg-gray-900 dark:text-gray-400 border border-gray-300 dark:border-black">
                             <tr>
                                 <th scope="col" class="px-4 py-4 w-12 text-center">
                                     No
@@ -236,7 +223,7 @@
                         <tbody class="text-gray-700 dark:text-gray-400 overflow-y-auto">
                             @if ($progressMagang)
                                 @foreach ($progressMagang as $index => $progress)
-                                    <tr class="text-xs bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-600 border border-gray-300 dark:border-gray-900">
+                                    <tr class="text-xs bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-600 border border-gray-300 dark:border-black">
                                         <td class="px-4 py-4 text-center w-12">
                                             {{ $index + 1 }}
                                         </td>
@@ -266,8 +253,9 @@
                         </tbody>
                     </table>
                 @endif
-            </div>    
-        </div> 
+            </div>   
+            <p class="mt-2 text-gray-500 dark:text-gray-400" style="font-size: 9px">* Total progress (status: verified + status: unverified) = {{ $progVer->count() + $progUnver->count() }}</p> 
+        </div>  
     </div>
 
     <script>

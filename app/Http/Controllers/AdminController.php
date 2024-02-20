@@ -415,24 +415,44 @@ class AdminController extends Controller
                 'foto' => 'nullable|image|max:10240',
             ]);
 
+            $dataUpdated = false;
+
             // Update User
             if ($request->has('foto')) {
                 $fotoPath = $request->file('foto')->store('profile', 'public');
                 $user->foto = $fotoPath;
+
+                $dataUpdated = true;
             }
 
             $user->username = $request->username;
             $user->save();
 
-            // Update Mahasiswa
-            $mhs->nama = $request->nama;
-            $mhs->instansi = $request->instansi;
-            $mhs->jurusan = $request->jurusan;
-            $mhs->alamat = $request->alamat;
-            $mhs->no_telepon = $request->no_telepon;
-            $mhs->email = $request->email;
-            $mhs->status = $request->status;
-            $mhs->save();
+            if (
+                $mhs->nama != $request->nama ||
+                $mhs->instansi != $request->instansi ||
+                $mhs->jurusan != $request->jurusan ||
+                $mhs->alamat != $request->alamat ||
+                $mhs->no_telepon != $request->no_telepon ||
+                $mhs->email != $request->email ||
+                $mhs->status != $request->status
+            ) {
+                // Update Mahasiswa
+                $mhs->nama = $request->nama;
+                $mhs->instansi = $request->instansi;
+                $mhs->jurusan = $request->jurusan;
+                $mhs->alamat = $request->alamat;
+                $mhs->no_telepon = $request->no_telepon;
+                $mhs->email = $request->email;
+                $mhs->status = $request->status;
+                $mhs->save();
+
+                $dataUpdated = true;
+            }
+
+            if (!$dataUpdated) {
+                return redirect()->route('daftar_mhs')->with('info', 'Tidak ada data yang diperbarui!');
+            }
 
             return redirect()->route('daftar_mhs')->with('success', 'Data mahasiswa berhasil diperbarui.');
         } catch (\Exception $e) {
@@ -461,6 +481,8 @@ class AdminController extends Controller
             'instansi' => 'required|max:255',
             'jurusan' => 'required|max:255',
             'mentor' => 'required',
+            'mulai_magang' => 'required',
+            'selesai_magang' => 'required',
         ]);
 
         if ($request->submit === 'generate') {
@@ -694,8 +716,8 @@ class AdminController extends Controller
         $request->validate([
             'judul' => 'required|max:255',
             'deskripsi' => 'required|max:255',
-            'mulai_absen' => 'required|date',
-            'selesai_absen' => 'required|date',
+            'mulai_absen' => 'required',
+            'selesai_absen' => 'required',
             'sesi' => 'required',
         ]);
 
@@ -853,34 +875,45 @@ class AdminController extends Controller
 
     public function update_absen(Request $request, $id_absen)
     {
-        $generate_absen = GeneratedAbsen::where('id_absen', $id_absen)->first();
+        try {
+            $generate_absen = GeneratedAbsen::where('id_absen', $id_absen)->first();
+        
+            $request->validate([
+                'judul' => 'required|max:255',
+                'deskripsi' => 'required|max:255',
+                'sesi' => 'required',
+                'mulai_absen' => 'required|date',
+                'selesai_absen' => 'required|date',
+            ]);
+
+            $dataUpdated = false; // Flag to check if any data is updated
     
-        $request->validate([
-            'judul' => 'required|max:255',
-            'deskripsi' => 'required|max:255',
-            'sesi' => 'required',
-            'mulai_absen' => 'required|date',
-            'selesai_absen' => 'required|date',
-        ]);
-    
-        $generate_absen->judul = $request->judul;
-        $generate_absen->deskripsi = $request->deskripsi;
-        $generate_absen->sesi = $request->sesi;
-        $generate_absen->mulai_absen = $request->mulai_absen;
-        $generate_absen->selesai_absen = $request->selesai_absen;
-    
-        $absenChanged = $generate_absen->isDirty(); 
-    
-        if ($generate_absen->save()) {
-            if ($absenChanged) {
-                return redirect()->back()->with(['success' => 'Personal information updated successfully!'] + compact('generate_absen', 'id_absen'));
-            } else {
-                return redirect()->back()->with(['info' => 'No changes made.'] + compact('generate_absen', 'id_absen'));
+            if (
+                $generate_absen->judul != $request->judul ||
+                $generate_absen->deskripsi != $request->deskripsi ||
+                $generate_absen->sesi != $request->sesi ||
+                $generate_absen->mulai_absen != $request->mulai_absen ||
+                $generate_absen->selesai_absen != $request->selesai_absen
+            ) {
+                $generate_absen->judul = $request->judul;
+                $generate_absen->deskripsi = $request->deskripsi;
+                $generate_absen->sesi = $request->sesi;
+                $generate_absen->mulai_absen = $request->mulai_absen;
+                $generate_absen->selesai_absen = $request->selesai_absen;
+                $generate_absen->save();
+
+                $dataUpdated = true;
             }
-        } else {
-            return redirect()->back()->with(['info' => 'Failed to update personal information.'] + compact('generate_absen', 'id_absen'));
-        }   
-    }
+
+            if (!$dataUpdated) {
+                return redirect()->back()->with('info', 'Tidak ada data yang diperbarui!');
+            }
+
+            return redirect()->back()->with('success', 'Data presensi berhasil diperbarui!');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Terjadi kesalahan saat memperbarui data presensi: ' . $e->getMessage());
+        }
+    }     
 
     public function delete_absen($id_absen)
     {

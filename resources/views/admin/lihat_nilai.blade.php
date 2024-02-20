@@ -10,7 +10,7 @@
 <body>
     <div class="p-4 sm:ml-64">
         @if (session('success'))
-            <div id="notification-success" class="flex items-center p-4 mb-4 text-green-800 rounded-lg bg-green-50 dark:bg-gray-800 dark:text-green-400" role="alert">
+            <div id="notification-success" class="flex items-center p-4 mb-4 text-green-800 rounded-lg bg-green-50 dark:bg-gray-900 dark:text-green-400" role="alert">
                 <svg class="flex-shrink-0 w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
                 <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z"/>
                 </svg>
@@ -18,7 +18,7 @@
                 <div class="ms-3 text-sm font-medium">
                     {{ session('success') }}
                 </div>
-                <button type="button" class="ms-auto -mx-1.5 -my-1.5 bg-green-50 text-green-500 rounded-lg focus:ring-2 focus:ring-green-400 p-1.5 hover:bg-green-200 inline-flex items-center justify-center h-8 w-8 dark:bg-gray-800 dark:text-green-400 dark:hover:bg-gray-700" data-dismiss-target="#notification" aria-label="Close">
+                <button type="button" class="ms-auto -mx-1.5 -my-1.5 bg-green-50 text-green-500 rounded-lg focus:ring-2 focus:ring-green-400 p-1.5 hover:bg-green-200 inline-flex items-center justify-center h-8 w-8 dark:bg-gray-900 dark:text-green-400 dark:hover:bg-gray-700" data-dismiss-target="#notification" aria-label="Close">
                     <span class="sr-only">Close</span>
                     <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
                       <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
@@ -35,7 +35,7 @@
         @endif
 
         @if (session('error'))
-            <div id="notification-error" class="flex items-center p-4 mb-4 text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400" role="alert">
+            <div id="notification-error" class="flex items-center p-4 mb-4 text-red-800 rounded-lg bg-red-50 dark:bg-gray-900 dark:text-red-400" role="alert">
                 <svg class="flex-shrink-0 w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
                 <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z"/>
                 </svg>
@@ -43,7 +43,7 @@
                 <div class="ms-3 text-sm font-medium">
                     {{ session('error') }}
                 </div>
-                <button type="button" class="ms-auto -mx-1.5 -my-1.5 bg-red-50 text-red-500 rounded-lg focus:ring-2 focus:ring-red-400 p-1.5 hover:bg-red-200 inline-flex items-center justify-center h-8 w-8 dark:bg-gray-800 dark:text-red-400 dark:hover:bg-gray-700" data-dismiss-target="#notification" aria-label="Close">
+                <button type="button" class="ms-auto -mx-1.5 -my-1.5 bg-red-50 text-red-500 rounded-lg focus:ring-2 focus:ring-red-400 p-1.5 hover:bg-red-200 inline-flex items-center justify-center h-8 w-8 dark:bg-gray-900 dark:text-red-400 dark:hover:bg-gray-700" data-dismiss-target="#notification" aria-label="Close">
                     <span class="sr-only">Close</span>
                     <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
                         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
@@ -59,7 +59,7 @@
             </script>
         @endif
 
-        <nav class="bg-zinc-100 border-gray-200 dark:bg-gray-800 dark:border-gray-700 rounded-lg mb-3">
+        <nav class="bg-zinc-100 border-gray-200 dark:bg-gray-900 dark:border-gray-800 rounded-lg mb-3">
             {{-- Welcome User --}}
             <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-2.5">
                 <div class="ml-1 flex items-center">
@@ -112,7 +112,7 @@
 
         <div class="grid grid-cols-7 gap-3">
             {{-- Profile --}}
-            <div class="col-span-3 bg-white border border-gray-200 dark:bg-gray-800 dark:border-gray-700 rounded-lg shadow">
+            <div class="col-span-3 bg-white border border-gray-200 dark:bg-gray-900 dark:border-gray-800 rounded-lg shadow">
                 {{-- Foto --}}
                 <div class="flex items-center py-4 px-5">
                     <img src="{{ $foto }}" alt="user photo" class="w-24 h-24 object-cover rounded-full ml-1"/>
@@ -161,7 +161,7 @@
             @endphp
 
             {{-- Persentase Absen --}}
-            <div class="col-span-2 bg-white border border-gray-200 dark:bg-gray-800 dark:border-gray-700 rounded-lg shadow">
+            <div class="col-span-2 bg-white border border-gray-200 dark:bg-gray-900 dark:border-gray-800 rounded-lg shadow">
                 <div class="flex items-center py-4 px-5">
                     <div class="space-y-0.5">
                         <h1 class="text-xs font-medium dark:text-white">Rekapitulasi Pengisian Presensi</h1>
@@ -173,7 +173,7 @@
             </div>
 
             {{-- Persentase Progress --}}
-            <div class="col-span-2 bg-white border border-gray-200 dark:bg-gray-800 dark:border-gray-700 rounded-lg shadow">
+            <div class="col-span-2 bg-white border border-gray-200 dark:bg-gray-900 dark:border-gray-800 rounded-lg shadow">
                 <div class="flex items-center py-4 px-5">
                     <div class="space-y-0.5">
                         <h1 class="text-xs font-medium dark:text-white">Rekapitulasi Pengisian Progress</h1>
@@ -185,52 +185,52 @@
             </div>
         </div>
 
-        <div class="p-5 bg-white border border-gray-200 dark:bg-gray-800 dark:border-gray-700 rounded-lg shadow mt-3">
+        <div class="p-5 bg-white border border-gray-200 dark:bg-gray-900 dark:border-gray-800 rounded-lg shadow mt-3">
             <!-- Tabel Penilaian Magang -->
             <div>
                 <table class="w-full text-sm text-left rtl:text-right">
-                    <thead class="border dark:border-gray-800 text-xs text-black uppercase bg-gray-100 dark:bg-gray-900 dark:text-white">
+                    <thead class="border dark:border-black text-xs text-black uppercase bg-gray-100 dark:bg-gray-900 dark:text-white">
                         <tr>
-                            <th class="py-3 px-4 text-center border dark:border-gray-700">Nomor</th>
-                            <th class="py-3 px-4 text-left border dark:border-gray-700">Kriteria Penilaian</th>
-                            <th class="py-3 px-4 text-left border dark:border-gray-700">Nilai</th>
+                            <th class="py-3 px-4 text-center border dark:border-black">Nomor</th>
+                            <th class="py-3 px-4 text-left border dark:border-black">Kriteria Penilaian</th>
+                            <th class="py-3 px-4 text-left border dark:border-black">Nilai</th>
                         </tr>
                     </thead>
-                    <tbody class="text-gray-800 dark:text-gray-200 border dark:border-gray-800 text-xs font-medium">
-                        <tr class="bg-white dark:bg-gray-800 dark:border-gray-800">
-                            <td class="py-3 px-4 text-center border dark:border-gray-700">1</td>
-                            <td class="py-3 px-4 border dark:border-gray-700">Kedisiplinan dan Etika</td>
-                            <td class="py-3 px-4 border dark:border-gray-700">
+                    <tbody class="text-gray-800 dark:text-gray-200 border dark:border-black text-xs font-medium">
+                        <tr class="bg-white dark:bg-gray-800 dark:border-black">
+                            <td class="py-3 px-4 text-center border dark:border-black">1</td>
+                            <td class="py-3 px-4 border dark:border-black">Kedisiplinan dan Etika</td>
+                            <td class="py-3 px-4 border dark:border-black">
                                 <input type="text" id="nilai1" name="nilai1" value="{{ $nilai->nilai1 }}" aria-label="disabled input" class="w-full border rounded py-1 px-2 dark:bg-gray-700 text-xs text-center bg-gray-100 border-gray-300 text-gray-900 dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-400" disabled>
                             </td>
                         </tr>
-                        <tr class="bg-white dark:bg-gray-800 dark:border-gray-800">
-                            <td class="py-3 px-4 text-center border dark:border-gray-700">2</td>
-                            <td class="py-3 px-4 border dark:border-gray-700">Kemampuan Berkomunikasi dan Bekerja Sama</td>
-                            <td class="py-3 px-4 border dark:border-gray-700">
+                        <tr class="bg-white dark:bg-gray-800 dark:border-black">
+                            <td class="py-3 px-4 text-center border dark:border-black">2</td>
+                            <td class="py-3 px-4 border dark:border-black">Kemampuan Berkomunikasi dan Bekerja Sama</td>
+                            <td class="py-3 px-4 border dark:border-black">
                                 <input type="text" id="nilai2" name="nilai2" value="{{ $nilai->nilai2 }}" aria-label="disabled input" class="w-full border rounded py-1 px-2 dark:bg-gray-700 text-xs text-center bg-gray-100 border-gray-300 text-gray-900 dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-400" disabled>
                             </td>
                         </tr>
-                        <tr class="bg-white dark:bg-gray-800 dark:border-gray-800">
-                            <td class="py-3 px-4 text-center border dark:border-gray-700">3</td>
-                            <td class="py-3 px-4 border dark:border-gray-700">Pemahaman terhadap Permasalahan</td>
-                            <td class="py-3 px-4 border dark:border-gray-700">
+                        <tr class="bg-white dark:bg-gray-800 dark:border-black">
+                            <td class="py-3 px-4 text-center border dark:border-black">3</td>
+                            <td class="py-3 px-4 border dark:border-black">Pemahaman terhadap Permasalahan</td>
+                            <td class="py-3 px-4 border dark:border-black">
                                 <input type="text" id="nilai3" name="nilai3" value="{{ $nilai->nilai3 }}" aria-label="disabled input" class="w-full border rounded py-1 px-2 dark:bg-gray-700 text-xs text-center bg-gray-100 border-gray-300 text-gray-900 dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-400" disabled>
                             </td>
                         </tr>
-                        <tr class="bg-white dark:bg-gray-800 dark:border-gray-800">
-                            <td class="py-3 px-4 text-center border dark:border-gray-700">4</td>
-                            <td class="py-3 px-4 border dark:border-gray-700">Pengetahuan Teoritis dan Praktik</td>
-                            <td class="py-3 px-4 border dark:border-gray-700">
+                        <tr class="bg-white dark:bg-gray-800 dark:border-black">
+                            <td class="py-3 px-4 text-center border dark:border-black">4</td>
+                            <td class="py-3 px-4 border dark:border-black">Pengetahuan Teoritis dan Praktik</td>
+                            <td class="py-3 px-4 border dark:border-black">
                                 <input type="text" id="nilai4" name="nilai4" value="{{ $nilai->nilai4 }}" aria-label="disabled input" class="w-full border rounded py-1 px-2 dark:bg-gray-700 text-xs text-center bg-gray-100 border-gray-300 text-gray-900 dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-400" disabled>
                             </td>
                         </tr>
                     </tbody>
                     <tbody> 
                         <tr>
-                            <td class="py-2 px-4 border-b border-l text-center dark:border-gray-700"></td>
-                            <td class="dark:text-white py-2 px-4 border-b font-bold dark:border-gray-700">Rata-rata</td>
-                            <td class="py-2 px-4 border-b border-r dark:border-gray-700">
+                            <td class="py-2 px-4 border-b border-l text-center dark:border-black"></td>
+                            <td class="dark:text-white py-2 px-4 border-b font-bold dark:border-black">Rata-rata</td>
+                            <td class="py-2 px-4 border-b border-r dark:border-black">
                                 <div class="text-center font-bold dark:text-white">{{ $nilai->nilai_avg }}</div>
                             </td>
                         </tr>

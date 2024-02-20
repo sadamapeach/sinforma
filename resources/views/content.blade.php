@@ -22,7 +22,7 @@
         </head>
 
         <body class="font-poppins"> 
-            <section class="bg-center bg-no-repeat bg-white dark:bg-gray-700">
+            <section class="bg-center bg-no-repeat bg-white dark:bg-gray-800">
                 <div class="body">
                     @yield('isihalaman')
                 </div>
