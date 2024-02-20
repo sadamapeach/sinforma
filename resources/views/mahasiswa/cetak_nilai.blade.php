@@ -8,6 +8,8 @@
         table {
             border-collapse: collapse;
             width: 100%;
+            padding-left: 30px;
+            padding-right: 50px;
         }
 
         th, td {
@@ -25,19 +27,22 @@
 
         p {
             margin-top: 10px;
+            margin-left: 30px;
+            margin-right: 50px;
         }
 
         .ttd {
             margin-top: 20px;
-            margin-left: 450px;
+            margin-left: 350px;
             text-align: left;
         }
     </style>
 </head>
 <body>
+<img src="assets/kop.png" alt="Header Image" style="width: 100%; margin-top: -40px;">
 
 <h3>Penilaian Mahasiswa Magang Diskominfo Kota Semarang</h3>
-</br>
+
 <p>Sehubungan dengan berakhirnya periode magang yang dijalankan oleh :</p>
 
 <table>
@@ -74,38 +79,30 @@
         </tr>
     </thead>
     <tbody>
-        @foreach ($criteria as $key => $kriteria)
-            <tr>
-                <td>{{ $key + 1 }}</td>
-                <td>{{ $kriteria }}</td>
-                <td>
-                    @if ($key < count($criteria) - 1)
-                        @if(isset($nilai))
-                            {{ $nilai->{'nilai'.($key+1)} }}
-                        @else
-                            N/A
-                        @endif
-                    @else
-                        @if(isset($nilai))
-                            {{ $nilai->nilai_avg }}
-                        @else
-                            N/A
-                        @endif
-                    @endif
-                </td>
-            </tr>
-        @endforeach
-    </tbody>
+    @foreach ($criteria as $key => $kriteria)
+        <tr>
+            <td style="text-align: center;">{{ $key < count($criteria) - 1 ? $key + 1 : '' }}</td>
+            <td>{{ $kriteria }}</td>
+            <td style="text-align: center; font-weight: {{ $key == count($criteria) - 1 ? 'bold' : 'normal' }}">
+                @if(isset($nilai))
+                    {{ $key == count($criteria) - 1 ? $nilai->nilai_avg : $nilai->{'nilai'.($key+1)} }}
+                @else
+                    N/A
+                @endif
+            </td>
+        </tr>
+    @endforeach
+</tbody>
 </table>
 
 
 <div class="ttd">
-    <p id="tanggal">Semarang, {{$nilai->created_at}}</p>
+    <p id="tanggal">Semarang, {{ \Carbon\Carbon::parse($nilai->created_at)->locale('id_ID')->isoFormat('D MMMM YYYY') }}</p>
     <p>Mengetahui,</p>
-    <p>Sub Koordinator Pengembangan dan Pengelolaan Aplikasi Diskominfo Kota Semarang</p>
+    <p style= "margin-top: -10px;">Sub Koordinator Pengembangan dan Pengelolaan Aplikasi Diskominfo Kota Semarang</p>
     <img src="https://cdn-image.hipwee.com/wp-content/uploads/2020/10/hipwee-Screen-Shot-2020-10-26-at-8.36.45-PM-875x640.png" alt="tanda tangan" width="150px">
     <p>Asdani Kindarto, S.Sos, M.Eng, Ph.D</p>
-    <p>NIP. 197405221999031005</p>
+    <p style= "margin-top: -10px;">NIP. 197405221999031005</p>
 </div>
 
 
