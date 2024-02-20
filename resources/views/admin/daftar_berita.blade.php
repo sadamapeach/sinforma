@@ -194,24 +194,24 @@
                                             <input type="text" name="nama" id="nama" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Masukkan nama event" required="">
                                         </div>
                                         <div>
-                                            <label class="block text-sm font-medium text-gray-900 dark:text-white">Upload Event<label>                                        
+                                            <label class="block text-sm font-medium text-gray-900 dark:text-white">Upload Event</label>                                        
                                             <div class="flex items-center justify-center w-full mt-2">
-                                                <label for="gambar" class="flex flex-col items-center justify-center w-full h-48 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600">
+                                                <label id="border" for="gambar" class="flex flex-col items-center justify-center w-full h-48 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600">
                                                     <div class="flex flex-col items-center justify-center pt-3 pb-3">
-                                                        <svg class="w-8 h-8 mb-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 16">
+                                                        <svg id="icon" class="w-8 h-8 mb-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 16">
                                                             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"/>
                                                         </svg>
-                                                        <p class="mb-2 text-xs text-gray-500 dark:text-gray-400"><span class="font-semibold">Click to upload</span> or drag and drop</p>
-                                                        <p class="text-gray-500 dark:text-gray-400" style="font-size: 10px">SVG, PNG, JPG or GIF (MAX. 800x400px)</p>
+                                                        <p id="header" class="mb-2 text-sm text-gray-500 dark:text-gray-400"><span class="font-semibold">Click to upload</span> or drag and drop</p>
+                                                        <p id="file-name" class="text-gray-500 dark:text-gray-400" style="font-size: 11px">SVG, PNG, JPG or GIF (MAX. 800x400px)</p>
                                                     </div>
-                                                    <input id="gambar" name="gambar" type="file" class="input mb-2" />
+                                                    <input id="gambar" name="gambar" type="file" class="input mb-2 hidden" onchange="displayFileName(this)"/>
                                                 </label>
                                             </div> 
                                         </div>
                                         <div class="flex space-x-2">
                                             <button type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:outline-none font-medium rounded-md text-xs w-20 h-8 text-center me-2 dark:bg-blue-600 dark:hover:bg-blue-700">Upload</button>
-                                            <button type="reset" class="text-white bg-red-700 hover:bg-red-800 focus:outline-none font-medium rounded-md text-xs w-20 h-8 text-center me-2 dark:bg-red-600 dark:hover:bg-red-700">Reset</button>
-                                        </div>
+                                            <button onclick="resetUpload()" type="reset" class="text-white bg-red-700 hover:bg-red-800 focus:outline-none font-medium rounded-md text-xs w-20 h-8 text-center me-2 dark:bg-red-600 dark:hover:bg-red-700">Reset</button>
+                                        </div>                                        
                                     </div>
                                 </form>
                             </div>
@@ -281,7 +281,7 @@
                                             </div>
                                         </div> 
 
-                                        {{-- Pop Up Tambah Event  --}}
+                                        {{-- Update Tambah Event  --}}
                                         <form action="{{ route('update_berita', [$event->id_berita]) }}" method="POST" enctype="multipart/form-data">
                                             @csrf 
                                             <div id="update-event-{{ $event->id_berita }}" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full ml-24">
@@ -318,22 +318,22 @@
                                                                 <div>
                                                                     <label class="block text-sm font-medium text-gray-900 dark:text-white">Upload Event<label>                                        
                                                                     <div class="flex items-center justify-center w-full mt-2">
-                                                                        <label for="gambar-{{ $event->id_berita }}" class="flex flex-col items-center justify-center w-full h-48 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600">
+                                                                        <label id="border-{{ $event->id_berita }}" for="gambar-{{ $event->id_berita }}" class="flex flex-col items-center justify-center w-full h-48 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600">
                                                                             <div class="flex flex-col items-center justify-center pt-3 pb-3">
-                                                                                <svg class="w-8 h-8 mb-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 16">
+                                                                                <svg id="icon-{{ $event->id_berita }}" class="w-8 h-8 mb-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 16">
                                                                                     <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"/>
                                                                                 </svg>
-                                                                                <p class="mb-2 text-xs text-gray-500 dark:text-gray-400"><span class="font-semibold">Click to upload</span> or drag and drop</p>
-                                                                                <p class="text-gray-500 dark:text-gray-400" style="font-size: 10px">SVG, PNG, JPG or GIF (MAX. 800x400px)</p>
+                                                                                <p id="header-{{ $event->id_berita }}" class="mb-2 text-sm text-gray-500 dark:text-gray-400"><span class="font-semibold">Click to upload</span> or drag and drop</p>
+                                                                                <p id="file-name-{{ $event->id_berita }}" class="text-gray-500 dark:text-gray-400" style="font-size: 11px">SVG, PNG, JPG or GIF (MAX. 800x400px)</p>
                                                                             </div>
-                                                                            <input id="gambar-{{ $event->id_berita }}" name="gambar" type="file" class="input mb-2" />
+                                                                            <input id="gambar-{{ $event->id_berita }}" name="gambar" type="file" class="input mb-2 hidden" onchange="displayFileName2('{{ $event->id_berita }}')"/>
                                                                         </label>
                                                                     </div> 
                                                                 </div>
                                                                 <div class="flex space-x-2">
                                                                     <button type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:outline-none font-medium rounded-md text-xs w-20 h-8 text-center me-2 dark:bg-blue-600 dark:hover:bg-blue-700">Update</button>
-                                                                    <button type="reset" class="text-white bg-red-700 hover:bg-red-800 focus:outline-none font-medium rounded-md text-xs w-20 h-8 text-center me-2 dark:bg-red-600 dark:hover:bg-red-700">Reset</button>
-                                                                </div>
+                                                                    <button onclick="resetUpload2('{{ $event->id_berita }}')" type="reset" class="text-white bg-red-700 hover:bg-red-800 focus:outline-none font-medium rounded-md text-xs w-20 h-8 text-center me-2 dark:bg-red-600 dark:hover:bg-red-700">Reset</button>
+                                                                </div>                                                                
                                                             </div>
                                                         </form>
                                                     </div>
@@ -408,6 +408,66 @@
             // Temukan elemen input file
             var inputFile = document.getElementById('gambar');
         });
+
+        function displayFileName(input) {
+            var fileNameDisplay = document.getElementById('file-name');
+            var headerDisplay = document.getElementById('header');
+            var iconDisplay = document.getElementById('icon');
+            var borderDisplay = document.getElementById('border');
+
+            if (input.files.length > 0) {
+                var fileName = `Nama file: <span style="font-weight: bold; color: green;">${input.files[0].name}</span>`;
+                fileNameDisplay.innerHTML = fileName;
+                headerDisplay.innerHTML = '<span class="font-semibold" style="color: green">Berhasil</span> mengupload file!';
+                iconDisplay.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="40px" height="40px" viewBox="0 0 50 50" fill="green"><path fill-rule="evenodd" d="M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12Zm13.36-1.814a.75.75 0 1 0-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 0 0-1.06 1.06l2.25 2.25a.75.75 0 0 0 1.14-.094l3.75-5.25Z" clip-rule="evenodd" /></svg>';
+                borderDisplay.style.borderColor = 'green';
+                borderDisplay.style.backgroundColor = '#dcfce7';
+            } else {
+                fileNameDisplay.textContent = 'SVG, PNG, JPG or GIF (MAX. 800x400px)';
+            }
+        }
+
+        function resetUpload() {
+            document.getElementById('file-name').innerText = 'SVG, PNG, JPG or GIF (MAX. 800x400px)';
+            document.getElementById('header').innerHTML = '<span class="font-semibold">Click to upload</span> or drag and drop';
+            document.getElementById('icon').innerHTML = '<path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"/>';
+            document.getElementById('border').style.borderColor = '#d4d4d8';
+            document.getElementById('border').style.backgroundColor = '#f4f4f5';
+        }
+
+        function displayFileName2(id) {
+            const fileInput = document.getElementById(`gambar-${id}`);
+            const fileNameDisplay = document.getElementById(`file-name-${id}`);
+            const fileNameHeader = document.getElementById(`header-${id}`);
+            var svgElement = document.getElementById(`icon-${id}`);
+            var labelElement = document.getElementById(`border-${id}`);
+
+            if (fileInput.files.length > 0) {
+                fileNameDisplay.innerHTML = `Nama file: <span style="font-weight: bold; color: green;">${fileInput.files[0].name}</span>`;
+                fileNameHeader.innerHTML = '<span class="font-semibold" style="color: green">Berhasil</span> mengupload file!';
+                svgElement.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="40px" height="40px" viewBox="0 0 50 50" fill="green"><path fill-rule="evenodd" d="M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12Zm13.36-1.814a.75.75 0 1 0-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 0 0-1.06 1.06l2.25 2.25a.75.75 0 0 0 1.14-.094l3.75-5.25Z" clip-rule="evenodd" /></svg>';
+
+                labelElement.style.borderColor = 'green';
+                labelElement.style.backgroundColor = '#dcfce7';
+            } else {
+                fileNameDisplay.textContent = 'SVG, PNG, JPG or GIF (MAX. 800x400px)';
+            }
+        }
+
+        function resetUpload2(id) {
+            const fileInput = document.getElementById(`gambar-${id}`);
+            const fileNameDisplay = document.getElementById(`file-name-${id}`);
+            const fileNameHeader = document.getElementById(`header-${id}`);
+            var svgElement = document.getElementById(`icon-${id}`);
+            var labelElement = document.getElementById(`border-${id}`);
+            labelElement.style.borderColor = '#d4d4d8';
+            labelElement.style.backgroundColor = '#f4f4f5';
+
+            fileInput.value = ''; // Clear file input
+            fileNameDisplay.textContent = 'SVG, PNG, JPG or GIF (MAX. 800x400px)';
+            fileNameHeader.innerHTML = '<span class="font-semibold">Click to upload</span> or drag and drop';
+            svgElement.innerHTML = '<path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"/>';
+        }
     </script>
 </body>
 @endsection

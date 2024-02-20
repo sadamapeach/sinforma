@@ -286,15 +286,15 @@
                                                         <form action="{{ route('tambah_skl', ['id_mhs' => $mhs->id_mhs]) }}" method="POST" enctype="multipart/form-data">
                                                             @csrf
                                                             <div class="form-control flex items-center justify-center w-full">
-                                                                <label for="file-skl-{{ $mhs->id_mhs }}" class="label flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600">
+                                                                <label for="file-skl-{{ $mhs->id_mhs }}" class="label flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600" id="border">
                                                                     <div class="flex flex-col items-center justify-center pt-5 pb-6">
-                                                                        <svg class="w-8 h-8 mb-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 16">
+                                                                        <svg id="icon" class="w-8 h-8 mb-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 16">
                                                                             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"/>
                                                                         </svg>
-                                                                        <p class="label-text mb-2 text-sm text-gray-500 dark:text-gray-400"><span class="font-semibold">Click to upload</span> or drag and drop</p>
-                                                                        <p class="text-xs text-gray-500 dark:text-gray-400">SVG, PNG, JPG or GIF (MAX. 800x400px)</p>
+                                                                        <p id="header" class="label-text mb-2 text-sm text-gray-500 dark:text-gray-400"><span class="font-semibold">Click to upload</span> or drag and drop</p>
+                                                                        <p id="file-name" class="text-xs text-gray-500 dark:text-gray-400">format: .PDF dengan ukuran maksimal 10 MB</p>
                                                                     </div>                                                                   
-                                                                    <input type="file" name="file_skl" id="file-skl-{{ $mhs->id_mhs }}" class="input input-bordered">
+                                                                    <input type="file" name="file_skl" id="file-skl-{{ $mhs->id_mhs }}" class="input input-bordered hidden" onchange="displayFileName('{{ $mhs->id_mhs }}')">
                                                                 </label>
                                                             </div>
                                                             <div class="flex form-control mt-4">
@@ -357,22 +357,22 @@
                                                         <form action="{{ route('update_skl', ['id_mhs' => $mhs->id_mhs]) }}" method="POST" enctype="multipart/form-data">
                                                             @csrf
                                                             <div class="form-control flex items-center justify-center w-full">
-                                                                <label for="file-skl-{{ $mhs->id_mhs }}" class="label flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600">
+                                                                <label for="file-skl-{{ $mhs->id_mhs }}" class="label flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600" id="border2">
                                                                     <div class="flex flex-col items-center justify-center pt-5 pb-6">
-                                                                        <svg class="w-8 h-8 mb-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 16">
+                                                                        <svg id="icon2" class="w-8 h-8 mb-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 16">
                                                                             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"/>
                                                                         </svg>
-                                                                        <p class="label-text mb-2 text-sm text-gray-500 dark:text-gray-400"><span class="font-semibold">Click to upload</span> or drag and drop</p>
-                                                                        <p class="text-xs text-gray-500 dark:text-gray-400">SVG, PNG, JPG or GIF (MAX. 800x400px)</p>
+                                                                        <p id="header2" class="label-text mb-2 text-sm text-gray-500 dark:text-gray-400"><span class="font-semibold">Click to upload</span> or drag and drop</p>
+                                                                        <p id="file-name2" class="text-xs text-gray-500 dark:text-gray-400">format: .PDF dengan ukuran maksimal 10 MB</p>
                                                                     </div>                                                                   
-                                                                    <input type="file" name="file_skl" id="file-skl-{{ $mhs->id_mhs }}" class="input input-bordered">
+                                                                    <input type="file" name="file_skl" id="file-skl-{{ $mhs->id_mhs }}" class="input input-bordered hidden" onchange="displayFileName2('{{ $mhs->id_mhs }}')">
                                                                 </label>
                                                             </div>
                                                             <div class="flex form-control mt-4">
                                                                 {{-- Simpan --}}
                                                                 <button type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:outline-none font-medium rounded-md text-xs w-20 h-8 text-center me-2 dark:bg-blue-600 dark:hover:bg-blue-700">Simpan</button>
                                                                 {{-- Cancel --}}
-                                                                <button type="button" onclick="resetUpload('{{ $mhs->id_mhs }}')" class="text-white bg-red-700 hover:bg-red-800 focus:outline-none font-medium rounded-md text-xs w-20 h-8 text-center me-2 dark:bg-red-600 dark:hover:bg-red-700">Reset</button>
+                                                                <button type="button" onclick="resetUpload2('{{ $mhs->id_mhs }}')" class="text-white bg-red-700 hover:bg-red-800 focus:outline-none font-medium rounded-md text-xs w-20 h-8 text-center me-2 dark:bg-red-600 dark:hover:bg-red-700">Reset</button>
                                                             </div>
                                                         </form>
                                                     </div>
@@ -462,19 +462,87 @@
             });
         });
 
+        // function resetUpload(id) {
+        //     var fileInput = document.getElementById('file-skl-' + id);
+        //     var uploadIcon = document.getElementById('upload-icon-' + id);
+        //     var uploadInfo = document.getElementById('upload-info-' + id);
+        //     var fileName = document.getElementById('file-name-' + id);
+
+        //     // Reset input file
+        //     fileInput.value = null;
+
+        //     // Reset logo dan informasi upload
+        //     uploadIcon.style.color = 'gray';
+        //     uploadInfo.innerHTML = '<span class="font-semibold">Click to upload</span> or drag and drop';
+        //     fileName.innerHTML = 'SVG, PNG, JPG, or GIF (MAX. 800x400px)';
+        // }
+
         function resetUpload(id) {
-            var fileInput = document.getElementById('file-skl-' + id);
-            var uploadIcon = document.getElementById('upload-icon-' + id);
-            var uploadInfo = document.getElementById('upload-info-' + id);
-            var fileName = document.getElementById('file-name-' + id);
+            const fileInput = document.getElementById(`file-skl-${id}`);
+            const fileNameDisplay = document.getElementById('file-name');
+            const fileNameHeader = document.getElementById('header');
+            var svgElement = document.getElementById('icon');
+            var labelElement = document.getElementById('border');
+            labelElement.style.borderColor = '#d4d4d8';
+            labelElement.style.backgroundColor = '#f4f4f5';
 
-            // Reset input file
-            fileInput.value = null;
+            fileInput.value = ''; // Clear file input
+            fileNameDisplay.textContent = 'format: .PDF dengan ukuran maksimal 10 MB';
+            fileNameHeader.innerHTML = '<span class="font-semibold">Click to upload</span> or drag and drop';
+            svgElement.innerHTML = '<path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"/>';
+        }
 
-            // Reset logo dan informasi upload
-            uploadIcon.style.color = 'gray';
-            uploadInfo.innerHTML = '<span class="font-semibold">Click to upload</span> or drag and drop';
-            fileName.innerHTML = 'SVG, PNG, JPG, or GIF (MAX. 800x400px)';
+        function displayFileName(id) {
+            const fileInput = document.getElementById(`file-skl-${id}`);
+            const fileNameDisplay = document.getElementById('file-name');
+            const fileNameHeader = document.getElementById('header');
+            var svgElement = document.getElementById('icon');
+            var labelElement = document.getElementById('border');
+
+            if (fileInput.files.length > 0) {
+                fileNameDisplay.innerHTML = `Nama file: <span style="font-weight: bold; color: green;">${fileInput.files[0].name}</span>`;
+                fileNameHeader.innerHTML = '<span class="font-semibold" style="color: green">Berhasil</span> mengupload file!';
+                svgElement.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="40px" height="40px" viewBox="0 0 50 50" fill="green"><path fill-rule="evenodd" d="M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12Zm13.36-1.814a.75.75 0 1 0-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 0 0-1.06 1.06l2.25 2.25a.75.75 0 0 0 1.14-.094l3.75-5.25Z" clip-rule="evenodd" /></svg>';
+
+                labelElement.style.borderColor = 'green';
+                labelElement.style.backgroundColor = '#dcfce7';
+            } else {
+                fileNameDisplay.textContent = 'format: .PDF dengan ukuran maksimal 10 MB';
+            }
+        }
+
+        function resetUpload2(id) {
+            const fileInput = document.getElementById(`file-skl-${id}`);
+            const fileNameDisplay = document.getElementById('file-name2');
+            const fileNameHeader = document.getElementById('header2');
+            var svgElement = document.getElementById('icon2');
+            var labelElement = document.getElementById('border2');
+            labelElement.style.borderColor = '#d4d4d8';
+            labelElement.style.backgroundColor = '#f4f4f5';
+
+            fileInput.value = ''; // Clear file input
+            fileNameDisplay.textContent = 'format: .PDF dengan ukuran maksimal 10 MB';
+            fileNameHeader.innerHTML = '<span class="font-semibold">Click to upload</span> or drag and drop';
+            svgElement.innerHTML = '<path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"/>';
+        }
+
+        function displayFileName2(id) {
+            const fileInput = document.getElementById(`file-skl-${id}`);
+            const fileNameDisplay = document.getElementById('file-name2');
+            const fileNameHeader = document.getElementById('header2');
+            var svgElement = document.getElementById('icon2');
+            var labelElement = document.getElementById('border2');
+
+            if (fileInput.files.length > 0) {
+                fileNameDisplay.innerHTML = `Nama file: <span style="font-weight: bold; color: green;">${fileInput.files[0].name}</span>`;
+                fileNameHeader.innerHTML = '<span class="font-semibold" style="color: green">Berhasil</span> mengupload file!';
+                svgElement.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="40px" height="40px" viewBox="0 0 50 50" fill="green"><path fill-rule="evenodd" d="M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12Zm13.36-1.814a.75.75 0 1 0-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 0 0-1.06 1.06l2.25 2.25a.75.75 0 0 0 1.14-.094l3.75-5.25Z" clip-rule="evenodd" /></svg>';
+
+                labelElement.style.borderColor = 'green';
+                labelElement.style.backgroundColor = '#dcfce7';
+            } else {
+                fileNameDisplay.textContent = 'format: .PDF dengan ukuran maksimal 10 MB';
+            }
         }
     </script>
 </body>
