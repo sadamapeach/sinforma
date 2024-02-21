@@ -201,12 +201,12 @@ class MahasiswaController extends Controller
     {
         // Check old password
         if (!Hash::check($request->old_password, auth()->user()->password)) {
-            return back()->with('error1', 'Password lama salah!');
+            return back()->with('error', 'Password lama salah!');
         }
 
         // Check new password and configuration
         if ($request->new_password != $request->config_password) {
-            return back()->with('error2', 'Konfigurasi password salah!');
+            return back()->with('error', 'Konfigurasi password salah!');
         }
 
         User::where('id', auth()->user()->id)->update([

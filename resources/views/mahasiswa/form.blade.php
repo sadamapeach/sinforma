@@ -97,7 +97,7 @@
       <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
       <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
       
-      <title>SIPRESMA | Form</title>
+      <title>SINFORMA | Form</title>
     </head>
   
     <body>
@@ -111,7 +111,7 @@
               <div class="header" style="margin-top: 12%">
                 <div  style="display: flex; align-items: center">
                   <div><img src="assets/logo.png" alt="logo_diskominfo" class="mb-2" style="width: 25%"></div>
-                  <h2 style="margin-left: -20%;"><b>SIPRESMA Diskominfo</b></h2>
+                  <h2 style="margin-left: -20%;"><b>SINFORMA Diskominfo</b></h2>
                 </div>
                 <p>Complete the following form to proceed to the next step.</p>
               </div>

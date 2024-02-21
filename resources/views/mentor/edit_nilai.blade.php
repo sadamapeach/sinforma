@@ -10,25 +10,88 @@
 <body>
     <div class="p-4 sm:ml-64">
         @if (session('success'))
-            <div class="p-4 mr-2 text-sm text-green-800 rounded-lg bg-green-100 dark:bg-gray-800 dark:text-green-400" role="alert">
-                <span class="font-medium">{{ session('success') }}</span>
+            <div id="notification-success" class="flex items-center p-4 mb-4 text-green-800 rounded-lg bg-green-50 dark:bg-gray-900 dark:text-green-400" role="alert">
+                <svg class="flex-shrink-0 w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z"/>
+                </svg>
+                <span class="sr-only">Info</span>
+                <div class="ms-3 text-sm font-medium">
+                    {{ session('success') }}
+                </div>
+                <button type="button" class="ms-auto -mx-1.5 -my-1.5 bg-green-50 text-green-500 rounded-lg focus:ring-2 focus:ring-green-400 p-1.5 hover:bg-green-200 inline-flex items-center justify-center h-8 w-8 dark:bg-gray-900 dark:text-green-400 dark:hover:bg-gray-700" data-dismiss-target="#notification" aria-label="Close">
+                    <span class="sr-only">Close</span>
+                    <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                      <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
+                    </svg>
+                </button>
             </div>
+
+            <script>
+                // Hide success notification after 5000 milliseconds (5 seconds)
+                setTimeout(function() {
+                    document.getElementById('notification-success').style.display = 'none';
+                }, 3000);
+            </script>
+        @endif
+
+        @if (session('info'))
+            <div id="notification-info" class="flex items-center p-4 mb-4 text-blue-800 rounded-lg bg-blue-50 dark:bg-gray-900 dark:text-blue-400" role="alert">
+                <svg class="flex-shrink-0 w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z"/>
+                </svg>
+                <span class="sr-only">Info</span>
+                <div class="ms-3 text-sm font-medium">
+                    {{ session('info') }}
+                </div>
+                <button type="button" class="ms-auto -mx-1.5 -my-1.5 bg-blue-50 text-blue-500 rounded-lg focus:ring-2 focus:ring-blue-400 p-1.5 hover:bg-blue-200 inline-flex items-center justify-center h-8 w-8 dark:bg-gray-900 dark:text-blue-400 dark:hover:bg-gray-700" data-dismiss-target="#notification" aria-label="Close">
+                    <span class="sr-only">Close</span>
+                    <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
+                    </svg>
+                </button>
+            </div>
+
+            <script>
+                // Hide info notification after 5000 milliseconds (5 seconds)
+                setTimeout(function() {
+                    document.getElementById('notification-info').style.display = 'none';
+                }, 3000);
+            </script>
         @endif
 
         @if (session('error'))
-            <div class="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-100 dark:bg-gray-800 dark:text-red-400" role="alert">
-                <span class="font-medium">{{ session('error') }}</span>
+            <div id="notification-error" class="flex items-center p-4 mb-4 text-red-800 rounded-lg bg-red-50 dark:bg-gray-900 dark:text-red-400" role="alert">
+                <svg class="flex-shrink-0 w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z"/>
+                </svg>
+                <span class="sr-only">Info</span>
+                <div class="ms-3 text-sm font-medium">
+                    {{ session('error') }}
+                </div>
+                <button type="button" class="ms-auto -mx-1.5 -my-1.5 bg-red-50 text-red-500 rounded-lg focus:ring-2 focus:ring-red-400 p-1.5 hover:bg-red-200 inline-flex items-center justify-center h-8 w-8 dark:bg-gray-900 dark:text-red-400 dark:hover:bg-gray-700" data-dismiss-target="#notification" aria-label="Close">
+                    <span class="sr-only">Close</span>
+                    <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
+                    </svg>
+                </button>
             </div>
+
+            <script>
+                // Hide error notification after 5000 milliseconds (5 seconds)
+                setTimeout(function() {
+                    document.getElementById('notification-error').style.display = 'none';
+                }, 3000);
+            </script>
         @endif
 
-        <nav class="bg-zinc-100 border-gray-200 dark:bg-gray-800 dark:border-gray-700 rounded-lg mb-3">
+        <nav class="bg-zinc-100 border-gray-200 dark:bg-gray-900 dark:border-gray-800 rounded-lg mb-3">
             {{-- Welcome User --}}
-            <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-2.5">
+            <div class="flex p-2.5">
                 <div class="ml-1 flex items-center">
                     <p class="self-center text-sm font-semibold whitespace-nowrap text-black dark:text-white ml-1">Penilaian Mahasiswa Magang</p>
                 </div>
                 {{-- Icon --}}
-                <div class="flex items-center md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
+                <div class="ml-auto flex items-center md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
                     <!-- Dropdown menu -->
                     <span><button type="button" class="items-center justify-between hidden w-full md:flex md:w-auto md:order-1 px-2" id="user-menu-button" aria-expanded="false" data-dropdown-toggle="user-dropdown" data-dropdown-placement="bottom-start">
                         <span class="sr-only">Open user menu</span>
@@ -74,7 +137,7 @@
 
         <div class="grid grid-cols-7 gap-3">
             {{-- Profile --}}
-            <div class="col-span-3 bg-white border border-gray-200 dark:bg-gray-800 dark:border-gray-700 rounded-lg shadow">
+            <div class="col-span-3 bg-white border border-gray-200 dark:bg-gray-900 dark:border-gray-800 rounded-lg shadow">
                 {{-- Foto --}}
                 <div class="flex items-center py-4 px-5">
                     <img src="{{ $foto }}" alt="user photo" class="w-24 h-24 object-cover rounded-full ml-1"/>
@@ -123,7 +186,7 @@
             @endphp
 
             {{-- Persentase Absen --}}
-            <div class="col-span-2 bg-white border border-gray-200 dark:bg-gray-800 dark:border-gray-700 rounded-lg shadow">
+            <div class="col-span-2 bg-white border border-gray-200 dark:bg-gray-900 dark:border-gray-800 rounded-lg shadow">
                 <div class="flex items-center py-4 px-5">
                     <div class="space-y-0.5">
                         <h1 class="text-xs font-medium dark:text-white">Rekapitulasi Pengisian Presensi</h1>
@@ -135,7 +198,7 @@
             </div>
 
             {{-- Persentase Progress --}}
-            <div class="col-span-2 bg-white border border-gray-200 dark:bg-gray-800 dark:border-gray-700 rounded-lg shadow">
+            <div class="col-span-2 bg-white border border-gray-200 dark:bg-gray-900 dark:border-gray-800 rounded-lg shadow">
                 <div class="flex items-center py-4 px-5">
                     <div class="space-y-0.5">
                         <h1 class="text-xs font-medium dark:text-white">Rekapitulasi Pengisian Progress</h1>
@@ -147,23 +210,23 @@
             </div>
         </div>
 
-        <div class="p-5 bg-white border border-gray-200 dark:bg-gray-800 dark:border-gray-700 rounded-lg shadow mt-3">
+        <div class="p-5 bg-white border border-gray-200 dark:bg-gray-900 dark:border-gray-800 rounded-lg shadow mt-3">
             <!-- Tabel Penilaian Magang -->
             <form action="{{ route('edit_nilai_mentor', ['id_mhs' => $mahasiswa->id_mhs]) }}" method="post">
                 @csrf
                 <table class="w-full text-sm text-left rtl:text-right">
-                    <thead class="border dark:border-gray-800 text-xs text-black uppercase bg-gray-100 dark:bg-gray-900 dark:text-white">
+                    <thead class="border dark:border-black text-xs text-black uppercase bg-gray-100 dark:bg-gray-900 dark:text-white">
                         <tr>
-                            <th class="py-3 px-4 text-center border dark:border-gray-700">Nomor</th>
-                            <th class="py-3 px-4 text-left border dark:border-gray-700">Kriteria Penilaian</th>
-                            <th class="py-3 px-4 text-left border dark:border-gray-700">Nilai</th>
+                            <th class="py-3 px-4 text-center border dark:border-black">Nomor</th>
+                            <th class="py-3 px-4 text-left border dark:border-black">Kriteria Penilaian</th>
+                            <th class="py-3 px-4 text-left border dark:border-black">Nilai</th>
                         </tr>
                     </thead>
-                    <tbody class="text-gray-800 dark:text-gray-200 border dark:border-gray-800 text-xs font-medium">
-                        <tr class="bg-white dark:bg-gray-800 dark:border-gray-800">
-                            <td class="py-3 px-4 text-center border dark:border-gray-700">1</td>
-                            <td class="py-3 px-4 border dark:border-gray-700">Kedisiplinan dan Etika</td>
-                            <td class="py-3 px-4 border dark:border-gray-700">
+                    <tbody class="text-gray-800 dark:text-gray-200 border dark:border-black text-xs font-medium">
+                        <tr class="bg-white dark:bg-gray-800 dark:border-black">
+                            <td class="py-3 px-4 text-center border dark:border-black">1</td>
+                            <td class="py-3 px-4 border dark:border-black">Kedisiplinan dan Etika</td>
+                            <td class="py-3 px-4 border dark:border-black">
                                 <input type="number" id="nilai1" name="nilai1" value="{{ $nilai->nilai1 }}" class="w-full border rounded py-1 px-2 dark:bg-gray-700 text-xs">
                                 @error('nilai1')
                                     <div class="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-100 dark:bg-gray-800 dark:text-red-400"
@@ -175,10 +238,10 @@
                                 @enderror
                             </td>
                         </tr>
-                        <tr class="bg-white dark:bg-gray-800 dark:border-gray-800">
-                            <td class="py-3 px-4 text-center border dark:border-gray-700">2</td>
-                            <td class="py-3 px-4 border dark:border-gray-700">Kemampuan Berkomunikasi dan Bekerja Sama</td>
-                            <td class="py-3 px-4 border dark:border-gray-700">
+                        <tr class="bg-white dark:bg-gray-800 dark:border-black">
+                            <td class="py-3 px-4 text-center border dark:border-black">2</td>
+                            <td class="py-3 px-4 border dark:border-black">Kemampuan Berkomunikasi dan Bekerja Sama</td>
+                            <td class="py-3 px-4 border dark:border-black">
                                 <input type="number" id="nilai2" name="nilai2" value="{{ $nilai->nilai2 }}" class="w-full border rounded py-1 px-2 dark:bg-gray-700 text-xs">
                                 @error('nilai2')
                                     <div class="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-100 dark:bg-gray-800 dark:text-red-400"
@@ -190,10 +253,10 @@
                                 @enderror
                             </td>
                         </tr>
-                        <tr class="bg-white dark:bg-gray-800 dark:border-gray-800">
-                            <td class="py-3 px-4 text-center border dark:border-gray-700">3</td>
-                            <td class="py-3 px-4 border dark:border-gray-700">Pemahaman terhadap Permasalahan</td>
-                            <td class="py-3 px-4 border dark:border-gray-700">
+                        <tr class="bg-white dark:bg-gray-800 dark:border-black">
+                            <td class="py-3 px-4 text-center border dark:border-black">3</td>
+                            <td class="py-3 px-4 border dark:border-black">Pemahaman terhadap Permasalahan</td>
+                            <td class="py-3 px-4 border dark:border-black">
                                 <input type="number" id="nilai3" name="nilai3" value="{{ $nilai->nilai3 }}" class="w-full border rounded py-1 px-2 dark:bg-gray-700 text-xs">
                                 @error('nilai3')
                                     <div class="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-100 dark:bg-gray-800 dark:text-red-400"
@@ -205,10 +268,10 @@
                                 @enderror
                             </td>
                         </tr>
-                        <tr class="bg-white dark:bg-gray-800 dark:border-gray-800">
-                            <td class="py-3 px-4 text-center border dark:border-gray-700">4</td>
-                            <td class="py-3 px-4 border dark:border-gray-700">Pengetahuan Teoritis dan Praktik</td>
-                            <td class="py-3 px-4 border dark:border-gray-700">
+                        <tr class="bg-white dark:bg-gray-800 dark:border-black">
+                            <td class="py-3 px-4 text-center border dark:border-black">4</td>
+                            <td class="py-3 px-4 border dark:border-black">Pengetahuan Teoritis dan Praktik</td>
+                            <td class="py-3 px-4 border dark:border-black">
                                 <input type="number" id="nilai4" name="nilai4" value="{{ $nilai->nilai4 }}" class="w-full border rounded py-1 px-2 dark:bg-gray-700 text-xs">
                                 @error('nilai4')
                                     <div class="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-100 dark:bg-gray-800 dark:text-red-400"
@@ -232,7 +295,7 @@
                     </a> 
 
                     {{-- Simpan --}}
-                    <button type="submit" name="submit" value="generate" class="ml-auto text-white bg-blue-700 hover:bg-blue-800 focus:outline-none font-medium rounded-md text-xs w-40 h-8 text-center me-2 dark:bg-blue-600 dark:hover:bg-blue-700 -mr-0.5">
+                    <button type="submit" name="submit" value="generate" class="ml-auto text-white bg-blue-700 hover:bg-blue-800 focus:outline-none font-medium rounded-md text-xs w-40 h-8 text-center dark:bg-blue-600 dark:hover:bg-blue-700 -mr-0.5">
                         Simpan Perubahan
                     </button>
                 </div>

@@ -1,0 +1,12 @@
+/* File main.css atau styles.css */
+
+:root {
+  --light-border-color: #ffffff;  /* Warna batas untuk tema terang */
+  --dark-border-color: #000000;   /* Warna batas untuk tema gelap */
+
+  --light-background-color: #dcfce7;  /* Warna latar belakang untuk tema terang */
+  --dark-background-color: #333333;    /* Warna latar belakang untuk tema gelap */
+}
+
+/* Sisanya dari kode CSS Anda */
+/* ... */

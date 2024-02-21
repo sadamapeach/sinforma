@@ -83,7 +83,8 @@ Route::get('/admin/skl_mahasiswa', [AdminController::class, 'viewSKL'])->middlew
 Route::get('/admin/skl_mahasiswa/lihat_nilai/{id_mhs}', [AdminController::class, 'viewNilai'])->name('lihat_nilai');
 Route::post('/tambah_skl/{id_mhs}', [AdminController::class, 'tambahSKL'])->name('tambah_skl');
 Route::post('/update_skl/{id_mhs}', [AdminController::class, 'updateSKL'])->name('update_skl');
-Route::match(['get', 'post'], '/delete_skl/{id_mhs}', [AdminController::class, 'deleteSKL'])->name('delete_skl');
+// Route::match(['get', 'post'], '/delete_skl/{id_mhs}', [AdminController::class, 'deleteSKL'])->name('delete_skl');
+Route::delete('/delete_skl/{id_mhs}', [AdminController::class, 'deleteSKL'])->name('delete_skl');
 
 Route::get('/admin/berita_acara', [AdminController::class, 'viewBerita'])->middleware('only_admin')->name('view_berita');
 Route::post('/tambah_berita', [AdminController::class, 'tambahBerita'])->name('tambah_berita');

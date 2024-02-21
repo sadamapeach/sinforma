@@ -4,6 +4,7 @@
 @section('isihalaman')
 <head>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel="stylesheet" href="{{ asset('css/main.css') }}">
 
     {{-- Reference Tailwind Flowbite --}}
     @vite(['resources/css/app.css','resources/js/app.js'])
@@ -245,7 +246,7 @@
                     <tbody class="text-gray-700 dark:text-gray-400 overflow-y-auto">
                         @if ($berita)
                             @foreach ($berita as $index => $event)
-                                <tr class="text-xs bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-600 border border-gray-300 dark:border-black">
+                                <tr class="text-xs bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 border border-gray-300 dark:border-black">
                                     <td class="px-4 py-4 text-center w-12">
                                         {{ $index + 1 }}
                                     </td>
@@ -413,15 +414,22 @@
             var fileNameDisplay = document.getElementById('file-name');
             var headerDisplay = document.getElementById('header');
             var iconDisplay = document.getElementById('icon');
-            var borderDisplay = document.getElementById('border');
+            // var borderDisplay = document.getElementById('border');
+
+            // Mendapatkan tema saat ini dari CSS menggunakan window.getComputedStyle (Tambahan)
+            // const currentTheme = window.getComputedStyle(document.documentElement).getPropertyValue('--theme');
 
             if (input.files.length > 0) {
                 var fileName = `Nama file: <span style="font-weight: bold; color: green;">${input.files[0].name}</span>`;
                 fileNameDisplay.innerHTML = fileName;
                 headerDisplay.innerHTML = '<span class="font-semibold" style="color: green">Berhasil</span> mengupload file!';
                 iconDisplay.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="40px" height="40px" viewBox="0 0 50 50" fill="green"><path fill-rule="evenodd" d="M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12Zm13.36-1.814a.75.75 0 1 0-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 0 0-1.06 1.06l2.25 2.25a.75.75 0 0 0 1.14-.094l3.75-5.25Z" clip-rule="evenodd" /></svg>';
-                borderDisplay.style.borderColor = 'green';
-                borderDisplay.style.backgroundColor = '#dcfce7';
+
+                // borderDisplay.style.borderColor = 'green';
+                // borderDisplay.style.backgroundColor = '#dcfce7';
+
+                // labelElement.style.borderColor = currentTheme === 'light' ? 'var(--light-border-color)' : 'var(--dark-border-color)';
+                // labelElement.style.backgroundColor = currentTheme === 'light' ? 'var(--light-background-color)' : 'var(--dark-background-color)';
             } else {
                 fileNameDisplay.textContent = 'SVG, PNG, JPG or GIF (MAX. 800x400px)';
             }
@@ -431,8 +439,13 @@
             document.getElementById('file-name').innerText = 'SVG, PNG, JPG or GIF (MAX. 800x400px)';
             document.getElementById('header').innerHTML = '<span class="font-semibold">Click to upload</span> or drag and drop';
             document.getElementById('icon').innerHTML = '<path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"/>';
-            document.getElementById('border').style.borderColor = '#d4d4d8';
-            document.getElementById('border').style.backgroundColor = '#f4f4f5';
+            // document.getElementById('border').style.borderColor = '#d4d4d8';
+            // document.getElementById('border').style.backgroundColor = '#f4f4f5';
+
+            // Mendapatkan tema saat ini dari CSS menggunakan window.getComputedStyle (Tambahan)
+            // const currentTheme = window.getComputedStyle(document.documentElement).getPropertyValue('--theme');
+            // labelElement.style.borderColor = currentTheme === 'light' ? 'var(--light-border-color)' : 'var(--dark-border-color)';
+            // labelElement.style.backgroundColor = currentTheme === 'light' ? 'var(--light-background-color)' : 'var(--dark-background-color)';
         }
 
         function displayFileName2(id) {
@@ -440,15 +453,21 @@
             const fileNameDisplay = document.getElementById(`file-name-${id}`);
             const fileNameHeader = document.getElementById(`header-${id}`);
             var svgElement = document.getElementById(`icon-${id}`);
-            var labelElement = document.getElementById(`border-${id}`);
+            // var labelElement = document.getElementById(`border-${id}`);
+
+            // Mendapatkan tema saat ini dari CSS menggunakan window.getComputedStyle (Tambahan)
+            // const currentTheme = window.getComputedStyle(document.documentElement).getPropertyValue('--theme');
 
             if (fileInput.files.length > 0) {
                 fileNameDisplay.innerHTML = `Nama file: <span style="font-weight: bold; color: green;">${fileInput.files[0].name}</span>`;
                 fileNameHeader.innerHTML = '<span class="font-semibold" style="color: green">Berhasil</span> mengupload file!';
                 svgElement.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="40px" height="40px" viewBox="0 0 50 50" fill="green"><path fill-rule="evenodd" d="M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12Zm13.36-1.814a.75.75 0 1 0-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 0 0-1.06 1.06l2.25 2.25a.75.75 0 0 0 1.14-.094l3.75-5.25Z" clip-rule="evenodd" /></svg>';
 
-                labelElement.style.borderColor = 'green';
-                labelElement.style.backgroundColor = '#dcfce7';
+                // labelElement.style.borderColor = 'green';
+                // labelElement.style.backgroundColor = '#dcfce7';
+
+                // labelElement.style.borderColor = currentTheme === 'light' ? 'var(--light-border-color)' : 'var(--dark-border-color)';
+                // labelElement.style.backgroundColor = currentTheme === 'light' ? 'var(--light-background-color)' : 'var(--dark-background-color)';
             } else {
                 fileNameDisplay.textContent = 'SVG, PNG, JPG or GIF (MAX. 800x400px)';
             }
@@ -459,9 +478,14 @@
             const fileNameDisplay = document.getElementById(`file-name-${id}`);
             const fileNameHeader = document.getElementById(`header-${id}`);
             var svgElement = document.getElementById(`icon-${id}`);
-            var labelElement = document.getElementById(`border-${id}`);
-            labelElement.style.borderColor = '#d4d4d8';
-            labelElement.style.backgroundColor = '#f4f4f5';
+            // var labelElement = document.getElementById(`border-${id}`);
+            // labelElement.style.borderColor = '#d4d4d8';
+            // labelElement.style.backgroundColor = '#f4f4f5';
+
+            // Mendapatkan tema saat ini dari CSS menggunakan window.getComputedStyle (Tambahan)
+            // const currentTheme = window.getComputedStyle(document.documentElement).getPropertyValue('--theme');
+            // labelElement.style.borderColor = currentTheme === 'light' ? 'var(--light-border-color)' : 'var(--dark-border-color)';
+            // labelElement.style.backgroundColor = currentTheme === 'light' ? 'var(--light-background-color)' : 'var(--dark-background-color)';
 
             fileInput.value = ''; // Clear file input
             fileNameDisplay.textContent = 'SVG, PNG, JPG or GIF (MAX. 800x400px)';

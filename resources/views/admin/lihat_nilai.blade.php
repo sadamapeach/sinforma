@@ -61,12 +61,12 @@
 
         <nav class="bg-zinc-100 border-gray-200 dark:bg-gray-900 dark:border-gray-800 rounded-lg mb-3">
             {{-- Welcome User --}}
-            <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-2.5">
+            <div class="flex p-2.5">
                 <div class="ml-1 flex items-center">
                     <p class="self-center text-sm font-semibold whitespace-nowrap text-black dark:text-white ml-1">Penilaian Mahasiswa Magang</p>
                 </div>
                 {{-- Icon --}}
-                <div class="flex items-center md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
+                <div class="ml-auto flex items-center md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
                     <!-- Dropdown menu -->
                     <span><button type="button" class="items-center justify-between hidden w-full md:flex md:w-auto md:order-1 px-2" id="user-menu-button" aria-expanded="false" data-dropdown-toggle="user-dropdown" data-dropdown-placement="bottom-start">
                         <span class="sr-only">Open user menu</span>

@@ -4,6 +4,7 @@
 @section('isihalaman')
 <head>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel="stylesheet" href="{{ asset('css/main.css') }}">
 
     {{-- Reference Tailwind Flowbite --}}
     @vite(['resources/css/app.css','resources/js/app.js'])
@@ -93,10 +94,10 @@
 
         <nav class="bg-zinc-100 border-gray-200 dark:bg-gray-900 dark:border-gray-800 rounded-lg">
             {{-- Welcome User --}}
-            <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-2.5"> 
+            <div class="flex p-2.5"> 
                 <p class="self-center text-sm font-semibold whitespace-nowrap text-black dark:text-white ml-1">Daftar Penerbitan SKL Mahasiswa Magang</p>
                 {{-- Icon --}}
-                <div class="flex items-center md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
+                <div class="ml-auto flex items-center md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
                     <!-- Dropdown menu -->
                     <span><button type="button" class="items-center justify-between hidden w-full md:flex md:w-auto md:order-1 px-2" id="user-menu-button" aria-expanded="false" data-dropdown-toggle="user-dropdown" data-dropdown-placement="bottom-start">
                         <span class="sr-only">Open user menu</span>
@@ -225,7 +226,7 @@
                     <tbody class="text-gray-700 dark:text-gray-400 overflow-y-auto">
                         @if ($mhsData)
                             @foreach ($mhsData as $index => $mhs)
-                                <tr class="text-xs bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-600 border border-gray-300 dark:border-black">
+                                <tr class="text-xs bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 border border-gray-300 dark:border-black">
                                     <td class="px-4 py-4 text-center w-12">
                                         {{ $index + 1 }}
                                     </td>
@@ -286,13 +287,13 @@
                                                         <form action="{{ route('tambah_skl', ['id_mhs' => $mhs->id_mhs]) }}" method="POST" enctype="multipart/form-data">
                                                             @csrf
                                                             <div class="form-control flex items-center justify-center w-full">
-                                                                <label for="file-skl-{{ $mhs->id_mhs }}" class="label flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600" id="border">
+                                                                <label for="file-skl-{{ $mhs->id_mhs }}" class="label flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600" id="border-{{ $mhs->id_mhs }}">
                                                                     <div class="flex flex-col items-center justify-center pt-5 pb-6">
-                                                                        <svg id="icon" class="w-8 h-8 mb-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 16">
+                                                                        <svg id="icon-{{ $mhs->id_mhs }}" class="w-8 h-8 mb-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 16">
                                                                             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"/>
                                                                         </svg>
-                                                                        <p id="header" class="label-text mb-2 text-sm text-gray-500 dark:text-gray-400"><span class="font-semibold">Click to upload</span> or drag and drop</p>
-                                                                        <p id="file-name" class="text-xs text-gray-500 dark:text-gray-400">format: .PDF dengan ukuran maksimal 10 MB</p>
+                                                                        <p id="header-{{ $mhs->id_mhs }}" class="label-text mb-2 text-sm text-gray-500 dark:text-gray-400"><span class="font-semibold">Click to upload</span> or drag and drop</p>
+                                                                        <p id="file-name-{{ $mhs->id_mhs }}" class="text-xs text-gray-500 dark:text-gray-400">format: .PDF dengan ukuran maksimal 10 MB</p>
                                                                     </div>                                                                   
                                                                     <input type="file" name="file_skl" id="file-skl-{{ $mhs->id_mhs }}" class="input input-bordered hidden" onchange="displayFileName('{{ $mhs->id_mhs }}')">
                                                                 </label>
@@ -334,6 +335,36 @@
                                                     Delete
                                                     <div class="tooltip-arrow" data-popper-arrow></div>
                                                 </div>
+
+                                                {{-- Pop Up Delete --}}
+                                                <div id="delete-modal-{{ $mhs->id_mhs }}" tabindex="-1" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full ml-32">
+                                                    <div class="relative p-4 w-full max-w-md max-h-full">
+                                                        <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+                                                            <button type="button" class="absolute top-3 end-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-hide="delete-modal-{{ $mhs->id_mhs }}">
+                                                                <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                                                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
+                                                                </svg>
+                                                                <span class="sr-only">Close modal</span>
+                                                            </button>
+                                                            <div class="p-4 md:p-5 text-center">
+                                                                <svg class="mx-auto mb-4 text-gray-400 w-12 h-12 dark:text-gray-200" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                                                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 11V6m0 8h.01M19 10a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
+                                                                </svg>
+                                                                <h3 class="mb-5 text-sm font-normal text-gray-500 dark:text-gray-400">Apakah anda yakin ingin menghapus SKL ini?</h3>
+                                                                <div class="flex justify-center">
+                                                                    <form method="POST" action="{{ route('delete_skl', [$mhs->id_mhs]) }}">
+                                                                        @csrf
+                                                                        @method('DELETE')
+                                                                        <button data-modal-hide="delete-modal-{{ $mhs->id_mhs }}" type="submit" class="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-xs inline-flex items-center px-5 py-2.5 text-center me-2">
+                                                                            Ya
+                                                                        </button>
+                                                                    </form>
+                                                                    <button data-modal-hide="delete-modal-{{ $mhs->id_mhs }}" type="button" class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200 rounded-lg border border-gray-200 text-xs font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600">Tidak</button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                             </div>
 
                                             <!-- Pop Up Edit -->
@@ -357,15 +388,15 @@
                                                         <form action="{{ route('update_skl', ['id_mhs' => $mhs->id_mhs]) }}" method="POST" enctype="multipart/form-data">
                                                             @csrf
                                                             <div class="form-control flex items-center justify-center w-full">
-                                                                <label for="file-skl-{{ $mhs->id_mhs }}" class="label flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600" id="border2">
+                                                                <label for="file-skl2-{{ $mhs->id_mhs }}" class="label flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600" id="border2-{{ $mhs->id_mhs }}">
                                                                     <div class="flex flex-col items-center justify-center pt-5 pb-6">
-                                                                        <svg id="icon2" class="w-8 h-8 mb-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 16">
+                                                                        <svg id="icon2-{{ $mhs->id_mhs }}" class="w-8 h-8 mb-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 16">
                                                                             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"/>
                                                                         </svg>
-                                                                        <p id="header2" class="label-text mb-2 text-sm text-gray-500 dark:text-gray-400"><span class="font-semibold">Click to upload</span> or drag and drop</p>
-                                                                        <p id="file-name2" class="text-xs text-gray-500 dark:text-gray-400">format: .PDF dengan ukuran maksimal 10 MB</p>
+                                                                        <p id="header2-{{ $mhs->id_mhs }}" class="label-text mb-2 text-sm text-gray-500 dark:text-gray-400"><span class="font-semibold">Click to upload</span> or drag and drop</p>
+                                                                        <p id="file-name2-{{ $mhs->id_mhs }}" class="text-xs text-gray-500 dark:text-gray-400">format: .PDF dengan ukuran maksimal 10 MB</p>
                                                                     </div>                                                                   
-                                                                    <input type="file" name="file_skl" id="file-skl-{{ $mhs->id_mhs }}" class="input input-bordered hidden" onchange="displayFileName2('{{ $mhs->id_mhs }}')">
+                                                                    <input type="file" name="file_skl" id="file-skl2-{{ $mhs->id_mhs }}" class="input input-bordered hidden" onchange="displayFileName2('{{ $mhs->id_mhs }}')">
                                                                 </label>
                                                             </div>
                                                             <div class="flex form-control mt-4">
@@ -378,37 +409,9 @@
                                                     </div>
                                                 </div>
                                             </div>
-
-                                            {{-- Pop Up Delete --}}
-                                            <div id="delete-modal-{{ $mhs->id_mhs }}" tabindex="-1" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full ml-24">
-                                            <div class="relative p-4 w-full max-w-md max-h-full">
-                                                <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
-                                                    <button type="button" class="absolute top-3 end-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-hide="delete-modal-{{ $mhs->id_mhs }}">
-                                                        <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
-                                                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
-                                                        </svg>
-                                                        <span class="sr-only">Close modal</span>
-                                                    </button>
-                                                    <div class="p-4 md:p-5 text-center">
-                                                        <svg class="mx-auto mb-4 text-gray-400 w-12 h-12 dark:text-gray-200" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
-                                                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 11V6m0 8h.01M19 10a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
-                                                        </svg>
-                                                        <h3 class="mb-5 text-sm font-normal text-gray-500 dark:text-gray-400">Apakah anda yakin ingin menghapus SKL ini?</h3>
-                                                        <div class="flex justify-center">
-                                                            <form method="POST" action="{{ route('delete_skl', ['id_mhs' => $mhs['id_mhs'] ?? null]) }}">
-                                                                @csrf
-                                                                <button data-modal-hide="delete-modal-{{ $mhs->id_mhs }}" type="submit" class="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-xs inline-flex items-center px-5 py-2.5 text-center me-2">
-                                                                    Ya
-                                                                </button>
-                                                            </form>
-                                                            <button data-modal-hide="delete-modal-{{ $mhs->id_mhs }}" type="button" class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200 rounded-lg border border-gray-200 text-xs font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600">Tidak</button>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
                                         @else
                                             {{-- Edit --}}
-                                            <button class="text-gray-400 dark:text-gray-500" aria-disabled="true" tabindex="-1">
+                                            <button class="text-gray-400 dark:text-gray-500 pointer-events-none" aria-disabled="true" tabindex="-1">
                                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="w-3.5 h-3.5 mr-3">
                                                     <path d="M13.488 2.513a1.75 1.75 0 0 0-2.475 0L6.75 6.774a2.75 2.75 0 0 0-.596.892l-.848 2.047a.75.75 0 0 0 .98.98l2.047-.848a2.75 2.75 0 0 0 .892-.596l4.261-4.262a1.75 1.75 0 0 0 0-2.474Z" />
                                                     <path d="M4.75 3.5c-.69 0-1.25.56-1.25 1.25v6.5c0 .69.56 1.25 1.25 1.25h6.5c.69 0 1.25-.56 1.25-1.25V9A.75.75 0 0 1 14 9v2.25A2.75 2.75 0 0 1 11.25 14h-6.5A2.75 2.75 0 0 1 2 11.25v-6.5A2.75 2.75 0 0 1 4.75 2H7a.75.75 0 0 1 0 1.5H4.75Z" />
@@ -417,7 +420,7 @@
                                             
 
                                             {{-- Delete --}}
-                                            <button class="text-gray-400 dark:text-gray-500" aria-disabled="true" tabindex="-1">
+                                            <button class="text-gray-400 dark:text-gray-500 pointer-events-none" aria-disabled="true" tabindex="-1">
                                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="w-3.5 h-3.5">
                                                     <path fill-rule="evenodd" d="M5 3.25V4H2.75a.75.75 0 0 0 0 1.5h.3l.815 8.15A1.5 1.5 0 0 0 5.357 15h5.285a1.5 1.5 0 0 0 1.493-1.35l.815-8.15h.3a.75.75 0 0 0 0-1.5H11v-.75A2.25 2.25 0 0 0 8.75 1h-1.5A2.25 2.25 0 0 0 5 3.25Zm2.25-.75a.75.75 0 0 0-.75.75V4h3v-.75a.75.75 0 0 0-.75-.75h-1.5ZM6.05 6a.75.75 0 0 1 .787.713l.275 5.5a.75.75 0 0 1-1.498.075l-.275-5.5A.75.75 0 0 1 6.05 6Zm3.9 0a.75.75 0 0 1 .712.787l-.275 5.5a.75.75 0 0 1-1.498-.075l.275-5.5a.75.75 0 0 1 .786-.711Z" clip-rule="evenodd" />
                                                 </svg>
@@ -462,63 +465,45 @@
             });
         });
 
-        // function resetUpload(id) {
-        //     var fileInput = document.getElementById('file-skl-' + id);
-        //     var uploadIcon = document.getElementById('upload-icon-' + id);
-        //     var uploadInfo = document.getElementById('upload-info-' + id);
-        //     var fileName = document.getElementById('file-name-' + id);
-
-        //     // Reset input file
-        //     fileInput.value = null;
-
-        //     // Reset logo dan informasi upload
-        //     uploadIcon.style.color = 'gray';
-        //     uploadInfo.innerHTML = '<span class="font-semibold">Click to upload</span> or drag and drop';
-        //     fileName.innerHTML = 'SVG, PNG, JPG, or GIF (MAX. 800x400px)';
-        // }
-
-        function resetUpload(id) {
-            const fileInput = document.getElementById(`file-skl-${id}`);
-            const fileNameDisplay = document.getElementById('file-name');
-            const fileNameHeader = document.getElementById('header');
-            var svgElement = document.getElementById('icon');
-            var labelElement = document.getElementById('border');
-            labelElement.style.borderColor = '#d4d4d8';
-            labelElement.style.backgroundColor = '#f4f4f5';
-
-            fileInput.value = ''; // Clear file input
-            fileNameDisplay.textContent = 'format: .PDF dengan ukuran maksimal 10 MB';
-            fileNameHeader.innerHTML = '<span class="font-semibold">Click to upload</span> or drag and drop';
-            svgElement.innerHTML = '<path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"/>';
-        }
-
         function displayFileName(id) {
             const fileInput = document.getElementById(`file-skl-${id}`);
-            const fileNameDisplay = document.getElementById('file-name');
-            const fileNameHeader = document.getElementById('header');
-            var svgElement = document.getElementById('icon');
-            var labelElement = document.getElementById('border');
+            const fileNameDisplay = document.getElementById(`file-name-${id}`);
+            const fileNameHeader = document.getElementById(`header-${id}`);
+            var svgElement = document.getElementById(`icon-${id}`);
+            // var labelElement = document.getElementById(`border-${id}`);
+
+            // Mendapatkan tema saat ini dari CSS menggunakan window.getComputedStyle (Tambahan)
+            // const currentTheme = window.getComputedStyle(document.documentElement).getPropertyValue('--theme');
 
             if (fileInput.files.length > 0) {
                 fileNameDisplay.innerHTML = `Nama file: <span style="font-weight: bold; color: green;">${fileInput.files[0].name}</span>`;
                 fileNameHeader.innerHTML = '<span class="font-semibold" style="color: green">Berhasil</span> mengupload file!';
                 svgElement.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="40px" height="40px" viewBox="0 0 50 50" fill="green"><path fill-rule="evenodd" d="M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12Zm13.36-1.814a.75.75 0 1 0-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 0 0-1.06 1.06l2.25 2.25a.75.75 0 0 0 1.14-.094l3.75-5.25Z" clip-rule="evenodd" /></svg>';
 
-                labelElement.style.borderColor = 'green';
-                labelElement.style.backgroundColor = '#dcfce7';
+                // labelElement.style.borderColor = 'green';
+                // labelElement.style.backgroundColor = '#dcfce7';
+
+                // labelElement.style.borderColor = currentTheme === 'light' ? 'var(--light-border-color)' : 'var(--dark-border-color)';
+                // labelElement.style.backgroundColor = currentTheme === 'light' ? 'var(--light-background-color)' : 'var(--dark-background-color)';
             } else {
                 fileNameDisplay.textContent = 'format: .PDF dengan ukuran maksimal 10 MB';
             }
         }
 
-        function resetUpload2(id) {
+        function resetUpload(id) {
             const fileInput = document.getElementById(`file-skl-${id}`);
-            const fileNameDisplay = document.getElementById('file-name2');
-            const fileNameHeader = document.getElementById('header2');
-            var svgElement = document.getElementById('icon2');
-            var labelElement = document.getElementById('border2');
-            labelElement.style.borderColor = '#d4d4d8';
-            labelElement.style.backgroundColor = '#f4f4f5';
+            const fileNameDisplay = document.getElementById(`file-name-${id}`);
+            const fileNameHeader = document.getElementById(`header-${id}`);
+            var svgElement = document.getElementById(`icon-${id}`);
+            // var labelElement = document.getElementById(`border-${id}`);
+
+            // Mendapatkan tema saat ini dari CSS menggunakan window.getComputedStyle (Tambahan)
+            // const currentTheme = window.getComputedStyle(document.documentElement).getPropertyValue('--theme');
+            // labelElement.style.borderColor = currentTheme === 'light' ? 'var(--light-border-color)' : 'var(--dark-border-color)';
+            // labelElement.style.backgroundColor = currentTheme === 'light' ? 'var(--light-background-color)' : 'var(--dark-background-color)';
+
+            // labelElement.style.borderColor = '#d4d4d8';
+            // labelElement.style.backgroundColor = '#f4f4f5';
 
             fileInput.value = ''; // Clear file input
             fileNameDisplay.textContent = 'format: .PDF dengan ukuran maksimal 10 MB';
@@ -527,22 +512,49 @@
         }
 
         function displayFileName2(id) {
-            const fileInput = document.getElementById(`file-skl-${id}`);
-            const fileNameDisplay = document.getElementById('file-name2');
-            const fileNameHeader = document.getElementById('header2');
-            var svgElement = document.getElementById('icon2');
-            var labelElement = document.getElementById('border2');
+            const fileInput = document.getElementById(`file-skl2-${id}`);
+            const fileNameDisplay = document.getElementById(`file-name2-${id}`);
+            const fileNameHeader = document.getElementById(`header2-${id}`);
+            var svgElement = document.getElementById(`icon2-${id}`);
+            // var labelElement = document.getElementById(`border2-${id}`);
+
+            // Mendapatkan tema saat ini dari CSS menggunakan window.getComputedStyle (Tambahan)
+            // const currentTheme = window.getComputedStyle(document.documentElement).getPropertyValue('--theme');
 
             if (fileInput.files.length > 0) {
                 fileNameDisplay.innerHTML = `Nama file: <span style="font-weight: bold; color: green;">${fileInput.files[0].name}</span>`;
                 fileNameHeader.innerHTML = '<span class="font-semibold" style="color: green">Berhasil</span> mengupload file!';
                 svgElement.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="40px" height="40px" viewBox="0 0 50 50" fill="green"><path fill-rule="evenodd" d="M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12Zm13.36-1.814a.75.75 0 1 0-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 0 0-1.06 1.06l2.25 2.25a.75.75 0 0 0 1.14-.094l3.75-5.25Z" clip-rule="evenodd" /></svg>';
 
-                labelElement.style.borderColor = 'green';
-                labelElement.style.backgroundColor = '#dcfce7';
+                // labelElement.style.borderColor = 'green';
+                // labelElement.style.backgroundColor = '#dcfce7';
+
+                // labelElement.style.borderColor = currentTheme === 'light' ? 'var(--light-border-color)' : 'var(--dark-border-color)';
+                // labelElement.style.backgroundColor = currentTheme === 'light' ? 'var(--light-background-color)' : 'var(--dark-background-color)';
             } else {
                 fileNameDisplay.textContent = 'format: .PDF dengan ukuran maksimal 10 MB';
             }
+        }
+
+        function resetUpload2(id) {
+            const fileInput = document.getElementById(`file-skl2-${id}`);
+            const fileNameDisplay = document.getElementById(`file-name2-${id}`);
+            const fileNameHeader = document.getElementById(`header2-${id}`);
+            var svgElement = document.getElementById(`icon2-${id}`);
+            // var labelElement = document.getElementById(`border2-${id}`);
+
+            // Mendapatkan tema saat ini dari CSS menggunakan window.getComputedStyle (Tambahan)
+            // const currentTheme = window.getComputedStyle(document.documentElement).getPropertyValue('--theme');
+            // labelElement.style.borderColor = currentTheme === 'light' ? 'var(--light-border-color)' : 'var(--dark-border-color)';
+            // labelElement.style.backgroundColor = currentTheme === 'light' ? 'var(--light-background-color)' : 'var(--dark-background-color)';
+
+            // labelElement.style.borderColor = '#d4d4d8';
+            // labelElement.style.backgroundColor = '#f4f4f5';
+
+            fileInput.value = ''; // Clear file input
+            fileNameDisplay.textContent = 'format: .PDF dengan ukuran maksimal 10 MB';
+            fileNameHeader.innerHTML = '<span class="font-semibold">Click to upload</span> or drag and drop';
+            svgElement.innerHTML = '<path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"/>';
         }
     </script>
 </body>

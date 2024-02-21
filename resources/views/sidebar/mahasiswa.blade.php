@@ -7,7 +7,7 @@
       <p class="self-center text-xl font-bold whitespace-nowrap text-black dark:text-white">SINFORMA <br> Diskominfo </p>
    </div>
 
-   <ul class="space-y-2 font-medium ml-4">
+   <ul class="space-y-2 font-medium ml-4" style="font-size: 15px;">
       {{-- Dashboard --}}
       <li> 
          <a href="{{ route('dashboard_mahasiswa') }}" class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-purple-300 hover:mr-5 dark:hover:bg-gray-700 group">

@@ -199,7 +199,7 @@
                     <tbody class="text-gray-700 dark:text-gray-400 overflow-y-auto">
                         @if ($accounts)
                             @foreach ($accounts as $index => $account)
-                                <tr class="text-xs bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-600 border border-gray-300 dark:border-black">
+                                <tr class="text-xs bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 border border-gray-300 dark:border-black">
                                     <td class="px-4 py-4 text-center w-12">
                                         {{ $index + 1 }}
                                     </td>

@@ -10,12 +10,12 @@
 
 <body class="font-poppins"> 
     <div class="p-4 sm:ml-64">
-        <nav class="bg-zinc-100 border-gray-200 dark:bg-gray-800 dark:border-gray-700 rounded-lg">
+        <nav class="bg-zinc-100 border-gray-200 dark:bg-gray-900 dark:border-gray-800 rounded-lg">
             {{-- Welcome User --}}
-            <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-2">
+            <div class="flex p-2">
                 <p class="self-center text-base font-semibold whitespace-nowrap text-black dark:text-white ml-2">Hello, {{ $mahasiswa->nama }} 👋</p>
                 {{-- Icon --}}
-                <div class="flex items-center md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
+                <div class="ml-auto flex items-center md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
                     <!-- Dropdown menu -->
                     <span><button type="button" class="items-center justify-between hidden w-full md:flex md:w-auto md:order-1 px-2" id="user-menu-button" aria-expanded="false" data-dropdown-toggle="user-dropdown" data-dropdown-placement="bottom-start">
                         <span class="sr-only">Open user menu</span>
@@ -58,27 +58,14 @@
                 </div>
             </div>
         </nav>
-
-        {{-- Alert --}}
-        {{-- @if(session()->has('success'))
-            <div class="flex items-center p-4 mb-4 text-sm text-green-800 rounded-lg bg-green-50 dark:bg-gray-800 dark:text-green-400" role="alert">
-                <svg class="flex-shrink-0 inline w-4 h-4 me-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
-                <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z"/>
-                </svg>
-                <span class="sr-only">Info</span>
-                <div>
-                <span class="font-medium">Success alert!</span>{{ session('success') }}
-                </div>
-            </div>
-        @endif --}}
     </div>
 
     <div class="px-4 sm:ml-64">
         <div class="flex space-x-4">
             {{-- Profile --}}
-            <div class="block bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 w-2/5 h-56">
+            <div class="block bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-900 dark:border-gray-800 w-2/5 h-56">
                 {{-- Header Card --}}
-                <ul class="flex flex-wrap text-sm font-medium text-center text-gray-500 border-b border-gray-200 rounded-t-lg bg-zinc-100 dark:border-gray-700 dark:text-gray-400 dark:bg-gray-800" id="defaultTab" data-tabs-toggle="#defaultTabContent" role="tablist">
+                <ul class="flex flex-wrap text-sm font-medium text-center text-gray-500 border-b border-gray-200 rounded-t-lg bg-zinc-100 dark:border-gray-800 dark:text-gray-400 dark:bg-gray-900" id="defaultTab" data-tabs-toggle="#defaultTabContent" role="tablist">
                     <li class="me-2">
                         <p class="font-bold text-black dark:text-white py-1.5 px-6 text-base">Profile</p>
                     </li>
@@ -117,47 +104,60 @@
             </div>
 
             {{-- Carosel --}}
-            <div class="flex items-center justify-center rounded-lg bg-white w-3/5 h-56 dark:bg-gray-800">
-                <div id="default-carousel" class="relative w-full h-56" data-carousel="slide">
-                    <!-- Carousel wrapper -->
-                    <div class="relative h-56 overflow-hidden rounded-lg md:h-96">
-                        @foreach ($berita as $item)
-                            <div class="hidden duration-700 ease-in-out" data-carousel-item>
-                                <img src="{{ asset('storage/' . $item->gambar) }}" class="absolute w-full h-56 -translate-x-1/2 -translate-y-1/2 top-28 left-1/2 object-cover rounded-lg" alt="{{ $item->nama }}">
+            <div class="flex items-center justify-center rounded-lg bg-zinc-100 w-3/5 h-56 dark:bg-gray-900">
+                @if (count($berita) == 0)
+                    <div class="flex items-center justify-center w-full h-56 bg-zinc-100 dark:bg-gray-900 rounded-md">
+                        <p class="italic font-semibold text-lg text-zinc-500">~ event belum tersedia ~</p>
+                    </div>                       
+                @else
+                    @if (count($berita) == 1)
+                        <div class="relative w-full h-56">
+                            <div class="relative h-56 overflow-hidden rounded-lg md:h-96">
+                                <img src="{{ asset('storage/' . $berita[0]->gambar) }}" class="absolute w-full h-56 -translate-x-1/2 -translate-y-1/2 top-28 left-1/2 object-cover rounded-lg" alt="{{ $berita[0]->nama }}">
                             </div>
-                        @endforeach
-                    </div>
+                        </div>
+                    @else
+                        <div id="default-carousel" class="relative w-full h-56" data-carousel="slide">
+                            <div class="relative h-56 overflow-hidden rounded-lg md:h-96">
+                                @foreach ($berita as $item)
+                                    <div class="hidden duration-700 ease-in-out" data-carousel-item>
+                                        <img src="{{ asset('storage/' . $item->gambar) }}" class="absolute w-full h-56 -translate-x-1/2 -translate-y-1/2 top-28 left-1/2 object-cover rounded-lg" alt="{{ $item->nama }}">
+                                    </div>
+                                @endforeach
+                            </div>
 
-                    <!-- Left Button -->
-                    <button type="button" class="absolute top-28 start-0 z-30 flex items-center justify-center h-5 px-4 cursor-pointer group focus:outline-none" data-carousel-prev>
-                        <span class="inline-flex items-center justify-center w-8 h-8 rounded-full bg-white/30 dark:bg-gray-800/30 group-hover:bg-white/50 dark:group-hover:bg-gray-800/60 group-focus:ring-4 group-focus:ring-white dark:group-focus:ring-gray-800/70 group-focus:outline-none">
-                            <svg class="w-2 h-2 text-white dark:text-gray-800 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
-                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 1 1 5l4 4"/>
-                            </svg>
-                            <span class="sr-only">Previous</span>
-                        </span>
-                    </button>
+                            <!-- Left Button -->
+                            <button type="button" class="absolute top-28 start-0 z-30 flex items-center justify-center h-5 px-4 cursor-pointer group focus:outline-none" data-carousel-prev>
+                                <span class="inline-flex items-center justify-center w-8 h-8 rounded-full bg-white/30 dark:bg-gray-900/30 group-hover:bg-white/50 dark:group-hover:bg-gray-800/60 group-focus:ring-4 group-focus:ring-white dark:group-focus:ring-gray-800/70 group-focus:outline-none">
+                                    <svg class="w-2 h-2 text-white dark:text-gray-800 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
+                                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 1 1 5l4 4"/>
+                                    </svg>
+                                    <span class="sr-only">Previous</span>
+                                </span>
+                            </button>
 
-                    {{-- Right Button --}}
-                    <button type="button" class="absolute top-28 end-0 z-30 flex items-center justify-center h-5 px-4 cursor-pointer group focus:outline-none" data-carousel-next>
-                        <span class="inline-flex items-center justify-center w-8 h-8 rounded-full bg-white/30 dark:bg-gray-800/30 group-hover:bg-white/50 dark:group-hover:bg-gray-800/60 group-focus:ring-4 group-focus:ring-white dark:group-focus:ring-gray-800/70 group-focus:outline-none">
-                            <svg class="w-2 h-2 text-white dark:text-gray-800 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
-                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 9 4-4-4-4"/>
-                            </svg>
-                            <span class="sr-only">Next</span>
-                        </span>
-                    </button>
-                </div>
+                            {{-- Right Button --}}
+                            <button type="button" class="absolute top-28 end-0 z-30 flex items-center justify-center h-5 px-4 cursor-pointer group focus:outline-none" data-carousel-next>
+                                <span class="inline-flex items-center justify-center w-8 h-8 rounded-full bg-white/30 dark:bg-gray-900/30 group-hover:bg-white/50 dark:group-hover:bg-gray-800/60 group-focus:ring-4 group-focus:ring-white dark:group-focus:ring-gray-800/70 group-focus:outline-none">
+                                    <svg class="w-2 h-2 text-white dark:text-gray-800 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
+                                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 9 4-4-4-4"/>
+                                    </svg>
+                                    <span class="sr-only">Next</span>
+                                </span>
+                            </button>
+                        </div>
+                    @endif
+                @endif
             </div>
         </div>
 
         <div class="grid grid-cols-3 gap-3 py-4">
-            <div class="grid bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 h-60 content-center">
+            <div class="grid bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-900 dark:border-gray-800 h-60 content-center">
                 <h5 class="mx-7 mb-4 text-base font-bold text-gray-900 dark:text-white">Informasi Magang</h5>
 
                 {{-- Timeline --}}
                 <div class="ml-14 mr-3">
-                <ol class="relative border-s border-gray-300 dark:border-gray-700">                  
+                <ol class="relative border-s border-gray-300 dark:border-gray-800">                  
                     <li class="mb-4 ms-7">            
                         <span class="absolute flex items-center justify-center w-6 h-6 bg-purple-300 rounded-full -start-3 ring-8 ring-purple-100 dark:ring-gray-900 dark:bg-purple-900">
                             <svg class="w-2.5 h-2.5 text-purple-800 dark:text-purple-300" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
@@ -259,7 +259,7 @@
 
             <div class="grid grid-rows-2 gap-3">
                 {{-- Presensi --}}
-                <div class="flex bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700" style="height: 114px">
+                <div class="flex bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-900 dark:border-gray-800" style="height: 114px">
                     <div class="grid grid-cols-3">
                         <div class="py-4 pl-4">
                             <img class="h-20 w-20" src="{{ asset('assets/presensi.png') }}" alt="image description">
@@ -280,7 +280,7 @@
                 </div>
 
                 {{-- Progress --}}
-                <div class="flex bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700" style="height: 114px">
+                <div class="flex bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-900 dark:border-gray-800" style="height: 114px">
                     <div class="grid grid-cols-3">
                         <div class="py-4 pl-4">
                             <img class="h-20 w-20" src="{{ asset('assets/progress.png') }}" alt="image description">
@@ -303,7 +303,7 @@
 
             <div class="grid grid-rows-2 gap-3">
                 {{-- SKL --}}
-                <div class="bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700" style="height: 114px">
+                <div class="bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-900 dark:border-gray-800" style="height: 114px">
                     <div class="grid grid-cols-3">
                         <div class="py-4 pl-4">
                             <img class="h-20 w-20" src="{{ asset('assets/skl.png') }}" alt="image description">
@@ -336,7 +336,7 @@
                 </div>
 
                 {{-- Nilai --}}
-                <div class="bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700" style="height: 114px">
+                <div class="bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-900 dark:border-gray-800" style="height: 114px">
                     <div class="grid grid-cols-3">
                         <div class="py-4 pl-4">
                             <img class="h-20 w-20" src="{{ asset('assets/nilai.png') }}" alt="image description">

@@ -801,7 +801,7 @@ class AdminController extends Controller
     {
         $request->validate([
             'nama' => 'required',
-            'gambar' => 'nullable|mimes:jpg,jpeg,png,pdf|max:10240',
+            'gambar' => 'nullable|mimes:jpg,jpeg,png,gif|max:10240',
         ]);
 
         try {
