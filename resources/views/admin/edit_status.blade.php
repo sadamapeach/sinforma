@@ -205,12 +205,13 @@
                 <select id="mentor" name="mentor" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                     <option value="" selected disabled>Pilih Mentor</option>
                     @foreach ($mentor as $mentorItem)
-                        <option value="{{ $mentorItem->nip }}" {{ old('mentor') == $mentorItem->nip ? 'selected' : '' }}>
+                        <option value="{{ $mentorItem->nip }}" {{ old('mentor', $mahasiswa->nip_mentor) == $mentorItem->nip ? 'selected' : '' }}>
                             {{ $mentorItem->nama }}
                         </option>
                     @endforeach
                 </select>
-            </div> 
+            </div>
+
 
             {{-- Button --}}
             <div class="flex justify-end mb-2 mt-6">
