@@ -413,6 +413,9 @@ class AdminController extends Controller
                 'no_telepon' => 'nullable|numeric',
                 'email' => 'nullable|email',
                 'status' => 'required|in:Aktif,Tidak Aktif,Lulus',
+                'mulai_magang' => 'nullable|date',
+                'selesai_magang' => 'nullable|date',
+                'mentor' => 'required',
                 'username' => 'required|unique:users,username,' . $mhs->id_user,
                 'foto' => 'nullable|image|max:10240',
             ]);
@@ -437,7 +440,10 @@ class AdminController extends Controller
                 $mhs->alamat != $request->alamat ||
                 $mhs->no_telepon != $request->no_telepon ||
                 $mhs->email != $request->email ||
-                $mhs->status != $request->status
+                $mhs->status != $request->status ||
+                $mhs->mulai_magang != $request->mulai_magang ||
+                $mhs->selesai_magang != $request->selesai_magang ||
+                $mhs->nip_mentor != $request->mentor
             ) {
                 // Update Mahasiswa
                 $mhs->nama = $request->nama;
@@ -447,6 +453,9 @@ class AdminController extends Controller
                 $mhs->no_telepon = $request->no_telepon;
                 $mhs->email = $request->email;
                 $mhs->status = $request->status;
+                $mhs->mulai_magang = $request->mulai_magang;
+                $mhs->selesai_magang = $request->selesai_magang;
+                $mhs->nip_mentor = $request->mentor;
                 $mhs->save();
 
                 $dataUpdated = true;
