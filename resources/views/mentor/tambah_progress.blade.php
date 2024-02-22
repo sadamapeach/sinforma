@@ -146,7 +146,7 @@
                     <h1 class="basis-3/4 text-black dark:text-white font-bold text-xl">Form Pengisian Progress Mentor</h1>
                     <div class="basis-1/4 flex justify-end mb-3 text-xs font-normal text-gray-600 dark:text-gray-400">
                         <span class="bg-blue-100 text-blue-800 font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-blue-900 dark:text-blue-300" style="font-size: 10px">
-                            {{ \Carbon\Carbon::parse($today)->formatLocalized('%A, %d %B %Y') }}
+                            {{ \Carbon\Carbon::parse($today)->locale('id_ID')->isoFormat('dddd, D MMMM YYYY') }}
                         </span>                    
                     </div>
                 </div>
@@ -158,7 +158,7 @@
                 <label for="judul" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Judul</label>
                 <input type="text" id="judul" name="judul" value="{{ old('judul') }}" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Masukkan judul progress">
                 @error('judul')
-                    <div class="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-100 dark:bg-gray-900 dark:text-red-400" role="alert">
+                    <div class="mt-1 text-xs text-red-600 dark:text-red-500" role="alert">
                         <div>
                             {{ $message }}
                         </div>
@@ -171,7 +171,7 @@
                 <label for="deskripsi" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Deskripsi</label>
                 <textarea type="text" id="deskripsi" name="deskripsi" value="{{ old('deskripsi') }}" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Masukkan deskripsi singkat progress"></textarea>
                 @error('deskripsi')
-                    <div class="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-100 dark:bg-gray-900 dark:text-red-400" role="alert">
+                    <div class="mt-1 text-xs text-red-600 dark:text-red-500" role="alert">
                         <div>
                             {{ $message }}
                         </div>
@@ -180,21 +180,46 @@
             </div>
 
             <div class="grid md:grid-cols-2 md:gap-6">
+                {{-- Mulai Submit --}}
                 <div class="form-group">
                     <label for="mulai_submit" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Mulai Submit</label>
                     <input type="datetime-local" name="mulai_submit" id="mulai_submit" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" value="{{ \Carbon\Carbon::now('Asia/Jakarta')->format('Y-m-d\TH:i') }}">
                 </div>
+                @error('mulai_submit')
+                    <div class="mt-1 text-xs text-red-600 dark:text-red-500" role="alert">
+                        <div>
+                            {{ $message }}
+                        </div>
+                    </div>
+                @enderror
+
+                {{-- Selesai Submit --}}
                 <div class="form-group">
                     <label for="selesai_submit" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Selesai Submit</label>
                     <input type="datetime-local" name="selesai_submit" id="selesai_submit" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" value="{{ \Carbon\Carbon::now('Asia/Jakarta')->format('Y-m-d\TH:i') }}">
                 </div>
+                @error('selesai_submit')
+                    <div class="mt-1 text-xs text-red-600 dark:text-red-500" role="alert">
+                        <div>
+                            {{ $message }}
+                        </div>
+                    </div>
+                @enderror
             </div>
 
             <input type="datetime-local" name="created_at" value="{{ \Carbon\Carbon::now('Asia/Jakarta')->format('Y-m-d\TH:i') }}" hidden>
 
             {{-- Button --}}
             <div class="flex justify-end mt-6">
-                <button type="submit" name="submit" value="generate" class="text-white bg-blue-700 hover:bg-blue-800 focus:outline-none font-medium rounded-md text-xs w-20 h-8 text-center me-2 dark:bg-blue-600 dark:hover:bg-blue-700">Post</button>
+                {{-- Reset --}}
+                <a href="{{ route('tambah_progress') }}" class="text-white bg-red-700 hover:bg-red-800 focus:outline-none font-medium rounded-md text-xs w-24 h-8 text-center me-2 dark:bg-red-600 dark:hover:bg-red-700">
+                    <button type="button" class="w-full h-full -ml-1">
+                        <i class="fa fa-repeat mr-1"></i>
+                        Reset
+                    </button>
+                </a>
+
+                <button type="submit" name="submit" value="generate" class="text-white bg-blue-700 hover:bg-blue-800 focus:outline-none font-medium rounded-md text-xs w-20 h-8 text-center dark:bg-blue-600 dark:hover:bg-blue-700">Post</button>
             </div>
         </form>
     </div>

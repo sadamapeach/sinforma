@@ -261,7 +261,7 @@
                                 </div>
                     
                                 {{-- Filter by Status --}}
-                                <form action="{{ route('dashboard_admin_filter') }}" method="GET" class="flex ml-2 mb-1 items-center">
+                                <form action="{{ route('dashboard_mentor_filter') }}" method="GET" class="flex ml-2 mb-1 items-center">
                                     <select id="status" name="status" class="p-1 text-xs text-gray-900 border ps-2.5 border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" onchange="this.form.submit()">
                                         <option value="" selected>Status</option>
                                         <option value="">Semua Status</option>

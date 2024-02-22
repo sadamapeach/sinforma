@@ -177,10 +177,13 @@
             </div>
 
             <div class="grid md:grid-cols-2 md:gap-6">
+                {{-- Mulai Absen --}}
                 <div class="form-group">
                     <label for="mulai_absen" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Mulai Absen</label>
                     <input type="datetime-local" name="mulai_absen" id="mulai_absen" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" value="{{ $generate_absen->mulai_absen }}">
                 </div>
+
+                {{-- Selesai Absen --}}
                 <div class="form-group">
                     <label for="selesai_absen" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Selesai Absen</label>
                     <input type="datetime-local" name="selesai_absen" id="selesai_absen" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" value="{{ $generate_absen->selesai_absen }}">

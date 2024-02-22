@@ -42,12 +42,6 @@ Route::controller(MahasiswaController::class)->group(function() {
     Route::get('/mahasiswa/dashboard/download_skl', [MahasiswaController::class, 'cetak_skl'])->name('cetak_skl_mhs');
 });
 
-/* Akun */
-Route::controller(AccountController::class)->middleware('auth')->group(function () {
-    Route::get('/change-password', 'viewChangePassword')->name('account.viewChangePassword');
-    Route::post('/change-password', 'update')->name('account.update');
-});
-
 /* Admin */
 Route::get('/admin/dashboard', [AdminController::class, 'index'])->middleware('only_admin')->name('dashboard_admin');
 Route::get('/admin/dashboard/filter', [AdminController::class, 'filterDashboard'])->name('dashboard_admin_filter');
@@ -102,6 +96,7 @@ Route::get('/admin/daftar_mahasiswa/progress/filter/status/{id_mhs}', [AdminCont
 /* Mentor */
 Route::get('/mentor/dashboard', [MentorController::class, 'index'])->middleware('only_mentor')->name('dashboard_mentor');
 Route::get('/mentor/daftar_mahasiswa', [MentorController::class, 'viewDaftarMhs'])->middleware('only_mentor')->name('daftar_mhs_mentor');
+Route::get('/mentor/dashboard/filter', [MentorController::class, 'filterDashboard'])->name('dashboard_mentor_filter');
 
 Route::get('/mentor/daftar_mahasiswa/filter/status', [MentorController::class, 'filterByStatusMentor'])->name('filter_mhs_mentor');
 Route::get('/mentor/daftar_mahasiswa/presensi/{id_mhs}', [MentorController::class, 'viewPresensi'])->name('view_presensi_mentor');
@@ -131,7 +126,6 @@ Route::get('/verif_progress/{id_progress}/{id_mhs}', [MentorController::class, '
 
 Route::get('/mentor/rekapitulasi_progress/rekapitulasi_mahasiswa/filter/{id_progress}', [MentorController::class, 'filterStatusProgress'])->name('filter_progress');
 Route::get('/filter_nilai', [MentorController::class, 'filterByNilai'])->name('filter_nilai');
-Route::get('/dashboard_mentor_filter', [MentorController::class, 'filterDashboard'])->name('dashboard_mentor_filter');
 Route::get('/verified_all_progress/{id_progress}', [MentorController::class, 'verifiedAllProgress'])->name('verifiedAllProgress');
 
 Route::get('/mentor/daftar_mahasiswa/presensi/filter/sesi/{id_mhs}', [MentorController::class, 'filterSesiAbsen'])->name('filterSesiAbsen');

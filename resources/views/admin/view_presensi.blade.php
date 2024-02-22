@@ -181,7 +181,7 @@
                 </div>
 
                 {{-- Filter by Sesi --}}
-                <form action="{{ route('filterSesiAbsen', ['id_mhs' => $id_mhs]) }}" method="GET" class="flex ml-2 items-center">
+                <form action="{{ route('filterSesiAbsen_admin', ['id_mhs' => $id_mhs]) }}" method="GET" class="flex ml-2 items-center">
                     <select id="sesi" name="sesi" class="w-full p-2 text-xs text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" onchange="this.form.submit()">
                         <option value="" selected>Sesi</option>
                         <option value="">Semua Sesi</option>
@@ -191,7 +191,7 @@
                 </form>
 
                 {{-- Filter by Keterangan --}}
-                <form action="{{ route('filterKetAbsen', ['id_mhs' => $id_mhs]) }}" method="GET" class="flex ml-2 items-center">
+                <form action="{{ route('filterKetAbsen_admin', ['id_mhs' => $id_mhs]) }}" method="GET" class="flex ml-2 items-center">
                     <select id="keterangan" name="keterangan" class="w-full p-2 text-xs text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" onchange="this.form.submit()">
                         <option value="" selected>Keterangan</option>
                         <option value="">Semua Keterangan</option>
@@ -202,7 +202,7 @@
                 </form>
 
                 {{-- Filter by Status --}}
-                <form action="{{ route('filterStatusAbsen', ['id_mhs' => $id_mhs]) }}" method="GET" class="flex ml-2 items-center">
+                <form action="{{ route('filterViewPresensi', ['id_mhs' => $id_mhs]) }}" method="GET" class="flex ml-2 items-center">
                     <select id="status" name="status" class="w-full p-2 text-xs text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" onchange="this.form.submit()">
                         <option value="" selected>Status</option>
                         <option value="">Semua Status</option>

@@ -484,7 +484,6 @@ class MentorController extends Controller
             $mentor = Mentor::where('id_user', $user->id)->first();
 
             $validated = $request->validate([
-                // 'nama' => 'required',
                 'alamat' => 'required',
                 'no_telepon' => 'required',
                 'email' => 'required',
@@ -492,6 +491,8 @@ class MentorController extends Controller
                 'foto' => 'nullable|image|max:10240',
             ]);
         
+            $dataUpdated = false; // Flag to check if any data is updated
+            
             if ($request->has('foto')) {
                 $fotoPath = $request->file('foto')->store('profile', 'public');
                 
@@ -500,19 +501,31 @@ class MentorController extends Controller
                 $user->update([
                     'foto' => $validated['foto'],
                 ]);
+
+                $dataUpdated = true;
             }
             
-            // $mentor->nama = $request->nama;
-            $mentor->alamat = $request->alamat;
-            $mentor->no_telepon = $request->no_telepon;
-            $mentor->email = $request->email;
-            $user->username = $request->username;
-            
-            $mentor->save();
+            if ($mentor->alamat != $request->alamat ||
+                $mentor->no_telepon != $request->no_telepon ||
+                $mentor->email != $request->email ||
+                $user->username != $request->username) {
+                
+                $mentor->alamat = $request->alamat;
+                $mentor->no_telepon = $request->no_telepon;
+                $mentor->email = $request->email;
+                $user->username = $request->username;
 
-            $user->update([
-                'username' => $request->username
-            ]);
+                $mentor->save();
+                $user->update([
+                    'username' => $request->username
+                ]);
+
+                $dataUpdated = true;
+            }
+
+            if (!$dataUpdated) {
+                return redirect()->route('view_profil_mentor')->with('info', 'Tidak ada data yang diperbarui!');
+            }
             
             return redirect()->route('view_profil_mentor')->with('success', 'Data mentor berhasil diperbarui.');
         } catch (\Exception $e) {
@@ -729,19 +742,19 @@ class MentorController extends Controller
     {
         // Check old password
         if (!Hash::check($request->old_password, auth()->user()->password)) {
-            return back()->with('error1', 'Password lama salah!');
+            return back()->with('error', 'Password lama salah!');
         }
 
         // Check new password and configuration
         if ($request->new_password != $request->config_password) {
-            return back()->with('error2', 'Konfigurasi password salah!');
+            return back()->with('error', 'Konfigurasi password salah!');
         }
 
         User::where('id', auth()->user()->id)->update([
             'password' => Hash::make($request->new_password)
         ]);
 
-        return back()->with('status', 'Password berhasil diperbarui!');
+        return back()->with('success', 'Password berhasil diperbarui!');
     }
 
     public function viewRekapProgress()

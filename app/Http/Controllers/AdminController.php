@@ -882,8 +882,8 @@ class AdminController extends Controller
                 'judul' => 'required|max:255',
                 'deskripsi' => 'required|max:255',
                 'sesi' => 'required',
-                'mulai_absen' => 'required|date',
-                'selesai_absen' => 'required|date',
+                'mulai_absen' => 'required',
+                'selesai_absen' => 'required',
             ]);
 
             $dataUpdated = false; // Flag to check if any data is updated
@@ -903,7 +903,7 @@ class AdminController extends Controller
                 $generate_absen->save();
 
                 $dataUpdated = true;
-            }
+            } 
 
             if (!$dataUpdated) {
                 return redirect()->back()->with('info', 'Tidak ada data yang diperbarui!');

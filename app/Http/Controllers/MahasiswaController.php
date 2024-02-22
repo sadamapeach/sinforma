@@ -190,7 +190,7 @@ class MahasiswaController extends Controller
             if ($userChanged || $mahasiswaChanged) {
                 return redirect()->back()->with('success', 'Personal information updated successfully!');
             } else {
-                return redirect()->back()->with('info', 'No changes made.');
+                return redirect()->back()->with('info', 'Tidak ada data yang diperbarui!');
             }
         } else {
             return redirect()->back()->with('info', 'Failed to update personal information.');
@@ -213,7 +213,7 @@ class MahasiswaController extends Controller
             'password' => Hash::make($request->new_password)
         ]);
 
-        return back()->with('status', 'Password berhasil diperbarui!');
+        return back()->with('success', 'Password berhasil diperbarui!');
     }
 
     public function presensi(Request $request) 
@@ -292,8 +292,7 @@ class MahasiswaController extends Controller
             ->get();
     
         return view('mahasiswa.progress', compact('generate_progress', 'mahasiswa'));
-    }
-    
+    }    
 
     public function add_progress($id_progress)
     {

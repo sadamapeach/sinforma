@@ -142,7 +142,7 @@
 
         {{-- Header --}}
         <div class="mb-5 text-center">
-            <h1 class="basis-3/4 text-black dark:text-white font-bold text-xl">Berita Acara Mahasiswa Magang</h1>
+            <h1 class="basis-3/4 text-black dark:text-white font-bold text-xl">Infografis Event Mahasiswa Magang</h1>
             <p class="text-gray-500 dark:text-gray-400 font-normal text-xs mb-2">Anda dapat menambahkan event magang yang dapat dilihat seluruh mahasiswa!</p>
         </div>
 
@@ -356,7 +356,7 @@
                                                         <svg class="mx-auto mb-4 text-gray-400 w-12 h-12 dark:text-gray-200" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
                                                             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 11V6m0 8h.01M19 10a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
                                                         </svg>
-                                                        <h3 class="mb-5 text-sm font-normal text-gray-500 dark:text-gray-400">Apakah anda yakin ingin menghapus berita acara ini?</h3>
+                                                        <h3 class="mb-5 text-sm font-normal text-gray-500 dark:text-gray-400">Apakah anda yakin ingin menghapus event ini?</h3>
                                                         <div class="flex justify-center">
                                                             <form method="POST" action="{{ route('delete_berita', [$event->id_berita]) }}">
                                                                 @csrf
@@ -382,7 +382,7 @@
                     </tbody>
                 </table>
             </div>
-            <p class="mt-2 text-gray-500 dark:text-gray-400" style="font-size: 9px">* Semua yang ada dalam tabel berita acara akan ditampilkan dalam display!</p>
+            <p class="mt-2 text-gray-500 dark:text-gray-400" style="font-size: 9px">* Semua yang ada dalam tabel event akan ditampilkan dalam display!</p>
         </div>
     </div>
 
