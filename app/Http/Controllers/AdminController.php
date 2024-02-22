@@ -362,10 +362,12 @@ class AdminController extends Controller
         }
 
         $foto = $user->getImageURL();
+        $mentor = Mentor::all();
 
         return view('admin.edit_status', [
             'mahasiswa' => $mhs,
-            'foto' => $foto
+            'foto' => $foto,
+            'mentor' => $mentor
         ]);
     }
 

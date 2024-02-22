@@ -180,13 +180,40 @@
             </div>
 
             {{-- Alamat --}}
-            <div class="mb-6 mt-3">
+            <div class="mb-5 mt-4">
                 <label for="alamat" class="block mb-1 text-sm font-medium text-gray-900 dark:text-white">Alamat</label>
                 <textarea id="alamat" name="alamat" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-700 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>{{ $mahasiswa->alamat }}</textarea>
             </div> 
 
+            <div class="grid gap-5 md:grid-cols-2">
+                {{-- Mulai Magang --}}
+                <div>
+                    <label for="mulai_magang" class="block mb-1 text-sm font-medium text-gray-900 dark:text-white">Mulai Magang</label>
+                    <input type="date" id="mulai_magang" name="mulai_magang" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-700 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" value="{{ $mahasiswa->mulai_magang }}">
+                </div>
+
+                {{-- Selesai Magang --}}
+                <div>
+                    <label for="selesai_magang" class="block mb-1 text-sm font-medium text-gray-900 dark:text-white">Selesai Magang</label>
+                    <input type="date" id="selesai_magang" name="selesai_magang" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-700 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" value="{{ $mahasiswa->selesai_magang }}">
+                </div>
+            </div>
+
+            {{-- Alamat --}}
+            <div class="mt-5">
+                <label for="mentor" class="block mb-1.5 text-sm font-medium text-gray-900 dark:text-white">Mentor:</label>
+                <select id="mentor" name="mentor" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                    <option value="" selected disabled>Pilih Mentor</option>
+                    @foreach ($mentor as $mentorItem)
+                        <option value="{{ $mentorItem->nip }}" {{ old('mentor') == $mentorItem->nip ? 'selected' : '' }}>
+                            {{ $mentorItem->nama }}
+                        </option>
+                    @endforeach
+                </select>
+            </div> 
+
             {{-- Button --}}
-            <div class="flex justify-end mb-2">
+            <div class="flex justify-end mb-2 mt-6">
                 {{-- Kembali --}}
                 <a href="{{ route('daftar_mhs') }}" class="text-white bg-red-700 hover:bg-red-800 focus:outline-none font-medium rounded-md text-xs w-20 h-8 text-center me-2 dark:bg-red-600 dark:hover:bg-red-700">
                     <button type="button" class="w-full h-full">
