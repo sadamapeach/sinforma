@@ -467,8 +467,8 @@ class AdminController extends Controller
 
             return redirect()->route('daftar_mhs')->with('success', 'Data mahasiswa berhasil diperbarui.');
         } catch (\Exception $e) {
-            dd($e);
-            return redirect()->route('daftar_mhs')->with('error', 'Terjadi kesalahan saat memperbarui data mahasiswa.');
+            // dd($e);
+            return redirect()->route('daftar_mhs')->with('error', 'Terjadi kesalahan saat memperbarui data mahasiswa" ' . $e->getMessage());
         }
     }
 
