@@ -17,6 +17,7 @@ use App\Models\Nilai;
 use App\Models\User;
 use App\Models\GeneratedAbsen;
 use App\Models\GeneratedProgress;
+use App\Models\LiburNasional;
 use Carbon\Carbon;
 use PDF;
 use Illuminate\Support\Facades\Storage;
@@ -57,7 +58,9 @@ class MahasiswaController extends Controller
 
             $berita = Berita::all();
 
-            return view('mahasiswa.dashboard', compact('berita', 'mahasiswa', 'skl', 'absen', 'progress', 'nilai'));
+            $libur = LiburNasional::all();
+
+            return view('mahasiswa.dashboard', compact('berita', 'mahasiswa', 'skl', 'absen', 'progress', 'nilai', 'libur'));
         }
     }
 
