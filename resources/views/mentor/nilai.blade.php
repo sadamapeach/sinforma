@@ -166,14 +166,22 @@
             @php
                 use Jenssegers\Date\Date;
                 Date::setLocale('id');
+                use App\Models\LiburNasional;
 
                 $mulaiMagang = \Carbon\Carbon::parse($mahasiswa->mulai_magang);
                 $selesaiMagang = \Carbon\Carbon::parse($mahasiswa->selesai_magang);
 
+                $daftarLiburNasional = LiburNasional::pluck('tanggal_cuti')->toArray();
+
                 // Presensi
-                $jumlahHariAbsen = $mulaiMagang->diffInDaysFiltered(function($date) {
-                    return $date->isWeekday(); 
+                $jumlahHariAbsen = $mulaiMagang->diffInDaysFiltered(function ($date) use ($daftarLiburNasional) {
+                    return $date->isWeekday() && !in_array($date->format('Y-m-d'), $daftarLiburNasional);
                 }, $selesaiMagang->addDay());
+
+                // // Presensi
+                // $jumlahHariAbsen = $mulaiMagang->diffInDaysFiltered(function($date) {
+                //     return $date->isWeekday(); 
+                // }, $selesaiMagang->addDay());
 
                 $jumlahPresensi = 2 * $jumlahHariAbsen; // Penyebut
 

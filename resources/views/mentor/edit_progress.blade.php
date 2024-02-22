@@ -181,17 +181,20 @@
             </div>
 
             <div class="grid md:grid-cols-2 md:gap-6">
+                {{-- Mulai Submit --}}
                 <div class="form-group">
                     <label for="mulai_submit" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Mulai Submit</label>
                     <input type="datetime-local" name="mulai_submit" id="mulai_submit" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" value="{{ $generate_progress->mulai_submit }}">
                 </div>
+
+                {{-- Selesai Submit --}}
                 <div class="form-group">
                     <label for="selesai_submit" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Selesai Submit</label>
                     <input type="datetime-local" name="selesai_submit" id="selesai_submit" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" value="{{ $generate_progress->selesai_submit }}">
                 </div>
             </div>
 
-            <input type="datetime-local" name="updated_at" value="{{ \Carbon\Carbon::now('Asia/Jakarta')->format('Y-m-d\TH:i') }}" hidden>
+            {{-- <input type="datetime-local" name="updated_at" value="{{ \Carbon\Carbon::now('Asia/Jakarta')->format('Y-m-d\TH:i') }}" hidden> --}}
 
             {{-- Button --}}
             <div class="flex justify-end mt-6">
