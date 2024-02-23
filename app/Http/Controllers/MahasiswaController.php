@@ -252,23 +252,25 @@ class MahasiswaController extends Controller
 
     public function store_presensi(Request $request, $id_absen)
     {
+        // dd($request);
+        $validated = $request->validate([
+            'keterangan' => 'required',
+            'foto' => 'required|mimes:jpg,jpeg,png,pdf|max:10240',
+        ]);
+
         try {
             $tanggal = $request->input('tanggal');
-            $user = Auth::user();
-            $user->load('mahasiswa');
-            $mahasiswa = $user->mahasiswa;
 
-            $validated = $request->validate([
-                'keterangan' => 'required',
-                'foto' => 'required|mimes:jpg,jpeg,png,pdf|max:10240',
-            ]);
+            $user = Auth::user();
+            $mahasiswa = Mahasiswa::where('id_user', $user->id)->first();
+            $id_mhs = $mahasiswa->id_mhs;
 
             if ($request->has('foto')) {
                 $fotoPath = $request->file('foto')->store('absen', 'public');
                 $validated['foto'] = $fotoPath;
             }
 
-            $validated['id_mhs'] = $mahasiswa->id_mhs;
+            $validated['id_mhs'] = $id_mhs;
             $validated['id_absen'] = $id_absen;
             $validated['tanggal'] = $tanggal;
             
@@ -278,7 +280,7 @@ class MahasiswaController extends Controller
         } catch (\Exception $e) {
             return redirect()->route('presensi_mahasiswa')->with('error', 'Gagal melakukan presensi: ' . $e->getMessage());
         }
-    }          
+    }    
 
     public function progress(Request $request)
     {
@@ -320,19 +322,16 @@ class MahasiswaController extends Controller
 
     public function store_progress(Request $request, $id_progress)
     {
-        // dd('aa');
+        $validated = $request->validate([
+            'deskripsi' => 'required',
+            'scan_file' => 'required|mimes:pdf|max:10240',
+        ]);
+        
         try {
             $tanggal = $request->input('tanggal');
             $user = Auth::user();
             $user->load('mahasiswa');
             $mahasiswa = $user->mahasiswa;
-
-            // dd('aa');
-
-            $validated = $request->validate([
-                'deskripsi' => 'required',
-                'scan_file' => 'required|mimes:pdf|max:10240',
-            ]);
 
             if ($request->has('scan_file')) {
                 $filePath = $request->file('scan_file')->store('progress', 'public');

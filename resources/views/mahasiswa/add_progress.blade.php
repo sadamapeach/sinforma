@@ -179,10 +179,12 @@
                         <label class="block mb-1 text-sm font-medium text-gray-900 dark:text-white" for="scan_file">Upload Progress</label>
                         <input class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-800 dark:border-gray-700 dark:placeholder-gray-400" aria-describedby="scan_file" id="scan_file" name="scan_file" type="file">
                         @error('scan_file')
-                        <div class="invalid-feedback">
-                            {{ $message }}
-                        </div>             
-                        @enderror                  
+                            <div class="mt-1 text-xs text-red-600 dark:text-red-500" role="alert">
+                                <div>
+                                    {{ $message }}
+                                </div>
+                            </div>
+                        @enderror                    
                     </div>
                 </div>
     
