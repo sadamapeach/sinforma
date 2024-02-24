@@ -1000,10 +1000,10 @@ class AdminController extends Controller
 
                 $absen->save();
 
-                return redirect()->back()->with('success', 'Absen berhasil diverifikasi!');
+                return redirect()->back()->with('success', 'Presensi berhasil diverifikasi!');
             }
         } else {
-            return redirect()->back()->with('erorr', 'Absen tidak ditemukan!');
+            return redirect()->back()->with('erorr', 'Presensi tidak ditemukan!');
         }
     }
     
@@ -1087,9 +1087,9 @@ class AdminController extends Controller
                 $absen->save();
             }
     
-            return redirect()->back()->with('success', 'Semua absen berhasil diverifikasi!');
+            return redirect()->back()->with('success', 'Semua presensi berhasil diverifikasi!');
         } else {
-            return redirect()->back()->with('error', 'Semua absen sudah diverifikasi atau tidak ditemukan!');
+            return redirect()->back()->with('error', 'Semua presensi sudah diverifikasi atau tidak ditemukan!');
         }
     }
 

@@ -257,7 +257,7 @@
             <div class="relative overflow-x-auto shadow">
                 @if(!$rekapMhs)
                     <div class="pb-4 bg-white dark:bg-gray-900">
-                        <p class="mt-2 ml-2 text-base text-gray-500 dark:text-gray-400">Tidak ada data verifikasi absen yang perlu diverifikasi.</p>
+                        <p class="mt-2 ml-2 text-base text-gray-500 dark:text-gray-400">Tidak ada presensi mahasiswa yang perlu diverifikasi.</p>
                     </div>
                 @else
                 <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400 sortable-table">
