@@ -917,12 +917,12 @@ class AdminController extends Controller
             } 
 
             if (!$dataUpdated) {
-                return redirect()->back()->with('info', 'Tidak ada data yang diperbarui!');
+                return redirect()->route('rekap_presensi', ['id_absen' => $id_absen])->with('info', 'Tidak ada data yang diperbarui!');
             }
-
-            return redirect()->back()->with('success', 'Data presensi berhasil diperbarui!');
+    
+            return redirect()->route('rekap_presensi', ['id_absen' => $id_absen])->with('success', 'Data presensi berhasil diperbarui!');
         } catch (\Exception $e) {
-            return redirect()->back()->with('error', 'Terjadi kesalahan saat memperbarui data presensi: ' . $e->getMessage());
+            return redirect()->route('rekap_presensi', ['id_absen' => $id_absen])->with('error', 'Terjadi kesalahan saat memperbarui data presensi: ' . $e->getMessage());
         }
     }     
 
