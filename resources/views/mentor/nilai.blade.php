@@ -235,28 +235,28 @@
                             <td class="py-3 px-4 text-center border dark:border-black">1</td>
                             <td class="py-3 px-4 border dark:border-black">Kedisiplinan dan Etika</td>
                             <td class="py-3 px-4 border dark:border-black">
-                                <input type="number" name="nilai[]" class="w-full border rounded py-1 px-2 dark:bg-gray-700 text-xs" required>
+                                <input type="number" name="nilai[]" class="w-full border rounded py-1 px-2 dark:bg-gray-700 text-xs" min="0" required>
                             </td>
                         </tr>
                         <tr class="bg-white dark:bg-gray-800 dark:border-black">
                             <td class="py-3 px-4 text-center border dark:border-black">2</td>
                             <td class="py-3 px-4 border dark:border-black">Kemampuan Berkomunikasi dan Bekerja Sama</td>
                             <td class="py-3 px-4 border dark:border-black">
-                                <input type="number" name="nilai[]" class="w-full border rounded py-1 px-2 dark:bg-gray-700 text-xs" required>
+                                <input type="number" name="nilai[]" class="w-full border rounded py-1 px-2 dark:bg-gray-700 text-xs" min="0" required>
                             </td>
                         </tr>
                         <tr class="bg-white dark:bg-gray-800 dark:border-black">
                             <td class="py-3 px-4 text-center border dark:border-black">3</td>
                             <td class="py-3 px-4 border dark:border-black">Pemahaman terhadap Permasalahan</td>
                             <td class="py-3 px-4 border dark:border-black">
-                                <input type="number" name="nilai[]" class="w-full border rounded py-1 px-2 dark:bg-gray-700 text-xs" required>
+                                <input type="number" name="nilai[]" class="w-full border rounded py-1 px-2 dark:bg-gray-700 text-xs" min="0" required>
                             </td>
                         </tr>
                         <tr class="bg-white dark:bg-gray-800 dark:border-black">
                             <td class="py-3 px-4 text-center border dark:border-black">4</td>
                             <td class="py-3 px-4 border dark:border-black">Pengetahuan Teoritis dan Praktik</td>
                             <td class="py-3 px-4 border dark:border-black">
-                                <input type="number" name="nilai[]" class="w-full border rounded py-1 px-2 dark:bg-gray-700 text-xs" required>
+                                <input type="number" name="nilai[]" class="w-full border rounded py-1 px-2 dark:bg-gray-700 text-xs" min="0" required>
                             </td>
                         </tr>
                     </tbody>
