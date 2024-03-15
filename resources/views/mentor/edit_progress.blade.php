@@ -206,7 +206,7 @@
                 </a>        
 
                 {{-- Simpan --}}
-                <button type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:outline-none font-medium rounded-md text-xs w-20 h-8 text-center me-2 dark:bg-blue-600 dark:hover:bg-blue-700">Simpan</button>
+                <button type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:outline-none font-medium rounded-md text-xs w-20 h-8 text-center dark:bg-blue-600 dark:hover:bg-blue-700">Simpan</button>
             </div>
         </form>
     </div>
