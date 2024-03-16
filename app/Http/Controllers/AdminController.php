@@ -500,8 +500,11 @@ class AdminController extends Controller
             DB::beginTransaction();
 
             try {
-                $username = Str::slug($request->nama, '') . Str::random(4);
+                $namaPertama = explode(' ', $request->nama)[0];
+                
+                $username = Str::slug($namaPertama, '') . Str::random(4);
                 $password = Str::random(10);
+                
 
                 $user = User::create([
                     'name' => $request->nama,
