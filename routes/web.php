@@ -40,6 +40,8 @@ Route::controller(MahasiswaController::class)->group(function() {
 
     Route::get('/mahasiswa/dashboard/download_nilai', [MahasiswaController::class, 'cetak_nilai'])->name('cetak_nilai_mhs');
     Route::get('/mahasiswa/dashboard/download_skl', [MahasiswaController::class, 'cetak_skl'])->name('cetak_skl_mhs');
+
+    Route::post('/delete_profile', [MahasiswaController::class, 'delete_profile'])->name('delete_profile');
 });
 
 /* Admin */

@@ -191,12 +191,12 @@ class MahasiswaController extends Controller
     
         if ($mahasiswa->save() && $user->save()) {
             if ($userChanged || $mahasiswaChanged) {
-                return redirect()->back()->with('success', 'Personal information updated successfully!');
+                return redirect()->route('profile_mahasiswa')->with('success', 'Personal information updated successfully!');
             } else {
-                return redirect()->back()->with('info', 'Tidak ada data yang diperbarui!');
+                return redirect()->route('profile_mahasiswa')->with('info', 'Tidak ada data yang diperbarui!');
             }
         } else {
-            return redirect()->back()->with('info', 'Failed to update personal information.');
+            return redirect()->route('profile_mahasiswa')->with('info', 'Failed to update personal information.');
         }
     }     
     
@@ -400,4 +400,16 @@ class MahasiswaController extends Controller
         $pdf->loadView('mahasiswa.cetak_nilai', compact('criteria', 'nilai', 'mahasiswa'));
         return $pdf->stream('cetak_nilai.pdf');
     }
+
+    public function delete_profile()
+    {
+        try {
+            // User::where('id', auth()->user()->id)->delete();
+            User::where('id', auth()->user()->id)->update(['foto' => null]);
+
+            return redirect()->route('profile_mahasiswa')->with('success', 'Berhasil menghapus foto profile!');
+        } catch (\Exception $e) {
+            return redirect()->route('profile_mahasiswa')->with('error', 'Gagal menghapus foto profile!: ' . $e->getMessage());
+        }
+    } 
 }

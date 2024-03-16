@@ -137,6 +137,48 @@
             {{-- Profil --}}
             <div class="flex py-12 pl-6">
                 <img class="w-32 h-32 p-1 rounded-full ring-4 ring-green-400 relative" src="{{ Auth::user()->getImageURL() }}" alt="Bordered avatar">
+                <div class="z-30 -ml-8 mt-24">
+                    <button data-modal-target="delete-profile" data-modal-toggle="delete-profile" data-tooltip-target="tooltip-delete-hover" data-tooltip-trigger="hover" type="button" class="text-white bg-blue-700 hover:bg-blue-800 font-medium rounded-lg text-sm p-2.5 text-center inline-flex items-center me-2 dark:bg-blue-600 dark:hover:bg-blue-700">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="w-3 h-3">
+                            <path fill-rule="evenodd" d="M5 3.25V4H2.75a.75.75 0 0 0 0 1.5h.3l.815 8.15A1.5 1.5 0 0 0 5.357 15h5.285a1.5 1.5 0 0 0 1.493-1.35l.815-8.15h.3a.75.75 0 0 0 0-1.5H11v-.75A2.25 2.25 0 0 0 8.75 1h-1.5A2.25 2.25 0 0 0 5 3.25Zm2.25-.75a.75.75 0 0 0-.75.75V4h3v-.75a.75.75 0 0 0-.75-.75h-1.5ZM6.05 6a.75.75 0 0 1 .787.713l.275 5.5a.75.75 0 0 1-1.498.075l-.275-5.5A.75.75 0 0 1 6.05 6Zm3.9 0a.75.75 0 0 1 .712.787l-.275 5.5a.75.75 0 0 1-1.498-.075l.275-5.5a.75.75 0 0 1 .786-.711Z" clip-rule="evenodd" />
+                        </svg>
+                        <span class="sr-only">Icon description</span>
+                    </button>
+                    <div id="tooltip-delete-hover" role="tooltip" class="absolute z-10 invisible inline-block px-3 py-2 font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700" style="font-size: 10px">
+                        Hapus Profile
+                        <div class="tooltip-arrow" data-popper-arrow></div>
+                    </div>
+                </div>
+
+                {{-- Pop Up --}}
+                <div id="delete-profile" tabindex="-1" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full ml-24">
+                    <div class="relative p-4 w-full max-w-md max-h-full">
+                        <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+                            <button type="button" class="absolute top-3 end-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-hide="delete-profile">
+                                <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
+                                </svg>
+                                <span class="sr-only">Close modal</span>
+                            </button>
+                            <div class="p-4 md:p-5 text-center">
+                                <svg class="mx-auto mb-4 text-gray-400 w-12 h-12 dark:text-gray-200" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 11V6m0 8h.01M19 10a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
+                                </svg>
+                                <h3 class="mb-5 text-sm font-normal text-gray-500 dark:text-gray-400">Apakah anda yakin ingin menghapus foto profil ini?</h3>
+                                <div class="flex justify-center">
+                                    <form method="POST" action="{{ route('delete_profile') }}">
+                                        @csrf
+                                        <button data-modal-hide="delete-profile" type="submit" class="text-white bg-red-600 hover:bg-red-800 font-medium rounded-lg text-xs inline-flex items-center px-5 py-2.5 text-center me-2">
+                                            Ya
+                                        </button>
+                                    </form>
+                                    <button data-modal-hide="delete-profile" type="button" class="text-gray-500 bg-white hover:bg-gray-100 rounded-lg border border-gray-200 text-xs font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600">Tidak</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div> 
+
                 <div class="z-10 ml-4" style="margin-top: 70px">
                     <h5 class="font-bold text-lg text-black dark:text-white">{{ $mahasiswa->nama }} | {{ $mahasiswa->id_mhs }}</h5>
                     <div class="flex items-center text-xs mb-1.5">
@@ -164,37 +206,67 @@
                 <div>
                     <label for="username" class="block mb-1 text-sm font-medium text-gray-900 dark:text-white">Username</label>
                     <input type="text" id="username" name="username" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" value="{{ $mahasiswa->username }}">
+                    @error('username')
+                        <div class="error-message-username mt-1 -mb-2 text-xs text-red-600 dark:text-red-500" role="alert">
+                            <div>
+                                {{ $message }}
+                            </div>
+                        </div>
+                    @enderror  
                 </div>
 
                 {{-- Email --}}
                 <div>
                     <label for="email" class="block mb-1 text-sm font-medium text-gray-900 dark:text-white">Email</label>
                     <input type="email" id="email" name="email" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" value="{{ $mahasiswa->email }}">
+                    @error('email')
+                        <div class="error-message-email mt-1 -mb-2 text-xs text-red-600 dark:text-red-500" role="alert">
+                            <div>
+                                {{ $message }}
+                            </div>
+                        </div>
+                    @enderror  
                 </div>
 
                 {{-- No. HP --}}
                 <div>
                     <label for="no_telepon" class="block mb-1 text-sm font-medium text-gray-900 dark:text-white">No. HP</label>
                     <input type="text" id="no_telepon" name="no_telepon" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" value="{{ $mahasiswa->no_telepon }}">
+                    @error('no_telepon')
+                        <div class="error-message-no-telepon mt-1 mb-2 text-xs text-red-600 dark:text-red-500" role="alert">
+                            <div>
+                                {{ $message }}
+                            </div>
+                        </div>
+                    @enderror  
                 </div> 
                 
                 {{-- Foto --}}
                 <div>
                     <label class="block mb-1 text-sm font-medium text-gray-900 dark:text-white" for="foto">Upload Foto Profil</label>
                     <input class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" aria-describedby="foto" id="foto" name="foto" type="file">
+                    <p class="mt-1 text-xs text-gray-500 dark:text-gray-300">Format JPG, PNG, atau JPEG dengan ukuran maksimal 2 MB</p>     
                     @error('foto')
-                    <div class="invalid-feedback">
-                        {{ $message }}
-                    </div>             
-                    @enderror
-                    <p class="mt-1 text-xs text-gray-500 dark:text-gray-300">Format JPG, PNG, atau JPEG dengan ukuran maksimal 2 MB</p>                    
+                        <div class="error-message-foto mt-1 text-xs text-red-600 dark:text-red-500" role="alert">
+                            <div>
+                                {{ $message }}
+                            </div>
+                        </div>
+                    @enderror                
                 </div>
             </div>
 
             {{-- Alamat --}}
             <div class="mb-6 mt-1">
                 <label for="alamat" class="block mb-1 text-sm font-medium text-gray-900 dark:text-white">Alamat</label>
-                <textarea id="alamat" name="alamat" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>{{ $mahasiswa->alamat }}</textarea>
+                <textarea id="alamat" name="alamat" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">{{ $mahasiswa->alamat }}</textarea>
+                @error('alamat')
+                    <div class="error-message-alamat mt-1 text-xs text-red-600 dark:text-red-500" role="alert">
+                        <div>
+                            {{ $message }}
+                        </div>
+                    </div>
+                @enderror  
             </div> 
 
             {{-- Button --}}
@@ -210,6 +282,15 @@
                 <button type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:outline-none font-medium rounded-md text-xs w-20 h-8 text-center me-2 dark:bg-blue-600 dark:hover:bg-blue-700">Simpan</button>
             </div>
         </form>
+
+        <script>
+            setTimeout(function() {
+                var errorMessages = document.querySelectorAll('.error-message-username, .error-message-email, .error-message-no-telepon, .error-message-foto, .error-message-alamat');
+                errorMessages.forEach(function(errorMessage) {
+                    errorMessage.style.display = 'none';
+                });
+            }, 3000); // 3000 milliseconds = 3 seconds
+        </script>                   
     </div>
 </html>
 @endsection
