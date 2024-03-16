@@ -191,12 +191,12 @@ class MahasiswaController extends Controller
     
         if ($mahasiswa->save() && $user->save()) {
             if ($userChanged || $mahasiswaChanged) {
-                return redirect()->route('profile_mahasiswa')->with('success', 'Personal information updated successfully!');
+                return redirect()->route('profile_mahasiswa')->with('success', 'Data profil berhasil diperbarui!');
             } else {
                 return redirect()->route('profile_mahasiswa')->with('info', 'Tidak ada data yang diperbarui!');
             }
         } else {
-            return redirect()->route('profile_mahasiswa')->with('info', 'Failed to update personal information.');
+            return redirect()->route('profile_mahasiswa')->with('info', 'Data profil gagal diperbarui!');
         }
     }     
     
