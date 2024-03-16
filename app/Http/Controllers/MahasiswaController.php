@@ -219,17 +219,21 @@ class MahasiswaController extends Controller
         return back()->with('success', 'Password berhasil diperbarui!');
     }
 
-    public function presensi(Request $request) 
+    public function presensi() 
     {
         $user = Auth::user();
         $user->load('mahasiswa');
         $mahasiswa = $user->mahasiswa;
 
+        // $generate_absen = GeneratedAbsen::orderBy('mulai_absen', 'desc')->get();
+
         $generate_absen = GeneratedAbsen::orderBy('mulai_absen', 'desc')->get();
+        $id_absen = $generate_absen->pluck('id_absen'); // Mengambil semua id_absen
         
-        return view('mahasiswa.presensi', compact('generate_absen', 'mahasiswa'));
-    }
-    
+        $status_absens = Absen::whereIn('id_absen', $id_absen)->get();
+        
+        return view('mahasiswa.presensi', compact('generate_absen', 'mahasiswa', 'status_absens'));
+    } 
 
     public function add_presensi($id_absen) 
     {
@@ -255,7 +259,7 @@ class MahasiswaController extends Controller
         // dd($request);
         $validated = $request->validate([
             'keterangan' => 'required',
-            'foto' => 'required|mimes:jpg,jpeg,png,pdf|max:10240',
+            'foto' => 'required|mimes:jpg,jpeg,png,pdf|max:2048',
         ]);
 
         try {
@@ -276,13 +280,70 @@ class MahasiswaController extends Controller
             
             Absen::create($validated);
     
-            return redirect()->route('presensi_mahasiswa')->with('success', 'Presensi berhasil!');
+            return redirect()->route('presensi_mahasiswa')->with('success', 'Presensi berhasil dikirimkan! Silahkan menunggu presensi diverifikasi oleh admin.');
         } catch (\Exception $e) {
             return redirect()->route('presensi_mahasiswa')->with('error', 'Gagal melakukan presensi: ' . $e->getMessage());
         }
+    } 
+    
+    public function edit_add_presensi($id_absen) 
+    {
+        $user = auth()->user();
+        $user->load('mahasiswa');
+        $mahasiswa = $user->mahasiswa;
+    
+        $absen = Absen::where('id_mhs', $mahasiswa->id_mhs)
+            ->where('id_absen', $id_absen)
+            ->first();
+
+        $generate_absen = GeneratedAbsen::where('id_absen', $id_absen)
+            ->select(
+                'generate_absen.sesi',
+            )
+            ->first();
+    
+        return view('mahasiswa.edit_add_presensi', compact('generate_absen', 'absen', 'mahasiswa', 'id_absen'));
+    } 
+
+    public function update_presensi(Request $request, $id_absen)
+    {
+        $absen  = Absen::where('id_absen', $id_absen)->first();
+    
+        $request->validate([
+            'keterangan' => 'required',
+            'foto' => 'nullable|mimes:jpg,jpeg,png,pdf|max:2048',
+        ]);
+    
+        // Simpan foto lama untuk memeriksa perubahan nanti
+        $fotoLama = $absen->foto;
+    
+        if ($request->hasFile('foto')) {
+            if ($absen->foto && Storage::exists($absen->foto)) {
+                Storage::delete($absen->foto);
+            }
+    
+            $fotoPath = $request->file('foto')->store('absen', 'public');
+            $absen->foto = $fotoPath;
+        }
+    
+        $absen->keterangan = $request->keterangan;
+        $absen->tanggal = $request->input('tanggal');
+    
+        // Periksa apakah ada perubahan pada foto atau atribut lainnya yang penting
+        $absenChanged = $absen->foto !== $fotoLama || $absen->isDirty('keterangan');
+    
+        if ($absenChanged) {
+            if ($absen->save()) {
+                return redirect()->route('presensi_mahasiswa')->with(['success' => 'Presensi berhasil diperbarui! Silahkan menunggu presensi diverifikasi oleh admin.'] + compact('absen', 'id_absen'));
+            } else {
+                return redirect()->route('presensi_mahasiswa')->with(['info' => 'Data presensi gagal diperbarui!'] + compact('absen', 'id_absen'));
+            }
+        } else {
+            return redirect()->route('presensi_mahasiswa')->with(['info' => 'Tidak ada data presensi yang diperbarui!'] + compact('absen', 'id_absen'));
+        } 
     }    
 
-    public function progress(Request $request)
+    public function progress()
     {
         $user = Auth::user();
         $user->load('mahasiswa');
@@ -371,7 +432,6 @@ class MahasiswaController extends Controller
         }
     }
 
-
     public function cetak_nilai() 
     {
         $user = Auth::user();
@@ -415,4 +475,21 @@ class MahasiswaController extends Controller
             return redirect()->route('profile_mahasiswa')->with('error', 'Gagal menghapus foto profile!: ' . $e->getMessage());
         }
     } 
+
+    public function showBuktiKehadiran($id_absen)
+    {
+        $foto = Absen::where('id_absen', $id_absen)->first();
+
+        if ($foto) {
+            $file_path = storage_path("app/public/{$foto->foto}");
+
+            if (file_exists($file_path)) {
+                return response()->file($file_path);
+            } else {
+                return response()->json(['error' => 'Bukti kehadiran tidak ditemukan'], 404);
+            }
+        } else {
+            return response()->json(['error' => 'Bukti kehadiran tidak ditemukan untuk presensi ini'], 404);
+        }
+    }
 }

@@ -33,6 +33,9 @@ Route::controller(MahasiswaController::class)->group(function() {
     Route::get('/mahasiswa/presensi', [MahasiswaController::class, 'presensi'])->name('presensi_mahasiswa');
     Route::get('/mahasiswa/presensi/add/{id_absen}', [MahasiswaController::class, 'add_presensi'])->name('add_presensi');
     Route::post('/store_presensi/{id_absen}', [MahasiswaController::class, 'store_presensi'])->name('store_presensi'); 
+    Route::get('/mahasiswa/presensi/update/{id_absen}', [MahasiswaController::class, 'edit_add_presensi'])->name('edit_add_presensi');
+    Route::get('/mahasiswa/presensi/update/show_bukti_kehadiran/{id_absen}', [MahasiswaController::class, 'showBuktiKehadiran'])->name('bukti_kehadiran'); 
+    Route::post('/update_presensi/{id_absen}', [MahasiswaController::class, 'update_presensi'])->name('update_presensi'); 
 
     Route::get('/mahasiswa/progress', [MahasiswaController::class, 'progress'])->name('progress_mahasiswa');
     Route::get('/mahasiswa/progress/add/{id_progress}', [MahasiswaController::class, 'add_progress'])->name('add_progress');

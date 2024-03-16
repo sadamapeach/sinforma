@@ -38,7 +38,7 @@
                 // Hide success notification after 5000 milliseconds (5 seconds)
                 setTimeout(function() {
                     document.getElementById('notification-success').style.display = 'none';
-                }, 3000);
+                }, 5000);
             </script>
         @endif
 
@@ -63,7 +63,7 @@
                 // Hide info notification after 5000 milliseconds (5 seconds)
                 setTimeout(function() {
                     document.getElementById('notification-info').style.display = 'none';
-                }, 3000);
+                }, 5000);
             </script>
         @endif
 
@@ -88,7 +88,7 @@
                 // Hide error notification after 5000 milliseconds (5 seconds)
                 setTimeout(function() {
                     document.getElementById('notification-error').style.display = 'none';
-                }, 3000);
+                }, 5000);
             </script>
         @endif
 
@@ -173,8 +173,11 @@
                 // Cek apakah mahasiswa sudah mengisi absen ini
                 $isFilled = $absen->absen()->where('id_mhs', Auth::user()->mahasiswa->id_mhs)->exists();
 
+                $status_absen = $status_absens->firstWhere('id_absen', $absen->id_absen);
+                // $statusAbsen = $status_absen->status === 'Verified';
+
                 // Tentukan apakah card harus dinonaktifkan
-                $isDisabled = !$isInTimeRange || $isFilled;
+                $isDisabled = !$isInTimeRange || $status_absen->status === 'Verified';
 
                 // Cek apakah waktu saat ini berada dalam rentang mulai_magang dan selesai_magang
                 $isInInternshipPeriod = $now >= $mulaiMagang && $now <= $selesaiMagang;
@@ -198,27 +201,67 @@
                             </span>
                         </div>
                     </div>
-                    <a href="{{ route('add_presensi', ['id_absen' => $absen->id_absen]) }}" class="items-center block p-3 sm:flex hover:bg-gray-100 dark:hover:bg-gray-700 hover:rounded-sm">
-                        <img class="w-12 h-12 me-3 rounded-full sm:mb-0" src="{{ Auth::user()->getImageURL() }}" alt="Jese Leos image"/>
-                        <div class="text-gray-600 dark:text-gray-400">
-                            <div class="font-bold text-black dark:text-white" style="font-size: 13px">Sesi {{ $absen->sesi }}</div>
-                            <div class="text-xs font-normal mb-2">{{ $absen->deskripsi }}</div> 
-                            <span class="inline-flex items-center text-xs font-normal text-gray-500 dark:text-gray-400">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="w-3 h-3 me-1">
-                                    <path d="M13.407 2.59a.75.75 0 0 0-1.464.326c.365 1.636.557 3.337.557 5.084 0 1.747-.192 3.448-.557 5.084a.75.75 0 0 0 1.464.327c.264-1.185.444-2.402.531-3.644a2 2 0 0 0 0-3.534 24.736 24.736 0 0 0-.531-3.643ZM4.348 11H4a3 3 0 0 1 0-6h2c1.647 0 3.217-.332 4.646-.933C10.878 5.341 11 6.655 11 8c0 1.345-.122 2.659-.354 3.933a11.946 11.946 0 0 0-4.23-.925c.203.718.478 1.407.816 2.057.12.23.057.515-.155.663l-.828.58a.484.484 0 0 1-.707-.16A12.91 12.91 0 0 1 4.348 11Z" />
-                                </svg>
-                                @if ($isFilled)
-                                    <span class="bg-green-100 text-green-800 font-semibold me-2 px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300" style="font-size: 10px">
-                                        Sudah Mengisi
-                                    </span>
-                                @else
-                                    <span class="bg-gray-200 text-gray-800 font-semibold me-2 px-2.5 py-0.5 rounded-full dark:bg-gray-600 dark:text-gray-300" style="font-size: 10px">
-                                        Belum Mengisi
-                                    </span>
-                                @endif                                                              
-                            </span> 
-                        </div>
-                    </a>
+                    @if (!$isFilled)
+                        <a href="{{ route('add_presensi', ['id_absen' => $absen->id_absen]) }}" class="items-center block p-3 sm:flex hover:bg-gray-100 dark:hover:bg-gray-700 hover:rounded-sm">
+                            <img class="w-12 h-12 me-3 rounded-full sm:mb-0" src="{{ Auth::user()->getImageURL() }}" alt="Jese Leos image"/>
+                            <div class="text-gray-600 dark:text-gray-400">
+                                <div class="font-bold text-black dark:text-white" style="font-size: 13px">Sesi {{ $absen->sesi }}</div>
+                                <div class="text-xs font-normal mb-2">{{ $absen->deskripsi }}</div> 
+                                <span class="inline-flex items-center text-xs font-normal text-gray-500 dark:text-gray-400">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="w-3 h-3 me-1">
+                                        <path d="M13.407 2.59a.75.75 0 0 0-1.464.326c.365 1.636.557 3.337.557 5.084 0 1.747-.192 3.448-.557 5.084a.75.75 0 0 0 1.464.327c.264-1.185.444-2.402.531-3.644a2 2 0 0 0 0-3.534 24.736 24.736 0 0 0-.531-3.643ZM4.348 11H4a3 3 0 0 1 0-6h2c1.647 0 3.217-.332 4.646-.933C10.878 5.341 11 6.655 11 8c0 1.345-.122 2.659-.354 3.933a11.946 11.946 0 0 0-4.23-.925c.203.718.478 1.407.816 2.057.12.23.057.515-.155.663l-.828.58a.484.484 0 0 1-.707-.16A12.91 12.91 0 0 1 4.348 11Z" />
+                                    </svg>                        
+                                    @if ($isFilled)
+                                        @if ($status_absen->id_absen == $absen->id_absen)
+                                            @if ($status_absen->status == 'Verified')
+                                                <span class="bg-green-100 text-green-800 font-semibold me-2 px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300" style="font-size: 10px">
+                                                    Verified
+                                                </span>
+                                            @else
+                                                <span class="bg-pink-100 text-pink-800 font-semibold me-2 px-2.5 py-0.5 rounded-full dark:bg-pink-900 dark:text-pink-300" style="font-size: 10px">
+                                                    Unverified
+                                                </span>
+                                            @endif
+                                        @endif
+                                    @else
+                                        <span class="bg-gray-200 text-gray-800 font-semibold me-2 px-2.5 py-0.5 rounded-full dark:bg-gray-600 dark:text-gray-300" style="font-size: 10px">
+                                            Belum Mengisi
+                                        </span>
+                                    @endif                                                              
+                                </span> 
+                            </div>
+                        </a>
+                    @else
+                        <a href="{{ route('edit_add_presensi', ['id_absen' => $absen->id_absen]) }}" class="items-center block p-3 sm:flex hover:bg-gray-100 dark:hover:bg-gray-700 hover:rounded-sm">
+                            <img class="w-12 h-12 me-3 rounded-full sm:mb-0" src="{{ Auth::user()->getImageURL() }}" alt="Jese Leos image"/>
+                            <div class="text-gray-600 dark:text-gray-400">
+                                <div class="font-bold text-black dark:text-white" style="font-size: 13px">Sesi {{ $absen->sesi }}</div>
+                                <div class="text-xs font-normal mb-2">{{ $absen->deskripsi }}</div> 
+                                <span class="inline-flex items-center text-xs font-normal text-gray-500 dark:text-gray-400">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="w-3 h-3 me-1">
+                                        <path d="M13.407 2.59a.75.75 0 0 0-1.464.326c.365 1.636.557 3.337.557 5.084 0 1.747-.192 3.448-.557 5.084a.75.75 0 0 0 1.464.327c.264-1.185.444-2.402.531-3.644a2 2 0 0 0 0-3.534 24.736 24.736 0 0 0-.531-3.643ZM4.348 11H4a3 3 0 0 1 0-6h2c1.647 0 3.217-.332 4.646-.933C10.878 5.341 11 6.655 11 8c0 1.345-.122 2.659-.354 3.933a11.946 11.946 0 0 0-4.23-.925c.203.718.478 1.407.816 2.057.12.23.057.515-.155.663l-.828.58a.484.484 0 0 1-.707-.16A12.91 12.91 0 0 1 4.348 11Z" />
+                                    </svg>                        
+                                    @if ($isFilled)
+                                        @if ($status_absen->id_absen == $absen->id_absen)
+                                            @if ($status_absen->status == 'Verified')
+                                                <span class="bg-green-100 text-green-800 font-semibold me-2 px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300" style="font-size: 10px">
+                                                    Verified
+                                                </span>
+                                            @else
+                                                <span class="bg-pink-100 text-pink-800 font-semibold me-2 px-2.5 py-0.5 rounded-full dark:bg-pink-900 dark:text-pink-300" style="font-size: 10px">
+                                                    Unverified
+                                                </span>
+                                            @endif
+                                        @endif
+                                    @else
+                                        <span class="bg-gray-200 text-gray-800 font-semibold me-2 px-2.5 py-0.5 rounded-full dark:bg-gray-600 dark:text-gray-300" style="font-size: 10px">
+                                            Belum Mengisi
+                                        </span>
+                                    @endif                                                              
+                                </span> 
+                            </div>
+                        </a>
+                    @endif
                 </div>
             @endif
         @endforeach 
