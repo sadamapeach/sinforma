@@ -187,21 +187,21 @@
                         <div class="ml-7 text-xs text-black dark:text-white">Status</div>
                         <div class="text-xs text-black dark:text-white">:</div>
                         @if (trim($mahasiswa->status) == 'Aktif')
-                            <div class="w-max text-center bg-green-100 text-green-800 font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300" style="font-size: 10px">
+                            <div class="w-max text-center bg-green-100 text-green-800 font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300 pointer-events-none" style="font-size: 10px">
                                 Aktif
                             </div>
                         @else
                             @if (trim($mahasiswa->status) == 'Lulus')
-                                <div class="w-max text-center bg-blue-100 text-blue-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-blue-900 dark:text-blue-300" style="font-size: 10px">
+                                <div class="w-max text-center bg-blue-100 text-blue-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-blue-900 dark:text-blue-300 pointer-events-none" style="font-size: 10px">
                                     Lulus
                                 </div>
                             @else
                                 @if (trim($mahasiswa->status) == 'Tidak Aktif')
-                                    <div class="w-max text-center bg-red-100 text-red-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-red-900 dark:text-red-300" style="font-size: 10px">
+                                    <div class="w-max text-center bg-red-100 text-red-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-red-900 dark:text-red-300 pointer-events-none" style="font-size: 10px">
                                         Tidak Lulus
                                     </div>
                                 @else
-                                    <div class="w-max text-center bg-purple-100 text-purple-800 font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-purple-900 dark:text-purple-300" style="font-size: 10px">
+                                    <div class="w-max text-center bg-purple-100 text-purple-800 font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-purple-900 dark:text-purple-300 pointer-events-none" style="font-size: 10px">
                                         {{ $mahasiswa->status }}
                                     </div>
                                 @endif
@@ -339,7 +339,7 @@
                                     @if ($skl)
                                         <a href="{{ route('cetak_skl_mhs') }}" class="bg-green-100 hover:bg-green-200 text-green-800 font-medium hover:font-semibold me-2 px-2.5 py-0.5 rounded-full dark:bg-green-900 hover:dark:bg-green-950 dark:text-green-300 ml-1.5 z-30" style="font-size: 11px">Unduh SKL</a>
                                     @else
-                                        <span class="bg-pink-100 hover:bg-pink-200 text-pink-800 font-medium hover:font-semibold me-2 px-2.5 content-center py-0.5 rounded-full dark:bg-pink-900 hover:dark:bg-pink-950 dark:text-pink-300 ml-1.5" style="font-size: 11px">Belum Tersedia</span>
+                                        <span class="bg-pink-100 text-pink-800 font-medium me-2 px-2.5 content-center py-0.5 rounded-full dark:bg-pink-900 hover:dark:bg-pink-950 dark:text-pink-300 ml-1.5" style="font-size: 11px">Belum Tersedia</span>
                                     @endif
                                 </div>
                             </div>
@@ -368,7 +368,7 @@
                                     @if ($nilai)
                                         <a href="{{ route('cetak_nilai_mhs') }}" class="bg-green-100 hover:bg-green-200 text-green-800 font-medium hover:font-semibold me-2 px-2.5 py-0.5 rounded-full dark:bg-green-900 hover:dark:bg-green-950 dark:text-green-300 ml-1.5" style="font-size: 11px">Unduh Penilaian</a>
                                     @else
-                                        <span class="bg-pink-100 hover:bg-pink-200 text-pink-800 font-medium hover:font-semibold me-2 px-2.5 content-center py-0.5 rounded-full dark:bg-pink-900 hover:dark:bg-pink-950 dark:text-pink-300 ml-1.5" style="font-size: 11px">Belum Tersedia</span>
+                                        <span class="bg-pink-100 text-pink-800 font-medium me-2 px-2.5 content-center py-0.5 rounded-full dark:bg-pink-900 hover:dark:bg-pink-950 dark:text-pink-300 ml-1.5" style="font-size: 11px">Belum Tersedia</span>
                                     @endif
                                 </div>
                             </div>
