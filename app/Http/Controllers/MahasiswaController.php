@@ -383,10 +383,13 @@ class MahasiswaController extends Controller
                 'mahasiswa.jurusan',
                 'mahasiswa.instansi',
                 'mahasiswa.id_mhs',
+                'mahasiswa.nip_mentor', 
             )
             ->first();
 
         $nilai = Nilai::where('id_mhs', $id_mhs)->first();
+
+        $mentor = Mentor::find($mahasiswa->nip_mentor); 
 
         $criteria = [
             'Kedisiplinan dan Etika',
@@ -397,7 +400,7 @@ class MahasiswaController extends Controller
         ];
 
         $pdf = app('dompdf.wrapper');
-        $pdf->loadView('mahasiswa.cetak_nilai', compact('criteria', 'nilai', 'mahasiswa'));
+        $pdf->loadView('mahasiswa.cetak_nilai', compact('criteria', 'nilai', 'mahasiswa', 'mentor'));
         return $pdf->stream('cetak_nilai.pdf');
     }
 

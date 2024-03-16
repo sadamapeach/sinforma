@@ -99,10 +99,10 @@
 <div class="ttd">
     <p id="tanggal">Semarang, {{ \Carbon\Carbon::parse($nilai->created_at)->locale('id_ID')->isoFormat('D MMMM YYYY') }}</p>
     <p>Mengetahui,</p>
-    <p style= "margin-top: -10px;">Sub Koordinator Pengembangan dan Pengelolaan Aplikasi Diskominfo Kota Semarang</p>
+    <p style= "margin-top: -10px;">{{ $mahasiswa->mentor->bidang }}</p>
     <img src="https://cdn-image.hipwee.com/wp-content/uploads/2020/10/hipwee-Screen-Shot-2020-10-26-at-8.36.45-PM-875x640.png" alt="tanda tangan" width="150px">
-    <p>Asdani Kindarto, S.Sos, M.Eng, Ph.D</p>
-    <p style= "margin-top: -10px;">NIP. 197405221999031005</p>
+    <p>{{ $mahasiswa->mentor->nama }}</p>
+    <p style= "margin-top: -10px;">NIP. {{ $mahasiswa->nip_mentor }}</p>
 </div>
 
 

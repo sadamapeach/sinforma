@@ -235,7 +235,7 @@
                             <td class="py-3 px-4 text-center border dark:border-black">1</td>
                             <td class="py-3 px-4 border dark:border-black">Kedisiplinan dan Etika</td>
                             <td class="py-3 px-4 border dark:border-black">
-                                <input type="number" id="nilai1" name="nilai1" value="{{ $nilai->nilai1 }}" class="w-full border rounded py-1 px-2 dark:bg-gray-700 text-xs">
+                                <input type="number" id="nilai1" name="nilai1" value="{{ $nilai->nilai1 }}" class="w-full border rounded py-1 px-2 dark:bg-gray-700 text-xs" max="100" min="0">
                                 @error('nilai1')
                                     <div class="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-100 dark:bg-gray-800 dark:text-red-400"
                                         role="alert">
@@ -250,7 +250,7 @@
                             <td class="py-3 px-4 text-center border dark:border-black">2</td>
                             <td class="py-3 px-4 border dark:border-black">Kemampuan Berkomunikasi dan Bekerja Sama</td>
                             <td class="py-3 px-4 border dark:border-black">
-                                <input type="number" id="nilai2" name="nilai2" value="{{ $nilai->nilai2 }}" class="w-full border rounded py-1 px-2 dark:bg-gray-700 text-xs">
+                                <input type="number" id="nilai2" name="nilai2" value="{{ $nilai->nilai2 }}" class="w-full border rounded py-1 px-2 dark:bg-gray-700 text-xs" max="100" min="0">
                                 @error('nilai2')
                                     <div class="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-100 dark:bg-gray-800 dark:text-red-400"
                                         role="alert">
@@ -265,7 +265,7 @@
                             <td class="py-3 px-4 text-center border dark:border-black">3</td>
                             <td class="py-3 px-4 border dark:border-black">Pemahaman terhadap Permasalahan</td>
                             <td class="py-3 px-4 border dark:border-black">
-                                <input type="number" id="nilai3" name="nilai3" value="{{ $nilai->nilai3 }}" class="w-full border rounded py-1 px-2 dark:bg-gray-700 text-xs">
+                                <input type="number" id="nilai3" name="nilai3" value="{{ $nilai->nilai3 }}" class="w-full border rounded py-1 px-2 dark:bg-gray-700 text-xs" max="100" min="0">
                                 @error('nilai3')
                                     <div class="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-100 dark:bg-gray-800 dark:text-red-400"
                                         role="alert">
@@ -280,7 +280,7 @@
                             <td class="py-3 px-4 text-center border dark:border-black">4</td>
                             <td class="py-3 px-4 border dark:border-black">Pengetahuan Teoritis dan Praktik</td>
                             <td class="py-3 px-4 border dark:border-black">
-                                <input type="number" id="nilai4" name="nilai4" value="{{ $nilai->nilai4 }}" class="w-full border rounded py-1 px-2 dark:bg-gray-700 text-xs">
+                                <input type="number" id="nilai4" name="nilai4" value="{{ $nilai->nilai4 }}" class="w-full border rounded py-1 px-2 dark:bg-gray-700 text-xs" max="100" min="0">
                                 @error('nilai4')
                                     <div class="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-100 dark:bg-gray-800 dark:text-red-400"
                                         role="alert">

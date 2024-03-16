@@ -897,7 +897,7 @@ class AdminController extends Controller
                 'selesai_absen' => 'required',
             ]);
 
-            $dataUpdated = false; // Flag to check if any data is updated
+            $dataUpdated = false;
     
             if (
                 $generate_absen->judul != $request->judul ||
