@@ -225,8 +225,6 @@ class MahasiswaController extends Controller
         $user->load('mahasiswa');
         $mahasiswa = $user->mahasiswa;
 
-        // $generate_absen = GeneratedAbsen::orderBy('mulai_absen', 'desc')->get();
-
         $generate_absen = GeneratedAbsen::orderBy('mulai_absen', 'desc')->get();
         $id_absen = $generate_absen->pluck('id_absen'); // Mengambil semua id_absen
         
@@ -282,7 +280,7 @@ class MahasiswaController extends Controller
     
             return redirect()->route('presensi_mahasiswa')->with('success', 'Presensi berhasil dikirimkan! Silahkan menunggu presensi diverifikasi oleh admin.');
         } catch (\Exception $e) {
-            return redirect()->route('presensi_mahasiswa')->with('error', 'Gagal melakukan presensi: ' . $e->getMessage());
+            return redirect()->route('presensi_mahasiswa')->with('error', 'Gagal mengirimkan presensi: ' . $e->getMessage());
         }
     } 
     
@@ -356,8 +354,11 @@ class MahasiswaController extends Controller
         $generate_progress = GeneratedProgress::where('nip_mentor', $nipMentor)
             ->orderBy('mulai_submit', 'desc')
             ->get();
+
+        $id_progress = $generate_progress->pluck('id_progress');
+        $status_progresses = Progress::whereIn('id_progress', $id_progress)->get();
     
-        return view('mahasiswa.progress', compact('generate_progress', 'mahasiswa'));
+        return view('mahasiswa.progress', compact('generate_progress', 'mahasiswa', 'status_progresses'));
     }    
 
     public function add_progress($id_progress)
@@ -379,6 +380,27 @@ class MahasiswaController extends Controller
             ->first();
 
         return view('mahasiswa.add_progress', compact('progress', 'mahasiswa', 'id_progress', 'generate_progress'));
+    }
+
+    public function edit_add_progress($id_progress)
+    {
+        $user = auth()->user();
+        $user->load('mahasiswa');
+        $mahasiswa = $user->mahasiswa;
+
+        $progress = Progress::where('id_mhs', $mahasiswa->id_mhs)
+            ->where('id_progress', $id_progress)
+            ->first();
+
+        $generate_progress = GeneratedProgress::where('id_progress', $id_progress)
+            ->select(
+                'generate_progress.mulai_submit',
+                'generate_progress.selesai_submit',
+                'generate_progress.nip_mentor'
+            )
+            ->first();
+
+        return view('mahasiswa.edit_add_progress', compact('progress', 'mahasiswa', 'id_progress', 'generate_progress'));
     }
 
     public function store_progress(Request $request, $id_progress)
@@ -407,11 +429,49 @@ class MahasiswaController extends Controller
 
             Progress::create($validated);
 
-            return redirect()->route('progress_mahasiswa')->with('success', 'Progress berhasil dikirim!');
+            return redirect()->route('progress_mahasiswa')->with('success', 'Progress berhasil dikirimkan! Silahkan menunggu presensi diverifikasi oleh admin.');
         } catch (\Exception $e) {
-            return redirect()->route('progress_mahasiswa')->with('error', 'Gagal mengirim progress: ' . $e->getMessage());
+            return redirect()->route('progress_mahasiswa')->with('error', 'Gagal mengirimkan progress: ' . $e->getMessage());
         }
     }
+
+    public function update_progress_mhs(Request $request, $id_progress)
+    {
+        $progress  = Progress::where('id_progress', $id_progress)->first();
+    
+        $request->validate([
+            'deskripsi' => 'required',
+            'scan_file' => 'nullable|mimes:pdf|max:10240',
+        ]);
+    
+        // Simpan foto lama untuk memeriksa perubahan nanti
+        $progressLama = $progress->scan_file;
+    
+        if ($request->hasFile('scan_file')) {
+            if ($progress->scan_file && Storage::exists($progress->scan_file)) {
+                Storage::delete($progress->scan_file);
+            }
+    
+            $filePath = $request->file('scan_file')->store('progress', 'public');
+            $progress->scan_file = $filePath;
+        }
+    
+        $progress->deskripsi = $request->deskripsi;
+        $progress->tanggal = $request->input('tanggal');
+    
+        // Periksa apakah ada perubahan pada scan_file atau atribut lainnya yang penting
+        $progressChanged = $progress->scan_file !== $progressLama || $progress->isDirty('deskripsi');
+    
+        if ($progressChanged) {
+            if ($progress->save()) {
+                return redirect()->route('progress_mahasiswa')->with(['success' => 'Progres berhasil diperbarui! Silahkan menunggu progres diverifikasi oleh admin.'] + compact('progress', 'id_progress'));
+            } else {
+                return redirect()->route('progress_mahasiswa')->with(['info' => 'Data progres gagal diperbarui!'] + compact('progress', 'id_progress'));
+            }
+        } else {
+            return redirect()->route('progress_mahasiswa')->with(['info' => 'Tidak ada data progres yang diperbarui!'] + compact('progress', 'id_progress'));
+        } 
+    } 
 
     public function cetak_skl()
     {
@@ -490,6 +550,23 @@ class MahasiswaController extends Controller
             }
         } else {
             return response()->json(['error' => 'Bukti kehadiran tidak ditemukan untuk presensi ini'], 404);
+        }
+    }
+
+    public function showBuktiProgress($id_progress)
+    {
+        $scan_file = Progress::where('id_progress', $id_progress)->first();
+
+        if ($scan_file) {
+            $file_path = storage_path("app/public/{$scan_file->scan_file}");
+
+            if (file_exists($file_path)) {
+                return response()->file($file_path);
+            } else {
+                return response()->json(['error' => 'File progres tidak ditemukan'], 404);
+            }
+        } else {
+            return response()->json(['error' => 'File progres tidak ditemukan untuk progres ini'], 404);
         }
     }
 }

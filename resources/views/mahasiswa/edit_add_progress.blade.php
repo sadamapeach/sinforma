@@ -142,7 +142,7 @@
         @endphp
 
         <div>
-            <form method="post" action="{{ route('store_progress_mhs', ['id_progress' => $id_progress]) }}" enctype="multipart/form-data">
+            <form method="post" action="{{ route('update_progress_mhs', ['id_progress' => $id_progress]) }}" enctype="multipart/form-data">
                 @csrf
                 <div class="mb-6">
                     <input type="hidden" name="id_progress" value="{{ $id_progress }}">
@@ -164,7 +164,7 @@
                        {{-- Deskripsi --}}
                        <div class="mt-1">
                         <label for="deskripsi" class="block mb-1 text-sm font-medium text-gray-900 dark:text-white">Deskripsi</label>
-                        <textarea id="deskripsi" name="deskripsi" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Masukkan deskripsi singkat mengenai progress magang yang akan dikumpulkan"></textarea>
+                        <textarea id="deskripsi" name="deskripsi" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">{{ $progress->deskripsi }}</textarea>
                         @error('deskripsi')
                             <div class="mt-1 text-xs text-red-600 dark:text-red-500" role="alert">
                                 <div>
@@ -176,7 +176,13 @@
     
                     {{-- File Progress --}}
                     <div>
-                        <label class="block mb-1 text-sm font-medium text-gray-900 dark:text-white" for="scan_file">Upload Progress</label>
+                        <label class="block text-sm font-medium text-gray-900 dark:text-white" for="scan_file">Upload Progress</label>
+                        <div class="flex mb-2">
+                            <p class="text-gray-500" style="font-size: 11px">Tampilkan file progres yang sudah diupload sebelumnya : </p>
+                            <a href="{{ route('bukti_progress', ['id_progress' => $progress->id_progress]) }}" class="py-0.5 bg-green-100 hover:bg-green-200 text-green-800 font-medium hover:font-semibold me-2 px-2.5 rounded-full dark:bg-green-900 hover:dark:bg-green-950 dark:text-green-300 ml-0.5" style="font-size: 9px">
+                                Show File
+                            </a>
+                        </div>
                         <input class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-800 dark:border-gray-700 dark:placeholder-gray-400" aria-describedby="scan_file" id="scan_file" name="scan_file" type="file">
                         @error('scan_file')
                             <div class="mt-1 text-xs text-red-600 dark:text-red-500" role="alert">
