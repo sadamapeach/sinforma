@@ -198,7 +198,7 @@
             {{-- Sesi Pagi dengan status Verified --}}
             <div class="flex flex-col items-center bg-white border border-gray-200 dark:bg-gray-900 dark:border-gray-800 rounded-lg shadow mt-4 col-span-1 text-center p-4">
                 <div class="text-xs font-medium text-gray-700 dark:text-gray-400 mb-1">Total Pengumpulan Presensi</div>
-                <span class="bg-blue-100 text-blue-800 font-semibold me-2 px-2.5 py-0.5 rounded-full dark:bg-blue-900 dark:text-blue-300" style="font-size: 9px">Sesi Pagi</span>
+                <span class="pointer-events-none bg-blue-100 text-blue-800 font-semibold me-2 px-2.5 py-0.5 rounded-full dark:bg-blue-900 dark:text-blue-300" style="font-size: 9px">Sesi Pagi</span>
                 <div class="mt-2 font-bold text-2xl text-gray-700 dark:text-white">{{ $absenPagi->count() }}</div>
                 <div class="text-gray-700 dark:text-gray-400" style="font-size: 9px">* dengan status 'Verified'</div>
             </div>
@@ -206,7 +206,7 @@
             {{-- Sesi Sore dengan status Verified --}}
             <div class="flex flex-col items-center bg-white border border-gray-200 dark:bg-gray-900 dark:border-gray-800 rounded-lg shadow mt-4 col-span-1 text-center p-4">
                 <div class="text-xs font-medium text-gray-700 dark:text-gray-400 mb-1">Total Pengumpulan Presensi</div>
-                <span class="bg-pink-100 text-pink-800 font-semibold me-2 px-2.5 py-0.5 rounded-full dark:bg-pink-900 dark:text-pink-300" style="font-size: 9px">Sesi Sore</span>
+                <span class="pointer-events-none bg-pink-100 text-pink-800 font-semibold me-2 px-2.5 py-0.5 rounded-full dark:bg-pink-900 dark:text-pink-300" style="font-size: 9px">Sesi Sore</span>
                 <div class="mt-2 font-bold text-2xl text-gray-700 dark:text-white">{{ $absenSore->count() }}</div>
                 <div class="text-gray-700 dark:text-gray-400" style="font-size: 9px">* dengan status 'Verified'</div>
             </div>
@@ -353,26 +353,16 @@
                                             {{ $presensi->tanggal }}
                                         </td>
                                         <td class="px-4 py-4 w-32 text-center">
-                                            @if ($presensi->keterangan == 'Hadir')
-                                                <span class="bg-yellow-100 text-yellow-800 font-semibold me-2 px-2.5 py-0.5 rounded-full dark:bg-yellow-900 dark:text-yellow-300" style="font-size: 10px">Hadir</span>
-                                            @else 
-                                                @if ($presensi->keterangan == 'Sakit')
-                                                    <span class="bg-red-100 text-red-800 font-semibold me-2 px-2.5 py-0.5 rounded-full dark:bg-red-900 dark:text-red-300" style="font-size: 10px">Sakit</span>
-                                                @else
-                                                    @if ($presensi->keterangan == 'Izin')
-                                                        <span class="bg-purple-100 text-purple-800 font-semibold me-2 px-4 py-0.5 rounded-full dark:bg-purple-900 dark:text-purple-300" style="font-size: 10px">Izin</span>
-                                                    @endif
-                                                @endif
-                                            @endif
+                                            {{ $presensi->keterangan }}
                                         </td>
                                         <td class="px-4 py-4 w-40 text-center">
-                                            <a href="{{ asset('storage/' . $presensi->foto) }}" class="bg-blue-100 text-blue-800 font-semibold me-2 px-2.5 py-0.5 rounded-full dark:bg-blue-900 dark:text-blue-300" style="font-size: 10px">Lihat File</a>
+                                            <a href="{{ asset('storage/' . $presensi->foto) }}" class="bg-blue-100 hover:bg-blue-200 text-blue-800 font-medium hover:font-bold me-2 px-2.5 py-0.5 rounded-full dark:bg-blue-900 hover:dark:bg-blue-950 dark:text-blue-300" style="font-size: 10px">Lihat File</a>
                                         </td>
                                         <td class="px-4 py-4 w-32 text-center">
                                             @if ($presensi->status == 'Verified')
-                                                <span class="bg-green-100 text-green-800 font-semibold me-2 px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300" style="font-size: 10px">Verified</span>
+                                                <span class="pointer-events-none bg-green-100 text-green-800 font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300" style="font-size: 10px">Verified</span>
                                             @else
-                                                <span class="bg-pink-100 text-pink-800 font-semibold me-2 px-2.5 py-0.5 rounded-full dark:bg-pink-900 dark:text-pink-300" style="font-size: 10px">Unverified</span>
+                                                <span class="pointer-events-none bg-pink-100 text-pink-800 font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-pink-900 dark:text-pink-300" style="font-size: 10px">Unverified</span>
                                             @endif
                                         </td>
                                     </tr>

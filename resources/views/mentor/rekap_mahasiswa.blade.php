@@ -324,7 +324,7 @@
                             <th scope="col" class="px-4 py-4 w-32 text-center">
                                 File
                             </th>
-                            <th scope="col" class="px-4 py-4 w-24 text-center">
+                            <th scope="col" class="px-4 py-4 w-32 text-center">
                                 Status
                             </th>
                         </tr>
@@ -340,8 +340,8 @@
                                         {{ $rekap->id_mhs }}
                                     </td>
                                     <td class="flex items-center px-4 py-4 w-52">
-                                        @if (!empty($mhs->foto))
-                                            <img class="w-7 h-7 rounded-full" src="{{ asset('storage/' . $mhs->foto) }}" alt="Jese image">
+                                        @if (!empty($rekap->foto))
+                                            <img class="w-7 h-7 rounded-full" src="{{ asset('storage/' . $rekap->foto) }}" alt="Jese image">
                                         @else
                                             <img class="w-7 h-7 rounded-full" src="{{ asset('assets/Profile.png') }}" alt="...">
                                         @endif
@@ -359,15 +359,15 @@
                                         {{ $rekap->tanggal }}
                                     </td>
                                     <td class="px-4 py-4 w-32 text-center">
-                                        <a href="{{ asset('storage/' . $rekap->file) }}" class="bg-blue-100 hover:bg-blue-200 text-blue-800 font-semibold hover:font-bold me-2 px-2.5 py-0.5 rounded-full dark:bg-blue-900 hover:dark:bg-blue-950 dark:text-blue-300" style="font-size: 10px">Lihat File</a>
+                                        <a href="{{ asset('storage/' . $rekap->file) }}" class="bg-blue-100 hover:bg-blue-200 text-blue-800 font-medium hover:font-bold me-2 px-2.5 py-0.5 rounded-full dark:bg-blue-900 hover:dark:bg-blue-950 dark:text-blue-300" style="font-size: 10px">Lihat File</a>
                                     </td>
-                                    <td class="px-4 py-4 w-24 text-center">
+                                    <td class="px-4 py-4 w-32 text-center">
                                         <form action="{{ route('verif_progress', ['id_progress' => $rekap->id_progress, 'id_mhs' => $rekap->mahasiswa->id_mhs]) }}" method="GET">
                                             @csrf
                                             @if ($rekap->status !== 'Verified')
-                                                <button type="submit" class="bg-pink-100 hover:bg-pink-200 text-pink-800 font-semibold hover:font-bold me-2 px-2.5 py-0.5 rounded-full dark:bg-pink-900 hover:dark:bg-pink-950 dark:text-pink-300" style="font-size: 10px">Unverified</button>
+                                                <button type="submit" class="bg-pink-100 hover:bg-pink-200 text-pink-800 font-medium hover:font-bold me-2 px-2.5 py-0.5 rounded-full dark:bg-pink-900 hover:dark:bg-pink-950 dark:text-pink-300" style="font-size: 10px">Unverified</button>
                                             @else
-                                                <button type="botton" class="bg-green-100 text-green-800 font-semibold me-2 px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300" style="font-size: 10px">Verified</button>
+                                                <button type="botton" class="bg-green-100 text-green-800 font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300" style="font-size: 10px">Verified</button>
                                             @endif
                                         </form>
                                     </td>
