@@ -254,7 +254,7 @@
                                         {{ $event->nama }}
                                     </td>
                                     <td class="px-4 py-4 w-28 text-center">
-                                        <a href="{{ asset('storage/' . $event->gambar) }}" class="bg-blue-100 text-blue-800 font-semibold me-2 px-2.5 py-0.5 rounded-full dark:bg-blue-900 dark:text-blue-300" style="font-size: 10px">Lihat Gambar</a>
+                                        <a href="{{ asset('storage/' . $event->gambar) }}" class="bg-blue-100 hover:bg-blue-200 text-blue-800 font-semibold hover:font-bold me-2 px-2.5 py-0.5 rounded-full dark:bg-blue-900 hover:dark:bg-blue-950 dark:text-blue-300" style="font-size: 10px">Lihat Gambar</a>
                                     </td>
                                     <td class="px-4 py-4 w-28">
                                         {{-- Edit --}}

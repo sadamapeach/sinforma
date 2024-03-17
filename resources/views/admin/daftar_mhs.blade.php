@@ -325,10 +325,10 @@
                                         @endif
                                     </td>
                                     <td class="px-4 py-4 w-28 text-center">
-                                        <a href="{{ route('view_presensi_admin', ['id_mhs' => $mhs['id_mhs'] ?? null]) }}" type="submit" class="bg-indigo-100 text-indigo-800 font-semibold me-2 px-2.5 py-0.5 rounded-full dark:bg-indigo-900 dark:text-indigo-300" style="font-size: 10px">Lihat</a>
+                                        <a href="{{ route('view_presensi_admin', ['id_mhs' => $mhs['id_mhs'] ?? null]) }}" type="submit" class="bg-indigo-100 hover:bg-indigo-200 text-indigo-800 font-semibold hover:font-bold me-2 px-2.5 py-0.5 rounded-full dark:bg-indigo-900 hover:dark:bg-indigo-950 dark:text-indigo-300" style="font-size: 10px" >Lihat</a>
                                     </td>
                                     <td class="px-4 py-4 w-28 text-center">
-                                        <a href="{{ route('view_progress_admin', ['id_mhs' => $mhs['id_mhs'] ?? null]) }}" type="submit" class="bg-purple-100 text-purple-800 font-semibold me-2 px-2.5 py-0.5 rounded-full dark:bg-purple-900 dark:text-purple-300" style="font-size: 10px">Lihat</a>
+                                        <a href="{{ route('view_progress_admin', ['id_mhs' => $mhs['id_mhs'] ?? null]) }}" type="submit" class="bg-purple-100 hover:bg-indigo-200 text-purple-800 font-semibold hover:font-bold me-2 px-2.5 py-0.5 rounded-full dark:bg-purple-900 hover:dark:bg-indigo-950 dark:text-purple-300" style="font-size: 10px">Lihat</a>
                                     </td>
                                     <td class="flex px-4 py-4 text-center w-20">
                                         {{-- Edit --}}
