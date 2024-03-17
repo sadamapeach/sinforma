@@ -332,7 +332,7 @@
                                                             {{ $mhs->nama }}
                                                         </div>  
                                                     </td>
-                                                    <td class="px-4 py-3.5 w-32 text-center">
+                                                    <td class="px-4 py-3.5 w-32 text-center pointer-events-none">
                                                         @if ($mhs->status == 'Aktif')
                                                             <span type="botton" class="bg-green-100 text-green-800 font-semibold me-2 px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300" style="font-size: 10px">Aktif</span>
                                                         @else
