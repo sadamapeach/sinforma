@@ -57,6 +57,7 @@ Route::get('/admin/profile', [AdminController::class, 'viewProfile'])->middlewar
 Route::get('/admin/profile/edit', [AdminController::class, 'viewEditProfile'])->middleware('only_admin')->name('edit_profil');
 Route::post('/admin/profile/edit', [AdminController::class, 'update'])->name('edit_profil');
 Route::post('/admin/change_password', [AdminController::class, 'change_password'])->name('password_admin');
+Route::post('/admin/profile/delete', [AdminController::class, 'delete_profile'])->name('delete_profile');
 
 Route::get('/admin/generate_akun', [AdminController::class, 'showEntryMhs'])->middleware('only_admin')->name('entry_mhs');
 Route::get('/admin/daftar_akun', [AdminController::class, 'viewAccount'])->middleware('only_admin')->name('daftar_akun');

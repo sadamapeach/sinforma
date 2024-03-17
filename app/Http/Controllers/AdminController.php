@@ -1309,4 +1309,15 @@ class AdminController extends Controller
 
         return view('admin.view_progress', compact('mahasiswa', 'foto', 'progressMagang', 'id_mhs', 'progVer', 'progUnver'));
     }
+
+    public function delete_profile()
+    {
+        try {
+            User::where('id', auth()->user()->id)->update(['foto' => null]);
+
+            return redirect()->route('view_profil')->with('success', 'Berhasil menghapus foto profile!');
+        } catch (\Exception $e) {
+            return redirect()->route('view_profil')->with('error', 'Gagal menghapus foto profile!: ' . $e->getMessage());
+        }
+    } 
 }
