@@ -141,7 +141,7 @@
                                 </svg>
                                 <h3 class="mb-5 text-sm font-normal text-gray-500 dark:text-gray-400">Apakah anda yakin ingin menghapus foto profil ini?</h3>
                                 <div class="flex justify-center">
-                                    <form method="POST" action="#">
+                                    <form method="POST" action="{{route('delete_profile_admin')}}">
                                         @csrf
                                         <button data-modal-hide="delete-profile" type="submit" class="text-white bg-red-600 hover:bg-red-800 font-medium rounded-lg text-xs inline-flex items-center px-5 py-2.5 text-center me-2">
                                             Ya
