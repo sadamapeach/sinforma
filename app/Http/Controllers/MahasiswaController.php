@@ -176,7 +176,7 @@ class MahasiswaController extends Controller
         ]);
     
         if ($request->has('foto')) {
-            $fotoPath = $request->file('foto')->store('images', 'public');
+            $fotoPath = $request->file('foto')->store('profile', 'public');
             $validated['foto'] = $fotoPath;
             $user->foto = $validated['foto'];
         }

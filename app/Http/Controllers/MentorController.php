@@ -477,59 +477,97 @@ class MentorController extends Controller
         return view('mentor.edit_profile', ["mentor" =>  $mentor]);
     }
 
-    public function update(Request $request)
-    {
-        try {
-            $user = Auth::user();
-            $mentor = Mentor::where('id_user', $user->id)->first();
+    // public function update(Request $request)
+    // {
+    //     try {
+    //         $user = Auth::user();
+    //         $mentor = Mentor::where('id_user', $user->id)->first();
 
-            $validated = $request->validate([
-                'alamat' => 'required',
-                'no_telepon' => 'required',
-                'email' => 'required',
-                'username' => 'required',
-                'foto' => 'nullable|image|max:10240',
-            ]);
+    //         $validated = $request->validate([
+    //             'alamat' => 'required',
+    //             'no_telepon' => 'required',
+    //             'email' => 'required',
+    //             'username' => 'required',
+    //             'foto' => 'nullable|image|max:2048',
+    //         ]);
         
-            $dataUpdated = false; // Flag to check if any data is updated
+    //         $dataUpdated = false; // Flag to check if any data is updated
             
-            if ($request->has('foto')) {
-                $fotoPath = $request->file('foto')->store('profile', 'public');
+    //         if ($request->has('foto')) {
+    //             $fotoPath = $request->file('foto')->store('profile', 'public');
                 
-                $validated['foto'] = $fotoPath;
+    //             $validated['foto'] = $fotoPath;
 
-                $user->update([
-                    'foto' => $validated['foto'],
-                ]);
+    //             $user->update([
+    //                 'foto' => $validated['foto'],
+    //             ]);
 
-                $dataUpdated = true;
-            }
+    //             $dataUpdated = true;
+    //         }
             
-            if ($mentor->alamat != $request->alamat ||
-                $mentor->no_telepon != $request->no_telepon ||
-                $mentor->email != $request->email ||
-                $user->username != $request->username) {
+    //         if ($mentor->alamat != $request->alamat ||
+    //             $mentor->no_telepon != $request->no_telepon ||
+    //             $mentor->email != $request->email ||
+    //             $user->username != $request->username) {
                 
-                $mentor->alamat = $request->alamat;
-                $mentor->no_telepon = $request->no_telepon;
-                $mentor->email = $request->email;
-                $user->username = $request->username;
+    //             $mentor->alamat = $request->alamat;
+    //             $mentor->no_telepon = $request->no_telepon;
+    //             $mentor->email = $request->email;
+    //             $user->username = $request->username;
 
-                $mentor->save();
-                $user->update([
-                    'username' => $request->username
-                ]);
+    //             $mentor->save();
+    //             $user->update([
+    //                 'username' => $request->username
+    //             ]);
 
-                $dataUpdated = true;
-            }
+    //             $dataUpdated = true;
+    //         }
 
-            if (!$dataUpdated) {
+    //         if (!$dataUpdated) {
+    //             return redirect()->route('view_profil_mentor')->with('info', 'Tidak ada data yang diperbarui!');
+    //         }
+            
+    //         return redirect()->route('view_profil_mentor')->with('success', 'Data mentor berhasil diperbarui.');
+    //     } catch (\Exception $e) {
+    //         return redirect()->route('view_profil_mentor')->with('error', 'Terjadi kesalahan saat memperbarui data mentor: ' . $e->getMessage());
+    //     }
+    // }
+
+    public function update(Request $request)
+    { 
+        $user = Auth::user();
+        $mentor = Mentor::where('id_user', $user->id)->first();
+
+        $validated = $request->validate([
+            'alamat' => 'required',
+            'no_telepon' => 'required|numeric',
+            'email' => 'required',
+            'username' => 'required',
+            'foto' => 'nullable|image|max:2048',
+        ]);
+    
+        if ($request->has('foto')) {
+            $fotoPath = $request->file('foto')->store('profile', 'public');
+            $validated['foto'] = $fotoPath;
+            $user->foto = $validated['foto'];
+        }
+
+        $user->username = $request->username;
+        $mentor->no_telepon = $request->no_telepon;
+        $mentor->email = $request->email;
+        $mentor->alamat = $request->alamat;
+    
+        $userChanged = $user->isDirty();
+        $mentorChanged = $mentor->isDirty();
+
+        if ($mentor->save() && $user->save()) {
+            if ($userChanged || $mentorChanged) {
+                return redirect()->route('view_profil_mentor')->with('success', 'Data profil berhasil diperbarui!');
+            } else {
                 return redirect()->route('view_profil_mentor')->with('info', 'Tidak ada data yang diperbarui!');
             }
-            
-            return redirect()->route('view_profil_mentor')->with('success', 'Data mentor berhasil diperbarui.');
-        } catch (\Exception $e) {
-            return redirect()->route('view_profil_mentor')->with('error', 'Terjadi kesalahan saat memperbarui data mentor: ' . $e->getMessage());
+        } else {
+            return redirect()->route('view_profil_mentor')->with('info', 'Data profil gagal diperbarui!');
         }
     }
 
@@ -901,16 +939,24 @@ class MentorController extends Controller
             ->where('id_mhs', $id_mhs)
             ->first();
 
+        $mahasiswa = Mahasiswa::find($id_mhs);
+
         if ($progress) {
             if ($progress->status === 'Unverified') {
                 $progress->status = 'Verified';
 
                 $progress->save();
 
-                return redirect()->back()->with('success', 'Progress berhasil diverifikasi!');
+                return redirect()->back()->with('success', 'Progress ' . $mahasiswa->nama . ' berhasil diverifikasi!');
+            } else {
+                $progress->status = 'Unverified';
+
+                $progress->save();
+                
+                return redirect()->back()->with('error', 'Progress ' . $mahasiswa->nama . ' berhasil diunverifikasi!');
             }
         } else {
-            return redirect()->back()->with('erorr', 'Progress tidak ditemukan!');
+            return redirect()->back()->with('error', 'Progress tidak ditemukan!');
         }
     }
     
@@ -998,4 +1044,16 @@ class MentorController extends Controller
             return redirect()->back()->with('error', 'Semua progress sudah diverifikasi atau tidak ditemukan!');
         }
     }
+
+    public function delete_profile()
+    {
+        try {
+            // User::where('id', auth()->user()->id)->delete();
+            User::where('id', auth()->user()->id)->update(['foto' => null]);
+
+            return redirect()->route('view_profil_mentor')->with('success', 'Berhasil menghapus foto profile!');
+        } catch (\Exception $e) {
+            return redirect()->route('view_profil_mentor')->with('error', 'Gagal menghapus foto profile!: ' . $e->getMessage());
+        }
+    } 
 }

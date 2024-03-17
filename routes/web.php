@@ -26,7 +26,8 @@ Route::controller(MahasiswaController::class)->group(function() {
 
     Route::get('/mahasiswa/profile', [MahasiswaController::class, 'profile'])->name('profile_mahasiswa');
     Route::get('/mahasiswa/profile/edit', [MahasiswaController::class, 'edit_profile'])->name('edit_profile');
-    Route::post('/mahasiswa/update_profile', [MahasiswaController::class, 'update_profile'])->name('update_profile');
+    Route::post('/mahasiswa/profile/update', [MahasiswaController::class, 'update_profile'])->name('update_profile');
+    Route::post('/mahasiswa/profile/delete', [MahasiswaController::class, 'delete_profile'])->name('delete_profile');
 
     Route::post('/mahasiswa/change_password', [MahasiswaController::class, 'change_password'])->name('password_mahasiswa');
 
@@ -46,8 +47,6 @@ Route::controller(MahasiswaController::class)->group(function() {
 
     Route::get('/mahasiswa/dashboard/download_nilai', [MahasiswaController::class, 'cetak_nilai'])->name('cetak_nilai_mhs');
     Route::get('/mahasiswa/dashboard/download_skl', [MahasiswaController::class, 'cetak_skl'])->name('cetak_skl_mhs');
-
-    Route::post('/mahasiswa/delete_profile', [MahasiswaController::class, 'delete_profile'])->name('delete_profile');
 });
 
 /* Admin */
@@ -109,9 +108,12 @@ Route::get('/mentor/dashboard/filter', [MentorController::class, 'filterDashboar
 Route::get('/mentor/daftar_mahasiswa/filter/status', [MentorController::class, 'filterByStatusMentor'])->name('filter_mhs_mentor');
 Route::get('/mentor/daftar_mahasiswa/presensi/{id_mhs}', [MentorController::class, 'viewPresensi'])->name('view_presensi_mentor');
 Route::get('/mentor/daftar_mahasiswa/progress/{id_mhs}', [MentorController::class, 'viewProgress'])->name('view_progress_mentor');
+
 Route::get('/mentor/profile', [MentorController::class, 'viewProfile'])->middleware('only_mentor')->name('view_profil_mentor');
 Route::get('/mentor/profile/edit', [MentorController::class, 'viewEditProfile'])->middleware('only_mentor')->name('edit_profil_mentor');
 Route::post('/mentor/profile/edit', [MentorController::class, 'update'])->name('edit_profil_mentor');
+Route::post('/mentor/profile/delete', [MentorController::class, 'delete_profile'])->name('delete_profile');
+
 Route::get('/mentor/daftar_mahasiswa/add_nilai/{id_mhs}', [MentorController::class, 'viewNilai'])->name('view_nilai_mentor');
 Route::post('/mentor/store_nilai/{id_mhs}', [MentorController::class, 'storeNilai'])->name('store_nilai');
 Route::get('/mentor/daftar_mahasiswa/nilai/{id_mhs}', [MentorController::class, 'viewEditNilai'])->name('edit_nilai_mentor');

@@ -255,7 +255,7 @@
 
                 {{-- Verified All --}}
                 <a href="{{ route('verifiedAllProgress', ['id_progress' => $id_progress]) }}">
-                    <button type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:outline-none font-medium rounded-md w-40 h-8 text-center me-2 dark:bg-blue-600 dark:hover:bg-blue-700" style="font-size: 11px">Verified Semua Progress</button>
+                    <button type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:outline-none font-medium rounded-md w-44 h-8 text-center me-2 dark:bg-blue-600 dark:hover:bg-blue-700" style="font-size: 11px">Verifikasi Semua Progress</button>
                 </a>
 
                 {{-- Search --}}  
@@ -363,7 +363,7 @@
                                             @if ($rekap->status !== 'Verified')
                                                 <button type="submit" class="bg-pink-100 text-pink-800 font-semibold me-2 px-2.5 py-0.5 rounded-full dark:bg-pink-900 dark:text-pink-300" style="font-size: 10px">Unverified</button>
                                             @else
-                                                <button type="botton" class="bg-green-100 text-green-800 font-semibold me-2 px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300" style="font-size: 10px" disabled>Verified</button>
+                                                <button type="botton" class="bg-green-100 text-green-800 font-semibold me-2 px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300" style="font-size: 10px">Verified</button>
                                             @endif
                                         </form>
                                     </td>
