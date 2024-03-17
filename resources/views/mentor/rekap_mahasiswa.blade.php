@@ -340,7 +340,11 @@
                                         {{ $rekap->id_mhs }}
                                     </td>
                                     <td class="flex items-center px-4 py-4 w-52">
-                                        <img class="w-7 h-7 rounded-full" src="{{ asset('storage/' . $rekap->foto) }}" alt="Jese image">
+                                        @if (!empty($mhs->foto))
+                                            <img class="w-7 h-7 rounded-full" src="{{ asset('storage/' . $mhs->foto) }}" alt="Jese image">
+                                        @else
+                                            <img class="w-7 h-7 rounded-full" src="{{ asset('assets/Profile.png') }}" alt="...">
+                                        @endif
                                         <div class="ps-3">
                                             {{ $rekap->nama }}
                                         </div>  

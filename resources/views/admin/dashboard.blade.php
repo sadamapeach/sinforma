@@ -363,7 +363,7 @@
                                                 @if (!empty($mhs->foto))
                                                     <img class="w-7 h-7 rounded-full" src="{{ asset('storage/' . $mhs->foto) }}" alt="...">
                                                 @else
-                                                    <img class="w-7 h-7 rounded-full" src="{{ asset('assets/profpic_naruto.jpg') }}" alt="...">
+                                                    <img class="w-7 h-7 rounded-full" src="{{ asset('assets/Profile.png') }}" alt="...">
                                                 @endif
 
                                                 <div class="ps-3">
@@ -372,12 +372,12 @@
                                             </td>
                                             <td class="px-4 py-3.5 w-32 text-center">
                                                 @if ($mhs->status == 'Aktif')
-                                                    <span type="botton" class="pointer-events-none bg-green-100 text-green-800 font-semibold me-2 px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300" style="font-size: 10px">Aktif</span>
+                                                    <span type="botton" class="px-4 py-3.5 w-20 text-center" style="font-size: 12px">Aktif</span>
                                                 @else
                                                     @if ($mhs->status == 'Tidak Aktif')
-                                                        <span type="submit" class="pointer-events-none bg-pink-100 text-pink-800 font-semibold me-2 px-2.5 py-0.5 rounded-full dark:bg-pink-900 dark:text-pink-300" style="font-size: 10px">Tidak Aktif</span>
+                                                        <span type="submit" class="px-4 py-3.5 w-20 text-center" style="font-size: 12px">Tidak Aktif</span>
                                                     @else
-                                                        <span type="submit" class="pointer-events-none bg-blue-100 text-blue-800 font-semibold me-2 px-2.5 py-0.5 rounded-full dark:bg-blue-900 dark:text-blue-300" style="font-size: 10px">Lulus</span>
+                                                        <span type="submit" class="px-4 py-3.5 w-20 text-center" style="font-size: 12px">Lulus</span>
                                                     @endif
                                                 @endif
                                             </td>

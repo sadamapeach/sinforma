@@ -278,7 +278,7 @@
                                         @if (!empty($mhs->foto))
                                             <img class="w-7 h-7 rounded-full" src="{{ asset('storage/' . $mhs->foto) }}" alt="...">
                                         @else
-                                            <img class="w-7 h-7 rounded-full" src="{{ asset('assets/profpic_naruto.jpg') }}" alt="...">
+                                            <img class="w-7 h-7 rounded-full" src="{{ asset('assets/Profile.png') }}" alt="...">
                                         @endif
                                         <div class="ps-3">
                                             {{ $mhs->nama }}
