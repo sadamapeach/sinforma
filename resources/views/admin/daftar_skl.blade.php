@@ -250,19 +250,19 @@
                                         {{ $mhs->instansi }}
                                     </td>
                                     <td class="px-4 py-4 w-16 text-center">
-                                        <a href="{{ route('lihat_nilai', ['id_mhs' => $mhs['id_mhs'] ?? null]) }}" class="bg-green-100 hover:bg-green-200 text-green-800 font-semibold hover:font-bold me-2 px-2.5 py-0.5 rounded-full dark:bg-green-900 hover:dark:bg-green-950 dark:text-green-300" style="font-size: 10px">Lihat</a>
+                                        <a href="{{ route('lihat_nilai', ['id_mhs' => $mhs['id_mhs'] ?? null]) }}" class="bg-green-100 hover:bg-green-200 text-green-800 font-medium hover:font-bold me-2 px-2.5 py-0.5 rounded-full dark:bg-green-900 hover:dark:bg-green-950 dark:text-green-300" style="font-size: 10px">Lihat</a>
                                     </td>
                                     <td class="px-4 py-4 w-16">
                                         @if ($mhs['skl'])
                                             <form action="{{ asset('storage/' . $mhs['skl']->file_skl) }}" method="GET" enctype="multipart/form-data" class="text-center">
                                                 @csrf
-                                                <button type="botton" class="bg-blue-100 hover:bg-blue-200 text-blue-800 font-semibold hover:font-bold me-2 px-2.5 py-0.5 rounded-full dark:bg-blue-900 hover:dark:bg-blue-950 dark:text-blue-300" style="font-size: 10px">
+                                                <button type="botton" class="bg-blue-100 hover:bg-blue-200 text-blue-800 font-medium hover:font-bold me-2 px-2.5 py-0.5 rounded-full dark:bg-blue-900 hover:dark:bg-blue-950 dark:text-blue-300" style="font-size: 10px">
                                                     Lihat
                                                 </button>
                                             </form>
                                         @else
                                             <div class="text-center">
-                                                <button data-modal-target="upload-modal-{{ $mhs->id_mhs }}" data-modal-toggle="upload-modal-{{ $mhs->id_mhs }}" type="submit" class="bg-pink-100 hover:bg-pink-200 text-pink-800 font-semibold hover:font-bold me-2 px-2.5 py-0.5 rounded-full dark:bg-pink-900 hover:dark:bg-pink-950 dark:text-pink-300" style="font-size: 10px">
+                                                <button data-modal-target="upload-modal-{{ $mhs->id_mhs }}" data-modal-toggle="upload-modal-{{ $mhs->id_mhs }}" type="submit" class="bg-pink-100 hover:bg-pink-200 text-pink-800 font-medium hover:font-bold me-2 px-2.5 py-0.5 rounded-full dark:bg-pink-900 hover:dark:bg-pink-950 dark:text-pink-300" style="font-size: 10px">
                                                     Tambah
                                                 </button>
                                             </div>

@@ -1038,13 +1038,21 @@ class AdminController extends Controller
             ->where('id_mhs', $id_mhs)
             ->first();
 
+        $mahasiswa = Mahasiswa::find($id_mhs);
+
         if ($absen) {
             if ($absen->status === 'Unverified') {
                 $absen->status = 'Verified';
 
                 $absen->save();
 
-                return redirect()->back()->with('success', 'Presensi berhasil diverifikasi!');
+                return redirect()->back()->with('success', 'Presensi ' . $mahasiswa->nama . ' berhasil diverifikasi!');
+            } else {
+                $absen->status = 'Unverified';
+
+                $absen->save();
+
+                return redirect()->back()->with('error', 'Presensi ' . $mahasiswa->nama . ' berhasil diunverifikasi!');
             }
         } else {
             return redirect()->back()->with('erorr', 'Presensi tidak ditemukan!');

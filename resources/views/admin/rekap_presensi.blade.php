@@ -204,12 +204,12 @@
                 </div>
                 <div class="flex mb-3 text-xs font-normal text-gray-600 dark:text-gray-400">
                     <div class="text-xs font-medium">Open
-                        <span class="bg-green-100 text-green-800 font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300 ml-0.5" style="font-size: 10px">
+                        <span class="pointer-events-none bg-green-100 text-green-800 font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300 ml-0.5" style="font-size: 10px">
                             {{ \Carbon\Carbon::parse($absen->mulai_absen)->format('Y-m-d H:i') }}
                         </span>
                     </div>
                     <div class="text-xs font-medium ml-0.5">Due to
-                        <span class="bg-pink-100 text-pink-800 font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-pink-900 dark:text-pink-300 ml-0.5" style="font-size: 10px">
+                        <span class="pointer-events-none bg-pink-100 text-pink-800 font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-pink-900 dark:text-pink-300 ml-0.5" style="font-size: 10px">
                             {{ \Carbon\Carbon::parse($absen->selesai_absen)->format('Y-m-d H:i') }}
                         </span>
                     </div>
@@ -233,9 +233,9 @@
                                 <path fill-rule="evenodd" d="M4.75 1a.75.75 0 0 0-.75.75V3a2 2 0 0 0-2 2v7a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2V1.75a.75.75 0 0 0-1.5 0V3h-5V1.75A.75.75 0 0 0 4.75 1ZM3.5 7a1 1 0 0 1 1-1h7a1 1 0 0 1 1 1v4.5a1 1 0 0 1-1 1h-7a1 1 0 0 1-1-1V7Z" clip-rule="evenodd" />
                             </svg>
                             @if ($isInTimeRange)
-                                <span class="ml-1 bg-yellow-100 text-yellow-800 font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-yellow-900 dark:text-yellow-300" style="font-size: 10px">Aktif</span>
+                                <span class="pointer-events-none ml-1 bg-yellow-100 text-yellow-800 font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-yellow-900 dark:text-yellow-300" style="font-size: 10px">Aktif</span>
                             @else
-                                <span class="ml-1 bg-gray-200 text-gray-800 font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-gray-700 dark:text-gray-300" style="font-size: 10px">Tidak Aktif</span>
+                                <span class="pointer-events-none ml-1 bg-gray-200 text-gray-800 font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-gray-700 dark:text-gray-300" style="font-size: 10px">Tidak Aktif</span>
                             @endif
 
                             {{-- Rekap verifikasi --}}

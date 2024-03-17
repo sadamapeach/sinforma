@@ -230,7 +230,7 @@
 
                 {{-- Verified All --}}
                 <a href="{{ route('verifiedAllAbsen', ['id_absen' => $id_absen]) }}">
-                    <button type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:outline-none font-medium rounded-md w-40 h-8 text-center me-2 dark:bg-blue-600 dark:hover:bg-blue-700" style="font-size: 11px">Verified Semua Presensi</button>
+                    <button type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:outline-none font-medium rounded-md w-44 h-8 text-center me-2 dark:bg-blue-600 dark:hover:bg-blue-700" style="font-size: 11px">Verifikasi Semua Presensi</button>
                 </a>
 
                 {{-- Search --}}  
@@ -299,7 +299,7 @@
                             <th scope="col" class="px-4 py-4 w-32 text-center">
                                 File
                             </th>
-                            <th scope="col" class="px-4 py-4 w-24 text-center">
+                            <th scope="col" class="px-4 py-4 w-28 text-center">
                                 Status
                             </th>
                         </tr>
@@ -334,15 +334,15 @@
                                         {{ $rekap->tanggal }}
                                     </td>
                                     <td class="px-4 py-4 w-32 text-center">
-                                        <a href="{{ asset('storage/' . $rekap->foto_absen) }}" class="bg-blue-100 hover:bg-blue-200 text-blue-800 font-semibold hover:font-bold me-2 px-2.5 py-0.5 rounded-full dark:bg-blue-900 hover:dark:bg-blue-950 dark:text-blue-300" style="font-size: 10px">Lihat File</a>
+                                        <a href="{{ asset('storage/' . $rekap->foto_absen) }}" class="bg-blue-100 hover:bg-blue-200 text-blue-800 font-medium hover:font-bold me-2 px-2.5 py-0.5 rounded-full dark:bg-blue-900 hover:dark:bg-blue-950 dark:text-blue-300" style="font-size: 10px">Lihat File</a>
                                     </td>
-                                    <td class="px-4 py-4 w-24 text-center">
+                                    <td class="px-4 py-4 w-28 text-center">
                                         <form action="{{ route('verif_absen', ['id_absen' => $rekap->id_absen, 'id_mhs' => $rekap->mahasiswa->id_mhs]) }}" method="GET">
                                             @csrf
                                             @if ($rekap->status !== 'Verified')
-                                                <button type="submit" class="bg-pink-100 hover:bg-pink-200 text-pink-800 font-semibold hover:font-bold me-2 px-2.5 py-0.5 rounded-full dark:bg-pink-900 hover:dark:bg-pink-950 dark:text-pink-300" style="font-size: 10px">Unverified</button>
+                                                <button type="submit" class="bg-pink-100 hover:bg-pink-200 text-pink-800 font-medium hover:font-bold me-2 px-2.5 py-0.5 rounded-full dark:bg-pink-900 hover:dark:bg-pink-950 dark:text-pink-300" style="font-size: 10px">Unverified</button>
                                             @else
-                                                <button type="botton" class="bg-green-100 hover:bg-green-200 text-green-800 font-semibold hover:font-bold me-2 px-2.5 py-0.5 rounded-full dark:bg-green-900 hover:dark:bg-green-950 dark:text-green-300" style="font-size: 10px" disabled>Verified</button>
+                                                <button type="botton" class="bg-green-100 hover:bg-green-200 text-green-800 font-medium hover:font-bold me-2 px-2.5 py-0.5 rounded-full dark:bg-green-900 hover:dark:bg-green-950 dark:text-green-300" style="font-size: 10px">Verified</button>
                                             @endif
                                         </form>
                                     </td>
