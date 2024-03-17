@@ -171,12 +171,14 @@ class AdminController extends Controller
 
     public function change_password(Request $request)
     {
-        // Check old password
         if (!Hash::check($request->old_password, auth()->user()->password)) {
             return back()->with('error', 'Password lama salah!');
         }
 
-        // Check new password and configuration
+        if ($request->old_password === $request->new_password) {
+            return back()->with('error', 'Password baru sama dengan password lama!');
+        }
+
         if ($request->new_password != $request->config_password) {
             return back()->with('error', 'Konfigurasi password salah!');
         }
@@ -187,6 +189,7 @@ class AdminController extends Controller
 
         return back()->with('success', 'Password berhasil diperbarui!');
     }
+
 
     public function viewEditProfile()
     {

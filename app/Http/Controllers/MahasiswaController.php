@@ -207,6 +207,10 @@ class MahasiswaController extends Controller
             return back()->with('error', 'Password lama salah!');
         }
 
+        if ($request->old_password === $request->new_password) {
+            return back()->with('error', 'Password baru sama dengan password lama!');
+        }
+
         // Check new password and configuration
         if ($request->new_password != $request->config_password) {
             return back()->with('error', 'Konfigurasi password salah!');
