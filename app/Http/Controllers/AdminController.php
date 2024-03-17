@@ -196,59 +196,97 @@ class AdminController extends Controller
         return view('admin.edit_profile', ["admin" =>  $admin]);
     }
 
+    // public function update(Request $request)
+    // {
+    //     try {
+    //         $user = Auth::user();
+    //         $admin = Admin::where('id_user', $user->id)->first();
+
+    //         $validated = $request->validate([
+    //             'alamat' => 'required',
+    //             'no_telepon' => 'required',
+    //             'email' => 'required',
+    //             'username' => 'required',
+    //             'foto' => 'nullable|image|max:10240',
+    //         ]);
+
+    //         $dataUpdated = false; // Flag to check if any data is updated
+
+    //         if ($request->has('foto')) {
+    //             $fotoPath = $request->file('foto')->store('profile', 'public');
+                
+    //             $validated['foto'] = $fotoPath;
+
+    //             $user->update([
+    //                 'foto' => $validated['foto'],
+    //             ]);
+
+    //             $dataUpdated = true;
+    //         }
+
+    //         if ($admin->alamat != $request->alamat ||
+    //             $admin->no_telepon != $request->no_telepon ||
+    //             $admin->email != $request->email ||
+    //             $user->username != $request->username) {
+                
+    //             $admin->alamat = $request->alamat;
+    //             $admin->no_telepon = $request->no_telepon;
+    //             $admin->email = $request->email;
+    //             $user->username = $request->username;
+
+    //             $admin->save();
+    //             $user->update([
+    //                 'username' => $request->username
+    //             ]);
+
+    //             $dataUpdated = true;
+    //         }
+
+    //         if (!$dataUpdated) {
+    //             return redirect()->route('view_profil')->with('info', 'Tidak ada data yang diperbarui!');
+    //         }
+
+    //         return redirect()->route('view_profil')->with('success', 'Data admin berhasil diperbarui.');
+    //     } catch (\Exception $e) {
+    //         return redirect()->route('view_profil')->with('error', 'Terjadi kesalahan saat memperbarui data admin: ' . $e->getMessage());
+    //     }
+    // }
+
     public function update(Request $request)
-    {
-        try {
-            $user = Auth::user();
-            $admin = Admin::where('id_user', $user->id)->first();
+    { 
+        $user = Auth::user();
+        $admin = Admin::where('id_user', $user->id)->first();
 
-            $validated = $request->validate([
-                'alamat' => 'required',
-                'no_telepon' => 'required',
-                'email' => 'required',
-                'username' => 'required',
-                'foto' => 'nullable|image|max:10240',
-            ]);
+        $validated = $request->validate([
+            'alamat' => 'required',
+            'no_telepon' => 'required|numeric',
+            'email' => 'required',
+            'username' => 'required',
+            'foto' => 'nullable|image|max:2048',
+        ]);
+    
+        if ($request->has('foto')) {
+            $fotoPath = $request->file('foto')->store('profile', 'public');
+            $validated['foto'] = $fotoPath;
+            $user->foto = $validated['foto'];
+        }
 
-            $dataUpdated = false; // Flag to check if any data is updated
+        $user->username = $request->username;
+        $admin->no_telepon = $request->no_telepon;
+        $admin->email = $request->email;
+        $admin->alamat = $request->alamat;
+    
+        $userChanged = $user->isDirty();
+        $adminChanged = $admin->isDirty();
 
-            if ($request->has('foto')) {
-                $fotoPath = $request->file('foto')->store('profile', 'public');
-                
-                $validated['foto'] = $fotoPath;
-
-                $user->update([
-                    'foto' => $validated['foto'],
-                ]);
-
-                $dataUpdated = true;
-            }
-
-            if ($admin->alamat != $request->alamat ||
-                $admin->no_telepon != $request->no_telepon ||
-                $admin->email != $request->email ||
-                $user->username != $request->username) {
-                
-                $admin->alamat = $request->alamat;
-                $admin->no_telepon = $request->no_telepon;
-                $admin->email = $request->email;
-                $user->username = $request->username;
-
-                $admin->save();
-                $user->update([
-                    'username' => $request->username
-                ]);
-
-                $dataUpdated = true;
-            }
-
-            if (!$dataUpdated) {
+        if ($admin->save() && $user->save()) {
+            if ($userChanged || $adminChanged) {
+                return redirect()->route('view_profil')->with('success', 'Data profil berhasil diperbarui!');
+            } else {
                 return redirect()->route('view_profil')->with('info', 'Tidak ada data yang diperbarui!');
             }
-
-            return redirect()->route('view_profil')->with('success', 'Data admin berhasil diperbarui.');
-        } catch (\Exception $e) {
-            return redirect()->route('view_profil')->with('error', 'Terjadi kesalahan saat memperbarui data admin: ' . $e->getMessage());
+        } else {
+            return redirect()->route('view_profil')->with('info', 'Data profil gagal diperbarui!');
         }
     }
 

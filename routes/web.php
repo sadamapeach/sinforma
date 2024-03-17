@@ -29,7 +29,7 @@ Route::controller(MahasiswaController::class)->group(function() {
     Route::post('/mahasiswa/profile/update', [MahasiswaController::class, 'update_profile'])->name('update_profile');
     Route::post('/mahasiswa/profile/delete', [MahasiswaController::class, 'delete_profile'])->name('delete_profile');
 
-    Route::post('/mahasiswa/change_password', [MahasiswaController::class, 'change_password'])->name('password_mahasiswa');
+    Route::post('/mahasiswa/profile/change_password', [MahasiswaController::class, 'change_password'])->name('password_mahasiswa');
 
     Route::get('/mahasiswa/presensi', [MahasiswaController::class, 'presensi'])->name('presensi_mahasiswa');
     Route::get('/mahasiswa/presensi/add/{id_absen}', [MahasiswaController::class, 'add_presensi'])->name('add_presensi');
@@ -56,7 +56,7 @@ Route::get('/admin/dashboard/filter', [AdminController::class, 'filterDashboard'
 Route::get('/admin/profile', [AdminController::class, 'viewProfile'])->middleware('only_admin')->name('view_profil');
 Route::get('/admin/profile/edit', [AdminController::class, 'viewEditProfile'])->middleware('only_admin')->name('edit_profil');
 Route::post('/admin/profile/edit', [AdminController::class, 'update'])->name('edit_profil');
-Route::post('/admin/change_password', [AdminController::class, 'change_password'])->name('password_admin');
+Route::post('/admin/profile/change_password', [AdminController::class, 'change_password'])->name('password_admin');
 Route::post('/admin/profile/delete', [AdminController::class, 'delete_profile'])->name('delete_profile');
 
 Route::get('/admin/generate_akun', [AdminController::class, 'showEntryMhs'])->middleware('only_admin')->name('entry_mhs');
@@ -114,6 +114,7 @@ Route::get('/mentor/profile', [MentorController::class, 'viewProfile'])->middlew
 Route::get('/mentor/profile/edit', [MentorController::class, 'viewEditProfile'])->middleware('only_mentor')->name('edit_profil_mentor');
 Route::post('/mentor/profile/edit', [MentorController::class, 'update'])->name('edit_profil_mentor');
 Route::post('/mentor/profile/delete', [MentorController::class, 'delete_profile'])->name('delete_profile');
+Route::post('/mentor/profile/change_password', [MentorController::class, 'change_password'])->name('password_mentor');
 
 Route::get('/mentor/daftar_mahasiswa/add_nilai/{id_mhs}', [MentorController::class, 'viewNilai'])->name('view_nilai_mentor');
 Route::post('/mentor/store_nilai/{id_mhs}', [MentorController::class, 'storeNilai'])->name('store_nilai');
@@ -124,8 +125,6 @@ Route::match(['get', 'post'], '/delete_nilai/{id_mhs}', [MentorController::class
 
 Route::get('/mentor/generate_progress', [MentorController::class, 'viewTambahProgress'])->name('tambah_progress');
 Route::post('/mentor/store_progress', [MentorController::class, 'storeProgress'])->name('store_progress');
-
-Route::post('/mentor/change_password', [MentorController::class, 'change_password'])->name('password_mentor');
 
 Route::get('/mentor/rekapitulasi_progress', [MentorController::class, 'viewRekapProgress'])->name('rekap_progress');
 Route::get('/mentor/rekapitulasi_progress/edit/{id_progress}', [MentorController::class, 'edit_progress'])->name('edit_progress');

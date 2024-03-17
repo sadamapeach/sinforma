@@ -175,32 +175,67 @@
                 <div>
                     <label for="username" class="block mb-1 text-sm font-medium text-gray-900 dark:text-white">Username</label>
                     <input type="text" id="username" name="username" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" value="{{ $admin->user->username }}">
+                    @error('username')
+                        <div class="error-message-username mt-1 -mb-2 text-xs text-red-600 dark:text-red-500" role="alert">
+                            <div>
+                                {{ $message }}
+                            </div>
+                        </div>
+                    @enderror 
                 </div>
 
                 {{-- Email --}}
                 <div>
                     <label for="email" class="block mb-1 text-sm font-medium text-gray-900 dark:text-white">Email</label>
                     <input type="email" id="email" name="email" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" value="{{ $admin->email }}">
+                    @error('email')
+                        <div class="error-message-email mt-1 -mb-2 text-xs text-red-600 dark:text-red-500" role="alert">
+                            <div>
+                                {{ $message }}
+                            </div>
+                        </div>
+                    @enderror
                 </div>
 
                 {{-- No. HP --}}
                 <div>
                     <label for="no_telepon" class="block mb-1 text-sm font-medium text-gray-900 dark:text-white">No. HP</label>
                     <input type="text" id="no_telepon" name="no_telepon" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" value="{{ $admin->no_telepon }}">
+                    @error('no_telepon')
+                        <div class="error-message-no-telepon mt-1 mb-2 text-xs text-red-600 dark:text-red-500" role="alert">
+                            <div>
+                                {{ $message }}
+                            </div>
+                        </div>
+                    @enderror 
                 </div> 
                 
                 {{-- Foto --}}
                 <div>
                     <label class="block mb-1 text-sm font-medium text-gray-900 dark:text-white" for="foto">Upload Foto Profil</label>
                     <input class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" aria-describedby="foto" id="foto" name="foto" type="file">
-                    <p class="mt-1 text-xs text-gray-500 dark:text-gray-300">Format JPG, PNG, atau JPEG dengan ukuran maksimal 2 MB</p>                    
+                    <p class="mt-1 text-xs text-gray-500 dark:text-gray-300">Format JPG, PNG, atau JPEG dengan ukuran maksimal 2 MB</p>     
+                    @error('foto')
+                        <div class="error-message-foto mt-1 text-xs text-red-600 dark:text-red-500" role="alert">
+                            <div>
+                                {{ $message }}
+                            </div>
+                        </div>
+                    @enderror                
                 </div>
             </div>
 
             {{-- Alamat --}}
             <div class="mb-6 mt-1">
                 <label for="alamat" class="block mb-1 text-sm font-medium text-gray-900 dark:text-white">Alamat</label>
-                <textarea id="alamat" name="alamat" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>{{ $admin->alamat }}</textarea>
+                <textarea id="alamat" name="alamat" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">{{ $admin->alamat }}</textarea>
+                @error('alamat')
+                    <div class="error-message-alamat mt-1 text-xs text-red-600 dark:text-red-500" role="alert">
+                        <div>
+                            {{ $message }}
+                        </div>
+                    </div>
+                @enderror 
             </div> 
 
             {{-- Button --}}
@@ -216,6 +251,15 @@
                 <button type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:outline-none font-medium rounded-md text-xs w-20 h-8 text-center me-2 dark:bg-blue-600 dark:hover:bg-blue-700">Simpan</button>
             </div>
         </form>
+
+        <script>
+            setTimeout(function() {
+                var errorMessages = document.querySelectorAll('.error-message-username, .error-message-email, .error-message-no-telepon, .error-message-foto, .error-message-alamat');
+                errorMessages.forEach(function(errorMessage) {
+                    errorMessage.style.display = 'none';
+                });
+            }, 3000); // 3000 milliseconds = 3 seconds
+        </script>
     </div>
 </body>
 @endsection
