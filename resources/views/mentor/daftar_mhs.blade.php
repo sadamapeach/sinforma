@@ -247,7 +247,7 @@
                                     <span class="bg-gray-100 dark:bg-gray-900">&#8693;</span>
                                 </button>
                             </th>
-                            <th scope="col" class="px-4 py-4 w-40 text-center" onclick="sortTable(5)">
+                            <th scope="col" class="px-4 py-4 w-44 text-center" onclick="sortTable(5)">
                                 Status
                                 <button class="sort-button ml-1">
                                     <span class="bg-gray-100 dark:bg-gray-900">&#8693;</span>
@@ -294,21 +294,21 @@
                                         {{ $mhs->status }}
                                     </td>
                                     <td class="px-4 py-4 w-16 text-center">
-                                        <a href="{{ route('view_presensi_mentor', ['id_mhs' => $mhs['id_mhs'] ?? null]) }}" class="bg-green-100 text-green-800 font-semibold me-2 px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300" style="font-size: 10px">Lihat</a>
+                                        <a href="{{ route('view_presensi_mentor', ['id_mhs' => $mhs['id_mhs'] ?? null]) }}" class="bg-green-100 hover:bg-green-200 text-green-800 font-semibold hover:font-bold me-2 px-2.5 py-0.5 rounded-full dark:bg-green-900 hover:dark:bg-green-950 dark:text-green-300" style="font-size: 10px">Lihat</a>
                                     </td>
                                     <td class="px-4 py-4 w-16 text-center">
-                                        <a href="{{ route('view_progress_mentor', ['id_mhs' => $mhs['id_mhs'] ?? null]) }}" class="bg-yellow-100 text-yellow-800 font-semibold me-2 px-2.5 py-0.5 rounded-full dark:bg-yellow-900 dark:text-yellow-300" style="font-size: 10px">Lihat</a>
+                                        <a href="{{ route('view_progress_mentor', ['id_mhs' => $mhs['id_mhs'] ?? null]) }}" class="bg-yellow-100 hover:bg-yellow-200 text-yellow-800 font-semibold hover:font-bold me-2 px-2.5 py-0.5 rounded-full dark:bg-yellow-900 hover:dark:bg-yellow-950 dark:text-yellow-300" style="font-size: 10px">Lihat</a>
                                     </td>
                                     <td class="px-4 py-4 w-16 text-center">
                                         @if ($mhs->nilai)
                                             <form action="{{ route('edit_nilai_mentor', ['id_mhs' => $mhs->id_mhs]) }}" method="GET">
                                                 @csrf
-                                                <button type="botton" class="bg-blue-100 text-blue-800 font-semibold me-2 px-2.5 py-0.5 rounded-full dark:bg-blue-900 dark:text-blue-300" style="font-size: 10px">Sudah</button>
+                                                <button type="botton" class="bg-blue-100 hover:bg-blue-200 text-blue-800 font-semibold hover:font-bold me-2 px-2.5 py-0.5 rounded-full dark:bg-blue-900 hover:dark:bg-blue-950 dark:text-blue-300" style="font-size: 10px">Lihat</button>
                                             </form>
                                         @else
                                             <form action="{{ route('view_nilai_mentor', ['id_mhs' => $mhs->id_mhs]) }}" method="GET">
                                             @csrf
-                                                <button type="submit" class="bg-pink-100 text-pink-800 font-semibold me-2 px-2.5 py-0.5 rounded-full dark:bg-pink-900 dark:text-pink-300" style="font-size: 10px">Belum</button>
+                                                <button type="submit" class="bg-pink-100 hover:bg-pink-200 text-pink-800 font-semibold hover:font-bold me-2 px-2.5 py-0.5 rounded-full dark:bg-pink-900 hover:dark:bg-pink-950 dark:text-pink-300" style="font-size: 10px">Tambah</button>
                                             </form>
                                         @endif
                                         </form>
