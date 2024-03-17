@@ -174,12 +174,12 @@
                 <div class="grid grid-cols-3 mb-3 text-xs font-normal text-gray-600 dark:text-gray-400">
                     <div class="flex col-span-2">
                         <div class="text-xs font-medium">Open
-                            <span class="bg-green-100 text-green-800 font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300 ml-0.5" style="font-size: 10px">
+                            <span class="pointer-events-none bg-green-100 text-green-800 font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300 ml-0.5" style="font-size: 10px">
                                 {{ \Carbon\Carbon::parse($progress->mulai_submit)->format('Y-m-d H:i') }}
                             </span>
                         </div>
                         <div class="text-xs font-medium ml-0.5">Due to
-                            <span class="bg-pink-100 text-pink-800 font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-pink-900 dark:text-pink-300 ml-0.5" style="font-size: 10px">
+                            <span class="pointer-events-none bg-pink-100 text-pink-800 font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-pink-900 dark:text-pink-300 ml-0.5" style="font-size: 10px">
                                 {{ \Carbon\Carbon::parse($progress->selesai_submit)->format('Y-m-d H:i') }}
                             </span>
                         </div>
@@ -249,7 +249,7 @@
                                 <path d="M6.22 8.72a.75.75 0 0 0 1.06 1.06l5.22-5.22v1.69a.75.75 0 0 0 1.5 0v-3.5a.75.75 0 0 0-.75-.75h-3.5a.75.75 0 0 0 0 1.5h1.69L6.22 8.72Z" />
                                 <path d="M3.5 6.75c0-.69.56-1.25 1.25-1.25H7A.75.75 0 0 0 7 4H4.75A2.75 2.75 0 0 0 2 6.75v4.5A2.75 2.75 0 0 0 4.75 14h4.5A2.75 2.75 0 0 0 12 11.25V9a.75.75 0 0 0-1.5 0v2.25c0 .69-.56 1.25-1.25 1.25h-4.5c-.69 0-1.25-.56-1.25-1.25v-4.5Z" />
                             </svg>    
-                            <a href="{{ route('rekap_mhs_mentor', ['id_progress' => $progress->id_progress]) }}" class="ml-1 bg-blue-100 text-blue-800 font-semibold me-2 px-2.5 py-0.5 rounded-full dark:bg-blue-900 dark:text-blue-300 inline-flex items-center justify-center" style="font-size: 10px">Rekapitulasi Mahasiswa</a>
+                            <a href="{{ route('rekap_mhs_mentor', ['id_progress' => $progress->id_progress]) }}" class="ml-1 bg-blue-100 hover:bg-blue-200 text-blue-800 font-semibold hover:font-bold me-2 px-2.5 py-0.5 rounded-full dark:bg-blue-900 hover:dark:bg-blue-950 dark:text-blue-300 inline-flex items-center justify-center" style="font-size: 10px">Rekapitulasi Mahasiswa</a>
 
                             {{-- Status --}}
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="w-3.5 h-3.5 ml-2 fill-gray-600 dark:fill-gray-400">
@@ -257,9 +257,9 @@
                                 <path fill-rule="evenodd" d="M4.75 1a.75.75 0 0 0-.75.75V3a2 2 0 0 0-2 2v7a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2V1.75a.75.75 0 0 0-1.5 0V3h-5V1.75A.75.75 0 0 0 4.75 1ZM3.5 7a1 1 0 0 1 1-1h7a1 1 0 0 1 1 1v4.5a1 1 0 0 1-1 1h-7a1 1 0 0 1-1-1V7Z" clip-rule="evenodd" />
                             </svg>
                             @if ($isInTimeRange)
-                                <span class="ml-1 bg-yellow-100 text-yellow-800 font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-yellow-900 dark:text-yellow-300" style="font-size: 10px">Aktif</span>
+                                <span class="pointer-events-none ml-1 bg-yellow-100 text-yellow-800 font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-yellow-900 dark:text-yellow-300" style="font-size: 10px">Aktif</span>
                             @else
-                                <span class="ml-1 bg-gray-200 text-gray-800 font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-gray-700 dark:text-gray-300" style="font-size: 10px">Tidak Aktif</span>
+                                <span class="pointer-events-none ml-1 bg-gray-200 text-gray-800 font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-gray-700 dark:text-gray-300" style="font-size: 10px">Tidak Aktif</span>
                             @endif
 
                             {{-- Rekap verifikasi --}}
