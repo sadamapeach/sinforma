@@ -247,7 +247,7 @@
                                     <span class="bg-gray-100 dark:bg-gray-900">&#8693;</span>
                                 </button>
                             </th>
-                            <th scope="col" class="px-4 py-4 w-40 text-center" onclick="sortTable(5)">
+                            <th scope="col" class="px-4 py-4 w-44 text-center" onclick="sortTable(5)">
                                 Status
                                 <button class="sort-button ml-1">
                                     <span class="bg-gray-100 dark:bg-gray-900">&#8693;</span>
