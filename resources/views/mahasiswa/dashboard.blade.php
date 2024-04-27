@@ -73,7 +73,11 @@
 
                     {{-- Foto --}}
                     <figcaption class="flex h-3/4 pt-4 items-center px-5">
-                        <img class="rounded-full w-28 h-28" src="{{ Auth::user()->getImageURL() }}" alt="profile picture">
+                        @if (!empty($mahasiswa->foto))
+                            <img class="rounded-full w-28 h-28" src="{{ Auth::user()->getImageURL() }}" alt="profile picture">
+                        @else
+                            <img class="rounded-full w-28 h-28" src="{{ asset('assets/Profile.png') }}" alt="profile picture">
+                        @endif
                         <div class="ml-4">
                             <div class="text-black dark:text-white text-sm font-bold">{{ $mahasiswa->nama }}</div>
                             <div class="text-xs text-gray-700 dark:text-gray-400 my-2.5">{{ $mahasiswa->jurusan }}</div>
@@ -106,7 +110,7 @@
                 <div class="col-span-3">
                     {{-- Carousel --}}
                     <div class="items-center justify-center rounded-lg bg-zinc-100 dark:bg-gray-900">
-                        @if (count($berita) == 0)
+                        @if (count($berita) == 0 || empty($berita))
                             <div class="flex items-center justify-center w-full h-56 rounded-md">
                                 <p class="italic font-semibold text-lg text-zinc-500">~ event belum tersedia ~</p>
                             </div>                       

@@ -136,7 +136,11 @@
 
             {{-- Profil --}}
             <div class="flex py-12 pl-6">
-                <img class="w-32 h-32 p-1 rounded-full ring-4 ring-green-400 relative" src="{{ Auth::user()->getImageURL() }}" alt="Bordered avatar">
+                @if (!empty($mahasiswa->foto))
+                    <img class="w-32 h-32 p-1 rounded-full ring-4 ring-green-400 relative" src="{{ Auth::user()->getImageURL() }}" alt="...">
+                @else
+                    <img class="w-32 h-32 rounded-full ring-4 ring-green-400 relative" src="{{ asset('assets/Profile.png') }}" alt="...">
+                @endif
                 <div class="z-30 -ml-8 mt-24">
                     <button data-modal-target="delete-profile" data-modal-toggle="delete-profile" data-tooltip-target="tooltip-delete-hover" data-tooltip-trigger="hover" type="button" class="text-white bg-blue-700 hover:bg-blue-800 font-medium rounded-lg text-sm p-2.5 text-center inline-flex items-center me-2 dark:bg-blue-600 dark:hover:bg-blue-700">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="w-3 h-3">
