@@ -204,7 +204,7 @@
                     </div>
                     @if (!$isFilled)
                         <a href="{{ route('add_presensi', ['id_absen' => $absen->id_absen]) }}" class="items-center block p-3 sm:flex hover:bg-gray-100 dark:hover:bg-gray-700 hover:rounded-sm">
-                            <img class="w-12 h-12 me-3 rounded-full sm:mb-0" src="{{ Auth::user()->getImageURL() }}" alt="Jese Leos image"/>
+                            <img class="w-12 h-12 me-3 rounded-full sm:mb-0" src="{{ Auth::user()->getImageURL() }}" alt="..."/>
                             <div class="text-gray-600 dark:text-gray-400">
                                 <div class="font-bold text-black dark:text-white" style="font-size: 13px">Sesi {{ $absen->sesi }}</div>
                                 <div class="text-xs font-normal mb-2">{{ $absen->deskripsi }}</div> 
@@ -234,7 +234,7 @@
                         </a>
                     @else
                         <a href="{{ route('edit_add_presensi', ['id_absen' => $absen->id_absen]) }}" class="items-center block p-3 sm:flex hover:bg-gray-100 dark:hover:bg-gray-700 hover:rounded-sm">
-                            <img class="w-12 h-12 me-3 rounded-full sm:mb-0" src="{{ Auth::user()->getImageURL() }}" alt="Jese Leos image"/>
+                            <img class="w-12 h-12 me-3 rounded-full sm:mb-0" src="{{ Auth::user()->getImageURL() }}" alt="..."/>
                             <div class="text-gray-600 dark:text-gray-400">
                                 <div class="font-bold text-black dark:text-white" style="font-size: 13px">Sesi {{ $absen->sesi }}</div>
                                 <div class="text-xs font-normal mb-2">{{ $absen->deskripsi }}</div> 

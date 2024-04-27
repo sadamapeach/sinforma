@@ -239,7 +239,7 @@
                     </div>
                 </div>
                 <div class="items-center block p-3 sm:flex"> 
-                    <img class="w-12 h-12 me-3 rounded-full sm:mb-0" src="{{ Auth::user()->getImageURL() }}" alt="Jese Leos image"/>  
+                    <img class="w-12 h-12 me-3 rounded-full sm:mb-0" src="{{ Auth::user()->getImageURL() }}" alt="..."/>  
                     <div class="w-full">
                         <h1 class="text-sm font-bold text-gray-900 dark:text-white">{{ $progress->judul }}</h1>
                         <div class="font-normal text-gray-600 dark:text-gray-400" style="font-size: 11px">{{ $progress->deskripsi }}</div> 

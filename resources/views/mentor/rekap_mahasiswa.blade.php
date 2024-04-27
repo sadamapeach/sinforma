@@ -341,7 +341,7 @@
                                     </td>
                                     <td class="flex items-center px-4 py-4 w-52">
                                         @if (!empty($rekap->foto))
-                                            <img class="w-7 h-7 rounded-full" src="{{ asset('storage/' . $rekap->foto) }}" alt="Jese image">
+                                            <img class="w-7 h-7 rounded-full" src="{{ asset('storage/' . $rekap->foto) }}" alt="...">
                                         @else
                                             <img class="w-7 h-7 rounded-full" src="{{ asset('assets/Profile.png') }}" alt="...">
                                         @endif

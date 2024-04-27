@@ -73,11 +73,7 @@
 
                     {{-- Foto --}}
                     <figcaption class="flex h-3/4 pt-4 items-center px-5">
-                        @if (!empty($mahasiswa->foto))
-                            <img class="rounded-full w-28 h-28" src="{{ Auth::user()->getImageURL() }}" alt="profile picture">
-                        @else
-                            <img class="rounded-full w-28 h-28" src="{{ asset('assets/Profile.png') }}" alt="profile picture">
-                        @endif
+                        <img class="rounded-full w-28 h-28" src="{{ Auth::user()->getImageURL() }}" alt="profile picture">
                         <div class="ml-4">
                             <div class="text-black dark:text-white text-sm font-bold">{{ $mahasiswa->nama }}</div>
                             <div class="text-xs text-gray-700 dark:text-gray-400 my-2.5">{{ $mahasiswa->jurusan }}</div>

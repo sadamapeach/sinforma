@@ -134,7 +134,7 @@
 
             {{-- Profil --}}
             <div class="flex py-12 pl-6">
-                <img class="w-32 h-32 p-1 rounded-full ring-4 ring-green-400 relative" src="{{ Auth::user()->getImageURL() }}" alt="Bordered avatar">
+                <img class="w-32 h-32 p-1 rounded-full ring-4 ring-green-400 relative" src="{{ Auth::user()->getImageURL() }}" alt="...">
                 <div class="z-10 ml-4 w-full" style="margin-top: 70px">
                     <div class="flex items-center justify-between">
                         {{-- Header --}}

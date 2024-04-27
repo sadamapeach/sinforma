@@ -172,7 +172,7 @@
             <div class="bg-white border border-gray-200 dark:bg-gray-900 dark:border-gray-800 rounded-lg shadow mt-4 col-span-2">
                 {{-- Foto --}}
                 <figcaption class="flex items-center py-5 px-5">
-                    <img src="{{ $foto }}" alt="user photo" class="w-24 h-24 object-cover rounded-full ml-1"/>
+                    <img src="{{ $foto }}" alt="..." class="w-24 h-24 object-cover rounded-full ml-1"/>
                     <div class="mx-4">
                         <div class="text-black dark:text-white text-sm font-bold">{{ $mahasiswa->nama }}</div>
                         <div class="text-xs text-gray-700 dark:text-gray-400 mt-1">ID. {{ $mahasiswa->id_mhs }} | {{ $mahasiswa->status }}</div>

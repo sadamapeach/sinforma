@@ -202,7 +202,7 @@
                     </div>
                     @if (!$isFilled)
                         <a href="{{ route('add_progress', ['id_progress' => $progress->id_progress]) }}" class="items-center block p-3 sm:flex hover:bg-gray-100 dark:hover:bg-gray-700 hover:rounded-sm">
-                            <img class="w-12 h-12 me-3 rounded-full sm:mb-0" src="{{ Auth::user()->getImageURL() }}" alt="Jese Leos image"/>
+                            <img class="w-12 h-12 me-3 rounded-full sm:mb-0" src="{{ Auth::user()->getImageURL() }}" alt="..."/>
                             <div class="text-gray-600 dark:text-gray-400">
                                 <h1 class="text-sm font-bold text-gray-900 dark:text-white">{{ $progress->judul }}</h1>
                                 <div class="font-normal mb-3" style="font-size: 11px">{{ $progress->deskripsi }}</div> 
@@ -232,7 +232,7 @@
                         </a>
                     @else
                         <a href="{{ route('edit_add_progress', ['id_progress' => $progress->id_progress]) }}" class="items-center block p-3 sm:flex hover:bg-gray-100 dark:hover:bg-gray-700 hover:rounded-sm">
-                            <img class="w-12 h-12 me-3 rounded-full sm:mb-0" src="{{ Auth::user()->getImageURL() }}" alt="Jese Leos image"/>
+                            <img class="w-12 h-12 me-3 rounded-full sm:mb-0" src="{{ Auth::user()->getImageURL() }}" alt="..."/>
                             <div class="text-gray-600 dark:text-gray-400">
                                 <h1 class="text-sm font-bold text-gray-900 dark:text-white">{{ $progress->judul }}</h1>
                                 <div class="font-normal mb-3" style="font-size: 11px">{{ $progress->deskripsi }}</div> 
