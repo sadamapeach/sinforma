@@ -44,8 +44,8 @@
 <table border="1" cellspacing="0" cellpadding="5">
   <tr>
     <th>No</th>
-    <th>Nama</th>
     <th>ID</th>
+    <th>Nama</th>
     <th>Username</th>
     <th>Password</th>
   </tr>
@@ -53,10 +53,10 @@
   @foreach ($accounts as $account)
     <tr>
         <td style="text-align: center;">{{ $i++ }}</td>
-        <td>{{ $account->nama }}</td>
         <td style="text-align: center;">{{ $account->id_mhs }}</td>
-        <td style="text-align: center;">{{ $account->username }}</td>
-        <td style="text-align: center;">{{ $account->password }}</td>
+        <td>{{ $account->nama }}</td>
+        <td>{{ $account->username }}</td>
+        <td>{{ $account->password }}</td>
     </tr>
   @endforeach
 </table>

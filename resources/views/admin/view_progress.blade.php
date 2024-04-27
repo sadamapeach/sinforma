@@ -234,13 +234,13 @@
                                             {{ $progress->deskripsi }}
                                         </td>
                                         <td class="px-4 py-4 w-40 text-center">
-                                            <a href="{{ asset('storage/' . $progress->scan_file) }}" class="bg-blue-100 text-blue-800 font-semibold me-2 px-2.5 py-0.5 rounded-full dark:bg-blue-900 dark:text-blue-300" style="font-size: 10px">Lihat File</a>
+                                            <a href="{{ asset('storage/' . $progress->scan_file) }}" class="bg-blue-100 hover:bg-blue-200 text-blue-800 font-medium hover:font-bold me-2 px-2.5 py-0.5 rounded-full dark:bg-blue-900 hover:dark:bg-blue-950 dark:text-blue-300" style="font-size: 10px">Lihat File</a>
                                         </td>
                                         <td class="px-4 py-4 w-32 text-center">
                                             @if ($progress->status == 'Verified')
-                                                <span class="bg-green-100 text-green-800 font-semibold me-2 px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300" style="font-size: 10px">Verified</span>
+                                                <span class="bg-green-100 text-green-800 font-medium pointer-events-none me-2 px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300" style="font-size: 10px">Verified</span>
                                             @else
-                                                <span class="bg-pink-100 text-pink-800 font-semibold me-2 px-2.5 py-0.5 rounded-full dark:bg-pink-900 dark:text-pink-300" style="font-size: 10px">Unverified</span>
+                                                <span class="bg-pink-100 text-pink-800 font-medium pointer-events-none me-2 px-2.5 py-0.5 rounded-full dark:bg-pink-900 dark:text-pink-300" style="font-size: 10px">Unverified</span>
                                             @endif
                                         </td>
                                     </tr>
