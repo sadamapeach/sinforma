@@ -472,6 +472,7 @@ class AdminController extends Controller
             }
 
             $user->username = $request->username;
+            $user->email = $request->email;
             $user->save();
 
             if (

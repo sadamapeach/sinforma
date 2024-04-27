@@ -182,6 +182,7 @@ class MahasiswaController extends Controller
         }
     
         $user->username = $request->username;
+        $user->email = $request->email;
         $mahasiswa->no_telepon = $request->no_telepon;
         $mahasiswa->email = $request->email;
         $mahasiswa->alamat = $request->alamat;

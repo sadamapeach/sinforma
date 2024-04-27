@@ -86,7 +86,7 @@
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="icon" type="image/x-icon" href="assets/logo.png">
+    <link rel="icon" type="image/x-icon" href="{{ asset('assets/logo.png') }}">
 
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
@@ -152,7 +152,7 @@
             @endif
 
             <div class="header mt-5">
-              <img src="assets/logo.png" style="width: 8%; margin-bottom: 2.5%" alt="">
+              <img src="{{ asset('assets/logo.png') }}" style="width: 8%; margin-bottom: 2.5%" alt="">
               <span class="h2">
                 <strong>SINFORMA Diskominfo</strong>
               </span>
@@ -179,7 +179,7 @@
                         <label for="password" class="form-label">Password</label>
                     </div>
                     <div class="col-6 text-end">
-                        <a class="fw-bold text-decoration-none" href="#" style="font-size: 12px;">Forgot Your Password?</a>
+                        <a class="fw-bold text-decoration-none" href="{{ route('forgot_password') }}" style="font-size: 12px;">Forgot Your Password?</a>
                     </div>
                   </div>
                   <input type="password" name="password" class="form-control @error('password') is-invalid @enderror" id="password" placeholder="Enter your password" required>
@@ -201,7 +201,7 @@
 
       {{-- Right --}}
       <div class="login-right w-50 h-100" style="position:fixed; margin-left:50%">
-        <img src="assets/magang_4.png" class="img-fluid" alt="">
+        <img src="{{ asset('assets/magang_4.png') }}" class="img-fluid" alt="">
       </div> 
     </section>
 

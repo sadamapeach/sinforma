@@ -16,6 +16,10 @@ class LoginController extends Controller
         return view('login.index');
     }
 
+    public function forgot_password(){
+        return view('login.forgot_password');
+    }
+
     public function authenticate(LoginRequest $request)
     {
         $credentials = $request->validate([
@@ -25,7 +29,6 @@ class LoginController extends Controller
 
         $user = User::where('username', $credentials['username'])->first();
         $mhs = Mahasiswa::where('id_mhs', $request->id_mhs)->first();
-
 
         if (!$user) {
             return back()->with('loginError', 'Username tidak ditemukan');
@@ -37,7 +40,6 @@ class LoginController extends Controller
 
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
-
             
             $user = $request->user();
             $mhs = $user->mahasiswa;

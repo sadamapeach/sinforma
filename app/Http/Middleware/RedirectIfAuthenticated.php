@@ -33,6 +33,7 @@ class RedirectIfAuthenticated
                             return redirect()->route('form_mahasiswa')->with('error', 'Harap lengkapi data diri terlebih dahulu.');
                         }
                         return redirect('/dashboard_mahasiswa');
+                        // return redirect('/reset_password/{token}');
                     default:
                         return back()->with('loginError', 'Role tidak valid');
                 }

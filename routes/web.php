@@ -5,6 +5,12 @@ use App\Http\Controllers\MahasiswaController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\MentorController;
 use App\Http\Controllers\AccountController;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Password;
+use App\Models\User;
+use Illuminate\Auth\Events\PasswordReset;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 
 
 Route::get('/', function () {
@@ -15,7 +21,50 @@ Route::controller(LoginController::class)->group(function () {
     Route::get('/login', 'index')->middleware('guest')->name('login');
     Route::post('/login', 'authenticate')->name('authenticate');
     Route::post('/logout', 'logout')->middleware('auth')->name('logout');
+    Route::get('/forgot_password', 'forgot_password')->middleware('guest')->name('forgot_password');
 });
+
+Route::post('/forgot_password/reset', function (Request $request) {
+    $request->validate(['email' => 'required|email']);
+ 
+    $status = Password::sendResetLink(
+        $request->only('email')
+    );
+ 
+    return $status === Password::RESET_LINK_SENT
+                ? back()->with(['status' => __($status)])
+                : back()->withErrors(['email' => __($status)]);
+})->middleware('guest')->name('reset_password');
+
+Route::get('/reset_password/{token}', function (string $token) {
+    return view('login.reset_password', ['token' => $token]);
+})->middleware('guest')->name('password.reset');
+
+Route::post('/reset_password', function (Request $request) {
+    $request->validate([
+        'token' => 'required',
+        'email' => 'required|email',
+        'password' => 'required|min:5|confirmed',
+    ]);
+ 
+    $status = Password::reset(
+        $request->only('email', 'password', 'password_confirmation', 'token'),
+        function (User $user, string $password) {
+            $user->forceFill([
+                'password' => Hash::make($password)
+            ])->setRememberToken(Str::random(60));
+ 
+            $user->save();
+ 
+            event(new PasswordReset($user));
+        }
+    );
+ 
+    return $status === Password::PASSWORD_RESET
+                ? redirect()->route('login')->with('status', __($status))
+                : back()->withErrors(['email' => [__($status)]]);
+})->middleware('guest')->name('update_password');
+
 
 /* Mahasiswa */
 Route::controller(MahasiswaController::class)->group(function() { 
